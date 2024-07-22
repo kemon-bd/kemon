@@ -152,7 +152,8 @@ class ProfileModel extends ProfileEntity {
         dob: dob,
       );
     } catch (e, stackTrace) {
-      throw ProfileModelParseFailure(message: e.toString(), stackTrace: stackTrace);
+      throw ProfileModelParseFailure(
+          message: e.toString(), stackTrace: stackTrace);
     }
   }
 

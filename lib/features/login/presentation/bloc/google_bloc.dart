@@ -4,7 +4,8 @@ import '../../login.dart';
 part 'google_event.dart';
 part 'google_state.dart';
 
-class SignInWithGoogleBloc extends Bloc<SignInWithGoogleEvent, SignInWithGoogleState> {
+class SignInWithGoogleBloc
+    extends Bloc<SignInWithGoogleEvent, SignInWithGoogleState> {
   final GoogleSignInUseCase useCase;
   SignInWithGoogleBloc({
     required this.useCase,

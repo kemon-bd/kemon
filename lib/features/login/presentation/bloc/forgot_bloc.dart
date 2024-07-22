@@ -4,7 +4,8 @@ import '../../login.dart';
 part 'forgot_event.dart';
 part 'forgot_state.dart';
 
-class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
+class ForgotPasswordBloc
+    extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
   final ForgotPasswordUseCase useCase;
   ForgotPasswordBloc({
     required this.useCase,

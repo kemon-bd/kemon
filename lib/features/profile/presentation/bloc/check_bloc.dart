@@ -6,7 +6,8 @@ part 'check_state.dart';
 
 class CheckProfileBloc extends Bloc<CheckProfileEvent, CheckProfileState> {
   final CheckProfileUseCase useCase;
-  CheckProfileBloc({required this.useCase}) : super(const CheckProfileInitial()) {
+  CheckProfileBloc({required this.useCase})
+      : super(const CheckProfileInitial()) {
     on<CheckProfile>((event, emit) async {
       emit(const CheckProfileLoading());
       final result = await useCase(username: event.username);

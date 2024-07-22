@@ -4,7 +4,8 @@ import '../../login.dart';
 part 'facebook_event.dart';
 part 'facebook_state.dart';
 
-class SignInWithFacebookBloc extends Bloc<SignInWithFacebookEvent, SignInWithFacebookState> {
+class SignInWithFacebookBloc
+    extends Bloc<SignInWithFacebookEvent, SignInWithFacebookState> {
   final FacebookSignInUseCase useCase;
   SignInWithFacebookBloc({
     required this.useCase,

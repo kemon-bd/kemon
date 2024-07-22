@@ -9,7 +9,7 @@ sealed class ForgotPasswordEvent extends Equatable {
 
 class ForgotPassword extends ForgotPasswordEvent {
   final String username;
-  
+
   const ForgotPassword({
     required this.username,
   });

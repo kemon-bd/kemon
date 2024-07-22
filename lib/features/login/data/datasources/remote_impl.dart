@@ -33,7 +33,8 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   }
 
   @override
-  FutureOr<LoginResponse> login({required String username, required String password}) {
+  FutureOr<LoginResponse> login(
+      {required String username, required String password}) {
     // TODO: implement login
     throw UnimplementedError();
   }
