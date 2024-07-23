@@ -1,4 +1,5 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+part 'business.dart';
 part 'location.dart';
 part 'lookup.dart';
 part 'sub_category.dart';
