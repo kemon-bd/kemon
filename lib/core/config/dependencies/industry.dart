@@ -2,7 +2,6 @@ part of '../config.dart';
 
 Future<void> get industryDependencies async {
   //! ----------------- Bloc -----------------
-
   sl.registerFactory(
     () => FindIndustryBloc(
       useCase: sl(),
@@ -10,7 +9,6 @@ Future<void> get industryDependencies async {
   );
 
   //! ----------------- UseCase -----------------
-
   sl.registerFactory(
     () => FindIndustryUseCase(
       repository: sl(),
@@ -32,7 +30,6 @@ Future<void> get industryDependencies async {
       client: sl(),
     ),
   );
-
   sl.registerLazySingleton<IndustryLocalDataSource>(
     () => IndustryLocalDataSourceImpl(),
   );
