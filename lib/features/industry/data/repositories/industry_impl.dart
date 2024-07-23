@@ -1,13 +1,16 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../industry.dart';
 
 class IndustryRepositoryImpl extends IndustryRepository {
   final NetworkInfo network;
+  final CategoryLocalDataSource category;
   final IndustryLocalDataSource local;
   final IndustryRemoteDataSource remote;
 
   IndustryRepositoryImpl({
     required this.network,
+    required this.category,
     required this.local,
     required this.remote,
   });
@@ -20,8 +23,15 @@ class IndustryRepositoryImpl extends IndustryRepository {
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
-        await local.addAll(items: result);
-        return Right(result);
+        final industries = result.map((item) => item.industry).toList();
+        await local.addAll(industries: industries);
+        for (final item in result) {
+          await category.addAllByIndustry(
+            industry: item.industry.urlSlug,
+            categories: item.categories,
+          );
+        }
+        return Right(industries);
       } else {
         return Left(NoInternetFailure());
       }

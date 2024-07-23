@@ -5,11 +5,18 @@ class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
   final Map<String, IndustryEntity> _cache = {};
 
   @override
-  FutureOr<void> addAll({
-    required List<IndustryEntity> items,
+  FutureOr<void> add({
+    required IndustryEntity industry,
   }) {
-    for (final item in items) {
-      _cache[item.identity.guid] = item;
+    _cache[industry.urlSlug] = industry;
+  }
+
+  @override
+  FutureOr<void> addAll({
+    required List<IndustryEntity> industries,
+  }) {
+    for (final item in industries) {
+      _cache[item.urlSlug] = item;
     }
   }
 

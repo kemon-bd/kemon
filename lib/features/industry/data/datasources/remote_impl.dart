@@ -1,5 +1,8 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../industry.dart';
+
+typedef IndustryResponse = ({IndustryModel industry, List<CategoryModel> categories});
 
 class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   final Client client;
@@ -9,7 +12,7 @@ class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   });
 
   @override
-  FutureOr<List<IndustryModel>> find() async {
+  FutureOr<List<IndustryResponse>> find() async {
     throw UnimplementedError();
   }
 }
