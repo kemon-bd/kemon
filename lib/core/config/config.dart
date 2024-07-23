@@ -1,6 +1,5 @@
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
-import '../../features/home/home.dart';
 import '../../features/profile/profile.dart';
 import '../../features/login/login.dart';
 import '../../features/authentication/authentication.dart';
@@ -8,7 +7,6 @@ import '../../features/authentication/authentication.dart';
 part 'dependencies.dart';
 part 'network_certificates.dart';
 //! mason:linking-dependencies - DO NOT REMOVE THIS COMMENT ---------------------->
-part 'dependencies/home.dart';
 part 'dependencies/profile.dart';
 part 'dependencies/login.dart';
 part 'dependencies/authentication.dart';
@@ -34,8 +32,7 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme =
-        mode == ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme = mode == ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
       brightness: Brightness.dark,
       canvasColor: theme.backgroundPrimary,
@@ -49,8 +46,7 @@ class AppConfig {
         fillColor: theme.backgroundSecondary,
         labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
         contentPadding: const EdgeInsets.all(16.0),
-        hintStyle:
-            TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: const TextStyle(height: 0),
         helperStyle: const TextStyle(height: 0),
         border: OutlineInputBorder(
@@ -124,12 +120,10 @@ class AppConfig {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
       ),
-      textSelectionTheme:
-          TextSelectionThemeData(cursorColor: theme.backgroundPrimary),
+      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.backgroundPrimary),
       iconTheme: IconThemeData(color: theme.textPrimary, size: 20),
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      dividerTheme:
-          DividerThemeData(color: theme.backgroundTertiary, thickness: .25),
+      dividerTheme: DividerThemeData(color: theme.backgroundTertiary, thickness: .25),
       appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: theme.textPrimary),
         titleSpacing: 0,
