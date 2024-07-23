@@ -1,6 +1,5 @@
 part of 'category_bloc.dart';
 
-
 abstract class BusinessesByCategoryState extends Equatable {
   const BusinessesByCategoryState();
 

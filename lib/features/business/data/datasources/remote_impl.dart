@@ -9,7 +9,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   });
 
   @override
-  FutureOr<List<BusinessModel>> category({required   urlSlug}) {
+  FutureOr<List<BusinessModel>> category({required urlSlug}) {
     // TODO: implement category
     throw UnimplementedError();
   }

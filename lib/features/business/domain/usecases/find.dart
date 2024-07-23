@@ -8,7 +8,8 @@ class FindBusinessUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, BusinessEntity>> call({required String urlSlug}) async {
+  FutureOr<Either<Failure, BusinessEntity>> call(
+      {required String urlSlug}) async {
     return await repository.find(urlSlug: urlSlug);
   }
 }
