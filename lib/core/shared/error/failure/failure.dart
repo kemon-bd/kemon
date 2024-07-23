@@ -1,4 +1,5 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+part 'industry.dart';
 part 'home.dart';
 part 'profile.dart';
 part 'login.dart';
