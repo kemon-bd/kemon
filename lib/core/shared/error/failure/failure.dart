@@ -1,4 +1,5 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+part 'sub_category.dart';
 part 'category.dart';
 part 'industry.dart';
 part 'home.dart';

@@ -1,5 +1,6 @@
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
+import '../../features/sub_category/sub_category.dart';
 import '../../features/category/category.dart';
 import '../../features/industry/industry.dart';
 import '../../features/profile/profile.dart';
@@ -9,6 +10,7 @@ import '../../features/authentication/authentication.dart';
 part 'dependencies.dart';
 part 'network_certificates.dart';
 //! mason:linking-dependencies - DO NOT REMOVE THIS COMMENT ---------------------->
+part 'dependencies/sub_category.dart';
 part 'dependencies/category.dart';
 part 'dependencies/industry.dart';
 part 'dependencies/profile.dart';

@@ -4,9 +4,11 @@ import '../../category.dart';
 part 'featured_event.dart';
 part 'featured_state.dart';
 
-class FeaturedCategoriesBloc extends Bloc<FeaturedCategoriesEvent, FeaturedCategoriesState> {
+class FeaturedCategoriesBloc
+    extends Bloc<FeaturedCategoriesEvent, FeaturedCategoriesState> {
   final FeaturedCategoriesUseCase useCase;
-  FeaturedCategoriesBloc({required this.useCase}) : super(const FeaturedCategoriesInitial()) {
+  FeaturedCategoriesBloc({required this.useCase})
+      : super(const FeaturedCategoriesInitial()) {
     on<FeaturedCategories>((event, emit) async {
       emit(const FeaturedCategoriesLoading());
       final result = await useCase();
