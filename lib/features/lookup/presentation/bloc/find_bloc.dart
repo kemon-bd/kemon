@@ -17,7 +17,8 @@ class FindLookupBloc extends Bloc<FindLookupEvent, FindLookupState> {
     });
     on<FindLookupWithParent>((event, emit) async {
       emit(const FindLookupLoading());
-      final result = await useCase(key: (key: event.lookup, parent: event.parent));
+      final result =
+          await useCase(key: (key: event.lookup, parent: event.parent));
       result.fold(
         (failure) => emit(FindLookupError(failure: failure)),
         (lookups) => emit(FindLookupDone(lookups: lookups)),
