@@ -4,7 +4,8 @@ import '../../sub_category.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class SubCategoriesByCategoryBloc extends Bloc<SubCategoriesByCategoryEvent, SubCategoriesByCategoryState> {
+class SubCategoriesByCategoryBloc
+    extends Bloc<SubCategoriesByCategoryEvent, SubCategoriesByCategoryState> {
   final SubCategoriesByCategoryUseCase useCase;
   SubCategoriesByCategoryBloc({
     required this.useCase,
@@ -14,7 +15,8 @@ class SubCategoriesByCategoryBloc extends Bloc<SubCategoriesByCategoryEvent, Sub
       final result = await useCase(category: event.category);
       result.fold(
         (failure) => emit(SubCategoriesByCategoryError(failure: failure)),
-        (subCategories) => emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
+        (subCategories) =>
+            emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
       );
     });
   }

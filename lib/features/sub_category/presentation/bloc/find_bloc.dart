@@ -4,7 +4,8 @@ import '../../sub_category.dart';
 part 'find_event.dart';
 part 'find_state.dart';
 
-class FindSubCategoryBloc extends Bloc<FindSubCategoryEvent, FindSubCategoryState> {
+class FindSubCategoryBloc
+    extends Bloc<FindSubCategoryEvent, FindSubCategoryState> {
   final FindSubCategoryUseCase useCase;
   FindSubCategoryBloc({
     required this.useCase,
