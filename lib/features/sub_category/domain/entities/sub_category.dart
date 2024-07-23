@@ -1,16 +1,11 @@
-import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 
-class SubCategoryEntity extends Equatable {
-  final Identity identity;
-  final Name name;
-  final String icon;
-  final String urlSlug;
-
+class SubCategoryEntity extends CategoryEntity {
   const SubCategoryEntity({
-    required this.identity,
-    required this.name,
-    required this.icon,
-    required this.urlSlug,
+    required super.identity,
+    required super.name,
+    required super.icon,
+    required super.urlSlug,
   });
 
   @override

@@ -1,16 +1,11 @@
-import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 
-class IndustryEntity extends Equatable {
-  final Identity identity;
-  final Name name;
-  final String icon;
-  final String urlSlug;
-
+class IndustryEntity extends CategoryEntity {
   const IndustryEntity({
-    required this.identity,
-    required this.name,
-    required this.icon,
-    required this.urlSlug,
+    required super.identity,
+    required super.name,
+    required super.icon,
+    required super.urlSlug,
   });
 
   @override
