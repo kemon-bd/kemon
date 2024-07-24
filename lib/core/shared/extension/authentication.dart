@@ -32,15 +32,12 @@ extension AuthenticationStateExtension on AuthenticationState {
 }
 
 extension AuthenticationBlocExtension on AuthenticationBloc {
-  bool get authenticated =>
-      state.token != null &&
-      state.token!.accessToken.isNotEmpty &&
-      !state.token!.expired;
+  bool get authenticated => state.token != null && state.token!.accessToken.isNotEmpty && !state.token!.expired;
 
   String? get token => state.token?.accessToken;
   String? get name => state.profile?.name.full;
-  String? get userGuid => state.profile?.identity.guid;
-  Identity? get userIdentity => state.profile?.identity;
+  String? get guid => state.profile?.identity.guid;
+  Identity? get identity => state.profile?.identity;
   String? get username => state.username;
   String? get password => state.password;
   bool? get remember => state.remember;
