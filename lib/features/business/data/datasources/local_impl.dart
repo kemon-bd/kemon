@@ -8,7 +8,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   FutureOr<void> add({
     required BusinessEntity business,
   }) {
-    _cache[business.guid] = business;
+    _cache[business.urlSlug] = business;
   }
 
   @override
@@ -16,22 +16,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required List<BusinessEntity> items,
   }) {
     for (final item in items) {
-      _cache[item.guid] = item;
+      _cache[item.urlSlug] = item;
     }
-  }
-
-  @override
-  FutureOr<void> update({
-    required BusinessEntity business,
-  }) {
-    _cache[business.guid] = business;
-  }
-
-  @override
-  FutureOr<void> remove({
-    required String guid,
-  }) {
-    _cache.remove(guid);
   }
 
   @override

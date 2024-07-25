@@ -10,14 +10,6 @@ abstract class BusinessLocalDataSource {
     required List<BusinessEntity> items,
   });
 
-  FutureOr<void> update({
-    required BusinessEntity business,
-  });
-
-  FutureOr<void> remove({
-    required String guid,
-  });
-
   FutureOr<void> removeAll();
 
   FutureOr<BusinessEntity> find({

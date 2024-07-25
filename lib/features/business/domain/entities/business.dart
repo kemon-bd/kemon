@@ -1,20 +1,41 @@
 import '../../../../core/shared/shared.dart';
 
 class BusinessEntity extends Equatable {
-  // TODO: implement entity properties
-  final String guid;
+  final Identity identity;
+  final Name name;
+  final String urlSlug;
+  final String about;
+  final String logo;
+  final ListingType type;
+  final bool claimed;
+  final bool verified;
+  final Address address;
+  final Contact contact;
 
   BusinessEntity({
-    required this.guid,
+    required this.identity,
+    required this.name,
+    required this.urlSlug,
+    required this.about,
+    required this.logo,
+    required this.type,
+    required this.claimed,
+    required this.verified,
+    required this.address,
+    required this.contact,
   });
-
-  factory BusinessEntity.create() {
-    throw UnimplementedError();
-  }
 
   @override
   List<Object?> get props => [
-        // TODO: add entity properties
-        guid,
+        identity,
+        name,
+        urlSlug,
+        about,
+        logo,
+        type,
+        claimed,
+        verified,
+        address,
+        contact,
       ];
 }
