@@ -40,7 +40,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
       if (await network.online) {
         final result = await remote.category(urlSlug: category);
 
-        await local.addAll(items: result);
+        await local.addAll(businesses: result);
 
         return Right(result);
       } else {

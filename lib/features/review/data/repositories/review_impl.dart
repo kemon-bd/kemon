@@ -78,7 +78,8 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Right(rating);
     } on RatingNotFoundInLocalCacheFailure {
       if (await network.online) {
-        final rating = await remote.rating(token: auth.token!, urlSlug: urlSlug);
+        final rating =
+            await remote.rating(token: auth.token!, urlSlug: urlSlug);
 
         await local.addRating(urlSlug: urlSlug, rating: rating);
         return Right(rating);
@@ -117,7 +118,8 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(
+            token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);

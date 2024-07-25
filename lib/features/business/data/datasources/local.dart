@@ -7,7 +7,7 @@ abstract class BusinessLocalDataSource {
   });
 
   FutureOr<void> addAll({
-    required List<BusinessEntity> items,
+    required List<BusinessEntity> businesses,
   });
 
   FutureOr<void> removeAll();

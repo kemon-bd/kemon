@@ -6,7 +6,8 @@ part 'create_state.dart';
 
 class CreateReviewBloc extends Bloc<CreateReviewEvent, CreateReviewState> {
   final CreateReviewUseCase useCase;
-  CreateReviewBloc({required this.useCase}) : super(const CreateReviewInitial()) {
+  CreateReviewBloc({required this.useCase})
+      : super(const CreateReviewInitial()) {
     on<CreateReview>((event, emit) async {
       emit(const CreateReviewLoading());
       final result = await useCase(

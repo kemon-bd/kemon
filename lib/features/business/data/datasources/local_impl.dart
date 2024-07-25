@@ -13,9 +13,9 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
 
   @override
   FutureOr<void> addAll({
-    required List<BusinessEntity> items,
+    required List<BusinessEntity> businesses,
   }) {
-    for (final item in items) {
+    for (final item in businesses) {
       _cache[item.urlSlug] = item;
     }
   }

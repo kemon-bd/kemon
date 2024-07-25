@@ -54,7 +54,9 @@ class RatingModel extends RatingEntity {
     final int three = map['three'] ?? map['threestar'];
 
     assert(
-      map.containsKey('two') || map.containsKey('twotar') || map.containsKey('twostar'),
+      map.containsKey('two') ||
+          map.containsKey('twotar') ||
+          map.containsKey('twostar'),
       'RatingModel.parse: "two"/"twotar"/"twostar" not found.',
     );
     assert(

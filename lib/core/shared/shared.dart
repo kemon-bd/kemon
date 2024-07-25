@@ -14,6 +14,7 @@ export 'extension/date_time.dart';
 export 'extension/int.dart';
 export 'extension/string.dart';
 export 'extension/theme.dart';
+export 'extension/search.dart';
 export 'remote/network_info.dart';
 export 'remote/endpoints.dart';
 export 'remote/response.dart';
