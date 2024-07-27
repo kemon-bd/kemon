@@ -7,6 +7,6 @@ sealed class SignInWithAppleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SignInWithApple extends SignInWithAppleEvent {
-  const SignInWithApple();
+class AppleSignIn extends SignInWithAppleEvent {
+  const AppleSignIn();
 }
