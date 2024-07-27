@@ -68,6 +68,8 @@ Future<void> get loginDependencies async {
   sl.registerLazySingleton<LoginRemoteDataSource>(
     () => LoginRemoteDataSourceImpl(
       client: sl(),
+      facebookSdk: sl(),
+      googleSdk: sl(),
     ),
   );
 }

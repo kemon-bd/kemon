@@ -4,13 +4,11 @@ import '../../login.dart';
 
 class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   final Client client;
-  final SignInWithApple appleSdk;
   final FacebookAuth facebookSdk;
   final GoogleSignIn googleSdk;
 
   LoginRemoteDataSourceImpl({
     required this.client,
-    required this.appleSdk,
     required this.facebookSdk,
     required this.googleSdk,
   });

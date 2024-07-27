@@ -71,4 +71,10 @@ Future<void> get _core async {
       addresses: sl(),
     ),
   );
+  sl.registerLazySingleton<FacebookAuth>(
+    () => FacebookAuth.instance,
+  );
+  sl.registerLazySingleton<GoogleSignIn>(
+    () => GoogleSignIn(),
+  );
 }
