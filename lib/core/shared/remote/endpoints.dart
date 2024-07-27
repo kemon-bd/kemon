@@ -8,4 +8,7 @@ class RemoteEndpoints {
 
   //! category
   static Uri get featuredCategories => Uri.parse('$_baseUrl/featured-categories');
+
+  //! industry
+  static Uri get industries => Uri.parse('$_baseUrl/categories');
 }
