@@ -8,7 +8,7 @@ class LocationLocalDataSourceImpl extends LocationLocalDataSource {
   FutureOr<void> add({
     required LocationEntity location,
   }) {
-    _cache[location.guid] = location;
+    _cache[location.urlSlug] = location;
   }
 
   @override
@@ -16,22 +16,8 @@ class LocationLocalDataSourceImpl extends LocationLocalDataSource {
     required List<LocationEntity> locations,
   }) {
     for (final item in locations) {
-      _cache[item.guid] = item;
+      _cache[item.urlSlug] = item;
     }
-  }
-
-  @override
-  FutureOr<void> update({
-    required LocationEntity location,
-  }) {
-    _cache[location.guid] = location;
-  }
-
-  @override
-  FutureOr<void> remove({
-    required String guid,
-  }) {
-    _cache.remove(guid);
   }
 
   @override
@@ -41,9 +27,9 @@ class LocationLocalDataSourceImpl extends LocationLocalDataSource {
 
   @override
   FutureOr<LocationEntity> find({
-    required String guid,
+    required String urlSlug,
   }) {
-    final item = _cache[guid];
+    final item = _cache[urlSlug];
     if (item == null) {
       throw LocationNotFoundInLocalCacheFailure();
     }

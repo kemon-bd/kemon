@@ -12,7 +12,7 @@ class BusinessEntity extends Equatable {
   final Address address;
   final Contact contact;
 
-  BusinessEntity({
+  const BusinessEntity({
     required this.identity,
     required this.name,
     required this.urlSlug,

@@ -2,7 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../business.dart';
 
 class BusinessModel extends BusinessEntity {
-  BusinessModel({
+  const BusinessModel({
     required super.identity,
     required super.name,
     required super.urlSlug,

@@ -10,17 +10,9 @@ abstract class LocationLocalDataSource {
     required List<LocationEntity> locations,
   });
 
-  FutureOr<void> update({
-    required LocationEntity location,
-  });
-
-  FutureOr<void> remove({
-    required String guid,
-  });
-
   FutureOr<void> removeAll();
 
   FutureOr<LocationEntity> find({
-    required String guid,
+    required String urlSlug,
   });
 }
