@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true />
+		<true/>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -47,9 +47,9 @@
 			<string>fbapi</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
-		<true />
+		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true />
+		<true/>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
@@ -62,7 +62,10 @@
 		<key>GIDServerClientID</key>
 		<string>923222937709-f4e57lqj8ktmc8kg1ft07bclg4b0qr1r.apps.googleusercontent.com</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Allow KEMON to access your photo library to express, share your experience while
-			publishing review.</string>
+		<string>Allow KEMON to access your photo library to express, share your experience while publishing review.</string>
+		<key>UIStatusBarHidden</key>
+		<true/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
 	</dict>
 </plist>

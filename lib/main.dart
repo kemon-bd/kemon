@@ -11,6 +11,7 @@ FutureOr<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => sl<ThemeBloc>()),
         BlocProvider(create: (_) => sl<AuthenticationBloc>()),
       ],
       child: const MainApp(),
