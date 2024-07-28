@@ -24,4 +24,12 @@ class RemoteEndpoints {
   //! profile
   static Uri get profile => Uri.parse('$_baseUrl/profile');
   static Uri get updateProfile => Uri.parse('$_baseUrl/update-profile');
+
+  //! review
+  static Uri get addReview => Uri.parse('$_baseUrl/save-review');
+  static Uri get editReview => Uri.parse('$_baseUrl/edit-review');
+  static Uri get deleteReview => Uri.parse('$_baseUrl/delete-review');
+  static Uri get reviewDetails => Uri.parse('$_baseUrl/review-details');
+  static Uri get userReviews => Uri.parse('$_baseUrl/user-reviews');
+  static Uri get recentReviews => Uri.parse('$_baseUrl/recent-reviews');
 }

@@ -4,15 +4,15 @@ import '../../review.dart';
 part 'find_event.dart';
 part 'find_state.dart';
 
-class FindReviewBloc extends Bloc<FindReviewEvent, FindReviewState> {
-  final FindReviewUseCase useCase;
-  FindReviewBloc({required this.useCase}) : super(const FindReviewInitial()) {
-    on<FindReview>((event, emit) async {
-      emit(const FindReviewLoading());
+class FindUserReviewsBloc extends Bloc<FindUserReviewsEvent, FindUserReviewsState> {
+  final FindUserReviewsUseCase useCase;
+  FindUserReviewsBloc({required this.useCase}) : super(const FindUserReviewsInitial()) {
+    on<FindUserReviews>((event, emit) async {
+      emit(const FindUserReviewsLoading());
       final result = await useCase(user: event.user);
       result.fold(
-        (failure) => emit(FindReviewError(failure: failure)),
-        (reviews) => emit(FindReviewDone(reviews: reviews)),
+        (failure) => emit(FindUserReviewsError(failure: failure)),
+        (reviews) => emit(FindUserReviewsDone(reviews: reviews)),
       );
     });
   }

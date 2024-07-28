@@ -1,16 +1,16 @@
 part of 'find_bloc.dart';
 
-abstract class FindReviewEvent extends Equatable {
-  const FindReviewEvent();
+abstract class FindUserReviewsEvent extends Equatable {
+  const FindUserReviewsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class FindReview extends FindReviewEvent {
+class FindUserReviews extends FindUserReviewsEvent {
   final Identity user;
 
-  const FindReview({
+  const FindUserReviews({
     required this.user,
   });
   @override

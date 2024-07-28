@@ -1,16 +1,16 @@
 import '../../../../core/shared/shared.dart';
 import '../../review.dart';
 
-class FindUserReviewsUseCase {
+class FindListingReviewUseCase {
   final ReviewRepository repository;
 
-  FindUserReviewsUseCase({
+  FindListingReviewUseCase({
     required this.repository,
   });
 
   FutureOr<Either<Failure, List<ReviewEntity>>> call({
-    required Identity user,
+    required String urlSlug,
   }) async {
-    return await repository.find(user: user);
+    return await repository.reviews(urlSlug: urlSlug);
   }
 }

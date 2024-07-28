@@ -1,24 +1,24 @@
 part of 'find_bloc.dart';
 
-abstract class FindReviewState extends Equatable {
-  const FindReviewState();
+abstract class FindUserReviewsState extends Equatable {
+  const FindUserReviewsState();
 
   @override
   List<Object> get props => [];
 }
 
-class FindReviewInitial extends FindReviewState {
-  const FindReviewInitial();
+class FindUserReviewsInitial extends FindUserReviewsState {
+  const FindUserReviewsInitial();
 }
 
-class FindReviewLoading extends FindReviewState {
-  const FindReviewLoading();
+class FindUserReviewsLoading extends FindUserReviewsState {
+  const FindUserReviewsLoading();
 }
 
-class FindReviewError extends FindReviewState {
+class FindUserReviewsError extends FindUserReviewsState {
   final Failure failure;
 
-  const FindReviewError({
+  const FindUserReviewsError({
     required this.failure,
   });
 
@@ -26,10 +26,10 @@ class FindReviewError extends FindReviewState {
   List<Object> get props => [failure];
 }
 
-class FindReviewDone extends FindReviewState {
+class FindUserReviewsDone extends FindUserReviewsState {
   final List<ReviewEntity> reviews;
 
-  const FindReviewDone({required this.reviews});
+  const FindUserReviewsDone({required this.reviews});
 
   @override
   List<Object> get props => [reviews];

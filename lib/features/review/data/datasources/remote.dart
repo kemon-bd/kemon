@@ -19,10 +19,11 @@ abstract class ReviewRemoteDataSource {
     required Identity review,
   });
 
-  Future<RatingModel> rating({
-    required String token,
+  Future<ReviewDetailsModel> rating({
     required String urlSlug,
   });
+
+  Future<List<ReviewModel>> recent();
 
   FutureOr<List<ReviewModel>> find({
     required Identity user,

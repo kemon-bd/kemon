@@ -9,7 +9,7 @@ abstract class ReviewLocalDataSource {
 
   FutureOr<void> addAll({
     required String key,
-    required List<ReviewEntity> items,
+    required List<ReviewEntity> reviews,
   });
 
   FutureOr<void> update({

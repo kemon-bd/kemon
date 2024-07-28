@@ -8,9 +8,9 @@ class ReviewLocalDataSourceImpl extends ReviewLocalDataSource {
   @override
   FutureOr<void> addAll({
     required String key,
-    required List<ReviewEntity> items,
+    required List<ReviewEntity> reviews,
   }) {
-    _cache[key] = items;
+    _cache[key] = reviews;
   }
 
   @override

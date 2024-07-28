@@ -13,7 +13,12 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindReviewBloc(
+    () => FindUserReviewsBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindListingReviewsBloc(
       useCase: sl(),
     ),
   );
@@ -45,7 +50,12 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindReviewUseCase(
+    () => FindUserReviewsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindListingReviewUseCase(
       repository: sl(),
     ),
   );

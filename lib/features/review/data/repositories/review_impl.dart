@@ -78,11 +78,11 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Right(rating);
     } on RatingNotFoundInLocalCacheFailure {
       if (await network.online) {
-        final rating =
-            await remote.rating(token: auth.token!, urlSlug: urlSlug);
+        final rating = await remote.rating(urlSlug: urlSlug);
 
-        await local.addRating(urlSlug: urlSlug, rating: rating);
-        return Right(rating);
+        await local.addRating(urlSlug: urlSlug, rating: rating.rating);
+        await local.addAll(key: urlSlug, reviews: rating.reviews);
+        return Right(rating.rating);
       } else {
         return Left(NoInternetFailure());
       }
@@ -102,7 +102,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
       if (await network.online) {
         final reviews = await remote.find(user: user);
 
-        await local.addAll(key: user.guid, items: reviews);
+        await local.addAll(key: user.guid, reviews: reviews);
         return Right(reviews);
       } else {
         return Left(NoInternetFailure());
@@ -118,11 +118,34 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(
-            token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<ReviewEntity>>> reviews({
+    required String urlSlug,
+  }) async {
+    try {
+      final reviews = await local.find(key: urlSlug);
+      return Right(reviews);
+    } on ReviewNotFoundInLocalCacheFailure {
+      if (await network.online) {
+        final reviews = await remote.rating(
+          urlSlug: urlSlug,
+        );
+
+        await local.addRating(urlSlug: urlSlug, rating: reviews.rating);
+        await local.addAll(key: urlSlug, reviews: reviews.reviews);
+        return Right(reviews.reviews);
       } else {
         return Left(NoInternetFailure());
       }
