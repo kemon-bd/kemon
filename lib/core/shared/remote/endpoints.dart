@@ -36,4 +36,7 @@ class RemoteEndpoints {
   //! search
   static Uri get searchSuggestion => Uri.parse('$_baseUrl/search-suggestions');
   static Uri get searchResults => Uri.parse('$_baseUrl/search');
+  
+  //! sub-category
+  static Uri get subCategories => Uri.parse('$_baseUrl/sub-categories');
 }
