@@ -16,5 +16,6 @@ abstract class ProfileRepository {
 
   FutureOr<Either<Failure, void>> update({
     required ProfileEntity profile,
+    XFile? avatar,
   });
 }

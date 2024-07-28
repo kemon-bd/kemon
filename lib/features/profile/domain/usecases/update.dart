@@ -10,9 +10,8 @@ class UpdateProfileUseCase {
 
   FutureOr<Either<Failure, void>> call({
     required ProfileEntity profile,
+    XFile? avatar,
   }) async {
-    return await repository.update(
-      profile: profile,
-    );
+    return await repository.update(profile: profile, avatar: avatar);
   }
 }

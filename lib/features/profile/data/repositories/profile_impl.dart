@@ -38,8 +38,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }) async {
     try {
       if (await network.online) {
-        final result =
-            await remote.delete(token: auth.token!, identity: identity);
+        final result = await remote.delete(token: auth.token!, identity: identity);
 
         await local.remove(identity: identity);
 
@@ -77,11 +76,11 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   FutureOr<Either<Failure, void>> update({
     required ProfileEntity profile,
+    XFile? avatar,
   }) async {
     try {
       if (await network.online) {
-        final result =
-            await remote.update(token: auth.token!, profile: profile);
+        final result = await remote.update(token: auth.token!, profile: profile, avatar: avatar);
 
         await local.update(profile: profile);
 

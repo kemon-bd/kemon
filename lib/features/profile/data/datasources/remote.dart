@@ -20,5 +20,6 @@ abstract class ProfileRemoteDataSource {
   FutureOr<void> update({
     required String token,
     required ProfileEntity profile,
+    XFile? avatar,
   });
 }

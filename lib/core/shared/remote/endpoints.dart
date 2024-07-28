@@ -20,4 +20,8 @@ class RemoteEndpoints {
 
   //! lookup
   static Uri get lookup => Uri.parse('$_baseUrl/get-lookup');
+
+  //! profile
+  static Uri get profile => Uri.parse('$_baseUrl/profile');
+  static Uri get updateProfile => Uri.parse('$_baseUrl/update-profile');
 }
