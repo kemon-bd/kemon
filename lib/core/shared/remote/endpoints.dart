@@ -32,4 +32,8 @@ class RemoteEndpoints {
   static Uri get reviewDetails => Uri.parse('$_baseUrl/review-details');
   static Uri get userReviews => Uri.parse('$_baseUrl/user-reviews');
   static Uri get recentReviews => Uri.parse('$_baseUrl/recent-reviews');
+
+  //! search
+  static Uri get searchSuggestion => Uri.parse('$_baseUrl/search-suggestions');
+  static Uri get searchResults => Uri.parse('$_baseUrl/search');
 }
