@@ -23,7 +23,7 @@ class SearchSuggestionError extends SearchSuggestionState {
 }
 
 class SearchSuggestionDone extends SearchSuggestionState {
-  final List<BusinessEntity> businesses;
+  final List<String> businesses;
   final List<IndustryEntity> industries;
   final List<CategoryEntity> categories;
   final List<SubCategoryEntity> subCategories;

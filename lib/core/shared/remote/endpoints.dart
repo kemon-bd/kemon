@@ -4,7 +4,7 @@ class RemoteEndpoints {
 
   //! business
   static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');
-  static Uri get findListing => Uri.parse('$_baseUrl/business');
+  static Uri get findListing => Uri.parse('$_baseUrl/listing-by-urlslug');
 
   //! category
   static Uri get featuredCategories => Uri.parse('$_baseUrl/featured-categories');
@@ -36,7 +36,7 @@ class RemoteEndpoints {
   //! search
   static Uri get searchSuggestion => Uri.parse('$_baseUrl/search-suggestions');
   static Uri get searchResults => Uri.parse('$_baseUrl/search');
-  
+
   //! sub-category
   static Uri get subCategories => Uri.parse('$_baseUrl/sub-categories');
 }

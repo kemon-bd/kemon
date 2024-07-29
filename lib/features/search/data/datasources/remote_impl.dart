@@ -110,9 +110,9 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
       final List<dynamic> categoriesMap = result.result!['category'];
       final List<dynamic> subCategoriesMap = result.result!['subcategory'];
 
-      final List<BusinessModel> businesses = businessesMap
-          .map(
-            (map) => BusinessModel.parse(map: map),
+      final List<String> businesses = businessesMap
+          .map<String>(
+            (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
           )
           .toList();
       final List<IndustryModel> industries = industriesMap

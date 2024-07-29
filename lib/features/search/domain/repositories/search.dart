@@ -6,7 +6,7 @@ import '../../../location/location.dart';
 import '../../../sub_category/sub_category.dart';
 
 typedef AutoCompleteSuggestions = ({
-  List<BusinessEntity> businesses,
+  List<String> businesses,
   List<IndustryEntity> industries,
   List<CategoryEntity> categories,
   List<SubCategoryEntity> subCategories,

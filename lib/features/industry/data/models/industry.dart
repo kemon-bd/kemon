@@ -3,7 +3,6 @@ import '../../industry.dart';
 
 class IndustryModel extends IndustryEntity {
   const IndustryModel({
-    required super.identity,
     required super.name,
     required super.icon,
     required super.urlSlug,
@@ -13,16 +12,6 @@ class IndustryModel extends IndustryEntity {
     required Map<String, dynamic> map,
   }) {
     try {
-      assert(
-        map.containsKey('guid'),
-        'IndustryModel.parse: "guid" not found.',
-      );
-      assert(
-        map['guid'] is String,
-        'IndustryModel.parse: "guid" is not a String.',
-      );
-      final String guid = map['guid'] as String;
-
       assert(
         map.containsKey('name'),
         'IndustryModel.parse: "name" not found.',
@@ -54,7 +43,6 @@ class IndustryModel extends IndustryEntity {
       final String urlSlug = map['urlslug'] as String;
 
       return IndustryModel(
-        identity: Identity.guid(guid: guid),
         name: Name.full(name: name),
         icon: icon,
         urlSlug: urlSlug,

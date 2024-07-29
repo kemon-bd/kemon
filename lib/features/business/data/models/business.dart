@@ -40,14 +40,14 @@ class BusinessModel extends BusinessEntity {
       final String name = map['name'] as String;
 
       assert(
-        map.containsKey('urlSlug'),
-        'BusinessModel.parse: "urlSlug" not found.',
+        map.containsKey('urlslug') || map.containsKey('urlSlug'),
+        'BusinessModel.parse: "urlslug"/"urlSlug" not found.',
       );
       assert(
-        map['urlSlug'] is String,
-        'BusinessModel.parse: "urlSlug" is not a String.',
+        map['urlslug'] is String || map['urlSlug'] is String,
+        'BusinessModel.parse: "urlslug"/"urlSlug" is not a String.',
       );
-      final String urlSlug = map['urlSlug'] as String;
+      final String urlSlug = map['urlslug'] ?? map['urlSlug'];
 
       assert(
         map.containsKey('icon') || map.containsKey('logo'),
@@ -145,9 +145,7 @@ class BusinessModel extends BusinessEntity {
         urlSlug: urlSlug,
         about: parse(description ?? '').body?.text ?? '',
         logo: logo,
-        type: type.like(text: 'product')
-            ? ListingType.product
-            : ListingType.business,
+        type: type.like(text: 'product') ? ListingType.product : ListingType.business,
         claimed: claimed ?? false,
         verified: verified ?? false,
         address: Address.street(street: address),

@@ -1,4 +1,5 @@
 import '../../../../../core/shared/shared.dart';
+import '../../../search.dart';
 
 class DashboardSearchSectionWidget extends StatelessWidget {
   const DashboardSearchSectionWidget({super.key});
@@ -43,8 +44,7 @@ class DashboardSearchSectionWidget extends StatelessWidget {
                 radius: 100,
                 borderRadius: BorderRadius.circular(100),
                 onTap: () {
-                  //TODO:
-                  // context.pushNamed(SearchPage.tag);
+                  context.pushNamed(SearchPage.name);
                 },
                 child: PhysicalModel(
                   color: theme.backgroundPrimary,

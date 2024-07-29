@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
@@ -22,13 +23,16 @@ class _SearchPageState extends State<SearchPage> {
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
+            backgroundColor: theme.backgroundPrimary,
+            surfaceTintColor: theme.backgroundPrimary,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
               onPressed: context.pop,
             ),
             title: TextField(
               autofocus: true,
               controller: controller,
+              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               onChanged: (query) {
                 context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
                 setState(() {});
@@ -47,7 +51,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.clear_rounded),
+                icon: Icon(Icons.clear_rounded, color: theme.textPrimary),
                 onPressed: () {
                   setState(() {
                     controller.clear();
@@ -153,27 +157,64 @@ class _SearchPageState extends State<SearchPage> {
                     const SizedBox(height: 8),
                     ...state.businesses
                         .map(
-                          (business) => ListTile(
-                            dense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                            title: Text(
-                              business.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                          (urlSlug) => BlocProvider(
+                            create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+                            child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
+                              builder: (context, state) {
+                                if (state is FindBusinessLoading) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                    title: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: 100.0 + Random().nextInt(100),
+                                        height: 12,
+                                        decoration: BoxDecoration(
+                                          color: theme.backgroundTertiary,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                    leading: Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: theme.backgroundTertiary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  );
+                                } else if (state is FindBusinessDone) {
+                                  final business = state.business;
+
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                    title: Text(
+                                      business.name.full,
+                                      style: TextStyles.body(context: context, color: theme.primary),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.open_in_new_rounded,
+                                      color: theme.primary,
+                                      size: 16,
+                                    ),
+                                    onTap: () {
+                                      context.pushNamed(
+                                        BusinessPage.name,
+                                        pathParameters: {
+                                          'id': business.urlSlug,
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                                return const SizedBox();
+                              },
                             ),
-                            trailing: Icon(
-                              Icons.open_in_new_rounded,
-                              color: theme.primary,
-                              size: 16,
-                            ),
-                            onTap: () {
-                              context.pushNamed(
-                                BusinessPage.name,
-                                pathParameters: {
-                                  'id': business.urlSlug,
-                                },
-                              );
-                            },
                           ),
                         )
                         .toList(),
