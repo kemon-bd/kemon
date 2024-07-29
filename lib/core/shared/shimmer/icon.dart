@@ -2,12 +2,10 @@ import '../shared.dart';
 
 class ShimmerIcon extends StatelessWidget {
   final double radius;
-  final bool delete;
 
   const ShimmerIcon({
     super.key,
     required this.radius,
-    this.delete = false,
   });
 
   @override
@@ -19,7 +17,7 @@ class ShimmerIcon extends StatelessWidget {
           width: radius,
           height: radius,
           decoration: BoxDecoration(
-            color: (delete ? theme.negative : theme.shimmer).withAlpha(100),
+            color: theme.backgroundTertiary,
             shape: BoxShape.circle,
           ),
         )
@@ -27,16 +25,20 @@ class ShimmerIcon extends StatelessWidget {
               onComplete: (controller) => controller.repeat(),
             )
             .shimmer(
-              color: Colors.transparent,
+              color: theme.backgroundTertiary,
               colors: [
-                theme.backgroundSecondary.withAlpha(150),
-                theme.primary,
-                theme.backgroundTertiary.withAlpha(100),
-                theme.shimmer.withAlpha(50),
-                theme.backgroundSecondary.withAlpha(50),
-                theme.primary,
-                theme.backgroundTertiary.withAlpha(150),
-                theme.shimmer.withAlpha(50),
+                theme.backgroundTertiary,
+                theme.textPrimary.withAlpha(25),
+                theme.backgroundSecondary,
+                theme.textSecondary.withAlpha(25),
+                theme.backgroundPrimary,
+              ],
+              stops: [
+                .1,
+                .3,
+                .5,
+                .7,
+                .9,
               ],
               duration: const Duration(seconds: 1),
             );

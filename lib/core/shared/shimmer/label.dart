@@ -5,7 +5,6 @@ class ShimmerLabel extends StatelessWidget {
   final double height;
   final EdgeInsets? margin;
   final double radius;
-  final bool delete;
 
   const ShimmerLabel({
     super.key,
@@ -13,7 +12,6 @@ class ShimmerLabel extends StatelessWidget {
     required this.height,
     this.margin,
     this.radius = 8,
-    this.delete = false,
   });
 
   @override
@@ -22,9 +20,9 @@ class ShimmerLabel extends StatelessWidget {
       builder: (context, state) {
         final theme = state.scheme;
         return Container(
-          margin: margin ?? EdgeInsets.zero,
+          margin: margin ?? const EdgeInsets.all(0),
           child: PhysicalModel(
-            color: (delete ? theme.negative : theme.shimmer).withAlpha(100),
+            color: theme.backgroundTertiary,
             borderRadius: BorderRadius.circular(radius),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: SizedBox(
@@ -36,16 +34,20 @@ class ShimmerLabel extends StatelessWidget {
                 onComplete: (controller) => controller.repeat(),
               )
               .shimmer(
-                color: Colors.transparent,
+                color: theme.backgroundTertiary,
                 colors: [
-                  theme.backgroundSecondary.withAlpha(150),
-                  theme.primary,
-                  theme.backgroundTertiary.withAlpha(100),
-                  theme.shimmer.withAlpha(50),
-                  theme.backgroundSecondary.withAlpha(50),
-                  theme.primary,
-                  theme.backgroundTertiary.withAlpha(150),
-                  theme.shimmer.withAlpha(50),
+                  theme.backgroundSecondary,
+                  theme.textPrimary.withAlpha(25),
+                  theme.backgroundTertiary,
+                  theme.textSecondary.withAlpha(25),
+                  theme.backgroundPrimary,
+                ],
+                stops: [
+                  .1,
+                  .3,
+                  .5,
+                  .7,
+                  .9,
                 ],
                 duration: const Duration(seconds: 1),
               ),
