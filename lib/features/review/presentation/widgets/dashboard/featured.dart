@@ -78,7 +78,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                                                       rating: review.rating.toDouble(),
                                                       itemBuilder: (context, index) =>
                                                           Icon(Icons.star_rounded, color: theme.primary),
-                                                      unratedColor: theme.textSecondary.withAlpha(150),
+                                                      unratedColor: theme.textSecondary.withAlpha(50),
                                                       itemCount: 5,
                                                       itemSize: 16,
                                                       direction: Axis.horizontal,
@@ -113,14 +113,15 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                                   review.title,
                                   style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                 ),
                                 if (review.description != null) ...[
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 4),
                                   Text(
                                     review.description ?? "",
                                     style: TextStyles.body(context: context, color: theme.textSecondary),
                                     overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
                                   ),
                                 ],
                               ],
@@ -129,7 +130,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                         );
                       },
                       options: CarouselOptions(
-                        aspectRatio: 2.5,
+                        aspectRatio: 2.75,
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
                         enableInfiniteScroll: true,
                         enlargeCenterPage: true,
