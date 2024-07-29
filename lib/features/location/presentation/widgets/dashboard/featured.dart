@@ -12,9 +12,7 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
         return BlocBuilder<FeaturedLocationsBloc, FeaturedLocationsState>(
           builder: (_, state) {
             if (state is FeaturedLocationsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const DashboardFeaturedLocationsSectionShimmerWidget();
             } else if (state is FeaturedLocationsDone) {
               final locations = state.locations;
               return ListView(

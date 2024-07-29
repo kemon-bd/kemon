@@ -14,9 +14,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
         return BlocBuilder<RecentReviewsBloc, RecentReviewsState>(
           builder: (_, state) {
             if (state is RecentReviewsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const DashboardRecentReviewsSectionShimmerWidget();
             } else if (state is RecentReviewsDone) {
               final reviews = state.reviews;
               return ListView(

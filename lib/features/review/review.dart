@@ -29,3 +29,4 @@ export 'presentation/bloc/recent_bloc.dart';
 
 export 'presentation/pages/review.dart';
 export 'presentation/widgets/dashboard/featured.dart';
+export 'presentation/widgets/dashboard/featured_shimmer.dart';

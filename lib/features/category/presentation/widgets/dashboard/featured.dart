@@ -12,9 +12,7 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
         return BlocBuilder<FeaturedCategoriesBloc, FeaturedCategoriesState>(
           builder: (_, state) {
             if (state is FeaturedCategoriesLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const DashboardFeaturedCategoriesSectionShimmerWidget();
             } else if (state is FeaturedCategoriesDone) {
               final categories = state.categories;
               return ListView(
@@ -26,6 +24,7 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         "Featured categories",
@@ -79,11 +78,11 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                           onPressed: () {
                             // TODO
                             /* context.pushNamed(
-                              CategoryPage.tag,
-                              pathParameters: {
-                                'id': category.urlSlug,
-                              },
-                            ); */
+                                  CategoryPage.tag,
+                                  pathParameters: {
+                                    'id': category.urlSlug,
+                                  },
+                                ); */
                           },
                           avatar: CachedNetworkImage(
                             imageUrl: category.icon.url,
@@ -99,10 +98,6 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-              );
-            } else if (state is FeaturedCategoriesError) {
-              return Center(
-                child: Text(state.failure.message),
               );
             } else {
               return const SizedBox();
