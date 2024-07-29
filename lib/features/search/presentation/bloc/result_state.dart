@@ -29,10 +29,16 @@ class SearchResultError extends SearchResultState {
 }
 
 class SearchResultDone extends SearchResultState {
-  final SearchResults results;
+  final List<String> businesses;
+  final List<SubCategoryEntity> subCategories;
+  final List<LocationEntity> locations;
+
   const SearchResultDone({
-    required this.results,
+    required this.businesses,
+    required this.subCategories,
+    required this.locations,
   });
+
   @override
-  List<Object> get props => [results];
+  List<Object> get props => [businesses, subCategories, locations];
 }

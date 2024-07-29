@@ -46,5 +46,34 @@ final router = GoRouter(
         child: const SearchPage(),
       ),
     ),
+    GoRoute(
+      path: ResultPage.path,
+      name: ResultPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<SearchResultBloc>()
+              ..add(
+                SearchResult(
+                  query: state.uri.queryParameters['query']!,
+                  filter: (
+                    category: null,
+                    subCategory: null,
+                    division: null,
+                    district: null,
+                    thana: null,
+                    industry: null,
+                    sortBy: null,
+                    filterBy: null,
+                  ),
+                ),
+              ),
+          ),
+        ],
+        child: ResultPage(
+          query: state.uri.queryParameters['query']!,
+        ),
+      ),
+    ),
   ],
 );

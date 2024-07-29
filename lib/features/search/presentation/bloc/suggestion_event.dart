@@ -16,3 +16,10 @@ class SearchSuggestion extends SearchSuggestionEvent {
   @override
   List<Object> get props => [query];
 }
+
+class ResetSuggestion extends SearchSuggestionEvent {
+  const ResetSuggestion();
+
+  @override
+  List<Object> get props => [];
+}

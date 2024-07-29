@@ -29,7 +29,6 @@ Future<void> get searchDependencies async {
   sl.registerLazySingleton<SearchRepository>(
     () => SearchRepositoryImpl(
       network: sl(),
-      business: sl(),
       location: sl(),
       industry: sl(),
       category: sl(),

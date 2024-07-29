@@ -29,5 +29,8 @@ class SearchSuggestionBloc extends Bloc<SearchSuggestionEvent, SearchSuggestionS
         ),
       );
     });
+    on<ResetSuggestion>((event, emit) async {
+      emit(const SearchSuggestionInitial());
+    });
   }
 }

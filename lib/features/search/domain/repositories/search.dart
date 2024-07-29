@@ -1,5 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
 import '../../../location/location.dart';
@@ -13,7 +12,7 @@ typedef AutoCompleteSuggestions = ({
 });
 
 typedef SearchResults = ({
-  List<BusinessEntity> businesses,
+  List<String> businesses,
   List<SubCategoryEntity> subCategories,
   List<LocationEntity> locations,
 });

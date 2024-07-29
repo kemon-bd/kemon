@@ -1,5 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
 import '../../../location/location.dart';
@@ -61,9 +60,9 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
       final List<dynamic> subCategoriesMap = result.result!['relatedDatas'];
       final List<dynamic> locationsMap = result.result!['locationDatas'];
 
-      final List<BusinessModel> businesses = businessesMap
-          .map(
-            (map) => BusinessModel.parse(map: map),
+      final List<String> businesses = businessesMap
+          .map<String>(
+            (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
           )
           .toList();
       final List<LocationModel> locations = locationsMap

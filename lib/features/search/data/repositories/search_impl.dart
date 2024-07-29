@@ -1,5 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
 import '../../../location/location.dart';
@@ -8,7 +7,6 @@ import '../../search.dart';
 
 class SearchRepositoryImpl extends SearchRepository {
   final NetworkInfo network;
-  final BusinessLocalDataSource business;
   final LocationLocalDataSource location;
   final IndustryLocalDataSource industry;
   final CategoryLocalDataSource category;
@@ -18,7 +16,6 @@ class SearchRepositoryImpl extends SearchRepository {
 
   SearchRepositoryImpl({
     required this.network,
-    required this.business,
     required this.location,
     required this.industry,
     required this.category,
@@ -39,7 +36,6 @@ class SearchRepositoryImpl extends SearchRepository {
       if (await network.online) {
         final results = await remote.result(query: query, filter: filter);
         await local.addResult(query: query, filter: filter, results: results);
-        await business.addAll(businesses: results.businesses);
         await location.addAll(locations: results.locations);
         await subCategory.addAll(subCategories: results.subCategories);
         return Right(results);

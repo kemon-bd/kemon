@@ -1,4 +1,6 @@
 import '../../../../core/shared/shared.dart';
+import '../../../location/location.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
 
 part 'result_event.dart';
@@ -19,7 +21,11 @@ class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
 
       result.fold(
         (failure) => emit(SearchResultError(failure: failure)),
-        (results) => emit(SearchResultDone(results: results)),
+        (results) => emit(SearchResultDone(
+          businesses: results.businesses,
+          subCategories: results.subCategories,
+          locations: results.locations,
+        )),
       );
     });
   }

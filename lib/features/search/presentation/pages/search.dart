@@ -57,7 +57,7 @@ class _SearchPageState extends State<SearchPage> {
                     controller.clear();
                   });
 
-                  context.read<SearchSuggestionBloc>().add(const SearchSuggestion(query: ''));
+                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
                 },
               ),
             ],
@@ -68,19 +68,21 @@ class _SearchPageState extends State<SearchPage> {
               : FloatingActionButton.extended(
                   backgroundColor: theme.primary,
                   onPressed: () {
-                    // TODO
-                    // context.pushNamed(
-                    //   ResultPage.tag,
-                    //   queryParameters: {
-                    //     'query': controller.text,
-                    //   },
-                    // );
+                    context.pushNamed(
+                      ResultPage.name,
+                      queryParameters: {
+                        'query': controller.text,
+                      },
+                    );
                   },
                   isExtended: true,
                   icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.subTitle(context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
                   ),
                 ),
           body: BlocBuilder<SearchSuggestionBloc, SearchSuggestionState>(
