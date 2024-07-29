@@ -1,4 +1,8 @@
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
+import '../../../category/category.dart';
+import '../../../industry/industry.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
 
 part 'suggestion_event.dart';
@@ -15,7 +19,15 @@ class SearchSuggestionBloc extends Bloc<SearchSuggestionEvent, SearchSuggestionS
       final result = await useCase(query: event.query);
       result.fold(
         (failure) => emit(SearchSuggestionError(failure: failure)),
-        (suggestions) => emit(SearchSuggestionDone(suggestions: suggestions)),
+        (suggestions) => emit(
+          SearchSuggestionDone(
+            businesses: suggestions.businesses,
+            industries: suggestions.industries,
+            categories: suggestions.categories,
+            subCategories: suggestions.subCategories,
+            suggestions: suggestions,
+          ),
+        ),
       );
     });
   }

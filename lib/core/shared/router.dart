@@ -4,6 +4,7 @@ import '../../features/location/location.dart';
 import '../../features/login/login.dart';
 import '../../features/profile/profile.dart';
 import '../../features/review/review.dart';
+import '../../features/search/search.dart';
 import '../config/config.dart';
 import 'shared.dart';
 
@@ -33,6 +34,16 @@ final router = GoRouter(
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
         child: const LoginPage(),
+      ),
+    ),
+    GoRoute(
+      path: SearchPage.path,
+      name: SearchPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<SearchSuggestionBloc>()),
+        ],
+        child: const SearchPage(),
       ),
     ),
   ],
