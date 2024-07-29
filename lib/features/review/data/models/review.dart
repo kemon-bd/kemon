@@ -38,15 +38,15 @@ class ReviewModel extends ReviewEntity {
       );
       final String userGuid = map['user'] as String;
 
+      // assert(
+      //   map.containsKey('urlSlug'),
+      //   'ReviewModel.parse: "urlSlug" not found.',
+      // );
       assert(
-        map.containsKey('urlSlug'),
-        'ReviewModel.parse: "urlSlug" not found.',
+        map['urlSlug'] is String?,
+        'ReviewModel.parse: "urlSlug" is not a String?.',
       );
-      assert(
-        map['urlSlug'] is String,
-        'ReviewModel.parse: "urlSlug" is not a String.',
-      );
-      final String urlSlug = map['urlSlug'] as String;
+      final String urlSlug = map['urlSlug'] ?? '';
 
       assert(
         map.containsKey('rating'),

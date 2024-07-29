@@ -71,3 +71,6 @@ export 'package:image_picker/image_picker.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:maps_launcher/maps_launcher.dart';
 export 'package:sign_in_with_apple/sign_in_with_apple.dart' hide IconAlignment;
+export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+export 'package:flutter_rating_bar/flutter_rating_bar.dart';

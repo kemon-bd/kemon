@@ -1,12 +1,12 @@
 part of 'featured_bloc.dart';
 
-sealed class FeaturedLocationEvent extends Equatable {
-  const FeaturedLocationEvent();
+sealed class FeaturedLocationsEvent extends Equatable {
+  const FeaturedLocationsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class FeaturedLocation extends FeaturedLocationEvent {
-  const FeaturedLocation();
+class FeaturedLocations extends FeaturedLocationsEvent {
+  const FeaturedLocations();
 }

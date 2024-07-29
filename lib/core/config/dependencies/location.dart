@@ -3,14 +3,14 @@ part of '../config.dart';
 Future<void> get locationDependencies async {
   //! ----------------- Bloc -----------------
   sl.registerFactory(
-    () => FeaturedLocationBloc(
+    () => FeaturedLocationsBloc(
       useCase: sl(),
     ),
   );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
-    () => FeaturedLocationUseCase(
+    () => FeaturedLocationsUseCase(
       repository: sl(),
     ),
   );

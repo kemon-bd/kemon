@@ -4,20 +4,19 @@ import '../../location.dart';
 part 'featured_event.dart';
 part 'featured_state.dart';
 
-class FeaturedLocationBloc
-    extends Bloc<FeaturedLocationEvent, FeaturedLocationState> {
-  final FeaturedLocationUseCase useCase;
-  FeaturedLocationBloc({
+class FeaturedLocationsBloc extends Bloc<FeaturedLocationsEvent, FeaturedLocationsState> {
+  final FeaturedLocationsUseCase useCase;
+  FeaturedLocationsBloc({
     required this.useCase,
-  }) : super(FeaturedLocationInitial()) {
-    on<FeaturedLocation>((event, emit) async {
-      emit(const FeaturedLocationLoading());
+  }) : super(FeaturedLocationsInitial()) {
+    on<FeaturedLocations>((event, emit) async {
+      emit(const FeaturedLocationsLoading());
 
       final result = await useCase();
 
       result.fold(
-        (failure) => emit(FeaturedLocationError(failure: failure)),
-        (locations) => emit(FeaturedLocationDone(locations: locations)),
+        (failure) => emit(FeaturedLocationsError(failure: failure)),
+        (locations) => emit(FeaturedLocationsDone(locations: locations)),
       );
     });
   }

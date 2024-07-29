@@ -1,10 +1,10 @@
 import '../../../../core/shared/shared.dart';
 import '../../location.dart';
 
-class FeaturedLocationUseCase {
+class FeaturedLocationsUseCase {
   final LocationRepository repository;
 
-  FeaturedLocationUseCase({
+  FeaturedLocationsUseCase({
     required this.repository,
   });
 

@@ -17,6 +17,7 @@ export 'domain/usecases/find.dart';
 export 'domain/usecases/rating.dart';
 export 'domain/usecases/reviews.dart';
 export 'domain/usecases/update.dart';
+export 'domain/usecases/recent.dart';
 
 export 'presentation/bloc/create_bloc.dart';
 export 'presentation/bloc/delete_bloc.dart';
@@ -24,5 +25,7 @@ export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/rating_bloc.dart';
 export 'presentation/bloc/update_bloc.dart';
 export 'presentation/bloc/reviews_bloc.dart';
+export 'presentation/bloc/recent_bloc.dart';
 
 export 'presentation/pages/review.dart';
+export 'presentation/widgets/dashboard/featured.dart';

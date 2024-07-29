@@ -1,18 +1,18 @@
 part of 'featured_bloc.dart';
 
-sealed class FeaturedLocationState extends Equatable {
-  const FeaturedLocationState();
+sealed class FeaturedLocationsState extends Equatable {
+  const FeaturedLocationsState();
 
   @override
   List<Object> get props => [];
 }
 
-final class FeaturedLocationInitial extends FeaturedLocationState {}
+final class FeaturedLocationsInitial extends FeaturedLocationsState {}
 
-final class FeaturedLocationError extends FeaturedLocationState {
+final class FeaturedLocationsError extends FeaturedLocationsState {
   final Failure failure;
 
-  const FeaturedLocationError({
+  const FeaturedLocationsError({
     required this.failure,
   });
 
@@ -20,14 +20,14 @@ final class FeaturedLocationError extends FeaturedLocationState {
   List<Object> get props => [failure];
 }
 
-final class FeaturedLocationLoading extends FeaturedLocationState {
-  const FeaturedLocationLoading();
+final class FeaturedLocationsLoading extends FeaturedLocationsState {
+  const FeaturedLocationsLoading();
 }
 
-final class FeaturedLocationDone extends FeaturedLocationState {
+final class FeaturedLocationsDone extends FeaturedLocationsState {
   final List<LocationEntity> locations;
 
-  const FeaturedLocationDone({
+  const FeaturedLocationsDone({
     required this.locations,
   });
 

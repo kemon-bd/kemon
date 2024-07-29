@@ -11,3 +11,4 @@ export 'domain/usecases/featured.dart';
 
 export 'presentation/bloc/featured_bloc.dart';
 export 'presentation/pages/location.dart';
+export 'presentation/widgets/dashboard/featured.dart';

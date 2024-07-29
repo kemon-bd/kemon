@@ -23,6 +23,8 @@ abstract class ReviewRepository {
     required Identity user,
   });
 
+  FutureOr<Either<Failure, List<ReviewEntity>>> recent();
+
   FutureOr<Either<Failure, List<ReviewEntity>>> reviews({
     required String urlSlug,
   });

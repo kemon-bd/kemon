@@ -5,7 +5,7 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
+    return GoogleFonts.solway(
       textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
     );
   }
@@ -14,7 +14,7 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
+    return GoogleFonts.solway(
       textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
     );
   }
@@ -23,11 +23,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .bodyMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.normal),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color, fontWeight: FontWeight.normal),
     );
   }
 
@@ -35,11 +32,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleSmall
-          ?.copyWith(color: color, height: 1),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(color: color, height: 1),
     );
   }
 
@@ -47,11 +41,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.bold),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: color, fontWeight: FontWeight.bold),
     );
   }
 
@@ -59,11 +50,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleLarge
-          ?.copyWith(color: color, fontWeight: FontWeight.w300),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: color, fontWeight: FontWeight.w300),
     );
   }
 
@@ -71,11 +59,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .headlineSmall
-          ?.copyWith(color: color, fontWeight: FontWeight.w300),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(color: color, fontWeight: FontWeight.w300),
     );
   }
 
@@ -83,11 +68,8 @@ class TextStyles {
     required BuildContext context,
     required Color color,
   }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .headlineMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.w400),
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(color: color, fontWeight: FontWeight.w400),
     );
   }
 

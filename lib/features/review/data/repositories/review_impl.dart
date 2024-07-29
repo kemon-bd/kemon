@@ -153,4 +153,19 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Left(failure);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, List<ReviewEntity>>> recent() async {
+    try {
+      if (await network.online) {
+        final reviews = await remote.recent();
+
+        return Right(reviews);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
 }

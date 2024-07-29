@@ -15,3 +15,4 @@ export 'presentation/bloc/featured_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/industry_bloc.dart';
 export 'presentation/pages/category.dart';
+export 'presentation/widgets/dashboard/featured.dart';
