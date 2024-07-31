@@ -2,6 +2,8 @@ import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
 
 class SearchPage extends StatefulWidget {
@@ -250,9 +252,9 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             onTap: () {
                               context.pushNamed(
-                                CategoryPage.name,
+                                IndustryPage.name,
                                 pathParameters: {
-                                  'id': industry.urlSlug,
+                                  'urlSlug': industry.urlSlug,
                                 },
                               );
                             },
@@ -330,9 +332,9 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             onTap: () {
                               context.pushNamed(
-                                CategoryPage.name,
+                                SubCategoryPage.name,
                                 pathParameters: {
-                                  'id': subCategory.urlSlug,
+                                  'urlSlug': subCategory.urlSlug,
                                 },
                               );
                             },

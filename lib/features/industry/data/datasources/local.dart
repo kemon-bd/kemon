@@ -12,5 +12,9 @@ abstract class IndustryLocalDataSource {
 
   FutureOr<void> removeAll();
 
-  FutureOr<List<IndustryEntity>> find();
+  FutureOr<List<IndustryEntity>> findAll();
+  
+  FutureOr<IndustryEntity> find({
+    required String urlSlug,
+  });
 }

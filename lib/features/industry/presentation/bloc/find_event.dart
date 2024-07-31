@@ -7,8 +7,13 @@ abstract class FindIndustryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FindIndustries extends FindIndustryEvent {
-  const FindIndustries();
+class FindIndustry extends FindIndustryEvent {
+  final String urlSlug;
+
+  const FindIndustry({
+    required this.urlSlug,
+  });
+  
   @override
   List<Object> get props => [];
 }

@@ -8,7 +8,9 @@ class FindIndustryUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, List<IndustryEntity>>> call() async {
-    return await repository.find();
+  FutureOr<Either<Failure, IndustryEntity>> call({
+    required String urlSlug,
+  }) async {
+    return await repository.find(urlSlug: urlSlug);
   }
 }

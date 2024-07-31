@@ -16,9 +16,37 @@ class IndustryRepositoryImpl extends IndustryRepository {
   });
 
   @override
-  FutureOr<Either<Failure, List<IndustryEntity>>> find() async {
+  FutureOr<Either<Failure, IndustryEntity>> find({
+    required String urlSlug,
+  }) async {
     try {
-      final result = await local.find();
+      final result = await local.find(urlSlug: urlSlug);
+      return Right(result);
+    } on IndustryNotFoundInLocalCacheFailure catch (_) {
+      if (await network.online) {
+        final result = await remote.find();
+        final industries = result.map((item) => item.industry).toList();
+        await local.addAll(industries: industries);
+        for (final item in result) {
+          await category.addAllByIndustry(
+            industry: item.industry.urlSlug,
+            categories: item.categories,
+          );
+        }
+        final item = await local.find(urlSlug: urlSlug);
+        return Right(item);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<IndustryEntity>>> all() async {
+    try {
+      final result = await local.findAll();
       return Right(result);
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {

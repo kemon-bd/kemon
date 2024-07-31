@@ -26,9 +26,20 @@ class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
   }
 
   @override
-  FutureOr<List<IndustryEntity>> find() {
+  FutureOr<List<IndustryEntity>> findAll() {
     final item = _cache.values.toList();
     if (item.isEmpty) {
+      throw IndustryNotFoundInLocalCacheFailure();
+    }
+    return item;
+  }
+
+  @override
+  FutureOr<IndustryEntity> find({
+    required String urlSlug,
+  }) async {
+    final item = _cache[urlSlug];
+    if (item == null) {
       throw IndustryNotFoundInLocalCacheFailure();
     }
     return item;

@@ -42,7 +42,7 @@ class BusinessInformationWidget extends StatelessWidget {
                           height: 64,
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
-                            color: theme.backgroundSecondary,
+                            gradient: gradient,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: business.logo.isNotEmpty

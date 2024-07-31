@@ -27,10 +27,10 @@ class FindIndustryError extends FindIndustryState {
 }
 
 class FindIndustryDone extends FindIndustryState {
-  final List<IndustryEntity> industries;
+  final IndustryEntity industry;
 
-  const FindIndustryDone({required this.industries});
+  const FindIndustryDone({required this.industry});
 
   @override
-  List<Object> get props => [industries];
+  List<Object> get props => [industry];
 }

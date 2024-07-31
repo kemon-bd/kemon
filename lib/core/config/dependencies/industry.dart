@@ -7,10 +7,20 @@ Future<void> get industryDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => FindIndustriesBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindIndustryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindIndustriesUseCase(
       repository: sl(),
     ),
   );
