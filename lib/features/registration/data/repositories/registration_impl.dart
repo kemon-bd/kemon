@@ -1,12 +1,15 @@
 import '../../../../core/shared/shared.dart';
+import '../../../profile/profile.dart';
 import '../../registration.dart';
 
 class RegistrationRepositoryImpl extends RegistrationRepository {
   final NetworkInfo network;
+  final ProfileRemoteDataSource profile;
   final RegistrationRemoteDataSource remote;
 
   RegistrationRepositoryImpl({
     required this.network,
+    required this.profile,
     required this.remote,
   });
 
@@ -33,6 +36,27 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
         );
 
         return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, String>> otp({
+    required String username,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await profile.check(username: username);
+
+        if (result.isLeft) {
+          return Right(result.left);
+        } else {
+          throw OtpNotSentBecauseUserAlreadyExistsFailure();
+        }
       } else {
         return Left(NoInternetFailure());
       }

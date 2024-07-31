@@ -13,3 +13,10 @@ class ProfileNotFoundInLocalCacheFailure extends Failure {
           message: 'Profile not found in local cache.',
         );
 }
+
+class OtpNotSentBecauseUserAlreadyExistsFailure extends Failure {
+  OtpNotSentBecauseUserAlreadyExistsFailure()
+      : super(
+          message: 'OTP not sent because user already exists.',
+        );
+}

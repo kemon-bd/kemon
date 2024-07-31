@@ -10,4 +10,8 @@ abstract class RegistrationRepository {
     required DateTime dob,
     required Gender gender,
   });
+
+  FutureOr<Either<Failure, String>> otp({
+    required String username,
+  });
 }

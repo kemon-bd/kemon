@@ -79,3 +79,4 @@ export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_rating_bar/flutter_rating_bar.dart';
 export 'package:expandable/expandable.dart';
 export 'package:pinput/pinput.dart';
+export 'package:flutter_timer_countdown/flutter_timer_countdown.dart';

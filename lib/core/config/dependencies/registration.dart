@@ -7,10 +7,20 @@ Future<void> get registrationDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => OtpBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => CreateRegistrationUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => OtpUseCase(
       repository: sl(),
     ),
   );
@@ -19,6 +29,7 @@ Future<void> get registrationDependencies async {
   sl.registerLazySingleton<RegistrationRepository>(
     () => RegistrationRepositoryImpl(
       network: sl(),
+      profile: sl(),
       remote: sl(),
     ),
   );

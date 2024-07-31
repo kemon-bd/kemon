@@ -20,15 +20,9 @@ final router = GoRouter(
       name: HomePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (context) => sl<FeaturedCategoriesBloc>()
-                ..add(const FeaturedCategories())),
-          BlocProvider(
-              create: (context) =>
-                  sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
-          BlocProvider(
-              create: (context) =>
-                  sl<RecentReviewsBloc>()..add(const RecentReviews())),
+          BlocProvider(create: (context) => sl<FeaturedCategoriesBloc>()..add(const FeaturedCategories())),
+          BlocProvider(create: (context) => sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
+          BlocProvider(create: (context) => sl<RecentReviewsBloc>()..add(const RecentReviews())),
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
@@ -43,19 +37,14 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindProfileBloc>()
               ..add(
-                FindProfile(
-                    identity: Identity.guid(
-                        guid: state.uri.queryParameters['guid']!)),
+                FindProfile(identity: Identity.guid(guid: state.uri.queryParameters['guid']!)),
               ),
           ),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
         child: const LoginPage(),
       ),
-      redirect: (context, state) =>
-          state.uri.queryParameters.containsKey('guid')
-              ? null
-              : CheckProfilePage.path,
+      redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
     ),
     GoRoute(
       path: CheckProfilePage.path,
@@ -70,9 +59,12 @@ final router = GoRouter(
     GoRoute(
       path: VerifyOTPPage.path,
       name: VerifyOTPPage.name,
-      builder: (context, state) => VerifyOTPPage(
-        otp: state.uri.queryParameters['otp']!,
-        username: state.uri.queryParameters['username']!,
+      builder: (_, state) => BlocProvider(
+        create: (_) => sl<OtpBloc>(),
+        child: VerifyOTPPage(
+          otp: state.uri.queryParameters['otp']!,
+          username: state.uri.queryParameters['username']!,
+        ),
       ),
     ),
     GoRoute(
@@ -171,8 +163,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(
-                    category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -195,8 +186,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(
-                    category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -219,8 +209,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(
-                    category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
