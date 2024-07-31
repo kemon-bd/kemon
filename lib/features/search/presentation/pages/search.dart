@@ -208,7 +208,7 @@ class _SearchPageState extends State<SearchPage> {
                                       context.pushNamed(
                                         BusinessPage.name,
                                         pathParameters: {
-                                          'id': business.urlSlug,
+                                          "urlSlug": business.urlSlug,
                                         },
                                       );
                                     },

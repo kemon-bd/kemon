@@ -1,6 +1,16 @@
+import 'package:kemon/core/shared/shared.dart';
+
 import '../../../features/review/review.dart';
 
 extension ReviewEntityExtension on ReviewEntity {}
+
+extension ReviewListExtension on List<ReviewEntity> {
+  bool hasMyReview({
+    required String userGuid,
+  }) {
+    return any((review) => review.user.guid.like(text: userGuid));
+  }
+}
 
 extension RatingEntityExtension on RatingEntity {
   String get remarks {

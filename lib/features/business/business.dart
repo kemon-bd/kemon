@@ -14,3 +14,6 @@ export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/category_bloc.dart';
 export 'presentation/pages/business.dart';
 export 'presentation/widgets/item.dart';
+export 'presentation/widgets/info.dart';
+export 'presentation/widgets/ratings.dart';
+export 'presentation/widgets/reviews.dart';

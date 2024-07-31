@@ -59,13 +59,12 @@ class BusinessItemWidget extends StatelessWidget {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () {
-                    // TODO:
-                    /* context.pushNamed(
-                      BusinessDetailsPage.tag,
+                    context.pushNamed(
+                      BusinessPage.name,
                       pathParameters: {
-                        "id": business.urlSlug,
+                        "urlSlug": business.urlSlug,
                       },
-                    ); */
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),

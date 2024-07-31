@@ -1,3 +1,4 @@
+import '../../features/business/business.dart';
 import '../../features/category/category.dart';
 import '../../features/home/home.dart';
 import '../../features/location/location.dart';
@@ -72,6 +73,35 @@ final router = GoRouter(
         ],
         child: ResultPage(
           query: state.uri.queryParameters['query']!,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: BusinessPage.path,
+      name: BusinessPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindBusinessBloc>()
+              ..add(
+                FindBusiness(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindRatingBloc>()
+              ..add(
+                FindRating(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindListingReviewsBloc>()
+              ..add(
+                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+        ],
+        child: BusinessPage(
+          urlSlug: state.pathParameters['urlSlug']!,
         ),
       ),
     ),
