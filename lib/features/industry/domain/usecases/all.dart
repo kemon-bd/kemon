@@ -9,6 +9,6 @@ class FindIndustriesUseCase {
   });
 
   FutureOr<Either<Failure, List<IndustryEntity>>> call() async {
-    return await repository.all ();
+    return await repository.all();
   }
 }

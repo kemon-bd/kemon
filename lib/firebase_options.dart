@@ -58,8 +58,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '923222937709',
     projectId: 'kemon-bd',
     storageBucket: 'kemon-bd.appspot.com',
-    androidClientId: '923222937709-o2jo8lssr7ef43mkrt0gfcvfk9tm6e2c.apps.googleusercontent.com',
-    iosClientId: '923222937709-f4e57lqj8ktmc8kg1ft07bclg4b0qr1r.apps.googleusercontent.com',
+    androidClientId:
+        '923222937709-o2jo8lssr7ef43mkrt0gfcvfk9tm6e2c.apps.googleusercontent.com',
+    iosClientId:
+        '923222937709-f4e57lqj8ktmc8kg1ft07bclg4b0qr1r.apps.googleusercontent.com',
     iosBundleId: 'bd.com.kemon',
   );
 }

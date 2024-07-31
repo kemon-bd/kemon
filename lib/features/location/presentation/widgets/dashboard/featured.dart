@@ -26,7 +26,8 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Featured locations",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                        style: TextStyles.title(
+                            context: context, color: theme.textPrimary),
                       ),
                       // TODO
                       /* FilterChip(
@@ -72,7 +73,8 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100),
                             side: BorderSide(width: 1, color: theme.positive),
                           ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
                           onPressed: () {
                             // TODO
@@ -83,10 +85,12 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                               },
                             ); */
                           },
-                          avatar: Icon(Icons.place_rounded, color: theme.positive),
+                          avatar:
+                              Icon(Icons.place_rounded, color: theme.positive),
                           label: Text(
                             category.name.full,
-                            style: TextStyles.subTitle(context: context, color: theme.positive),
+                            style: TextStyles.subTitle(
+                                context: context, color: theme.positive),
                           ),
                         );
                       },

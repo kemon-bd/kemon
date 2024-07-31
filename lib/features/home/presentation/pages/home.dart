@@ -3,6 +3,7 @@ import '../../../category/category.dart';
 import '../../../location/location.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
+import '../../home.dart';
 
 class HomePage extends StatefulWidget {
   static const String path = '/home';
@@ -32,10 +33,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         final theme = state.scheme;
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
+          endDrawer: const HomeSideNavWidget(),
           appBar: AppBar(
             elevation: 0,
             scrolledUnderElevation: 0,
@@ -48,13 +50,14 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             title: const Text('KEMON'),
-            titleTextStyle: TextStyles.headline(context: context, color: theme.backgroundPrimary).copyWith(
+            titleTextStyle: TextStyles.headline(
+                    context: context, color: theme.backgroundPrimary)
+                .copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
             centerTitle: false,
-            // TODO
-            /* actions: [
+            actions: [
               IconButton(
                 icon: Icon(
                   Icons.menu_rounded,
@@ -64,10 +67,15 @@ class _HomePageState extends State<HomePage> {
                   weight: 700,
                 ),
                 onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
+                  showCupertinoModalPopup(
+                    context: context,
+                    barrierColor: context.barrierColor,
+                    barrierDismissible: true,
+                    builder: (_) => const DashboardMenuWidget(),
+                  );
                 },
               ),
-            ], */
+            ],
           ),
           body: ListView(
             shrinkWrap: false,

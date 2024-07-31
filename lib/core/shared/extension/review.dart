@@ -1,4 +1,4 @@
-import 'package:kemon/core/shared/shared.dart';
+import '../shared.dart';
 
 import '../../../features/review/review.dart';
 
@@ -28,7 +28,8 @@ extension RatingEntityExtension on RatingEntity {
   }
 
   double get average {
-    final int totalRating = (5 * five) + (4 * four) + (3 * three) + (2 * two) + one;
+    final int totalRating =
+        (5 * five) + (4 * four) + (3 * three) + (2 * two) + one;
     return total > 0 ? totalRating / total : 0;
   }
 }

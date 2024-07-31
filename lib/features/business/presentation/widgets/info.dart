@@ -51,12 +51,16 @@ class BusinessInformationWidget extends StatelessWidget {
                                   width: 64,
                                   height: 64,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
-                                  errorWidget: (context, error, stackTrace) => const Center(
+                                  placeholder: (context, url) =>
+                                      const ShimmerLabel(
+                                          width: 64, height: 64, radius: 16),
+                                  errorWidget: (context, error, stackTrace) =>
+                                      const Center(
                                     child: Icon(Icons.category_rounded),
                                   ),
                                 )
-                              : const Center(child: Icon(Icons.category_rounded)),
+                              : const Center(
+                                  child: Icon(Icons.category_rounded)),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -71,20 +75,29 @@ class BusinessInformationWidget extends StatelessWidget {
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? "s" : ""} • ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.caption(context: context, color: theme.backgroundPrimary),
+                                      style: TextStyles.caption(
+                                          context: context,
+                                          color: theme.backgroundPrimary),
                                     ),
                                     const SizedBox(height: 4),
                                     RatingBarIndicator(
-                                      itemBuilder: (context, index) => Icon(Icons.star, color: theme.backgroundPrimary),
+                                      itemBuilder: (context, index) => Icon(
+                                          Icons.star,
+                                          color: theme.backgroundPrimary),
                                       itemSize: 16,
                                       rating: rating.average,
-                                      unratedColor: theme.positiveBackgroundTertiary,
+                                      unratedColor:
+                                          theme.positiveBackgroundTertiary,
                                     ),
                                     const SizedBox(height: 4),
                                     Chip(
-                                      backgroundColor: business.verified ? theme.positive : theme.warning,
+                                      backgroundColor: business.verified
+                                          ? theme.positive
+                                          : theme.warning,
                                       avatar: Icon(
-                                        business.verified ? Icons.verified_rounded : Icons.error_rounded,
+                                        business.verified
+                                            ? Icons.verified_rounded
+                                            : Icons.error_rounded,
                                         color: theme.backgroundPrimary,
                                       ),
                                       shape: RoundedRectangleBorder(
@@ -92,7 +105,9 @@ class BusinessInformationWidget extends StatelessWidget {
                                         side: BorderSide.none,
                                       ),
                                       label: Text(
-                                        business.verified ? "Verified" : "Not Verified",
+                                        business.verified
+                                            ? "Verified"
+                                            : "Not Verified",
                                         style: TextStyles.caption(
                                           context: context,
                                           color: theme.backgroundPrimary,
@@ -102,8 +117,10 @@ class BusinessInformationWidget extends StatelessWidget {
                                       ),
                                       side: BorderSide.none,
                                       padding: const EdgeInsets.all(0),
-                                      labelPadding: EdgeInsets.zero.copyWith(right: 8),
-                                      visualDensity: const VisualDensity(vertical: -3),
+                                      labelPadding:
+                                          EdgeInsets.zero.copyWith(right: 8),
+                                      visualDensity:
+                                          const VisualDensity(vertical: -3),
                                     ),
                                   ],
                                 );
@@ -118,7 +135,8 @@ class BusinessInformationWidget extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         business.about,
-                        style: TextStyles.caption(context: context, color: theme.textPrimary),
+                        style: TextStyles.caption(
+                            context: context, color: theme.textPrimary),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),

@@ -34,7 +34,9 @@ class DashboardSearchSectionWidget extends StatelessWidget {
             children: [
               Text(
                 "Trusted Reviews and Ratings Platform in Bangladesh",
-                style: TextStyles.headline(context: context, color: theme.backgroundPrimary).copyWith(
+                style: TextStyles.headline(
+                        context: context, color: theme.backgroundPrimary)
+                    .copyWith(
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -69,7 +71,8 @@ class DashboardSearchSectionWidget extends StatelessWidget {
                             color: theme.primary,
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: Icon(Icons.search, color: theme.backgroundPrimary),
+                          child: Icon(Icons.search,
+                              color: theme.backgroundPrimary),
                         ),
                       ],
                     ),

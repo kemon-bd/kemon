@@ -24,7 +24,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color, fontWeight: FontWeight.normal),
+      textStyle: Theme.of(context)
+          .textTheme
+          .bodyMedium
+          ?.copyWith(color: color, fontWeight: FontWeight.normal),
     );
   }
 
@@ -33,7 +36,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(color: color, height: 1),
+      textStyle: Theme.of(context)
+          .textTheme
+          .titleSmall
+          ?.copyWith(color: color, height: 1),
     );
   }
 
@@ -42,7 +48,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: color, fontWeight: FontWeight.bold),
+      textStyle: Theme.of(context)
+          .textTheme
+          .titleMedium
+          ?.copyWith(color: color, fontWeight: FontWeight.bold),
     );
   }
 
@@ -51,7 +60,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: color, fontWeight: FontWeight.w300),
+      textStyle: Theme.of(context)
+          .textTheme
+          .titleLarge
+          ?.copyWith(color: color, fontWeight: FontWeight.w300),
     );
   }
 
@@ -60,7 +72,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(color: color, fontWeight: FontWeight.w300),
+      textStyle: Theme.of(context)
+          .textTheme
+          .headlineSmall
+          ?.copyWith(color: color, fontWeight: FontWeight.w300),
     );
   }
 
@@ -69,7 +84,10 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(color: color, fontWeight: FontWeight.w400),
+      textStyle: Theme.of(context)
+          .textTheme
+          .headlineMedium
+          ?.copyWith(color: color, fontWeight: FontWeight.w400),
     );
   }
 

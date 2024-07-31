@@ -18,6 +18,9 @@ class RemoteEndpoints {
   //! login
   static Uri get login => Uri.parse('$_baseUrl/token');
 
+  //! registration
+  static Uri get registration => Uri.parse('$_baseUrl/register');
+
   //! lookup
   static Uri get lookup => Uri.parse('$_baseUrl/get-lookup');
 

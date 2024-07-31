@@ -78,3 +78,4 @@ export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_rating_bar/flutter_rating_bar.dart';
 export 'package:expandable/expandable.dart';
+export 'package:pinput/pinput.dart';

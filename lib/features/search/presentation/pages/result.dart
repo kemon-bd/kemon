@@ -33,7 +33,8 @@ class _ResultPageState extends State<ResultPage> {
               onPressed: context.pop,
             ),
             title: Text(widget.query),
-            titleTextStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
+            titleTextStyle:
+                TextStyles.subTitle(context: context, color: theme.textPrimary),
             centerTitle: false,
             actions: const [
               /* IconButton(
@@ -77,7 +78,8 @@ class _ResultPageState extends State<ResultPage> {
                   itemCount: businesses.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + 16),
+                  padding: EdgeInsets.zero
+                      .copyWith(bottom: context.bottomInset + 16),
                 );
               } else if (state is SearchResultError) {
                 return Center(

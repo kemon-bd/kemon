@@ -5,6 +5,6 @@ abstract class IndustryRepository {
   FutureOr<Either<Failure, IndustryEntity>> find({
     required String urlSlug,
   });
-  
+
   FutureOr<Either<Failure, List<IndustryEntity>>> all();
 }

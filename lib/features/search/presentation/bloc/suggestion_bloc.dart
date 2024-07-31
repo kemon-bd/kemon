@@ -7,7 +7,8 @@ import '../../search.dart';
 part 'suggestion_event.dart';
 part 'suggestion_state.dart';
 
-class SearchSuggestionBloc extends Bloc<SearchSuggestionEvent, SearchSuggestionState> {
+class SearchSuggestionBloc
+    extends Bloc<SearchSuggestionEvent, SearchSuggestionState> {
   final SearchSuggestionsUseCase useCase;
   SearchSuggestionBloc({
     required this.useCase,

@@ -10,4 +10,3 @@ export 'domain/repositories/lookup.dart';
 export 'domain/usecases/find.dart';
 
 export 'presentation/bloc/find_bloc.dart';
-export 'presentation/pages/lookup.dart';

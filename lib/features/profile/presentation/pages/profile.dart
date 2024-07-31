@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
         final theme = state.scheme;
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
-          body: Placeholder(),
+          body: const Placeholder(),
         );
       },
     );

@@ -50,7 +50,9 @@ class DashboardRecentReviewsSectionShimmerWidget extends StatelessWidget {
                                   children: [
                                     const ShimmerLabel(width: 78, height: 10.0),
                                     const SizedBox(width: 8),
-                                    Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                    Icon(Icons.circle,
+                                        size: 4,
+                                        color: theme.backgroundTertiary),
                                     const SizedBox(width: 8),
                                     const ShimmerLabel(width: 64, height: 8.0),
                                   ],

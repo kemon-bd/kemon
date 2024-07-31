@@ -4,7 +4,8 @@ import '../../location.dart';
 part 'featured_event.dart';
 part 'featured_state.dart';
 
-class FeaturedLocationsBloc extends Bloc<FeaturedLocationsEvent, FeaturedLocationsState> {
+class FeaturedLocationsBloc
+    extends Bloc<FeaturedLocationsEvent, FeaturedLocationsState> {
   final FeaturedLocationsUseCase useCase;
   FeaturedLocationsBloc({
     required this.useCase,

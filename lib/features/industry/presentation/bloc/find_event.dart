@@ -13,7 +13,7 @@ class FindIndustry extends FindIndustryEvent {
   const FindIndustry({
     required this.urlSlug,
   });
-  
+
   @override
   List<Object> get props => [];
 }

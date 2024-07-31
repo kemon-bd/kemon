@@ -118,7 +118,8 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(
+            token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);

@@ -1,4 +1,5 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+part 'registration.dart';
 part 'search.dart';
 part 'review.dart';
 part 'business.dart';

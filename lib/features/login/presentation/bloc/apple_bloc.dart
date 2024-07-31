@@ -4,7 +4,8 @@ import '../../login.dart';
 part 'apple_event.dart';
 part 'apple_state.dart';
 
-class SignInWithAppleBloc extends Bloc<SignInWithAppleEvent, SignInWithAppleState> {
+class SignInWithAppleBloc
+    extends Bloc<SignInWithAppleEvent, SignInWithAppleState> {
   final AppleSignInUseCase useCase;
   SignInWithAppleBloc({
     required this.useCase,

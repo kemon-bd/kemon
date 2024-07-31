@@ -38,15 +38,22 @@ class BusinessItemShimmerWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ShimmerLabel(width: 72.0 + random.nextInt(112), height: 12, radius: 8),
+                          ShimmerLabel(
+                              width: 72.0 + random.nextInt(112),
+                              height: 12,
+                              radius: 8),
                           const SizedBox(height: 8),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const ShimmerLabel(width: 78, height: 12, radius: 8),
+                              const ShimmerLabel(
+                                  width: 78, height: 12, radius: 8),
                               const SizedBox(width: 16),
-                              ShimmerLabel(width: 64.0 + random.nextInt(64), height: 8, radius: 8),
+                              ShimmerLabel(
+                                  width: 64.0 + random.nextInt(64),
+                                  height: 8,
+                                  radius: 8),
                             ],
                           ),
                         ],
@@ -56,7 +63,8 @@ class BusinessItemShimmerWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0).copyWith(top: 4, bottom: 10),
+                padding:
+                    const EdgeInsets.all(12.0).copyWith(top: 4, bottom: 10),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

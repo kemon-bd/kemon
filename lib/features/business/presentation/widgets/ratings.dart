@@ -18,13 +18,16 @@ class BusinessRatingsWidget extends StatelessWidget {
             } else if (state is FindRatingDone) {
               final RatingEntity rating = state.rating;
               // final bloc = builderContext.read<FindRatingBloc>();
-              return BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
+              return BlocBuilder<FindListingReviewsBloc,
+                  FindListingReviewsState>(
                 builder: (context, state) {
                   if (state is FindListingReviewsDone) {
                     final userGuid = context.auth.guid ?? '';
                     final List<ReviewEntity> reviews = state.reviews;
-                    final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
-                    final ratingWidget = Icon(Icons.star, color: theme.backgroundSecondary);
+                    final bool hasMyReview =
+                        reviews.hasMyReview(userGuid: userGuid);
+                    final ratingWidget =
+                        Icon(Icons.star, color: theme.backgroundSecondary);
                     return ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -68,7 +71,10 @@ class BusinessRatingsWidget extends StatelessWidget {
                           children: [
                             Text(
                               "Reviews",
-                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.title(
+                                      context: context,
+                                      color: theme.textPrimary)
+                                  .copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -77,7 +83,10 @@ class BusinessRatingsWidget extends StatelessWidget {
                             const SizedBox(width: 16),
                             Text(
                               rating.average.toStringAsFixed(1),
-                              style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.subTitle(
+                                      context: context,
+                                      color: theme.textPrimary)
+                                  .copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -87,7 +96,8 @@ class BusinessRatingsWidget extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             "Based on ${rating.total} review${rating.total > 1 ? "s" : ""}",
-                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                            style: TextStyles.body(
+                                context: context, color: theme.textSecondary),
                           ),
                         ],
                         const SizedBox(height: 16),
@@ -158,11 +168,13 @@ class _RatingItem extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               text: label,
-              style: TextStyles.body(context: context, color: theme.textPrimary),
+              style:
+                  TextStyles.body(context: context, color: theme.textPrimary),
               children: [
                 TextSpan(
                   text: " ($count)",
-                  style: TextStyles.caption(context: context, color: theme.textSecondary),
+                  style: TextStyles.caption(
+                      context: context, color: theme.textSecondary),
                 ),
               ],
             ),
@@ -182,7 +194,8 @@ class _RatingItem extends StatelessWidget {
           flex: 2,
           child: Text(
             "${(rating * 100).ceil()}%",
-            style: TextStyles.caption(context: context, color: theme.textPrimary),
+            style:
+                TextStyles.caption(context: context, color: theme.textPrimary),
             textAlign: TextAlign.end,
           ),
         ),

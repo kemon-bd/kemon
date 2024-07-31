@@ -25,7 +25,8 @@ class BusinessPage extends StatelessWidget {
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.backgroundPrimary),
+              icon: Icon(Icons.arrow_back_rounded,
+                  color: theme.backgroundPrimary),
               onPressed: context.pop,
             ),
             title: BlocBuilder<FindBusinessBloc, FindBusinessState>(
@@ -34,7 +35,9 @@ class BusinessPage extends StatelessWidget {
                   final business = state.business;
                   return Text(
                     business.name.full,
-                    style: TextStyles.title(context: context, color: theme.backgroundPrimary).copyWith(
+                    style: TextStyles.title(
+                            context: context, color: theme.backgroundPrimary)
+                        .copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                       height: 1,

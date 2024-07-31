@@ -5,6 +5,7 @@ import '../../features/industry/industry.dart';
 import '../../features/location/location.dart';
 import '../../features/login/login.dart';
 import '../../features/profile/profile.dart';
+import '../../features/registration/registration.dart';
 import '../../features/review/review.dart';
 import '../../features/search/search.dart';
 import '../../features/sub_category/sub_category.dart';
@@ -19,9 +20,15 @@ final router = GoRouter(
       name: HomePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => sl<FeaturedCategoriesBloc>()..add(const FeaturedCategories())),
-          BlocProvider(create: (context) => sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
-          BlocProvider(create: (context) => sl<RecentReviewsBloc>()..add(const RecentReviews())),
+          BlocProvider(
+              create: (context) => sl<FeaturedCategoriesBloc>()
+                ..add(const FeaturedCategories())),
+          BlocProvider(
+              create: (context) =>
+                  sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
+          BlocProvider(
+              create: (context) =>
+                  sl<RecentReviewsBloc>()..add(const RecentReviews())),
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
@@ -33,10 +40,53 @@ final router = GoRouter(
       name: LoginPage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => sl<CheckProfileBloc>()),
+          BlocProvider(
+            create: (context) => sl<FindProfileBloc>()
+              ..add(
+                FindProfile(
+                    identity: Identity.guid(
+                        guid: state.uri.queryParameters['guid']!)),
+              ),
+          ),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
         child: const LoginPage(),
+      ),
+      redirect: (context, state) =>
+          state.uri.queryParameters.containsKey('guid')
+              ? null
+              : CheckProfilePage.path,
+    ),
+    GoRoute(
+      path: CheckProfilePage.path,
+      name: CheckProfilePage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<CheckProfileBloc>()),
+        ],
+        child: const CheckProfilePage(),
+      ),
+    ),
+    GoRoute(
+      path: VerifyOTPPage.path,
+      name: VerifyOTPPage.name,
+      builder: (context, state) => VerifyOTPPage(
+        otp: state.uri.queryParameters['otp']!,
+        username: state.uri.queryParameters['username']!,
+      ),
+    ),
+    GoRoute(
+      path: RegistrationPage.path,
+      name: RegistrationPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<RegistrationBloc>(),
+          ),
+        ],
+        child: RegistrationPage(
+          username: state.uri.queryParameters['username']!,
+        ),
       ),
     ),
     GoRoute(
@@ -121,7 +171,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                    category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -144,7 +195,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                    category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -167,7 +219,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                    category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],

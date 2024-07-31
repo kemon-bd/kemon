@@ -16,6 +16,7 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
   @override
   List<Object> get props => [category];
 }
+
 class ToggleListingType extends FindBusinessesByCategoryEvent {
   final ListingType type;
 

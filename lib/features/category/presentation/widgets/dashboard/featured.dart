@@ -28,8 +28,9 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Featured categories",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
-                      ), 
+                        style: TextStyles.title(
+                            context: context, color: theme.textPrimary),
+                      ),
                       // TODO
                       /* FilterChip(
                         label: Text(
@@ -74,7 +75,8 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100),
                             side: BorderSide(width: 1, color: theme.positive),
                           ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
                           onPressed: () {
                             context.pushNamed(
@@ -88,10 +90,13 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                             imageUrl: category.icon.url,
                             width: 20,
                             height: 20,
-                            errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.positive),
+                            errorWidget: (context, url, error) => Icon(
+                                Icons.layers_outlined,
+                                color: theme.positive),
                           ),
                           label: Text(category.name.full),
-                          labelStyle: TextStyles.subTitle(context: context, color: theme.positive),
+                          labelStyle: TextStyles.subTitle(
+                              context: context, color: theme.positive),
                         );
                       },
                     ),

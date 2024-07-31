@@ -5,7 +5,8 @@ extension BusinessEntityExtension on BusinessEntity {}
 
 extension BusinessModelExtension on BusinessModel {}
 
-extension FindBusinessesByCategoryStateExtension on FindBusinessesByCategoryState {
+extension FindBusinessesByCategoryStateExtension
+    on FindBusinessesByCategoryState {
   FindBusinessesByCategoryState copyWith({
     ListingType? type,
   }) {

@@ -25,7 +25,8 @@ class IndustryPage extends StatelessWidget {
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.backgroundPrimary),
+              icon: Icon(Icons.arrow_back_rounded,
+                  color: theme.backgroundPrimary),
               onPressed: context.pop,
             ),
             title: BlocBuilder<FindIndustryBloc, FindIndustryState>(
@@ -34,7 +35,9 @@ class IndustryPage extends StatelessWidget {
                   final industry = state.industry;
                   return Text(
                     industry.name.full,
-                    style: TextStyles.title(context: context, color: theme.backgroundPrimary).copyWith(
+                    style: TextStyles.title(
+                            context: context, color: theme.backgroundPrimary)
+                        .copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -52,29 +55,35 @@ class IndustryPage extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(color: theme.primary),
                 padding: const EdgeInsets.all(16.0),
-                child: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                child: BlocBuilder<FindBusinessesByCategoryBloc,
+                    FindBusinessesByCategoryState>(
                   builder: (context, state) {
                     if (state is FindBusinessesByCategoryLoading) {
                       return Center(
-                        child: ShimmerLabel(width: context.width * .55, height: 39, radius: 12),
+                        child: ShimmerLabel(
+                            width: context.width * .55, height: 39, radius: 12),
                       );
                     }
                     return Center(
-                      child: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                      child: BlocBuilder<FindBusinessesByCategoryBloc,
+                          FindBusinessesByCategoryState>(
                         builder: (context, state) {
                           if (state is FindBusinessesByCategoryDone) {
                             final int businesses = state.businesses
                                 .where(
-                                  (element) => element.type == ListingType.business,
+                                  (element) =>
+                                      element.type == ListingType.business,
                                 )
                                 .length;
                             final int products = state.businesses
                                 .where(
-                                  (element) => element.type == ListingType.product,
+                                  (element) =>
+                                      element.type == ListingType.product,
                                 )
                                 .length;
 
-                            final bool business = state.type == ListingType.business;
+                            final bool business =
+                                state.type == ListingType.business;
                             return CupertinoSlidingSegmentedControl<bool>(
                               groupValue: business,
                               children: {
@@ -82,29 +91,43 @@ class IndustryPage extends StatelessWidget {
                                   "$businesses Business${businesses > 1 ? 'es' : ''}",
                                   style: TextStyles.subTitle(
                                     context: context,
-                                    color: business ? theme.primary : theme.textPrimary,
+                                    color: business
+                                        ? theme.primary
+                                        : theme.textPrimary,
                                   ).copyWith(
-                                    fontWeight: business ? FontWeight.bold : FontWeight.normal,
+                                    fontWeight: business
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                   ),
                                 ),
                                 false: Text(
                                   "$products Product${products > 1 ? 'es' : ''}",
                                   style: TextStyles.subTitle(
                                     context: context,
-                                    color: !business ? theme.primary : theme.textPrimary,
+                                    color: !business
+                                        ? theme.primary
+                                        : theme.textPrimary,
                                   ).copyWith(
-                                    fontWeight: !business ? FontWeight.bold : FontWeight.normal,
+                                    fontWeight: !business
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                   ),
                                 ),
                               },
                               onValueChanged: (business) {
-                                context.read<FindBusinessesByCategoryBloc>().add(
-                                      ToggleListingType(type: business! ? ListingType.business : ListingType.product),
+                                context
+                                    .read<FindBusinessesByCategoryBloc>()
+                                    .add(
+                                      ToggleListingType(
+                                          type: business!
+                                              ? ListingType.business
+                                              : ListingType.product),
                                     );
                               },
                               thumbColor: theme.backgroundPrimary,
                               padding: const EdgeInsets.all(6.0),
-                              backgroundColor: theme.backgroundPrimary.withAlpha(25),
+                              backgroundColor:
+                                  theme.backgroundPrimary.withAlpha(25),
                             );
                           }
                           return const SizedBox.shrink();
@@ -114,7 +137,8 @@ class IndustryPage extends StatelessWidget {
                   },
                 ),
               ),
-              BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+              BlocBuilder<FindBusinessesByCategoryBloc,
+                  FindBusinessesByCategoryState>(
                 builder: (context, state) {
                   if (state is FindBusinessesByCategoryLoading) {
                     return ListView.separated(
@@ -129,15 +153,19 @@ class IndustryPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                     );
                   } else if (state is FindBusinessesByCategoryDone) {
-                    final businesses = state.businesses.where((element) => element.type == state.type).toList();
+                    final businesses = state.businesses
+                        .where((element) => element.type == state.type)
+                        .toList();
                     return businesses.isNotEmpty
                         ? ListView.separated(
                             cacheExtent: double.maxFinite,
                             itemBuilder: (_, index) {
                               final business = businesses[index];
-                              return BusinessItemWidget(urlSlug: business.urlSlug);
+                              return BusinessItemWidget(
+                                  urlSlug: business.urlSlug);
                             },
-                            separatorBuilder: (_, __) => const SizedBox(height: 16),
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 16),
                             itemCount: businesses.length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -145,10 +173,13 @@ class IndustryPage extends StatelessWidget {
                           )
                         : Center(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: context.height * .25),
                               child: Text(
                                 "No ${state.type == ListingType.business ? 'business' : 'product'} found :(",
-                                style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                                style: TextStyles.title(
+                                    context: context,
+                                    color: theme.backgroundTertiary),
                               ),
                             ),
                           );

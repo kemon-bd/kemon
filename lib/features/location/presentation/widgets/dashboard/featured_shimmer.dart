@@ -40,7 +40,8 @@ class DashboardFeaturedLocationsSectionShimmerWidget extends StatelessWidget {
                   return ActionChip(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
-                      side: BorderSide(width: 1, color: theme.backgroundTertiary),
+                      side:
+                          BorderSide(width: 1, color: theme.backgroundTertiary),
                     ),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     backgroundColor: theme.backgroundSecondary,

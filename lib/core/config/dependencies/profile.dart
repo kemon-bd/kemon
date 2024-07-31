@@ -2,19 +2,21 @@ part of '../config.dart';
 
 Future<void> get profileDependencies async {
   //! ----------------- Bloc -----------------
-
   sl.registerFactory(
     () => FindProfileBloc(
       useCase: sl(),
     ),
   );
-
+  sl.registerFactory(
+    () => CheckProfileBloc(
+      useCase: sl(),
+    ),
+  );
   sl.registerFactory(
     () => UpdateProfileBloc(
       useCase: sl(),
     ),
   );
-
   sl.registerFactory(
     () => DeleteProfileBloc(
       useCase: sl(),
@@ -22,19 +24,21 @@ Future<void> get profileDependencies async {
   );
 
   //! ----------------- UseCase -----------------
-
   sl.registerFactory(
     () => FindProfileUseCase(
       repository: sl(),
     ),
   );
-
+  sl.registerFactory(
+    () => CheckProfileUseCase(
+      repository: sl(),
+    ),
+  );
   sl.registerFactory(
     () => UpdateProfileUseCase(
       repository: sl(),
     ),
   );
-
   sl.registerFactory(
     () => DeleteProfileUseCase(
       repository: sl(),
@@ -57,7 +61,6 @@ Future<void> get profileDependencies async {
       client: sl(),
     ),
   );
-
   sl.registerLazySingleton<ProfileLocalDataSource>(
     () => ProfileLocalDataSourceImpl(),
   );

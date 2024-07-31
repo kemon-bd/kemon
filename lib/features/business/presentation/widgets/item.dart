@@ -17,7 +17,8 @@ class BusinessItemWidget extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return BlocProvider(
-          create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+          create: (_) =>
+              sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
           child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
             builder: (_, state) {
               if (state is FindBusinessDone) {
@@ -28,16 +29,21 @@ class BusinessItemWidget extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (business.contact.website?.isNotEmpty ?? false) ...[
-                              Icon(Icons.public_rounded, color: theme.primary, size: 16),
+                            if (business.contact.website?.isNotEmpty ??
+                                false) ...[
+                              Icon(Icons.public_rounded,
+                                  color: theme.primary, size: 16),
                               const SizedBox(width: 8),
                             ],
-                            if (business.contact.email?.isNotEmpty ?? false) ...[
-                              Icon(Icons.email_outlined, color: theme.primary, size: 16),
+                            if (business.contact.email?.isNotEmpty ??
+                                false) ...[
+                              Icon(Icons.email_outlined,
+                                  color: theme.primary, size: 16),
                               const SizedBox(width: 8),
                             ],
                             if (business.contact.phone?.isNotEmpty ?? false)
-                              Icon(Icons.phone_rounded, color: theme.primary, size: 16),
+                              Icon(Icons.phone_rounded,
+                                  color: theme.primary, size: 16),
                           ],
                         ),
                         ExpandableButton(
@@ -46,11 +52,14 @@ class BusinessItemWidget extends StatelessWidget {
                             children: [
                               Text(
                                 "Latest reviews",
-                                style: TextStyles.subTitle(context: context, color: theme.primary),
+                                style: TextStyles.subTitle(
+                                    context: context, color: theme.primary),
                               ),
                               const SizedBox(width: 4),
                               Icon(
-                                expanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                                expanded
+                                    ? Icons.keyboard_arrow_up_rounded
+                                    : Icons.keyboard_arrow_down_rounded,
                                 color: theme.primary,
                                 size: 16,
                               ),
@@ -89,7 +98,8 @@ class BusinessItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
+                          padding:
+                              const EdgeInsets.all(12.0).copyWith(bottom: 4),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -107,11 +117,19 @@ class BusinessItemWidget extends StatelessWidget {
                                         width: 48,
                                         height: 48,
                                         fit: BoxFit.cover,
-                                        placeholder: (context, url) => const ShimmerLabel(width: 48, height: 48, radius: 8),
-                                        errorWidget: (context, error, stackTrace) =>
-                                            const Center(child: Icon(Icons.category_rounded)),
+                                        placeholder: (context, url) =>
+                                            const ShimmerLabel(
+                                                width: 48,
+                                                height: 48,
+                                                radius: 8),
+                                        errorWidget: (context, error,
+                                                stackTrace) =>
+                                            const Center(
+                                                child: Icon(
+                                                    Icons.category_rounded)),
                                       )
-                                    : const Center(child: Icon(Icons.category_rounded)),
+                                    : const Center(
+                                        child: Icon(Icons.category_rounded)),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
@@ -120,12 +138,16 @@ class BusinessItemWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       business.name.full,
-                                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                      style: TextStyles.subTitle(
+                                          context: context,
+                                          color: theme.textPrimary),
                                     ),
                                     const SizedBox(height: 4),
                                     BlocProvider(
-                                      create: (context) => sl<FindRatingBloc>()..add(FindRating(urlSlug: urlSlug)),
-                                      child: BlocBuilder<FindRatingBloc, FindRatingState>(
+                                      create: (context) => sl<FindRatingBloc>()
+                                        ..add(FindRating(urlSlug: urlSlug)),
+                                      child: BlocBuilder<FindRatingBloc,
+                                          FindRatingState>(
                                         builder: (context, state) {
                                           if (state is FindRatingDone) {
                                             final rating = state.rating;
@@ -133,8 +155,11 @@ class BusinessItemWidget extends StatelessWidget {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 RatingBarIndicator(
-                                                  itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
-                                                  unratedColor: theme.backgroundSecondary,
+                                                  itemBuilder: (_, __) => Icon(
+                                                      Icons.stars_rounded,
+                                                      color: theme.primary),
+                                                  unratedColor:
+                                                      theme.backgroundSecondary,
                                                   rating: rating.average,
                                                   itemCount: 5,
                                                   itemSize: 16,
@@ -143,12 +168,19 @@ class BusinessItemWidget extends StatelessWidget {
                                                 if (rating.average > 0) ...[
                                                   const SizedBox(width: 8),
                                                   Text(
-                                                    rating.average.toStringAsFixed(1),
-                                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                                    rating.average
+                                                        .toStringAsFixed(1),
+                                                    style: TextStyles.body(
+                                                        context: context,
+                                                        color: theme
+                                                            .textSecondary),
                                                   ),
                                                 ],
                                                 const SizedBox(width: 8),
-                                                Icon(Icons.circle, size: 4, color: theme.backgroundSecondary),
+                                                Icon(Icons.circle,
+                                                    size: 4,
+                                                    color: theme
+                                                        .backgroundSecondary),
                                                 const SizedBox(width: 8),
                                                 Text(
                                                   rating.total > 0
@@ -156,7 +188,10 @@ class BusinessItemWidget extends StatelessWidget {
                                                       : 'No review yet',
                                                   style: TextStyles.body(
                                                     context: context,
-                                                    color: rating.total > 0 ? theme.textSecondary : theme.backgroundTertiary,
+                                                    color: rating.total > 0
+                                                        ? theme.textSecondary
+                                                        : theme
+                                                            .backgroundTertiary,
                                                   ),
                                                 ),
                                               ],
@@ -175,7 +210,8 @@ class BusinessItemWidget extends StatelessWidget {
                         ExpandableNotifier(
                           child: Expandable(
                             collapsed: Padding(
-                              padding: const EdgeInsets.all(12.0).copyWith(top: 4),
+                              padding:
+                                  const EdgeInsets.all(12.0).copyWith(top: 4),
                               child: expandWidget(false),
                             ),
                             expanded: ListView(
@@ -185,12 +221,16 @@ class BusinessItemWidget extends StatelessWidget {
                               clipBehavior: Clip.none,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(12.0).copyWith(top: 4),
+                                  padding: const EdgeInsets.all(12.0)
+                                      .copyWith(top: 4),
                                   child: expandWidget(true),
                                 ),
                                 BlocProvider(
-                                  create: (context) => sl<FindListingReviewsBloc>()..add(FindListingReviews(urlSlug: urlSlug)),
-                                  child: BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
+                                  create: (context) => sl<
+                                      FindListingReviewsBloc>()
+                                    ..add(FindListingReviews(urlSlug: urlSlug)),
+                                  child: BlocBuilder<FindListingReviewsBloc,
+                                      FindListingReviewsState>(
                                     builder: (context, state) {
                                       if (state is FindListingReviewsDone) {
                                         final reviews = state.reviews;
@@ -199,77 +239,123 @@ class BusinessItemWidget extends StatelessWidget {
                                             width: context.width,
                                             height: 154,
                                             child: ListView.separated(
-                                              padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                          horizontal: 16)
+                                                      .copyWith(bottom: 12),
                                               shrinkWrap: true,
                                               clipBehavior: Clip.none,
                                               scrollDirection: Axis.horizontal,
-                                              separatorBuilder: (_, __) => const SizedBox(width: 8),
+                                              separatorBuilder: (_, __) =>
+                                                  const SizedBox(width: 8),
                                               itemBuilder: (_, index) {
                                                 final review = reviews[index];
 
                                                 return Container(
                                                   width: context.width * .8,
                                                   decoration: BoxDecoration(
-                                                    color: theme.backgroundPrimary,
-                                                    borderRadius: BorderRadius.circular(12.0),
+                                                    color:
+                                                        theme.backgroundPrimary,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
                                                     border: Border.all(
                                                       width: .1,
-                                                      strokeAlign: BorderSide.strokeAlignOutside,
+                                                      strokeAlign: BorderSide
+                                                          .strokeAlignOutside,
                                                     ),
                                                   ),
                                                   clipBehavior: Clip.none,
                                                   child: ListView(
-                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     shrinkWrap: true,
-                                                    padding: const EdgeInsets.all(16.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
                                                     clipBehavior: Clip.none,
                                                     children: [
                                                       BlocProvider(
-                                                        create: (context) =>
-                                                            sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
-                                                        child: BlocBuilder<FindProfileBloc, FindProfileState>(
-                                                          builder: (context, state) {
-                                                            if (state is FindProfileDone) {
-                                                              final profile = state.profile;
+                                                        create: (context) => sl<
+                                                            FindProfileBloc>()
+                                                          ..add(FindProfile(
+                                                              identity:
+                                                                  review.user)),
+                                                        child: BlocBuilder<
+                                                            FindProfileBloc,
+                                                            FindProfileState>(
+                                                          builder:
+                                                              (context, state) {
+                                                            if (state
+                                                                is FindProfileDone) {
+                                                              final profile =
+                                                                  state.profile;
                                                               return Row(
                                                                 children: [
                                                                   CircleAvatar(
                                                                     radius: 16,
-                                                                    backgroundColor: theme.primary,
-                                                                    backgroundImage: (profile.profilePicture ?? "").isNotEmpty
-                                                                        ? NetworkImage(profile.profilePicture!.url)
+                                                                    backgroundColor:
+                                                                        theme
+                                                                            .primary,
+                                                                    backgroundImage: (profile.profilePicture ??
+                                                                                "")
+                                                                            .isNotEmpty
+                                                                        ? NetworkImage(profile
+                                                                            .profilePicture!
+                                                                            .url)
                                                                         : null,
-                                                                    child: (profile.profilePicture ?? "").isEmpty
+                                                                    child: (profile.profilePicture ??
+                                                                                "")
+                                                                            .isEmpty
                                                                         ? Text(
                                                                             profile.name.symbol,
-                                                                            style: TextStyles.headline(
+                                                                            style:
+                                                                                TextStyles.headline(
                                                                               context: context,
                                                                               color: theme.backgroundPrimary,
                                                                             ),
                                                                           )
                                                                         : null,
                                                                   ),
-                                                                  const SizedBox(width: 8),
+                                                                  const SizedBox(
+                                                                      width: 8),
                                                                   Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     children: [
                                                                       RatingBarIndicator(
-                                                                        rating: review.rating.toDouble(),
-                                                                        itemBuilder: (context, index) => Icon(
-                                                                          Icons.star_rounded,
-                                                                          color: theme.primary,
+                                                                        rating: review
+                                                                            .rating
+                                                                            .toDouble(),
+                                                                        itemBuilder:
+                                                                            (context, index) =>
+                                                                                Icon(
+                                                                          Icons
+                                                                              .star_rounded,
+                                                                          color:
+                                                                              theme.primary,
                                                                         ),
-                                                                        unratedColor: theme.backgroundTertiary,
-                                                                        itemCount: 5,
-                                                                        itemSize: 16,
-                                                                        direction: Axis.horizontal,
+                                                                        unratedColor:
+                                                                            theme.backgroundTertiary,
+                                                                        itemCount:
+                                                                            5,
+                                                                        itemSize:
+                                                                            16,
+                                                                        direction:
+                                                                            Axis.horizontal,
                                                                       ),
                                                                       StreamBuilder(
-                                                                        stream: Stream.periodic(const Duration(seconds: 1)),
-                                                                        builder: (context, snapshot) {
+                                                                        stream: Stream.periodic(const Duration(
+                                                                            seconds:
+                                                                                1)),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
                                                                           return Text(
                                                                             review.date.duration,
-                                                                            style: TextStyles.body(
+                                                                            style:
+                                                                                TextStyles.body(
                                                                               context: context,
                                                                               color: theme.textSecondary,
                                                                             ),
@@ -286,19 +372,32 @@ class BusinessItemWidget extends StatelessWidget {
                                                           },
                                                         ),
                                                       ),
-                                                      const Divider(height: 24, thickness: .25),
+                                                      const Divider(
+                                                          height: 24,
+                                                          thickness: .25),
                                                       Text(
                                                         review.title,
-                                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                                        style:
+                                                            TextStyles.subTitle(
+                                                                context:
+                                                                    context,
+                                                                color: theme
+                                                                    .textPrimary),
                                                       ),
-                                                      if (review.description != null) ...[
-                                                        const SizedBox(height: 4),
+                                                      if (review.description !=
+                                                          null) ...[
+                                                        const SizedBox(
+                                                            height: 4),
                                                         Text(
-                                                          review.description ?? "",
-                                                          style:
-                                                              TextStyles.caption(context: context, color: theme.textSecondary),
+                                                          review.description ??
+                                                              "",
+                                                          style: TextStyles.caption(
+                                                              context: context,
+                                                              color: theme
+                                                                  .textSecondary),
                                                           maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                         ),
                                                       ],
                                                     ],
@@ -310,11 +409,15 @@ class BusinessItemWidget extends StatelessWidget {
                                           );
                                         } else {
                                           return Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
                                             child: Center(
                                               child: Text(
                                                 "No reviews found",
-                                                style: TextStyles.caption(context: context, color: theme.backgroundTertiary),
+                                                style: TextStyles.caption(
+                                                    context: context,
+                                                    color: theme
+                                                        .backgroundTertiary),
                                               ),
                                             ),
                                           );

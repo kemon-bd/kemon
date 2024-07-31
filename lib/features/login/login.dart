@@ -17,3 +17,4 @@ export 'presentation/bloc/apple_bloc.dart';
 export 'presentation/bloc/facebook_bloc.dart';
 export 'presentation/bloc/google_bloc.dart';
 export 'presentation/pages/login.dart';
+export 'presentation/pages/otp.dart';
