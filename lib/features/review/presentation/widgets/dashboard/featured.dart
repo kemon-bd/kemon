@@ -36,9 +36,9 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: PhysicalModel(
-                            color: theme.backgroundSecondary,
-                            elevation: 4,
-                            shadowColor: theme.textSecondary,
+                            color: theme.backgroundPrimary,
+                            elevation: 1,
+                            shadowColor: theme.backgroundTertiary,
                             borderRadius: BorderRadius.circular(12.0),
                             child: ListView(
                               physics: const NeverScrollableScrollPhysics(),
@@ -106,7 +106,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                const Divider(height: 24, thickness: .15),
+                                const Divider(height: 24, thickness: .075),
                                 Text(
                                   review.title,
                                   style: TextStyles.subTitle(context: context, color: theme.textPrimary),

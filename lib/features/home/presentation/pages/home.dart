@@ -4,10 +4,30 @@ import '../../../location/location.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String path = '/home';
   static const String name = 'HomePage';
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (kReleaseMode) {
+      InAppUpdate.checkForUpdate().then(
+        (event) async {
+          if (event.updateAvailability == UpdateAvailability.updateAvailable) {
+            await InAppUpdate.performImmediateUpdate();
+          }
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
