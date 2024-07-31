@@ -51,7 +51,7 @@ class BusinessInformationWidget extends StatelessWidget {
                                   width: 64,
                                   height: 64,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                  placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
                                   errorWidget: (context, error, stackTrace) =>
                                       const Center(child: Icon(Icons.category_rounded)),
                                 )

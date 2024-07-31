@@ -54,10 +54,21 @@ class _ResultPageState extends State<ResultPage> {
           body: BlocBuilder<SearchResultBloc, SearchResultState>(
             builder: (context, state) {
               if (state is SearchResultLoading) {
-                return const CircularProgressIndicator();
+                return ListView.separated(
+                  cacheExtent: double.maxFinite,
+                  itemBuilder: (_, index) {
+                    return const BusinessItemShimmerWidget();
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                );
               } else if (state is SearchResultDone) {
                 final businesses = state.businesses;
                 return ListView.separated(
+                  cacheExtent: double.maxFinite,
                   itemBuilder: (_, index) {
                     final urlSlug = businesses[index];
                     return BusinessItemWidget(urlSlug: urlSlug);

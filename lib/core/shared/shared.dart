@@ -7,6 +7,8 @@ export 'theme/scheme.dart';
 export 'theme/theme_bloc.dart';
 export 'error/failure/failure.dart';
 export 'extension/authentication.dart';
+export 'extension/business.dart';
+export 'extension/category.dart';
 export 'extension/enum.dart';
 export 'extension/token.dart';
 export 'extension/name.dart';

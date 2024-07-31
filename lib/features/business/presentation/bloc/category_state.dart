@@ -1,36 +1,47 @@
 part of 'category_bloc.dart';
 
-abstract class BusinessesByCategoryState extends Equatable {
-  const BusinessesByCategoryState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class BusinessesByCategoryInitial extends BusinessesByCategoryState {
-  const BusinessesByCategoryInitial();
-}
-
-class BusinessesByCategoryLoading extends BusinessesByCategoryState {
-  const BusinessesByCategoryLoading();
-}
-
-class BusinessesByCategoryError extends BusinessesByCategoryState {
-  final Failure failure;
-
-  const BusinessesByCategoryError({
-    required this.failure,
+abstract class FindBusinessesByCategoryState extends Equatable {
+  final ListingType type;
+  const FindBusinessesByCategoryState({
+    required this.type,
   });
 
   @override
-  List<Object> get props => [failure];
+  List<Object> get props => [
+        type,
+      ];
 }
 
-class BusinessesByCategoryDone extends BusinessesByCategoryState {
-  final List<BusinessEntity> businesses;
+class FindBusinessesByCategoryInitial extends FindBusinessesByCategoryState {
+  const FindBusinessesByCategoryInitial({
+    super.type = ListingType.business,
+  });
+}
 
-  const BusinessesByCategoryDone({required this.businesses});
+class FindBusinessesByCategoryLoading extends FindBusinessesByCategoryState {
+  const FindBusinessesByCategoryLoading({required super.type});
+}
+
+class FindBusinessesByCategoryError extends FindBusinessesByCategoryState {
+  final Failure failure;
+
+  const FindBusinessesByCategoryError({
+    required this.failure,
+    required super.type,
+  });
 
   @override
-  List<Object> get props => [businesses];
+  List<Object> get props => [failure, type];
+}
+
+class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
+  final List<BusinessEntity> businesses;
+
+  const FindBusinessesByCategoryDone({
+    required this.businesses,
+    required super.type,
+  });
+
+  @override
+  List<Object> get props => [businesses, type];
 }

@@ -105,5 +105,28 @@ final router = GoRouter(
         ),
       ),
     ),
+    GoRoute(
+      path: CategoryPage.path,
+      name: CategoryPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindCategoryBloc>()
+              ..add(
+                FindCategory(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindBusinessesByCategoryBloc>()
+              ..add(
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+              ),
+          ),
+        ],
+        child: CategoryPage(
+          urlSlug: state.pathParameters['urlSlug']!,
+        ),
+      ),
+    ),
   ],
 );

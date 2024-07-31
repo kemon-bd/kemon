@@ -76,13 +76,12 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
                           onPressed: () {
-                            // TODO
-                            /* context.pushNamed(
-                                  CategoryPage.tag,
-                                  pathParameters: {
-                                    'id': category.urlSlug,
-                                  },
-                                ); */
+                            context.pushNamed(
+                              CategoryPage.name,
+                              pathParameters: {
+                                'urlSlug': category.urlSlug,
+                              },
+                            );
                           },
                           avatar: CachedNetworkImage(
                             imageUrl: category.icon.url,

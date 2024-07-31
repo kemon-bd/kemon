@@ -37,6 +37,7 @@ class BusinessPage extends StatelessWidget {
                     style: TextStyles.title(context: context, color: theme.backgroundPrimary).copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
+                      height: 1,
                     ),
                     maxLines: 2,
                   );

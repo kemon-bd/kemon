@@ -22,39 +22,43 @@ class BusinessItemWidget extends StatelessWidget {
             builder: (_, state) {
               if (state is FindBusinessDone) {
                 final business = state.business;
-                final expandWidget = Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+                expandWidget(expanded) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (business.contact.website?.isNotEmpty ?? false) ...[
-                          Icon(Icons.public_rounded, color: theme.primary, size: 16),
-                          const SizedBox(width: 8),
-                        ],
-                        if (business.contact.email?.isNotEmpty ?? false) ...[
-                          Icon(Icons.email_outlined, color: theme.primary, size: 16),
-                          const SizedBox(width: 8),
-                        ],
-                        if (business.contact.phone?.isNotEmpty ?? false)
-                          Icon(Icons.phone_rounded, color: theme.primary, size: 16),
-                      ],
-                    ),
-                    ExpandableButton(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Latest reviews",
-                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (business.contact.website?.isNotEmpty ?? false) ...[
+                              Icon(Icons.public_rounded, color: theme.primary, size: 16),
+                              const SizedBox(width: 8),
+                            ],
+                            if (business.contact.email?.isNotEmpty ?? false) ...[
+                              Icon(Icons.email_outlined, color: theme.primary, size: 16),
+                              const SizedBox(width: 8),
+                            ],
+                            if (business.contact.phone?.isNotEmpty ?? false)
+                              Icon(Icons.phone_rounded, color: theme.primary, size: 16),
+                          ],
+                        ),
+                        ExpandableButton(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Latest reviews",
+                                style: TextStyles.subTitle(context: context, color: theme.primary),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                expanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                                color: theme.primary,
+                                size: 16,
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 4),
-                          Icon(Icons.keyboard_arrow_up_rounded, color: theme.primary, size: 16),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
+                        ),
+                      ],
+                    );
                 return InkWell(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -73,9 +77,9 @@ class BusinessItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.shade200,
-                          blurRadius: 8,
-                          spreadRadius: 1,
+                          color: theme.backgroundTertiary,
+                          blurRadius: .25,
+                          spreadRadius: .25,
                         ),
                       ],
                     ),
@@ -85,7 +89,7 @@ class BusinessItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -103,7 +107,7 @@ class BusinessItemWidget extends StatelessWidget {
                                         width: 48,
                                         height: 48,
                                         fit: BoxFit.cover,
-                                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                        placeholder: (context, url) => const ShimmerLabel(width: 48, height: 48, radius: 8),
                                         errorWidget: (context, error, stackTrace) =>
                                             const Center(child: Icon(Icons.category_rounded)),
                                       )
@@ -130,27 +134,30 @@ class BusinessItemWidget extends StatelessWidget {
                                               children: [
                                                 RatingBarIndicator(
                                                   itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
-                                                  unratedColor: Colors.grey.shade300,
+                                                  unratedColor: theme.backgroundSecondary,
                                                   rating: rating.average,
                                                   itemCount: 5,
-                                                  itemSize: 12,
+                                                  itemSize: 16,
                                                   direction: Axis.horizontal,
                                                 ),
+                                                if (rating.average > 0) ...[
+                                                  const SizedBox(width: 8),
+                                                  Text(
+                                                    rating.average.toStringAsFixed(1),
+                                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                                  ),
+                                                ],
+                                                const SizedBox(width: 8),
+                                                Icon(Icons.circle, size: 4, color: theme.backgroundSecondary),
                                                 const SizedBox(width: 8),
                                                 Text(
-                                                  rating.average.toStringAsFixed(1),
-                                                  style: TextStyles.body(context: context, color: theme.textSecondary),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Container(
-                                                  width: 1,
-                                                  height: 8,
-                                                  color: Colors.grey.shade200,
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  "${rating.total} review${rating.total > 1 ? 's' : ''}",
-                                                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                                                  rating.total > 0
+                                                      ? "${rating.total} review${rating.total > 1 ? 's' : ''}"
+                                                      : 'No review yet',
+                                                  style: TextStyles.body(
+                                                    context: context,
+                                                    color: rating.total > 0 ? theme.textSecondary : theme.backgroundTertiary,
+                                                  ),
                                                 ),
                                               ],
                                             );
@@ -165,12 +172,11 @@ class BusinessItemWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Divider(height: 1, color: Colors.grey.shade100),
                         ExpandableNotifier(
                           child: Expandable(
                             collapsed: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: expandWidget,
+                              padding: const EdgeInsets.all(12.0).copyWith(top: 4),
+                              child: expandWidget(false),
                             ),
                             expanded: ListView(
                               shrinkWrap: true,
@@ -179,8 +185,8 @@ class BusinessItemWidget extends StatelessWidget {
                               clipBehavior: Clip.none,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: expandWidget,
+                                  padding: const EdgeInsets.all(12.0).copyWith(top: 4),
+                                  child: expandWidget(true),
                                 ),
                                 BlocProvider(
                                   create: (context) => sl<FindListingReviewsBloc>()..add(FindListingReviews(urlSlug: urlSlug)),
@@ -303,7 +309,15 @@ class BusinessItemWidget extends StatelessWidget {
                                             ),
                                           );
                                         } else {
-                                          return const Center(child: Text("No reviews found"));
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
+                                            child: Center(
+                                              child: Text(
+                                                "No reviews found",
+                                                style: TextStyles.caption(context: context, color: theme.backgroundTertiary),
+                                              ),
+                                            ),
+                                          );
                                         }
                                       }
                                       return Container();
@@ -318,6 +332,8 @@ class BusinessItemWidget extends StatelessWidget {
                     ),
                   ),
                 );
+              } else if (state is FindBusinessLoading) {
+                return const BusinessItemShimmerWidget();
               }
               return Container();
             },
