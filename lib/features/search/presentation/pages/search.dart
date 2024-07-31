@@ -292,7 +292,7 @@ class _SearchPageState extends State<SearchPage> {
                               context.pushNamed(
                                 CategoryPage.name,
                                 pathParameters: {
-                                  'id': category.urlSlug,
+                                  'urlSlug': category.urlSlug,
                                 },
                               );
                             },

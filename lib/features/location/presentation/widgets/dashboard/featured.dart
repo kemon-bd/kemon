@@ -28,7 +28,8 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                         "Featured locations",
                         style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
-                      FilterChip(
+                      // TODO
+                      /* FilterChip(
                         label: Text(
                           "See all",
                           style: TextStyles.body(context: context, color: theme.primary).copyWith(
@@ -50,7 +51,7 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                           // TODO:
                           // context.pushNamed(LocationsPage.tag);
                         },
-                      ),
+                      ), */
                     ],
                   ),
                   SizedBox(

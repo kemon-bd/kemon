@@ -29,8 +29,9 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                       Text(
                         "Featured categories",
                         style: TextStyles.title(context: context, color: theme.textPrimary),
-                      ),
-                      FilterChip(
+                      ), 
+                      // TODO
+                      /* FilterChip(
                         label: Text(
                           "See all",
                           style: TextStyles.body(context: context, color: theme.primary).copyWith(
@@ -52,7 +53,7 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                           // TODO:
                           // context.pushNamed(CategoriesPage.tag);
                         },
-                      ),
+                      ), */
                     ],
                   ),
                   SizedBox(

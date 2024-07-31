@@ -33,7 +33,8 @@ class HomePage extends StatelessWidget {
               fontSize: 30,
             ),
             centerTitle: false,
-            actions: [
+            // TODO
+            /* actions: [
               IconButton(
                 icon: Icon(
                   Icons.menu_rounded,
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
                   Scaffold.of(context).openEndDrawer();
                 },
               ),
-            ],
+            ], */
           ),
           body: ListView(
             shrinkWrap: false,
