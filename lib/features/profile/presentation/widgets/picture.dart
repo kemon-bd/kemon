@@ -30,7 +30,7 @@ class ProfilePictureWidget extends StatelessWidget {
           child: BlocBuilder<FindProfileBloc, FindProfileState>(
             builder: (context, state) {
               if (state is FindProfileDone) {
-                final url = state.profile.profilePicture ?? '';
+                final url = state.profile.profilePicture?.url ?? '';
                 return Container(
                   decoration: BoxDecoration(
                     color: backgroundColor ?? theme.primary,
@@ -41,7 +41,7 @@ class ProfilePictureWidget extends StatelessWidget {
                       strokeAlign: BorderSide.strokeAlignInside,
                     ),
                   ),
-                  clipBehavior: Clip.none,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: CachedNetworkImage(
                     imageUrl: url,
                     width: size,

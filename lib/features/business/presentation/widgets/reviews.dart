@@ -34,106 +34,56 @@ class BusinessReviewsWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       children: [
                         BlocProvider(
-                          create: (context) => sl<FindProfileBloc>()
-                            ..add(FindProfile(identity: review.user)),
-                          child: BlocBuilder<FindProfileBloc, FindProfileState>(
-                            builder: (context, state) {
-                              if (state is FindProfileDone) {
-                                final profile = state.profile;
-                                return Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 24,
-                                      backgroundImage:
-                                          (profile.profilePicture ?? "")
-                                                  .isNotEmpty
-                                              ? NetworkImage(
-                                                  profile.profilePicture!.url)
-                                              : null,
-                                      child: (profile.profilePicture ?? "")
-                                              .isEmpty
-                                          ? Text(
-                                              profile.name.symbol,
-                                              style: TextStyles.subTitle(
-                                                      context: context,
-                                                      color: theme.textPrimary)
-                                                  .copyWith(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            )
-                                          : null,
+                          create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
+                          child: Row(
+                            children: [
+                              const ProfilePictureWidget(size: 36),
+                              const SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ProfileNameWidget(
+                                    style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    const SizedBox(width: 16),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          profile.name.full,
-                                          style: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textPrimary)
-                                              .copyWith(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            RatingBarIndicator(
-                                              rating: review.rating.toDouble(),
-                                              itemBuilder: (context, index) =>
-                                                  Icon(Icons.star_rounded,
-                                                      color: theme.primary),
-                                              unratedColor:
-                                                  theme.backgroundTertiary,
-                                              itemCount: 5,
-                                              itemSize: 16,
-                                              direction: Axis.horizontal,
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      RatingBarIndicator(
+                                        rating: review.rating.toDouble(),
+                                        itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
+                                        unratedColor: theme.backgroundTertiary,
+                                        itemCount: 5,
+                                        itemSize: 16,
+                                        direction: Axis.horizontal,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                      const SizedBox(width: 8),
+                                      StreamBuilder(
+                                        stream: Stream.periodic(const Duration(seconds: 1)),
+                                        builder: (context, snapshot) {
+                                          return Text(
+                                            review.date.duration,
+                                            style: TextStyles.caption(context: context, color: theme.textSecondary).copyWith(
+                                              fontWeight: FontWeight.w400,
                                             ),
-                                            const SizedBox(width: 8),
-                                            Icon(Icons.circle,
-                                                size: 4,
-                                                color:
-                                                    theme.backgroundTertiary),
-                                            const SizedBox(width: 8),
-                                            StreamBuilder(
-                                              stream: Stream.periodic(
-                                                  const Duration(seconds: 1)),
-                                              builder: (context, snapshot) {
-                                                return Text(
-                                                  review.date.duration,
-                                                  style: TextStyles.caption(
-                                                          context: context,
-                                                          color: theme
-                                                              .textSecondary)
-                                                      .copyWith(
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              }
-
-                              return Container();
-                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         const Divider(height: 24, thickness: .075),
                         Text(
                           review.title,
-                          style: TextStyles.subTitle(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
+                          style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -141,8 +91,7 @@ class BusinessReviewsWidget extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             review.description ?? "",
-                            style: TextStyles.body(
-                                context: context, color: theme.textSecondary),
+                            style: TextStyles.body(context: context, color: theme.textSecondary),
                           ),
                         ],
                         if (review.photos.isNotEmpty) ...[
@@ -169,14 +118,8 @@ class BusinessReviewsWidget extends StatelessWidget {
                                               child: CachedNetworkImage(
                                                 imageUrl: photo.url,
                                                 fit: BoxFit.cover,
-                                                placeholder: (context, url) =>
-                                                    const Center(
-                                                        child:
-                                                            CircularProgressIndicator()),
-                                                errorWidget: (context, url,
-                                                        error) =>
-                                                    const Icon(Icons
-                                                        .error_outline_rounded),
+                                                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                                errorWidget: (context, url, error) => const Icon(Icons.error_outline_rounded),
                                               ),
                                             ),
                                           ),
@@ -187,13 +130,8 @@ class BusinessReviewsWidget extends StatelessWidget {
                                         width: 64,
                                         height: 64,
                                         fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                                Icons.error_outline_rounded),
+                                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) => const Icon(Icons.error_outline_rounded),
                                       ),
                                     ),
                                   ),
@@ -233,12 +171,10 @@ class BusinessReviewsWidget extends StatelessWidget {
                     ),
                   );
                 },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
+                separatorBuilder: (context, index) => const SizedBox(height: 16),
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: reviews.length,
-                padding: const EdgeInsets.all(16.0)
-                    .copyWith(bottom: 16 + context.bottomInset),
+                padding: const EdgeInsets.all(16.0).copyWith(bottom: 16 + context.bottomInset),
                 shrinkWrap: true,
               );
             }

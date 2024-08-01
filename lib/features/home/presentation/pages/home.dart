@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             title: const Text('KEMON'),
-            titleTextStyle: TextStyles.headline(context: context, color: theme.backgroundPrimary).copyWith(
+            titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(
                   Icons.menu_rounded,
-                  color: theme.backgroundPrimary,
+                  color: theme.white,
                   size: 24.0,
                   grade: 200,
                   weight: 700,

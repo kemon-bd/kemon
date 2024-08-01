@@ -25,8 +25,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                 children: [
                   Text(
                     "Recent reviews",
-                    style: TextStyles.title(
-                        context: context, color: theme.textPrimary),
+                    style: TextStyles.title(context: context, color: theme.textPrimary),
                   ),
                   const SizedBox(height: 16),
                   if (reviews.isNotEmpty)
@@ -47,102 +46,52 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               children: [
                                 BlocProvider(
-                                  create: (context) => sl<FindProfileBloc>()
-                                    ..add(FindProfile(identity: review.user)),
-                                  child: BlocBuilder<FindProfileBloc,
-                                      FindProfileState>(
-                                    builder: (context, state) {
-                                      if (state is FindProfileDone) {
-                                        final profile = state.profile;
-                                        return Row(
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 16,
-                                              backgroundImage:
-                                                  (profile.profilePicture ?? "")
-                                                          .isNotEmpty
-                                                      ? NetworkImage(profile
-                                                          .profilePicture!.url)
-                                                      : null,
-                                              child: (profile.profilePicture ??
-                                                          "")
-                                                      .isEmpty
-                                                  ? Text(profile.name.symbol)
-                                                  : null,
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  profile.name.full,
-                                                  style: TextStyles.subTitle(
-                                                      context: context,
-                                                      color: theme.textPrimary),
-                                                ),
-                                                const SizedBox(height: 2),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    RatingBarIndicator(
-                                                      rating: review.rating
-                                                          .toDouble(),
-                                                      itemBuilder: (context,
-                                                              index) =>
-                                                          Icon(
-                                                              Icons
-                                                                  .star_rounded,
-                                                              color: theme
-                                                                  .primary),
-                                                      unratedColor: theme
-                                                          .textSecondary
-                                                          .withAlpha(50),
-                                                      itemCount: 5,
-                                                      itemSize: 16,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Icon(Icons.circle,
-                                                        size: 4,
-                                                        color: theme
-                                                            .backgroundTertiary),
-                                                    const SizedBox(width: 8),
-                                                    StreamBuilder(
-                                                      stream: Stream.periodic(
-                                                          const Duration(
-                                                              seconds: 1)),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return Text(
-                                                          review.date.duration,
-                                                          style: TextStyles.caption(
-                                                              context: context,
-                                                              color: theme
-                                                                  .textSecondary),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        );
-                                      }
-
-                                      return Container();
-                                    },
+                                  create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
+                                  child: Row(
+                                    children: [
+                                      const ProfilePictureWidget(size: 32),
+                                      const SizedBox(width: 8),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ProfileNameWidget(
+                                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                          ),
+                                          const SizedBox(height: 2),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              RatingBarIndicator(
+                                                rating: review.rating.toDouble(),
+                                                itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
+                                                unratedColor: theme.textSecondary.withAlpha(50),
+                                                itemCount: 5,
+                                                itemSize: 16,
+                                                direction: Axis.horizontal,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                              const SizedBox(width: 8),
+                                              StreamBuilder(
+                                                stream: Stream.periodic(const Duration(seconds: 1)),
+                                                builder: (context, snapshot) {
+                                                  return Text(
+                                                    review.date.duration,
+                                                    style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const Divider(height: 24, thickness: .075),
                                 Text(
                                   review.title,
-                                  style: TextStyles.subTitle(
-                                      context: context,
-                                      color: theme.textPrimary),
+                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
@@ -150,9 +99,7 @@ class DashboardRecentReviewsSectionWidget extends StatelessWidget {
                                   const SizedBox(height: 4),
                                   Text(
                                     review.description ?? "",
-                                    style: TextStyles.body(
-                                        context: context,
-                                        color: theme.textSecondary),
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),

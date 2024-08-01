@@ -48,10 +48,14 @@ class DashboardMenuWidget extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  profile?.name.full ?? "Login for more information.",
-                                  style: TextStyles.title(context: context, color: theme.textPrimary),
-                                ),
+                                profile != null
+                                    ? MyProfileNameWidget(
+                                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                                      )
+                                    : Text(
+                                        "Login for more information.",
+                                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                                      ),
                                 Text(
                                   "@${profile == null ? 'guest' : username.isEmpty ? 'guest' : username}",
                                   style: TextStyles.body(context: context, color: theme.primary),
