@@ -22,5 +22,9 @@ final class RegistrationLoading extends RegistrationState {
 }
 
 final class RegistrationDone extends RegistrationState {
-  const RegistrationDone();
+  final Identity identity;
+
+  const RegistrationDone({
+    required this.identity,
+  });
 }

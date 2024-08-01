@@ -1,7 +1,7 @@
 import '../../../../core/shared/shared.dart';
 
 abstract class RegistrationRepository {
-  FutureOr<Either<Failure, void>> create({
+  FutureOr<Either<Failure, Identity>> create({
     required String username,
     required String password,
     required String refference,

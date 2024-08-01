@@ -24,7 +24,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
       result.fold(
         (failure) => emit(RegistrationError(failure: failure)),
-        (_) => emit(const RegistrationDone()),
+        (identity) => emit(RegistrationDone(identity: identity)),
       );
     });
   }

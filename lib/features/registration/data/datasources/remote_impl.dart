@@ -9,7 +9,7 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
   });
 
   @override
-  FutureOr<void> create({
+  FutureOr<Identity> create({
     required String username,
     required String password,
     required String refference,
@@ -37,10 +37,10 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse = RemoteResponse.parse(response: response);
+      final RemoteResponse<String> networkReponse = RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
-        return;
+        return Identity.guid(guid: networkReponse.result!);
       } else {
         throw RemoteFailure(message: networkReponse.error ?? 'Failed to load profile');
       }

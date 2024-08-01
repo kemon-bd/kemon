@@ -48,8 +48,7 @@ class DashboardMenuWidget extends StatelessWidget {
                                   width: 42,
                                   height: 42,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      const ShimmerIcon(radius: 42),
+                                  placeholder: (context, url) => const ShimmerIcon(radius: 42),
                                   errorWidget: (context, url, error) => avatar,
                                 ),
                               )
@@ -61,15 +60,12 @@ class DashboardMenuWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                profile?.name.full ??
-                                    "Login for more information.",
-                                style: TextStyles.title(
-                                    context: context, color: theme.textPrimary),
+                                profile?.name.full ?? "Login for more information.",
+                                style: TextStyles.title(context: context, color: theme.textPrimary),
                               ),
                               Text(
                                 "@${username.isEmpty ? 'guest' : username}",
-                                style: TextStyles.body(
-                                    context: context, color: theme.primary),
+                                style: TextStyles.body(context: context, color: theme.primary),
                               ),
                             ],
                           ),
@@ -90,8 +86,7 @@ class DashboardMenuWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.backgroundSecondary,
                     borderRadius: BorderRadius.circular(16),
-                    border:
-                        Border.all(color: theme.backgroundTertiary, width: .25),
+                    border: Border.all(color: theme.backgroundTertiary, width: .25),
                   ),
                   child: ListView(
                     shrinkWrap: true,
@@ -101,24 +96,18 @@ class DashboardMenuWidget extends StatelessWidget {
                       ListTile(
                         leading: CircleAvatar(
                           radius: 16,
-                          backgroundColor: themeMode == ThemeMode.dark
-                              ? Colors.orange
-                              : Colors.teal,
+                          backgroundColor: themeMode == ThemeMode.dark ? Colors.orange : Colors.teal,
                           child: Icon(
-                            themeMode == ThemeMode.dark
-                                ? Icons.dark_mode_rounded
-                                : Icons.light_mode_rounded,
+                            themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                             color: Colors.white,
                             size: 16,
                           ),
                         ),
                         title: Text(
                           'Theme',
-                          style: TextStyles.title(
-                              context: context, color: theme.textPrimary),
+                          style: TextStyles.title(context: context, color: theme.textPrimary),
                         ),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
-                            size: 12),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 12),
                         onTap: () {
                           context.read<ThemeBloc>().add(const ToggleTheme());
                         },
@@ -132,30 +121,19 @@ class DashboardMenuWidget extends StatelessWidget {
                     final bool loggedIn = state.profile != null;
                     return Container(
                       decoration: BoxDecoration(
-                        color: loggedIn
-                            ? theme.negative.withAlpha(15)
-                            : theme.positiveBackground,
+                        color: loggedIn ? theme.negative.withAlpha(15) : theme.positiveBackground,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: loggedIn
-                                ? theme.negative
-                                : theme.positiveBackground,
-                            width: .25),
+                        border: Border.all(color: loggedIn ? theme.negative : theme.positiveBackground, width: .25),
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
                           radius: 16,
-                          backgroundColor:
-                              loggedIn ? theme.negative : theme.primary,
-                          child: Icon(Icons.logout_rounded,
-                              color: theme.backgroundPrimary, size: 16),
+                          backgroundColor: loggedIn ? theme.negative : theme.primary,
+                          child: Icon(Icons.logout_rounded, color: theme.backgroundPrimary, size: 16),
                         ),
                         title: Text(
                           loggedIn ? 'Logout' : 'Login',
-                          style: TextStyles.title(
-                              context: context,
-                              color:
-                                  loggedIn ? theme.negative : theme.positive),
+                          style: TextStyles.title(context: context, color: loggedIn ? theme.negative : theme.positive),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,

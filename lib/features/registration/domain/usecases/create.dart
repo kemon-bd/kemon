@@ -8,7 +8,7 @@ class CreateRegistrationUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, void>> call({
+  FutureOr<Either<Failure, Identity>> call({
     required String username,
     required String password,
     required String refference,
