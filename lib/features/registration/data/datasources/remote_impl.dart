@@ -27,7 +27,7 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
       "lastName": name.last,
       "email": contact.email ?? '',
       "phone": contact.phone ?? '',
-      "dob": dob.MMddyyyy,
+      "dob": dob.ddMMyyyy,
       "gender": gender.index.toString(),
     };
 
