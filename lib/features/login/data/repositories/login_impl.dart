@@ -98,6 +98,8 @@ class LoginRepositoryImpl extends LoginRepository {
           ),
         );
 
+        await Future.delayed(const Duration(milliseconds: 1));
+
         return const Right(null);
       } else {
         return Left(NoInternetFailure());

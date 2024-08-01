@@ -120,6 +120,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   LoginPage.name,
                                   queryParameters: {
                                     'guid': state.profile.identity.guid,
+                                    'username': usernameController.text,
                                   },
                                 );
                               } else if (state is CheckProfileNewUser) {

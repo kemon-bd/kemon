@@ -42,7 +42,9 @@ final router = GoRouter(
           ),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
-        child: const LoginPage(),
+        child: LoginPage(
+          username: state.uri.queryParameters['username']!,
+        ),
       ),
       redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
     ),
@@ -79,6 +81,21 @@ final router = GoRouter(
         child: RegistrationPage(
           username: state.uri.queryParameters['username']!,
         ),
+      ),
+    ),
+    GoRoute(
+      path: ProfilePage.path,
+      name: ProfilePage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindUserReviewsBloc>()..add(FindUserReviews(user: context.auth.identity!)),
+          ),
+        ],
+        child: const ProfilePage(),
       ),
     ),
     GoRoute(

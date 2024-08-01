@@ -115,7 +115,7 @@ class ProfileModel extends ProfileEntity {
         map['gender'] is int?,
         'ProfileModel.parse: "gender" is not a int?.',
       );
-      final Gender gender = ((map['gender'] as int?) ?? 0).parseAsGender;
+      final Gender gender = Gender.values.elementAt((map['gender'] as int?) ?? 0);
 
       // assert(
       //   map.containsKey('point'),
@@ -152,8 +152,7 @@ class ProfileModel extends ProfileEntity {
         dob: dob,
       );
     } catch (e, stackTrace) {
-      throw ProfileModelParseFailure(
-          message: e.toString(), stackTrace: stackTrace);
+      throw ProfileModelParseFailure(message: e.toString(), stackTrace: stackTrace);
     }
   }
 

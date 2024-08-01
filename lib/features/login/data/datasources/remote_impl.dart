@@ -79,13 +79,11 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<Map<String, dynamic>> result =
-            RemoteResponse.parse(response: response);
+        final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(response: response);
 
         if (result.success) {
           final TokenModel token = TokenModel.parse(map: result.result!);
-          final ProfileModel profile =
-              ProfileModel.parse(map: result.result!["userInfo"]);
+          final ProfileModel profile = ProfileModel.parse(map: result.result!["userInfo"]);
           return (
             token: token,
             profile: profile,

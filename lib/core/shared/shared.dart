@@ -22,6 +22,7 @@ export 'extension/date_time.dart';
 export 'extension/enum.dart';
 export 'extension/int.dart';
 export 'extension/name.dart';
+export 'extension/profile.dart';
 export 'extension/review.dart';
 export 'extension/search.dart';
 export 'extension/string.dart';

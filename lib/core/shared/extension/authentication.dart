@@ -27,15 +27,13 @@ extension AuthenticationStateExtension on AuthenticationState {
       "password": password,
       "remember": remember,
       "token": token?.toMap,
+      "profile": profile?.toMap,
     };
   }
 }
 
 extension AuthenticationBlocExtension on AuthenticationBloc {
-  bool get authenticated =>
-      state.token != null &&
-      state.token!.accessToken.isNotEmpty &&
-      !state.token!.expired;
+  bool get authenticated => state.token != null && state.token!.accessToken.isNotEmpty && !state.token!.expired;
 
   String? get token => state.token?.accessToken;
   String? get name => state.profile?.name.full;
