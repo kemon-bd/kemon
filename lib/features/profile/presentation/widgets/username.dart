@@ -3,15 +3,10 @@ import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../profile.dart';
 
-class ProfileNameWidget extends StatelessWidget {
+class ProfileUsernameWidget extends StatelessWidget {
   final TextStyle? style;
-  final TextAlign? align;
 
-  const ProfileNameWidget({
-    super.key,
-    this.style,
-    this.align,
-  });
+  const ProfileUsernameWidget({super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +17,8 @@ class ProfileNameWidget extends StatelessWidget {
           builder: (context, state) {
             if (state is FindProfileDone) {
               return Text(
-                state.profile.name.full,
+                state.profile.kemonIdentity.username,
                 style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
-                textAlign: align,
               );
             } else if (state is FindProfileLoading) {
               return const ShimmerLabel(width: 112, height: 12, radius: 12);
@@ -37,14 +31,9 @@ class ProfileNameWidget extends StatelessWidget {
   }
 }
 
-class MyProfileNameWidget extends StatelessWidget {
+class MyProfileUsernameWidget extends StatelessWidget {
   final TextStyle? style;
-  final TextAlign? align;
-  const MyProfileNameWidget({
-    super.key,
-    this.style,
-    this.align,
-  });
+  const MyProfileUsernameWidget({super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +43,7 @@ class MyProfileNameWidget extends StatelessWidget {
         if (profile != null) {
           return BlocProvider(
             create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
-            child: ProfileNameWidget(style: style, align: align),
+            child: ProfileUsernameWidget(style: style),
           );
         }
         return Container();

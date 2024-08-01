@@ -21,3 +21,8 @@ export 'presentation/pages/profile.dart';
 export 'presentation/pages/check.dart';
 export 'presentation/widgets/picture.dart';
 export 'presentation/widgets/name.dart';
+export 'presentation/widgets/username.dart';
+export 'presentation/widgets/point.dart';
+export 'presentation/widgets/info.dart';
+export 'presentation/widgets/features.dart';
+export 'presentation/widgets/preference.dart';

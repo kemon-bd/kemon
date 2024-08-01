@@ -6,6 +6,7 @@ import '../../profile.dart';
 class ProfilePictureWidget extends StatelessWidget {
   final double size;
   final Color? backgroundColor;
+  final Color? placeholderColor;
   final double border;
   final Color? borderColor;
   final VoidCallback? onTap;
@@ -16,6 +17,7 @@ class ProfilePictureWidget extends StatelessWidget {
     this.border = 0,
     this.borderColor,
     this.backgroundColor,
+    this.placeholderColor,
     this.onTap,
   });
 
@@ -51,7 +53,7 @@ class ProfilePictureWidget extends StatelessWidget {
                     errorWidget: (_, __, ___) => Center(
                       child: Text(
                         state.profile.name.symbol,
-                        style: TextStyles.body(context: context, color: theme.white).copyWith(
+                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                           fontSize: size / 2,
                         ),
                       ),
@@ -78,6 +80,7 @@ class MyProfilePictureWidget extends StatelessWidget {
   final bool showWhenUnAuthorized;
   final double size;
   final Color? backgroundColor;
+  final Color? placeholderColor;
   final Color? borderColor;
   final double border;
   final VoidCallback? onTap;
@@ -87,6 +90,7 @@ class MyProfilePictureWidget extends StatelessWidget {
     this.size = 20,
     this.border = 0,
     this.backgroundColor,
+    this.placeholderColor,
     this.borderColor,
     this.onTap,
   });
@@ -103,6 +107,7 @@ class MyProfilePictureWidget extends StatelessWidget {
             child: ProfilePictureWidget(
               size: size,
               backgroundColor: backgroundColor,
+              placeholderColor: placeholderColor,
               borderColor: borderColor,
               border: border,
               onTap: onTap,
