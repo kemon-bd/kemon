@@ -16,3 +16,13 @@ class FindProfile extends FindProfileEvent {
   @override
   List<Object> get props => [identity];
 }
+
+class RefreshProfile extends FindProfileEvent {
+  final Identity identity;
+
+  const RefreshProfile({
+    required this.identity,
+  });
+  @override
+  List<Object> get props => [identity];
+}

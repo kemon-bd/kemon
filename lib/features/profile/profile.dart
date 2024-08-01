@@ -10,6 +10,7 @@ export 'domain/repositories/profile.dart';
 export 'domain/usecases/check.dart';
 export 'domain/usecases/delete.dart';
 export 'domain/usecases/find.dart';
+export 'domain/usecases/refresh.dart';
 export 'domain/usecases/update.dart';
 
 export 'presentation/bloc/check_bloc.dart';
@@ -19,6 +20,7 @@ export 'presentation/bloc/update_bloc.dart';
 
 export 'presentation/pages/profile.dart';
 export 'presentation/pages/check.dart';
+export 'presentation/pages/edit.dart';
 export 'presentation/widgets/picture.dart';
 export 'presentation/widgets/name.dart';
 export 'presentation/widgets/username.dart';

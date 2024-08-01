@@ -94,6 +94,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   }) async {
     final request = MultipartRequest('POST', RemoteEndpoints.updateProfile);
     request.headers.addAll({
+      'authorization': token,
       'userId': profile.identity.guid,
       'firstName': profile.name.first,
       'lastName': profile.name.last,
@@ -101,7 +102,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       'phone': profile.contact.phone ?? '',
       'dob': profile.dob?.toIso8601String() ?? '',
       'gender': profile.gender.index.toString(),
-      'isupload': 'true',
+      'isupload': avatar != null ? 'true' : 'false',
     });
     if (avatar != null) {
       request.files.add(await MultipartFile.fromPath('File', avatar.path));

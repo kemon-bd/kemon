@@ -1,4 +1,5 @@
 import '../../../features/profile/profile.dart';
+import '../shared.dart';
 
 extension ProfileEntityExtension on ProfileEntity {}
 
@@ -18,5 +19,31 @@ extension ProfileModelExtension on ProfileModel {
       "point": kemonIdentity.point,
       "referrar": kemonIdentity.referrer,
     };
+  }
+
+  ProfileModel copyWith({
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    DateTime? dob,
+    Gender? gender,
+  }) {
+    return ProfileModel(
+      identity: identity,
+      name: Name(
+        first: firstName ?? name.first,
+        last: lastName ?? name.last,
+      ),
+      contact: Contact(
+        email: email ?? contact.email,
+        phone: phone ?? contact.phone,
+      ),
+      dob: dob ?? this.dob,
+      gender: gender ?? this.gender,
+      kemonIdentity: kemonIdentity,
+      profilePicture: profilePicture,
+      memberSince: memberSince,
+    );
   }
 }

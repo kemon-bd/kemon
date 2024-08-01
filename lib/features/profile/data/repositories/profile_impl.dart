@@ -92,4 +92,25 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return Left(e);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, ProfileEntity>> refresh({
+    required Identity identity,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await remote.find(identity: identity);
+
+        await local.add(profile: result);
+        auth.add(UpdateAuthorizedProfile(profile: result));
+        await Future.delayed(const Duration(milliseconds: 1));
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
 }

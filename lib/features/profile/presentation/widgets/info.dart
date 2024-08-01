@@ -68,7 +68,14 @@ class ProfileInformationWidget extends StatelessWidget {
                   'Edit profile',
                   style: TextStyles.title(context: context, color: theme.backgroundPrimary),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  final identity = context.auth.identity!;
+                  final bloc = context.read<FindProfileBloc>();
+                  final bool? updated = await context.pushNamed(EditProfilePage.name);
+                  if (updated ?? false) {
+                    bloc.add(RefreshProfile(identity: identity));
+                  }
+                },
               ),
             ],
           ),

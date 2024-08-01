@@ -40,7 +40,7 @@ class ProfilePictureWidget extends StatelessWidget {
                     border: Border.all(
                       color: borderColor ?? Colors.transparent,
                       width: border,
-                      strokeAlign: BorderSide.strokeAlignInside,
+                      strokeAlign: BorderSide.strokeAlignOutside,
                     ),
                   ),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -48,7 +48,7 @@ class ProfilePictureWidget extends StatelessWidget {
                     imageUrl: url,
                     width: size,
                     height: size,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     placeholder: (_, __) => ShimmerIcon(radius: size),
                     errorWidget: (_, __, ___) => Center(
                       child: Text(

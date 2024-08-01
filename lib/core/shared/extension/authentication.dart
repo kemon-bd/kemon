@@ -42,4 +42,5 @@ extension AuthenticationBlocExtension on AuthenticationBloc {
   String? get username => state.username;
   String? get password => state.password;
   bool? get remember => state.remember;
+  ProfileModel? get profile => state.profile;
 }

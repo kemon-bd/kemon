@@ -14,6 +14,10 @@ abstract class ProfileRepository {
     required Identity identity,
   });
 
+  FutureOr<Either<Failure, ProfileEntity>> refresh({
+    required Identity identity,
+  });
+
   FutureOr<Either<Failure, void>> update({
     required ProfileEntity profile,
     XFile? avatar,

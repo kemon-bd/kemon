@@ -26,6 +26,9 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
         ),
       );
     });
+    on<UpdateAuthorizedProfile>((event, emit) {
+      emit(state.copyWith(profile: event.profile));
+    });
 
     on<AuthenticationLogout>((event, emit) async {
       emit(

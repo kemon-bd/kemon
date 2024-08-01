@@ -4,7 +4,8 @@ Future<void> get profileDependencies async {
   //! ----------------- Bloc -----------------
   sl.registerFactory(
     () => FindProfileBloc(
-      useCase: sl(),
+      find: sl(),
+      refresh: sl(),
     ),
   );
   sl.registerFactory(
@@ -26,6 +27,11 @@ Future<void> get profileDependencies async {
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindProfileUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshProfileUseCase(
       repository: sl(),
     ),
   );

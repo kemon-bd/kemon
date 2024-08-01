@@ -86,16 +86,22 @@ final router = GoRouter(
     GoRoute(
       path: ProfilePage.path,
       name: ProfilePage.name,
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
+        child: const ProfilePage(),
+      ),
+    ),
+    GoRoute(
+      path: EditProfilePage.path,
+      name: EditProfilePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
           ),
-          BlocProvider(
-            create: (context) => sl<FindUserReviewsBloc>()..add(FindUserReviews(user: context.auth.identity!)),
-          ),
+          BlocProvider(create: (context) => sl<UpdateProfileBloc>()),
         ],
-        child: const ProfilePage(),
+        child: const EditProfilePage(),
       ),
     ),
     GoRoute(

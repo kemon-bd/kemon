@@ -27,7 +27,10 @@ class ProfileNameWidget extends StatelessWidget {
                 textAlign: align,
               );
             } else if (state is FindProfileLoading) {
-              return const ShimmerLabel(width: 112, height: 12, radius: 12);
+              return const Align(
+                alignment: Alignment.centerLeft,
+                child: ShimmerLabel(width: 112, height: 12, radius: 12),
+              );
             }
             return Container();
           },

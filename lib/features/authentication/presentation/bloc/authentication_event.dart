@@ -26,6 +26,17 @@ class AuthorizeAuthentication extends AuthenticationEvent {
   List<Object> get props => [profile, token, username, password, remember];
 }
 
+class UpdateAuthorizedProfile extends AuthenticationEvent {
+  final ProfileModel profile;
+
+  const UpdateAuthorizedProfile({
+    required this.profile,
+  });
+
+  @override
+  List<Object> get props => [profile];
+}
+
 class AuthenticationLogout extends AuthenticationEvent {
   const AuthenticationLogout();
 
