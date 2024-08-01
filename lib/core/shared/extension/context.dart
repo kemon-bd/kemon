@@ -19,7 +19,7 @@ extension BuildContextExtension on BuildContext {
   ScaffoldMessengerState successNotification({
     required String message,
   }) {
-    final scheme = theme.state.scheme;
+    final scheme = theme.scheme;
     final snackBar = SnackBar(
       content: Text(
         message,
@@ -35,7 +35,7 @@ extension BuildContextExtension on BuildContext {
   ScaffoldMessengerState errorNotification({
     required String message,
   }) {
-    final scheme = theme.state.scheme;
+    final scheme = theme.scheme;
     final snackBar = SnackBar(
       content: Text(
         message,
@@ -52,7 +52,7 @@ extension BuildContextExtension on BuildContext {
   ScaffoldMessengerState warningNotification({
     required String message,
   }) {
-    final scheme = theme.state.scheme;
+    final scheme = theme.scheme;
     final snackBar = SnackBar(
       content: Text(
         message,
@@ -66,11 +66,10 @@ extension BuildContextExtension on BuildContext {
   }
 
   Color get barrierColor {
-    return theme.state.scheme.textPrimary
-        .withOpacity(theme.state.mode == ThemeMode.dark ? .1 : .5);
+    return theme.scheme.textPrimary.withOpacity(theme.mode == ThemeMode.dark ? .1 : .5);
   }
 
-  ThemeBloc get theme => this.read<ThemeBloc>();
+  ThemeState get theme => this.read<ThemeBloc>().state;
 
   AuthenticationBloc get auth => this.read<AuthenticationBloc>();
 }

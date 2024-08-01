@@ -1,3 +1,5 @@
+import 'package:kemon/features/profile/profile.dart';
+
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
 import '../../../location/location.dart';
@@ -50,14 +52,20 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             title: const Text('KEMON'),
-            titleTextStyle: TextStyles.headline(
-                    context: context, color: theme.backgroundPrimary)
-                .copyWith(
+            titleTextStyle: TextStyles.headline(context: context, color: theme.backgroundPrimary).copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
             centerTitle: false,
             actions: [
+              MyProfilePictureWidget(
+                size: 32,
+                border: .25,
+                borderColor: Colors.white,
+                onTap: () {
+                  context.pushNamed(ProfilePage.name);
+                },
+              ),
               IconButton(
                 icon: Icon(
                   Icons.menu_rounded,

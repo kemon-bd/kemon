@@ -19,3 +19,4 @@ export 'presentation/bloc/update_bloc.dart';
 
 export 'presentation/pages/profile.dart';
 export 'presentation/pages/check.dart';
+export 'presentation/widgets/picture.dart';

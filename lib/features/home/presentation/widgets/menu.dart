@@ -11,11 +11,6 @@ class DashboardMenuWidget extends StatelessWidget {
       builder: (context, state) {
         final theme = state.scheme;
         final themeMode = state.mode;
-        final avatar = Icon(
-          Icons.account_circle_outlined,
-          size: 42,
-          color: theme.textPrimary,
-        );
 
         return Material(
           child: Container(
@@ -36,48 +31,43 @@ class DashboardMenuWidget extends StatelessWidget {
                   builder: (context, state) {
                     final profile = state.profile;
                     final username = state.username;
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        (profile?.profilePicture ?? '').isNotEmpty
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(24),
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: CachedNetworkImage(
-                                  imageUrl: profile!.profilePicture!.url,
-                                  width: 42,
-                                  height: 42,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const ShimmerIcon(radius: 42),
-                                  errorWidget: (context, url, error) => avatar,
+                    return InkWell(
+                      onTap: () {
+                        if (profile != null) {
+                          context.pop();
+                          context.pushNamed(ProfilePage.name);
+                        }
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const MyProfilePictureWidget(size: 42, showWhenUnAuthorized: true),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  profile?.name.full ?? "Login for more information.",
+                                  style: TextStyles.title(context: context, color: theme.textPrimary),
                                 ),
-                              )
-                            : avatar,
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                profile?.name.full ?? "Login for more information.",
-                                style: TextStyles.title(context: context, color: theme.textPrimary),
-                              ),
-                              Text(
-                                "@${username.isEmpty ? 'guest' : username}",
-                                style: TextStyles.body(context: context, color: theme.primary),
-                              ),
-                            ],
+                                Text(
+                                  "@${profile == null ? 'guest' : username.isEmpty ? 'guest' : username}",
+                                  style: TextStyles.body(context: context, color: theme.primary),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        IconButton(
-                          icon: Icon(Icons.close, color: theme.textPrimary),
-                          onPressed: () {
-                            context.pop();
-                          },
-                        ),
-                      ],
+                          const SizedBox(width: 16),
+                          IconButton(
+                            icon: Icon(Icons.close, color: theme.textPrimary),
+                            onPressed: () {
+                              context.pop();
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

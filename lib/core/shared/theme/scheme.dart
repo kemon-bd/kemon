@@ -16,6 +16,7 @@ class ThemeScheme {
   final Color shimmer;
   final Color white = Colors.white;
   final Color semiWhite = Colors.white60;
+  final Color semiBlack = Colors.black26;
 
   ThemeScheme({
     required this.backgroundPrimary,
