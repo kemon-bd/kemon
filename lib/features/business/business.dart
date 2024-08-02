@@ -18,3 +18,6 @@ export 'presentation/widgets/item_shimmer.dart';
 export 'presentation/widgets/info.dart';
 export 'presentation/widgets/ratings.dart';
 export 'presentation/widgets/reviews.dart';
+export 'presentation/widgets/claim.dart';
+export 'presentation/widgets/verified.dart';
+export 'presentation/widgets/about.dart';

@@ -22,10 +22,10 @@ class BusinessPage extends StatelessWidget {
           appBar: AppBar(
             elevation: 0,
             scrolledUnderElevation: 0,
-            backgroundColor: theme.primary,
-            surfaceTintColor: theme.primary,
+            backgroundColor: theme.backgroundTertiary,
+            surfaceTintColor: theme.backgroundTertiary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
               onPressed: context.pop,
             ),
             title: BlocBuilder<FindBusinessBloc, FindBusinessState>(
@@ -34,7 +34,7 @@ class BusinessPage extends StatelessWidget {
                   final business = state.business;
                   return Text(
                     business.name.full,
-                    style: TextStyles.title(context: context, color: theme.white).copyWith(
+                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
                       height: 1,
@@ -47,23 +47,23 @@ class BusinessPage extends StatelessWidget {
             ),
             centerTitle: false,
             actions: [
-              BlocBuilder<FindBusinessBloc, FindBusinessState>(
-                builder: (context, state) {
-                  if (state is FindBusinessDone) {
-                    final business = state.business;
-
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (business.claimed) ...[
-                          Icon(Icons.verified, color: theme.white, size: 24),
-                          const SizedBox(width: 16),
-                        ],
-                      ],
-                    );
-                  }
-                  return Container();
+              IconButton(
+                onPressed: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    barrierColor: context.barrierColor,
+                    barrierDismissible: true,
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<FindBusinessBloc>(),
+                      child: const BusinessAboutWidget(),
+                    ),
+                  );
                 },
+                icon: Icon(
+                  Icons.info_rounded,
+                  color: theme.textPrimary,
+                  size: 24,
+                ),
               ),
             ],
           ),

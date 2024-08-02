@@ -143,11 +143,9 @@ class BusinessModel extends BusinessEntity {
         identity: Identity.guid(guid: guid),
         name: Name.full(name: name),
         urlSlug: urlSlug,
-        about: parse(description ?? '').body?.text ?? '',
+        about: description ?? '',
         logo: logo,
-        type: type.like(text: 'product')
-            ? ListingType.product
-            : ListingType.business,
+        type: type.like(text: 'product') ? ListingType.product : ListingType.business,
         claimed: claimed ?? false,
         verified: verified ?? false,
         address: Address.street(street: address),

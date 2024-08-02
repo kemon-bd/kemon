@@ -12,7 +12,7 @@ class BusinessInformationWidget extends StatelessWidget {
         final theme = state.scheme;
         final gradient = LinearGradient(
           colors: [
-            theme.primary,
+            theme.backgroundTertiary,
             theme.backgroundPrimary,
           ],
           begin: Alignment.topCenter,
@@ -72,14 +72,76 @@ class BusinessInformationWidget extends StatelessWidget {
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? "s" : ""} • ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.body(context: context, color: theme.white),
+                                      style: TextStyles.body(context: context, color: theme.textSecondary.withAlpha(150)),
                                     ),
                                     const SizedBox(height: 4),
                                     RatingBarIndicator(
-                                      itemBuilder: (context, index) => Icon(Icons.star, color: theme.white),
+                                      itemBuilder: (context, index) => Icon(Icons.star, color: theme.primary),
                                       itemSize: 16,
                                       rating: rating.average,
-                                      unratedColor: theme.semiWhite.withAlpha(25),
+                                      unratedColor: theme.textSecondary.withAlpha(50),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    if (business.address.formatted.isNotEmpty) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        business.address.formatted,
+                                        style: TextStyles.caption(context: context, color: theme.white),
+                                      ),
+                                    ],
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                              context: context,
+                                              barrierColor: context.barrierColor,
+                                              barrierDismissible: true,
+                                              builder: (_) => BlocProvider.value(
+                                                value: context.read<FindBusinessBloc>(),
+                                                child: const BusinessClaimWidget(),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(
+                                            business.claimed ? Icons.admin_panel_settings_rounded : Icons.privacy_tip_outlined,
+                                            color: business.claimed ? theme.primary : theme.textSecondary.withAlpha(100),
+                                            size: 20,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                              context: context,
+                                              barrierColor: context.barrierColor,
+                                              barrierDismissible: true,
+                                              builder: (_) => BlocProvider.value(
+                                                value: context.read<FindBusinessBloc>(),
+                                                child: const BusinessVerifiedWidget(),
+                                              ),
+                                            );
+                                          },
+                                          icon: business.verified
+                                              ? Icon(Icons.verified, color: theme.primary, size: 20)
+                                                  .animate(
+                                                    onComplete: (controller) => controller.repeat(),
+                                                  )
+                                                  .shake(
+                                                    offset: Offset.zero,
+                                                    rotation: pi / 15,
+                                                    hz: 1,
+                                                    duration: const Duration(seconds: 1),
+                                                    curve: Curves.easeInSine,
+                                                  )
+                                              : Icon(Icons.verified_outlined,
+                                                  color: theme.textSecondary.withAlpha(100), size: 20),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 );
@@ -90,17 +152,6 @@ class BusinessInformationWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (business.about.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        business.about,
-                        style: TextStyles.caption(context: context, color: theme.textPrimary),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    const SizedBox(height: 16),
                   ],
                 );
               }
