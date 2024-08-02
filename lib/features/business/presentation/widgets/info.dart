@@ -35,7 +35,7 @@ class BusinessInformationWidget extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           width: 64,
@@ -72,39 +72,14 @@ class BusinessInformationWidget extends StatelessWidget {
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? "s" : ""} • ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.caption(context: context, color: theme.white),
+                                      style: TextStyles.body(context: context, color: theme.white),
                                     ),
                                     const SizedBox(height: 4),
                                     RatingBarIndicator(
                                       itemBuilder: (context, index) => Icon(Icons.star, color: theme.white),
                                       itemSize: 16,
                                       rating: rating.average,
-                                      unratedColor: theme.positiveBackgroundTertiary,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Chip(
-                                      backgroundColor: business.verified ? theme.positive : theme.warning,
-                                      avatar: Icon(
-                                        business.verified ? Icons.verified_rounded : Icons.error_rounded,
-                                        color: theme.backgroundPrimary,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        side: BorderSide.none,
-                                      ),
-                                      label: Text(
-                                        business.verified ? "Verified" : "Not Verified",
-                                        style: TextStyles.caption(
-                                          context: context,
-                                          color: theme.backgroundPrimary,
-                                        ).copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      side: BorderSide.none,
-                                      padding: const EdgeInsets.all(0),
-                                      labelPadding: EdgeInsets.zero.copyWith(right: 8),
-                                      visualDensity: const VisualDensity(vertical: -3),
+                                      unratedColor: theme.semiWhite.withAlpha(25),
                                     ),
                                   ],
                                 );

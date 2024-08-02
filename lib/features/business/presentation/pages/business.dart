@@ -36,7 +36,7 @@ class BusinessPage extends StatelessWidget {
                     business.name.full,
                     style: TextStyles.title(context: context, color: theme.white).copyWith(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 24,
                       height: 1,
                     ),
                     maxLines: 2,
@@ -46,6 +46,26 @@ class BusinessPage extends StatelessWidget {
               },
             ),
             centerTitle: false,
+            actions: [
+              BlocBuilder<FindBusinessBloc, FindBusinessState>(
+                builder: (context, state) {
+                  if (state is FindBusinessDone) {
+                    final business = state.business;
+
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (business.claimed) ...[
+                          Icon(Icons.verified, color: theme.white, size: 24),
+                          const SizedBox(width: 16),
+                        ],
+                      ],
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ],
           ),
           body: ListView(
             padding: EdgeInsets.zero,

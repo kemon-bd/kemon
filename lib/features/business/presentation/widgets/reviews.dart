@@ -23,11 +23,12 @@ class BusinessReviewsWidget extends StatelessWidget {
               return ListView.separated(
                 itemBuilder: (_, index) {
                   final review = reviews[index];
-                  return PhysicalModel(
-                    color: theme.backgroundPrimary,
-                    elevation: 1,
-                    shadowColor: theme.backgroundTertiary,
-                    borderRadius: BorderRadius.circular(16.0),
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: theme.backgroundPrimary,
+                      borderRadius: BorderRadius.circular(16.0),
+                      border: Border.all(color: theme.backgroundTertiary, width: .75),
+                    ),
                     child: ListView(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -85,6 +86,7 @@ class BusinessReviewsWidget extends StatelessWidget {
                           review.title,
                           style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.bold,
+                            height: 1.25,
                           ),
                         ),
                         if (review.description != null) ...[
