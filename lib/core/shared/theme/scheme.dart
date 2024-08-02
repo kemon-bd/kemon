@@ -17,6 +17,7 @@ class ThemeScheme {
   final Color white = Colors.white;
   final Color semiWhite = Colors.white60;
   final Color semiBlack = Colors.black26;
+  final Color black = Colors.black;
 
   ThemeScheme({
     required this.backgroundPrimary,

@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
         final theme = state.scheme;
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
-          endDrawer: const HomeSideNavWidget(),
           appBar: AppBar(
             elevation: 0,
             scrolledUnderElevation: 0,
