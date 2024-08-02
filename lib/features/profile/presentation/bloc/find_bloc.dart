@@ -21,7 +21,7 @@ class FindProfileBloc extends Bloc<FindProfileEvent, FindProfileState> {
     });
     on<RefreshProfile>((event, emit) async {
       emit(const FindProfileLoading());
-      final result = await find(identity: event.identity);
+      final result = await refresh(identity: event.identity);
       result.fold(
         (failure) => emit(FindProfileError(failure: failure)),
         (profile) => emit(FindProfileDone(profile: profile)),

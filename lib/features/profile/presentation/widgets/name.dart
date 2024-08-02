@@ -6,11 +6,13 @@ import '../../profile.dart';
 class ProfileNameWidget extends StatelessWidget {
   final TextStyle? style;
   final TextAlign? align;
+  final Alignment? shimmerAlignment;
 
   const ProfileNameWidget({
     super.key,
     this.style,
     this.align,
+    this.shimmerAlignment,
   });
 
   @override
@@ -27,9 +29,9 @@ class ProfileNameWidget extends StatelessWidget {
                 textAlign: align,
               );
             } else if (state is FindProfileLoading) {
-              return const Align(
-                alignment: Alignment.centerLeft,
-                child: ShimmerLabel(width: 112, height: 12, radius: 12),
+              return Align(
+                alignment: shimmerAlignment ?? Alignment.centerLeft,
+                child: const ShimmerLabel(width: 112, height: 12, radius: 12),
               );
             }
             return Container();
@@ -43,10 +45,12 @@ class ProfileNameWidget extends StatelessWidget {
 class MyProfileNameWidget extends StatelessWidget {
   final TextStyle? style;
   final TextAlign? align;
+  final Alignment? shimmerAlignment;
   const MyProfileNameWidget({
     super.key,
     this.style,
     this.align,
+    this.shimmerAlignment,
   });
 
   @override
@@ -57,7 +61,7 @@ class MyProfileNameWidget extends StatelessWidget {
         if (profile != null) {
           return BlocProvider(
             create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
-            child: ProfileNameWidget(style: style, align: align),
+            child: ProfileNameWidget(style: style, align: align, shimmerAlignment: shimmerAlignment),
           );
         }
         return Container();

@@ -60,8 +60,8 @@ class _HomePageState extends State<HomePage> {
             actions: [
               MyProfilePictureWidget(
                 size: 32,
-                border: .25,
-                borderColor: Colors.white,
+                border: .5,
+                borderColor: theme.white,
                 onTap: () {
                   context.pushNamed(ProfilePage.name);
                 },
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
           ),
           body: ListView(
             shrinkWrap: false,
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + 16),
             children: const [
               DashboardSearchSectionWidget(),
               DashboardFeaturedCategoriesSectionWidget(),

@@ -1,4 +1,3 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../profile.dart';
@@ -33,28 +32,34 @@ class ProfilePictureWidget extends StatelessWidget {
             builder: (context, state) {
               if (state is FindProfileDone) {
                 final url = state.profile.profilePicture?.url ?? '';
-                return Container(
-                  decoration: BoxDecoration(
-                    color: backgroundColor ?? theme.primary,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: borderColor ?? Colors.transparent,
-                      width: border,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: CachedNetworkImage(
-                    imageUrl: url,
+                return Center(
+                  child: SizedBox(
                     width: size,
                     height: size,
-                    fit: BoxFit.contain,
-                    placeholder: (_, __) => ShimmerIcon(radius: size),
-                    errorWidget: (_, __, ___) => Center(
-                      child: Text(
-                        state.profile.name.symbol,
-                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
-                          fontSize: size / 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: backgroundColor ?? theme.primary,
+                        borderRadius: BorderRadius.circular(size),
+                        border: Border.all(
+                          color: borderColor ?? Colors.transparent,
+                          width: border,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: CachedNetworkImage(
+                        imageUrl: url,
+                        width: size,
+                        height: size,
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) => ShimmerIcon(radius: size),
+                        errorWidget: (_, __, ___) => Center(
+                          child: Text(
+                            state.profile.name.symbol,
+                            style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                              fontSize: size / 2,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -102,15 +107,43 @@ class MyProfilePictureWidget extends StatelessWidget {
         final profile = state.profile;
         final theme = context.theme.scheme;
         if (profile != null) {
-          return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
-            child: ProfilePictureWidget(
-              size: size,
-              backgroundColor: backgroundColor,
-              placeholderColor: placeholderColor,
-              borderColor: borderColor,
-              border: border,
-              onTap: onTap,
+          final url = profile.profilePicture?.url ?? '';
+          final symbol = profile.name.symbol;
+          return Center(
+            child: SizedBox(
+              width: size,
+              height: size,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(size),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: backgroundColor ?? theme.primary,
+                    borderRadius: BorderRadius.circular(size),
+                    border: Border.all(
+                      color: borderColor ?? Colors.transparent,
+                      width: border,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: CachedNetworkImage(
+                    imageUrl: url,
+                    width: size,
+                    height: size,
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => ShimmerIcon(radius: size),
+                    errorWidget: (_, __, ___) => Center(
+                      child: Text(
+                        symbol,
+                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                          fontSize: size / 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           );
         } else if (showWhenUnAuthorized) {

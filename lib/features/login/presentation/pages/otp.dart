@@ -221,7 +221,6 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (formKey.currentState?.validate() ?? false) {
-                                // TODO:
                                 context.pushReplacementNamed(
                                   RegistrationPage.name,
                                   queryParameters: {

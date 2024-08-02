@@ -5,7 +5,7 @@ import 'features/authentication/authentication.dart';
 FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize all the configurations
+  // Initialize all the configurations.
   await AppConfig.init();
 
   runApp(

@@ -44,13 +44,14 @@ class BusinessInformationWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             gradient: gradient,
                             borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: theme.semiWhite, width: .75),
                           ),
                           child: business.logo.isNotEmpty
                               ? CachedNetworkImage(
                                   imageUrl: business.logo.url,
                                   width: 64,
                                   height: 64,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
                                   errorWidget: (context, error, stackTrace) => const Center(
                                     child: Icon(Icons.category_rounded),
