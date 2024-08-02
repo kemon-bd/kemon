@@ -607,6 +607,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     LoginPage.name,
                                     queryParameters: {
                                       'guid': state.identity.guid,
+                                      'username': widget.username,
                                     },
                                   );
                                   context.successNotification(
