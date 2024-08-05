@@ -2,7 +2,11 @@ import '../../../../../core/shared/shared.dart';
 import '../../profile.dart';
 
 class ProfileInformationWidget extends StatelessWidget {
-  const ProfileInformationWidget({super.key});
+  final bool edit;
+  const ProfileInformationWidget({
+    super.key,
+    this.edit = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,35 +53,36 @@ class ProfileInformationWidget extends StatelessWidget {
                 shimmerAlignment: Alignment.center,
               ),
               const SizedBox(height: 12),
-              Text(
-                context.auth.username ?? '',
+              ProfileSinceWidget(
                 style: TextStyles.body(context: context, color: theme.textSecondary.withAlpha(150)).copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1,
                 ),
-                textAlign: TextAlign.center,
+                align: TextAlign.center,
               ),
-              const SizedBox(height: 24),
-              ActionChip(
-                elevation: 4,
-                side: BorderSide.none,
-                shadowColor: theme.semiWhite,
-                backgroundColor: theme.textPrimary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                label: Text(
-                  'Edit profile',
-                  style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+              if (edit) ...[
+                const SizedBox(height: 24),
+                ActionChip(
+                  elevation: 4,
+                  side: BorderSide.none,
+                  shadowColor: theme.semiWhite,
+                  backgroundColor: theme.textPrimary,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  label: Text(
+                    'Edit profile',
+                    style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+                  ),
+                  onPressed: () async {
+                    final identity = context.auth.identity!;
+                    final bloc = context.read<FindProfileBloc>();
+                    final bool? updated = await context.pushNamed(EditProfilePage.name);
+                    if (updated ?? false) {
+                      bloc.add(RefreshProfile(identity: identity));
+                    }
+                  },
                 ),
-                onPressed: () async {
-                  final identity = context.auth.identity!;
-                  final bloc = context.read<FindProfileBloc>();
-                  final bool? updated = await context.pushNamed(EditProfilePage.name);
-                  if (updated ?? false) {
-                    bloc.add(RefreshProfile(identity: identity));
-                  }
-                },
-              ),
+              ]
             ],
           ),
         );

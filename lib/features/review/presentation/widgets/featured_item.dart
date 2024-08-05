@@ -32,13 +32,27 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const ProfilePictureWidget(size: 32),
+                    ProfilePictureWidget(
+                      size: 32,
+                      onTap: () {
+                        context.pushNamed(
+                          PublicProfilePage.name,
+                          pathParameters: {'user': review.user.guid},
+                        );
+                      },
+                    ),
                     const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ProfileNameWidget(
                           style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                          onTap: () {
+                            context.pushNamed(
+                              PublicProfilePage.name,
+                              pathParameters: {'user': review.user.guid},
+                            );
+                          },
                         ),
                         const SizedBox(height: 2),
                         Row(

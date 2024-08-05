@@ -92,6 +92,21 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: PublicProfilePage.path,
+      name: PublicProfilePage.name,
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<FindProfileBloc>()
+          ..add(
+            FindProfile(
+              identity: Identity.guid(guid: state.pathParameters['user']!),
+            ),
+          ),
+        child: PublicProfilePage(
+          identity: Identity.guid(guid: state.pathParameters['user']!),
+        ),
+      ),
+    ),
+    GoRoute(
       path: EditProfilePage.path,
       name: EditProfilePage.name,
       builder: (context, state) => MultiBlocProvider(
@@ -105,14 +120,6 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: MyReviewsPage.path,
-      name: MyReviewsPage.name,
-      builder: (context, state) => BlocProvider(
-        create: (context) => sl<FindUserReviewsBloc>()..add(FindUserReviews(user: context.auth.identity!)),
-        child: const MyReviewsPage(),
-      ),
-    ),
-    GoRoute(
       path: UserReviewsPage.path,
       name: UserReviewsPage.name,
       builder: (context, state) => MultiBlocProvider(
@@ -121,7 +128,7 @@ final router = GoRouter(
             create: (context) => sl<FindProfileBloc>()
               ..add(
                 FindProfile(
-                  identity: Identity.guid(guid: state.uri.queryParameters['userGuid']!),
+                  identity: Identity.guid(guid: state.pathParameters['user']!),
                 ),
               ),
           ),
@@ -129,12 +136,14 @@ final router = GoRouter(
             create: (context) => sl<FindUserReviewsBloc>()
               ..add(
                 FindUserReviews(
-                  user: Identity.guid(guid: state.uri.queryParameters['userGuid']!),
+                  user: Identity.guid(guid: state.pathParameters['user']!),
                 ),
               ),
           ),
         ],
-        child: const UserReviewsPage(),
+        child: UserReviewsPage(
+          identity: Identity.guid(guid: state.pathParameters['user']!),
+        ),
       ),
     ),
     GoRoute(

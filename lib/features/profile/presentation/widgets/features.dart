@@ -31,23 +31,36 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  ListTile(
-                    leading: const CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.blue,
-                      child: Icon(
-                        Icons.reviews_rounded,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ),
-                    title: Text(
-                      'My reviews',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
-                    ),
-                    trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
-                    onTap: () {
-                      context.pushNamed(MyReviewsPage.name);
+                  BlocBuilder<FindProfileBloc, FindProfileState>(
+                    builder: (context, state) {
+                      if (state is FindProfileDone) {
+                        final identity = state.profile.identity;
+                        final name = state.profile.name.first;
+                        return ListTile(
+                          leading: const CircleAvatar(
+                            radius: 16,
+                            backgroundColor: Colors.blue,
+                            child: Icon(
+                              Icons.reviews_rounded,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                          title: Text(
+                            '${identity.guid.like(text: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
+                            style: TextStyles.title(context: context, color: theme.textPrimary),
+                          ),
+                          trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                          onTap: () {
+                            context.pushNamed(
+                              UserReviewsPage.name,
+                              pathParameters: {'user': identity.guid},
+                            );
+                          },
+                        );
+                      } else {
+                        return const Text('reviews');
+                      }
                     },
                   ),
                   const Divider(height: .1, thickness: .1),

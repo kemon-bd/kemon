@@ -25,7 +25,7 @@ class UserReviewsWidget extends StatelessWidget {
               : ListView.separated(
                   itemBuilder: (_, index) {
                     final review = reviews[index];
-                    return BusinessReviewItemWidget(review: review);
+                    return UserReviewItemWidget(review: review);
                   },
                   separatorBuilder: (context, index) => const SizedBox(height: 16),
                   physics: const NeverScrollableScrollPhysics(),

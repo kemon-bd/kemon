@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
               shrinkWrap: false,
               padding: EdgeInsets.zero,
               children: const [
-                ProfileInformationWidget(),
+                ProfileInformationWidget(edit: true),
                 ProfileFeatureOptionsWidget(),
                 ProfilePreferenceWidget(),
               ],

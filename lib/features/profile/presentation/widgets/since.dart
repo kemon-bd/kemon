@@ -3,12 +3,12 @@ import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../profile.dart';
 
-class ProfileUsernameWidget extends StatelessWidget {
+class ProfileSinceWidget extends StatelessWidget {
   final TextStyle? style;
   final TextAlign? align;
   final Alignment? shimmerAlignment;
 
-  const ProfileUsernameWidget({
+  const ProfileSinceWidget({
     super.key,
     this.style,
     this.align,
@@ -24,8 +24,8 @@ class ProfileUsernameWidget extends StatelessWidget {
           builder: (context, state) {
             if (state is FindProfileDone) {
               return Text(
-                state.profile.kemonIdentity.username,
-                style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
+                'Joined on: ${state.profile.memberSince.dMMMMyyyy}.',
+                style: style ?? TextStyles.caption(context: context, color: theme.textPrimary),
                 textAlign: align,
               );
             } else if (state is FindProfileLoading) {
@@ -42,9 +42,9 @@ class ProfileUsernameWidget extends StatelessWidget {
   }
 }
 
-class MyProfileUsernameWidget extends StatelessWidget {
+class MyPublicSinceWidget extends StatelessWidget {
   final TextStyle? style;
-  const MyProfileUsernameWidget({super.key, this.style});
+  const MyPublicSinceWidget({super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class MyProfileUsernameWidget extends StatelessWidget {
         if (profile != null) {
           return BlocProvider(
             create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
-            child: ProfileUsernameWidget(style: style),
+            child: ProfileSinceWidget(style: style),
           );
         }
         return Container();

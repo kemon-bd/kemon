@@ -5,7 +5,13 @@ import '../../review.dart';
 class UserReviewsPage extends StatelessWidget {
   static const String path = '/:user/reviews';
   static const String name = 'UserReviewsPage';
-  const UserReviewsPage({super.key});
+
+  final Identity identity;
+
+  const UserReviewsPage({
+    super.key,
+    required this.identity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +20,23 @@ class UserReviewsPage extends StatelessWidget {
         final theme = state.scheme;
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
-          extendBodyBehindAppBar: true,
           appBar: AppBar(
             backgroundColor: theme.backgroundPrimary,
             surfaceTintColor: theme.backgroundPrimary,
-            title: ProfileNameWidget(style: TextStyles.miniHeadline(context: context, color: theme.textPrimary)),
+            title: BlocBuilder<FindProfileBloc, FindProfileState>(
+              builder: (context, state) {
+                if (state is FindProfileDone) {
+                  final identity = state.profile.identity;
+                  final name = state.profile.name.first;
+                  return Text(
+                    '${identity.guid.like(text: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
+                    style: TextStyles.title(context: context, color: theme.textPrimary),
+                  );
+                } else {
+                  return const Text('reviews');
+                }
+              },
+            ),
             centerTitle: false,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),

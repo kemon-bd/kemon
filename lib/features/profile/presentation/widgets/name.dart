@@ -7,12 +7,14 @@ class ProfileNameWidget extends StatelessWidget {
   final TextStyle? style;
   final TextAlign? align;
   final Alignment? shimmerAlignment;
+  final VoidCallback? onTap;
 
   const ProfileNameWidget({
     super.key,
     this.style,
     this.align,
     this.shimmerAlignment,
+    this.onTap,
   });
 
   @override
@@ -23,10 +25,14 @@ class ProfileNameWidget extends StatelessWidget {
         return BlocBuilder<FindProfileBloc, FindProfileState>(
           builder: (context, state) {
             if (state is FindProfileDone) {
-              return Text(
-                state.profile.name.full,
-                style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
-                textAlign: align,
+              return InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(12),
+                child: Text(
+                  state.profile.name.full,
+                  style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  textAlign: align,
+                ),
               );
             } else if (state is FindProfileLoading) {
               return Align(

@@ -109,52 +109,18 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           const SizedBox(height: 32),
-                          BlocBuilder<FindProfileBloc, FindProfileState>(
-                            builder: (context, state) {
-                              if (state is FindProfileDone) {
-                                final profile = state.profile;
-                                return ListView(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: const EdgeInsets.all(16),
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: theme.positiveBackgroundSecondary,
-                                      backgroundImage: (profile.profilePicture ?? '').isNotEmpty
-                                          ? CachedNetworkImageProvider(profile.profilePicture!.url)
-                                          : null,
-                                      radius: 64,
-                                      child: (profile.profilePicture ?? '').isEmpty
-                                          ? Text(
-                                              profile.name.symbol,
-                                              style: TextStyles.headline(context: context, color: theme.primary),
-                                            )
-                                          : null,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      profile.name.full,
-                                      style: TextStyles.miniHeadline(context: context, color: theme.textSecondary),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                );
-                              } else if (state is FindProfileLoading) {
-                                return ListView(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: const EdgeInsets.all(16),
-                                  children: const [
-                                    ShimmerIcon(radius: 128),
-                                    SizedBox(height: 22),
-                                    Align(child: ShimmerLabel(width: 144, height: 20, radius: 12)),
-                                  ],
-                                );
-                              }
-                              return Container();
-                            },
+                          ProfilePictureWidget(
+                            size: 144,
+                            border: 4,
+                            borderColor: theme.positiveBackgroundTertiary,
                           ),
                           const SizedBox(height: 16),
+                          ProfileNameWidget(
+                            style: TextStyles.miniHeadline(context: context, color: theme.textSecondary),
+                            align: TextAlign.center,
+                            shimmerAlignment: Alignment.center,
+                          ),
+                          const SizedBox(height: 32),
                           TextFormField(
                             style: TextStyles.body(context: context, color: theme.textPrimary),
                             controller: passwordController,

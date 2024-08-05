@@ -28,7 +28,6 @@ export 'presentation/bloc/reviews_bloc.dart';
 export 'presentation/bloc/recent_bloc.dart';
 
 export 'presentation/pages/new.dart';
-export 'presentation/pages/my.dart';
 export 'presentation/pages/user.dart';
 export 'presentation/widgets/featured.dart';
 export 'presentation/widgets/featured_item.dart';

@@ -1,6 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
-import '../../../profile/profile.dart';
+import '../../../business/business.dart';
 import '../../review.dart';
 
 class UserReviewItemWidget extends StatelessWidget {
@@ -27,15 +27,15 @@ class UserReviewItemWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             children: [
               BlocProvider(
-                create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
+                create: (context) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: review.listing)),
                 child: Row(
                   children: [
-                    const ProfilePictureWidget(size: 36),
+                    const BusinessLogoWidget(size: 36),
                     const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProfileNameWidget(
+                        BusinessNameWidget(
                           style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class UserReviewItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(height: 24, thickness: .075),
+              const SizedBox(height: 12),
               Text(
                 review.title,
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(

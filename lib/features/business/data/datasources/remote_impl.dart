@@ -23,21 +23,17 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkReponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkReponse = RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
-        final List<dynamic> data =
-            List<dynamic>.from(networkReponse.result!["listingDatas"]);
+        final List<dynamic> data = List<dynamic>.from(networkReponse.result!["listingDatas"]);
 
         return data.map((e) => BusinessModel.parse(map: e)).toList();
       } else {
-        throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkReponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 
@@ -46,7 +42,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required String urlSlug,
   }) async {
     final Map<String, String> headers = {
-      'urlslug': urlSlug,
+      'urlslug': Uri.encodeComponent(urlSlug),
     };
 
     final Response response = await client.get(
@@ -55,21 +51,17 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<dynamic> networkReponse = RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
-        final Map<String, dynamic> data =
-            networkReponse.result as Map<String, dynamic>;
+        final Map<String, dynamic> data = networkReponse.result as Map<String, dynamic>;
 
         return BusinessModel.parse(map: data);
       } else {
-        throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load business');
+        throw RemoteFailure(message: networkReponse.error ?? 'Failed to load business');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load business');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
     }
   }
 }
