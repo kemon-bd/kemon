@@ -103,21 +103,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                           child: InkWell(
                             onTap: () {
-                              showAdaptiveDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (_) => Center(
-                                  child: AspectRatio(
-                                    aspectRatio: 1,
-                                    child: CachedNetworkImage(
-                                      imageUrl: photo.url,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) => const Icon(Icons.error_outline_rounded),
-                                    ),
-                                  ),
-                                ),
-                              );
+                              context.pushNamed(PhotoPreviewPage.name, pathParameters: {'url': photo.url});
                             },
                             child: CachedNetworkImage(
                               imageUrl: photo.url,

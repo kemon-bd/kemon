@@ -1,0 +1,32 @@
+{
+    "success": true,
+    "error": null,
+    "result": {
+        "ratings": {
+            "total": 2412,
+            "five": 2000,
+            "four": "",
+            "three": true,
+            "two": true,
+            "one": "House-31, Road-10",
+            "phone": "01647376463",
+            "email": "omar@piistech.com",
+            "website": "omar.com",
+            "listingType": "business",
+            "description": "",
+            "urlslug": "test"
+        },
+        "reviews": [
+            {
+                "guid": "",
+                "user": "user",
+                "rating": 4,
+                "title": "Authentic shop",
+                "description": "Recommended for everyone. Great hospitality and reception overall.",
+                "date": "2024-08-03T09:55:11",
+                "likes": 21,
+                "urlslug": "test"
+            }
+        ]
+    }
+}

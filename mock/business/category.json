@@ -1,0 +1,22 @@
+{
+    "success": true,
+    "error": null,
+    "result": {
+        "listingDatas": [
+            {
+                "listingGuid": "",
+                "name": "Test",
+                "icon": "",
+                "claimed": true,
+                "verified": true,
+                "address": "House-31, Road-10",
+                "phone": "01647376463",
+                "email": "omar@piistech.com",
+                "website": "omar.com",
+                "listingType": "business",
+                "description": "",
+                "urlslug": "test"
+            }
+        ]
+    }
+}

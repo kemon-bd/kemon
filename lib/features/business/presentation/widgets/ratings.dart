@@ -17,7 +17,6 @@ class BusinessRatingsWidget extends StatelessWidget {
               return Center(child: Text(state.failure.message));
             } else if (state is FindRatingDone) {
               final RatingEntity rating = state.rating;
-              // final bloc = builderContext.read<FindRatingBloc>();
               return BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
                 builder: (context, state) {
                   if (state is FindListingReviewsDone) {
@@ -43,17 +42,22 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 empty: ratingWidget,
                               ),
                               onRatingUpdate: (value) async {
-                                // TODO
-                                /* final bool? added = await context.pushNamed(
-                                        AddReviewPage.tag,
-                                        queryParameters: {
-                                          'id': business.guid,
-                                          'rating': value.toString(),
-                                        },
-                                      );
-                                      if (added ?? false) {
-                                        bloc.add(FetchFindRating(id: business.guid));
-                                      } */
+                                final ratingBloc = context.read<FindRatingBloc>();
+                                final reviewBloc = context.read<FindListingReviewsBloc>();
+                                final business = context.business;
+                                final bool? added = await context.pushNamed(
+                                  NewReviewPage.name,
+                                  pathParameters: {
+                                    'urlSlug': business.urlSlug,
+                                  },
+                                  queryParameters: {
+                                    'rating': value.toString(),
+                                  },
+                                );
+                                if (added ?? false) {
+                                  ratingBloc.add(FindRating(urlSlug: business.urlSlug));
+                                  reviewBloc.add(FindListingReviews(urlSlug: business.urlSlug));
+                                }
                               },
                               itemCount: 5,
                               glow: false,

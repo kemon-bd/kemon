@@ -215,6 +215,30 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: NewReviewPage.path,
+      name: NewReviewPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindBusinessBloc>()
+              ..add(
+                FindBusiness(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(create: (context) => sl<CreateReviewBloc>()),
+        ],
+        child: NewReviewPage(
+          urlSlug: state.pathParameters['urlSlug']!,
+          rating: double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: PhotoPreviewPage.path,
+      name: PhotoPreviewPage.name,
+      builder: (context, state) => PhotoPreviewPage(url: state.pathParameters['url']!),
+    ),
+    GoRoute(
       path: IndustryPage.path,
       name: IndustryPage.name,
       builder: (context, state) => MultiBlocProvider(

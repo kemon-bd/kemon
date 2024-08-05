@@ -1,0 +1,13 @@
+{
+    "success": true,
+    "error": null,
+    "result": {
+        "featuredCategories": [
+            {
+                "name": "Test",
+                "icon": "",
+                "urlslug": "test"
+            }
+        ]
+    }
+}

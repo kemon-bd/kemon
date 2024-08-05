@@ -1,4 +1,5 @@
 import '../../../features/authentication/authentication.dart';
+import '../../../features/business/business.dart';
 import '../shared.dart';
 
 extension BuildContextExtension on BuildContext {
@@ -72,4 +73,7 @@ extension BuildContextExtension on BuildContext {
   ThemeState get theme => this.read<ThemeBloc>().state;
 
   AuthenticationBloc get auth => this.read<AuthenticationBloc>();
+  FindBusinessBloc get businessBloc => this.read<FindBusinessBloc>();
+  FindBusinessState get businessState => businessBloc.state;
+  BusinessEntity get business => (businessState as FindBusinessDone).business;
 }
