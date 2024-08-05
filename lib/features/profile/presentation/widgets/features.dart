@@ -1,4 +1,5 @@
 import '../../../../../core/shared/shared.dart';
+import '../../../review/review.dart';
 import '../../profile.dart';
 
 class ProfileFeatureOptionsWidget extends StatelessWidget {
@@ -45,6 +46,9 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                    onTap: () {
+                      context.pushNamed(MyReviewsPage.name);
+                    },
                   ),
                   const Divider(height: .1, thickness: .1),
                   ListTile(

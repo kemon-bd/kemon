@@ -105,6 +105,39 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: MyReviewsPage.path,
+      name: MyReviewsPage.name,
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<FindUserReviewsBloc>()..add(FindUserReviews(user: context.auth.identity!)),
+        child: const MyReviewsPage(),
+      ),
+    ),
+    GoRoute(
+      path: UserReviewsPage.path,
+      name: UserReviewsPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindProfileBloc>()
+              ..add(
+                FindProfile(
+                  identity: Identity.guid(guid: state.uri.queryParameters['userGuid']!),
+                ),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindUserReviewsBloc>()
+              ..add(
+                FindUserReviews(
+                  user: Identity.guid(guid: state.uri.queryParameters['userGuid']!),
+                ),
+              ),
+          ),
+        ],
+        child: const UserReviewsPage(),
+      ),
+    ),
+    GoRoute(
       path: SearchPage.path,
       name: SearchPage.name,
       builder: (context, state) => MultiBlocProvider(

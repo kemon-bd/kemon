@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../business.dart';
+import '../../../review/review.dart';
 
 class BusinessPage extends StatelessWidget {
   static const String path = '/business/:urlSlug';

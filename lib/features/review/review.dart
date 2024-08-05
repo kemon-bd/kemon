@@ -27,6 +27,13 @@ export 'presentation/bloc/update_bloc.dart';
 export 'presentation/bloc/reviews_bloc.dart';
 export 'presentation/bloc/recent_bloc.dart';
 
-export 'presentation/pages/review.dart';
-export 'presentation/widgets/dashboard/featured.dart';
-export 'presentation/widgets/dashboard/featured_shimmer.dart';
+export 'presentation/pages/new.dart';
+export 'presentation/pages/my.dart';
+export 'presentation/pages/user.dart';
+export 'presentation/widgets/featured.dart';
+export 'presentation/widgets/featured_item.dart';
+export 'presentation/widgets/featured_shimmer.dart';
+export 'presentation/widgets/business.dart';
+export 'presentation/widgets/business_item.dart';
+export 'presentation/widgets/user.dart';
+export 'presentation/widgets/user_item.dart';

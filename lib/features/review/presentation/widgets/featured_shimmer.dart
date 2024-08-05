@@ -1,7 +1,7 @@
-import '../../../../../core/shared/shared.dart';
+import '../../../../core/shared/shared.dart';
 
-class DashboardRecentReviewsSectionShimmerWidget extends StatelessWidget {
-  const DashboardRecentReviewsSectionShimmerWidget({super.key});
+class FeaturedReviewsShimmerWidget extends StatelessWidget {
+  const FeaturedReviewsShimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +50,7 @@ class DashboardRecentReviewsSectionShimmerWidget extends StatelessWidget {
                                   children: [
                                     const ShimmerLabel(width: 78, height: 10.0),
                                     const SizedBox(width: 8),
-                                    Icon(Icons.circle,
-                                        size: 4,
-                                        color: theme.backgroundTertiary),
+                                    Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
                                     const SizedBox(width: 8),
                                     const ShimmerLabel(width: 64, height: 8.0),
                                   ],

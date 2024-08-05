@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
               DashboardSearchSectionWidget(),
               DashboardFeaturedCategoriesSectionWidget(),
               DashboardFeaturedLocationsSectionWidget(),
-              DashboardRecentReviewsSectionWidget(),
+              FeaturedReviewsWidget(),
             ],
           ),
         );

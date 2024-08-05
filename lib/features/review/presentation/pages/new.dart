@@ -1,9 +1,9 @@
 import '../../../../core/shared/shared.dart';
 
-class ReviewPage extends StatelessWidget {
-  static const String path = '/review';
-  static const String name = 'ReviewPage';
-  const ReviewPage({super.key});
+class NewReviewPage extends StatelessWidget {
+  static const String path = '/business/:urlSlug/new-review';
+  static const String name = 'NewReviewPage';
+  const NewReviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
