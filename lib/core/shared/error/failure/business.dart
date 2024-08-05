@@ -13,3 +13,10 @@ class BusinessNotFoundInLocalCacheFailure extends Failure {
           message: 'Business not found in local cache.',
         );
 }
+
+class BusinessNotFoundByCategoryInLocalCacheFailure extends Failure {
+  BusinessNotFoundByCategoryInLocalCacheFailure()
+      : super(
+          message: 'Business not found by category in local cache.',
+        );
+}

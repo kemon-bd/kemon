@@ -37,10 +37,13 @@ class BusinessRepositoryImpl extends BusinessRepository {
     required String category,
   }) async {
     try {
+      final result = await local.findCategory(urlSlug: category);
+      return Right(result);
+    } on BusinessNotFoundByCategoryInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.category(urlSlug: category);
 
-        await local.addAll(businesses: result);
+        await local.addCategory(category: category, businesses: result);
 
         return Right(result);
       } else {
