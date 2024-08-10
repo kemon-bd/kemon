@@ -137,8 +137,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                           setState(() {});
                                         },
                                         decoration: InputDecoration(
-                                          fillColor: theme.backgroundSecondary,
-                                          filled: true,
                                           hintText: 'required',
                                           isDense: true,
                                           hintStyle: TextStyles.subTitle(
@@ -203,8 +201,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             setState(() {});
                                           },
                                           decoration: InputDecoration(
-                                            fillColor: theme.backgroundSecondary,
-                                            filled: true,
                                             hintText: 'required',
                                             isDense: true,
                                             hintStyle: TextStyles.subTitle(
@@ -301,8 +297,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             setState(() {});
                                           },
                                           decoration: InputDecoration(
-                                            fillColor: theme.backgroundSecondary,
-                                            filled: true,
                                             hintText: 'required',
                                             isDense: true,
                                             hintStyle: TextStyles.subTitle(
@@ -352,8 +346,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                               AutofillHints.nameSuffix,
                                             ],
                                             decoration: InputDecoration(
-                                              fillColor: theme.backgroundSecondary,
-                                              filled: true,
                                               hintText: 'optional',
                                               isDense: true,
                                               hintStyle: TextStyles.subTitle(
@@ -426,8 +418,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             setState(() {});
                                           },
                                           decoration: InputDecoration(
-                                            fillColor: theme.backgroundSecondary,
-                                            filled: true,
                                             hintText: 'required',
                                             isDense: true,
                                             hintStyle: TextStyles.subTitle(
@@ -481,8 +471,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             setState(() {});
                                           },
                                           decoration: InputDecoration(
-                                            fillColor: theme.backgroundSecondary,
-                                            filled: true,
                                             hintText: 'required',
                                             isDense: true,
                                             hintStyle: TextStyles.subTitle(

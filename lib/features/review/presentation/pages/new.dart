@@ -105,12 +105,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     controller: titleController,
                     style: TextStyles.body(context: context, color: theme.textPrimary),
                     validator: (value) => value?.isNotEmpty ?? false ? null : '',
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: theme.backgroundSecondary,
-                      hintText: "required",
-                      hintStyle: TextStyles.body(context: context, color: theme.backgroundTertiary),
-                    ),
+                    decoration: const InputDecoration(hintText: "required"),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -123,12 +118,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     style: TextStyles.body(context: context, color: theme.textPrimary),
                     minLines: 4,
                     maxLines: 8,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: theme.backgroundSecondary,
-                      hintText: "optional",
-                      hintStyle: TextStyles.body(context: context, color: theme.backgroundTertiary),
-                    ),
+                    decoration: const InputDecoration(hintText: "optional"),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -140,12 +130,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     controller: dateController,
                     style: TextStyles.body(context: context, color: theme.textPrimary),
                     readOnly: true,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: theme.backgroundSecondary,
-                      hintText: "optional",
-                      hintStyle: TextStyles.body(context: context, color: theme.backgroundTertiary),
-                    ),
+                    decoration: const InputDecoration(hintText: "optional"),
                     onTap: () async {
                       final DateTime? date = await showDatePicker(
                         context: context,

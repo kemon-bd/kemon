@@ -30,7 +30,15 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
                 child: Row(
                   children: [
-                    const ProfilePictureWidget(size: 36),
+                    ProfilePictureWidget(
+                      size: 36,
+                      onTap: () {
+                        context.pushNamed(
+                          PublicProfilePage.name,
+                          pathParameters: {'user': review.user.guid},
+                        );
+                      },
+                    ),
                     const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,6 +48,12 @@ class BusinessReviewItemWidget extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
+                          onTap: () {
+                            context.pushNamed(
+                              PublicProfilePage.name,
+                              pathParameters: {'user': review.user.guid},
+                            );
+                          },
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,

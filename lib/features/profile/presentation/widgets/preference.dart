@@ -39,7 +39,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                       backgroundColor: themeMode == ThemeMode.dark ? Colors.orange : Colors.blueGrey,
                       child: Icon(
                         themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-                        color: Colors.white,
+                        color: theme.white,
                         size: 16,
                       ),
                     ),
@@ -47,18 +47,18 @@ class ProfilePreferenceWidget extends StatelessWidget {
                       'Theme',
                       style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
-                    trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 12),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.backgroundTertiary),
                     onTap: () {
                       context.read<ThemeBloc>().add(const ToggleTheme());
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  const Divider(height: .1, thickness: .1),
+                  Divider(height: .15, thickness: .15, color: theme.backgroundTertiary),
                   ListTile(
                     leading: const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.pinkAccent,
-                      child: Icon(Icons.policy_rounded, color: Colors.white, size: 16),
+                      child: Icon(Icons.privacy_tip_rounded, color: Colors.white, size: 16),
                     ),
                     title: Text(
                       'Privacy policy',
@@ -70,7 +70,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  const Divider(height: .1, thickness: .1),
+                  Divider(height: .15, thickness: .15, color: theme.backgroundTertiary),
                   ListTile(
                     leading: const CircleAvatar(
                       radius: 16,
@@ -87,21 +87,18 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  const Divider(height: .1, thickness: .1),
+                  Divider(height: .25, thickness: .25, color: theme.negative),
                   ListTile(
-                    leading: const CircleAvatar(
+                    leading: CircleAvatar(
                       radius: 16,
-                      backgroundColor: Colors.red,
-                      child: Icon(
-                        Icons.logout_rounded,
-                        color: Colors.white,
-                        size: 16,
-                      ),
+                      backgroundColor: theme.negative,
+                      child: Icon(Icons.logout_rounded, color: theme.white, size: 16),
                     ),
                     title: Text(
                       'Logout',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.title(context: context, color: theme.negative),
                     ),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.negative),
                     onTap: () {
                       context.read<AuthenticationBloc>().add(const AuthenticationLogout());
                     },

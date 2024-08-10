@@ -128,8 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                             autocorrect: false,
                             validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
                             decoration: InputDecoration(
-                              filled: true,
-                              fillColor: theme.backgroundSecondary,
                               hintText: "password",
                               suffixIcon: IconButton(
                                 padding: EdgeInsets.zero,

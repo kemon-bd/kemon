@@ -34,7 +34,7 @@ class FeaturedReviewsWidget extends StatelessWidget {
                         return FeaturedReviewItemWidget(review: review);
                       },
                       options: CarouselOptions(
-                        aspectRatio: 2.75,
+                        aspectRatio: 2.6,
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
                         enableInfiniteScroll: true,
                         enlargeCenterPage: true,

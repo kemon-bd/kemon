@@ -107,10 +107,16 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     if (avatar != null) {
       request.files.add(await MultipartFile.fromPath('File', avatar.path));
     }
-    final StreamedResponse response = await request.send();
+    final StreamedResponse streamedResponse = await request.send();
+    final response = await Response.fromStream(streamedResponse);
 
     if (response.statusCode == HttpStatus.ok) {
-      return;
+      final networkReponse = RemoteResponse.parse(response: response);
+      if (networkReponse.success) {
+        return;
+      } else {
+        throw RemoteFailure(message: networkReponse.error ?? response.reasonPhrase ?? "Someting went wrong.");
+      }
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }

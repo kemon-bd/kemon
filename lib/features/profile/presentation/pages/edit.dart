@@ -214,10 +214,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 setState(() {});
                                               },
                                               decoration: InputDecoration(
-                                                fillColor: theme.backgroundSecondary,
-                                                filled: true,
                                                 hintText: 'required',
-                                                isDense: true,
                                                 hintStyle: TextStyles.subTitle(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
@@ -264,8 +261,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 AutofillHints.nameSuffix,
                                               ],
                                               decoration: InputDecoration(
-                                                fillColor: theme.backgroundSecondary,
-                                                filled: true,
                                                 hintText: 'optional',
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(
@@ -311,8 +306,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 setState(() {});
                                               },
                                               decoration: InputDecoration(
-                                                fillColor: theme.backgroundSecondary,
-                                                filled: true,
                                                 hintText: 'required',
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(
@@ -366,8 +359,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 setState(() {});
                                               },
                                               decoration: InputDecoration(
-                                                fillColor: theme.backgroundSecondary,
-                                                filled: true,
                                                 hintText: 'required',
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(

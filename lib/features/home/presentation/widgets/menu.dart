@@ -117,7 +117,7 @@ class DashboardMenuWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: loggedIn ? theme.negative.withAlpha(15) : theme.positiveBackground,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: loggedIn ? theme.negative : theme.positiveBackground, width: .25),
+                        border: Border.all(color: loggedIn ? theme.negative : theme.positiveBackground, width: .5),
                       ),
                       child: ListTile(
                         leading: CircleAvatar(

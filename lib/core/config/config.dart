@@ -50,9 +50,8 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme = mode == ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme = mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
-      brightness: Brightness.dark,
       canvasColor: theme.backgroundPrimary,
       scaffoldBackgroundColor: theme.backgroundPrimary,
       splashFactory: InkRipple.splashFactory,
@@ -69,41 +68,25 @@ class AppConfig {
         helperStyle: const TextStyle(height: 0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
-            color: theme.backgroundTertiary,
-            width: .25,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
-            color: theme.backgroundTertiary,
-            width: .25,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
-            color: theme.backgroundTertiary,
-            width: .25,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
+          borderSide: BorderSide.none,
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
-            color: theme.textSecondary,
-            width: .25,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
+          borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: theme.negative,
-            width: .15,
+            color: theme.negative.withAlpha(50),
+            width: 1,
             strokeAlign: BorderSide.strokeAlignOutside,
           ),
         ),
@@ -133,12 +116,12 @@ class AppConfig {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           elevation: 3,
-          backgroundColor: Colors.white,
+          backgroundColor: theme.backgroundPrimary,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
       ),
-      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.backgroundPrimary),
+      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
       iconTheme: IconThemeData(color: theme.textPrimary, size: 20),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(color: theme.backgroundTertiary, thickness: .25),
@@ -150,11 +133,12 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
+        systemOverlayStyle: mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
       ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: theme.primary,
         primary: theme.primary,
-        brightness: Brightness.dark,
+        brightness: mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
       ),
       useMaterial3: true,
     );
