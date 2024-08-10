@@ -37,9 +37,9 @@ class BusinessPage extends StatelessWidget {
                     business.name.full,
                     style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                       fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      height: 1,
+                      height: 1.1,
                     ),
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   );
                 }
@@ -49,6 +49,7 @@ class BusinessPage extends StatelessWidget {
             centerTitle: false,
             actions: [
               IconButton(
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                 onPressed: () {
                   showCupertinoModalPopup(
                     context: context,
@@ -60,11 +61,7 @@ class BusinessPage extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(
-                  Icons.info_rounded,
-                  color: theme.textPrimary,
-                  size: 24,
-                ),
+                icon: Icon(Icons.info_outline_rounded, color: theme.primary),
               ),
             ],
           ),
