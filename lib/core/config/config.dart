@@ -133,7 +133,10 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
+        systemOverlayStyle: (mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        ),
       ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: theme.primary,
