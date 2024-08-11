@@ -1,6 +1,5 @@
 import '../../../../../core/config/config.dart';
 import '../../../../../core/shared/shared.dart';
-import '../../../profile/profile.dart';
 import '../../../review/review.dart';
 import '../../business.dart';
 
@@ -133,6 +132,7 @@ class BusinessItemWidget extends StatelessWidget {
                                             final rating = state.rating;
                                             return Row(
                                               mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 RatingBarIndicator(
                                                   itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
@@ -156,7 +156,7 @@ class BusinessItemWidget extends StatelessWidget {
                                                   rating.total > 0
                                                       ? "${rating.total} review${rating.total > 1 ? 's' : ''}"
                                                       : 'No review yet',
-                                                  style: TextStyles.body(
+                                                  style: TextStyles.caption(
                                                     context: context,
                                                     color: rating.total > 0 ? theme.textSecondary : theme.backgroundTertiary,
                                                   ),
@@ -183,7 +183,7 @@ class BusinessItemWidget extends StatelessWidget {
                             expanded: ListView(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.zero.copyWith(bottom: 12),
                               clipBehavior: Clip.none,
                               children: [
                                 Padding(
@@ -197,117 +197,25 @@ class BusinessItemWidget extends StatelessWidget {
                                       if (state is FindListingReviewsDone) {
                                         final reviews = state.reviews;
                                         if (reviews.isNotEmpty) {
-                                          return SizedBox(
-                                            width: context.width,
-                                            height: 154,
-                                            child: ListView.separated(
-                                              padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
-                                              shrinkWrap: true,
-                                              clipBehavior: Clip.none,
+                                          return CarouselSlider.builder(
+                                            itemCount: reviews.length,
+                                            itemBuilder: (_, index, __) {
+                                              final review = reviews[index];
+                                              return FeaturedReviewItemWidget(review: review);
+                                            },
+                                            options: CarouselOptions(
+                                              aspectRatio: 2.6,
+                                              enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                              enableInfiniteScroll: true,
+                                              enlargeCenterPage: true,
+                                              enlargeFactor: .33,
                                               scrollDirection: Axis.horizontal,
-                                              separatorBuilder: (_, __) => const SizedBox(width: 8),
-                                              itemBuilder: (_, index) {
-                                                final review = reviews[index];
-
-                                                return Container(
-                                                  width: context.width * .8,
-                                                  decoration: BoxDecoration(
-                                                    color: theme.backgroundPrimary,
-                                                    borderRadius: BorderRadius.circular(12.0),
-                                                    border: Border.all(
-                                                      width: .1,
-                                                      strokeAlign: BorderSide.strokeAlignOutside,
-                                                    ),
-                                                  ),
-                                                  clipBehavior: Clip.none,
-                                                  child: ListView(
-                                                    physics: const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    padding: const EdgeInsets.all(16.0),
-                                                    clipBehavior: Clip.none,
-                                                    children: [
-                                                      BlocProvider(
-                                                        create: (context) =>
-                                                            sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
-                                                        child: BlocBuilder<FindProfileBloc, FindProfileState>(
-                                                          builder: (context, state) {
-                                                            if (state is FindProfileDone) {
-                                                              final profile = state.profile;
-                                                              return Row(
-                                                                children: [
-                                                                  CircleAvatar(
-                                                                    radius: 16,
-                                                                    backgroundColor: theme.primary,
-                                                                    backgroundImage: (profile.profilePicture ?? "").isNotEmpty
-                                                                        ? NetworkImage(profile.profilePicture!.url)
-                                                                        : null,
-                                                                    child: (profile.profilePicture ?? "").isEmpty
-                                                                        ? Text(
-                                                                            profile.name.symbol,
-                                                                            style: TextStyles.headline(
-                                                                              context: context,
-                                                                              color: theme.backgroundPrimary,
-                                                                            ),
-                                                                          )
-                                                                        : null,
-                                                                  ),
-                                                                  const SizedBox(width: 8),
-                                                                  Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      RatingBarIndicator(
-                                                                        rating: review.rating.toDouble(),
-                                                                        itemBuilder: (context, index) => Icon(
-                                                                          Icons.star_rounded,
-                                                                          color: theme.primary,
-                                                                        ),
-                                                                        unratedColor: theme.backgroundTertiary,
-                                                                        itemCount: 5,
-                                                                        itemSize: 16,
-                                                                        direction: Axis.horizontal,
-                                                                      ),
-                                                                      StreamBuilder(
-                                                                        stream: Stream.periodic(const Duration(seconds: 1)),
-                                                                        builder: (context, snapshot) {
-                                                                          return Text(
-                                                                            review.date.duration,
-                                                                            style: TextStyles.body(
-                                                                              context: context,
-                                                                              color: theme.textSecondary,
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            }
-
-                                                            return Container();
-                                                          },
-                                                        ),
-                                                      ),
-                                                      const Divider(height: 24, thickness: .25),
-                                                      Text(
-                                                        review.title,
-                                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                                                      ),
-                                                      if (review.description != null) ...[
-                                                        const SizedBox(height: 4),
-                                                        Text(
-                                                          review.description ?? "",
-                                                          style:
-                                                              TextStyles.caption(context: context, color: theme.textSecondary),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
-                                                        ),
-                                                      ],
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              itemCount: reviews.length,
+                                              autoPlay: true,
+                                              autoPlayAnimationDuration: const Duration(seconds: 1),
+                                              autoPlayInterval: const Duration(seconds: 5),
+                                              viewportFraction: .9,
+                                              clipBehavior: Clip.none,
+                                              padEnds: true,
                                             ),
                                           );
                                         } else {

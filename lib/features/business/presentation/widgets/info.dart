@@ -97,9 +97,12 @@ class BusinessInformationWidget extends StatelessWidget {
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        if (business.contact.phone != null) ...[
+                                        if ((business.contact.phone ?? '').isNotEmpty) ...[
                                           ActionChip(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'tel', path: business.contact.phone);
+                                              launchUrl(uri);
+                                            },
                                             padding: EdgeInsets.zero,
                                             backgroundColor: theme.positiveBackground,
                                             side: BorderSide(color: theme.primary, width: 1),
@@ -113,9 +116,12 @@ class BusinessInformationWidget extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8),
                                         ],
-                                        if (business.contact.email != null) ...[
+                                        if ((business.contact.email ?? '').isNotEmpty) ...[
                                           ActionChip(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'mailto', path: business.contact.phone);
+                                              launchUrl(uri);
+                                            },
                                             padding: EdgeInsets.zero,
                                             backgroundColor: theme.positiveBackground,
                                             side: BorderSide(color: theme.primary, width: 1),
@@ -131,7 +137,10 @@ class BusinessInformationWidget extends StatelessWidget {
                                         ],
                                         if (business.address.formatted.isNotEmpty) ...[
                                           ActionChip(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'geo', path: business.address.formatted);
+                                              launchUrl(uri);
+                                            },
                                             padding: EdgeInsets.zero,
                                             backgroundColor: theme.positiveBackground,
                                             side: BorderSide(color: theme.primary, width: 1),
@@ -145,9 +154,13 @@ class BusinessInformationWidget extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8),
                                         ],
-                                        if (business.contact.website != null) ...[
+                                        if ((business.contact.website ?? '').isNotEmpty) ...[
                                           ActionChip(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              final uri =
+                                                  Uri(scheme: 'https', path: business.contact.website!.replaceAll('https', ''));
+                                              launchUrl(uri);
+                                            },
                                             padding: EdgeInsets.zero,
                                             backgroundColor: theme.positiveBackground,
                                             side: BorderSide(color: theme.primary, width: 1),
