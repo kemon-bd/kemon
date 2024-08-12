@@ -113,4 +113,43 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return Left(e);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, void>> deactivateAccount({
+    required String otp,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await remote.deactivateAccount(
+          token: auth.token!,
+          username: auth.username!,
+          otp: otp,
+        );
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, String>> generateOtpForAccountDeactivation() async {
+    try {
+      if (await network.online) {
+        final result = await remote.generateOtpForAccountDeactivation(
+          token: auth.token!,
+          username: auth.username!,
+        );
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
 }

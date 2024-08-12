@@ -1,5 +1,4 @@
 import '../../../../../core/shared/shared.dart';
-import '../../../authentication/authentication.dart';
 
 class ProfilePreferenceWidget extends StatelessWidget {
   const ProfilePreferenceWidget({super.key});
@@ -36,7 +35,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 16,
-                      backgroundColor: themeMode == ThemeMode.dark ? Colors.orange : Colors.blueGrey,
+                      backgroundColor: themeMode == ThemeMode.dark ? Colors.indigoAccent : Colors.lightBlue,
                       child: Icon(
                         themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                         color: theme.white,
@@ -86,22 +85,6 @@ class ProfilePreferenceWidget extends StatelessWidget {
                       launchUrlString(ExternalLinks.termsAndConditions);
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  Divider(height: .25, thickness: .25, color: theme.negative),
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: theme.negative,
-                      child: Icon(Icons.logout_rounded, color: theme.white, size: 16),
-                    ),
-                    title: Text(
-                      'Logout',
-                      style: TextStyles.title(context: context, color: theme.negative),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.negative),
-                    onTap: () {
-                      context.read<AuthenticationBloc>().add(const AuthenticationLogout());
-                    },
                   ),
                 ],
               ),

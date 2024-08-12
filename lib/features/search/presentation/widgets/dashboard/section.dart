@@ -30,28 +30,34 @@ class DashboardSearchSectionWidget extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16.0).copyWith(top: 24, bottom: 24),
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimension.padding.horizontal.max,
+              vertical: Dimension.padding.horizontal.max,
+            ),
             children: [
               Text(
                 "Trusted Reviews and Ratings Platform in Bangladesh",
-                style: TextStyles.headline(context: context, color: theme.semiBlack).copyWith(
+                style: TextStyles.miniHeadline(context: context, color: theme.semiBlack).copyWith(
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: Dimension.padding.horizontal.max),
               InkWell(
-                radius: 100,
-                borderRadius: BorderRadius.circular(100),
                 onTap: () {
                   context.pushNamed(SearchPage.name);
                 },
+                borderRadius: BorderRadius.circular(Dimension.radius.max),
                 child: PhysicalModel(
                   color: theme.backgroundPrimary,
-                  elevation: 1,
-                  borderRadius: BorderRadius.circular(100),
+                  elevation: Dimension.radius.three,
+                  shadowColor: theme.positiveBackground,
+                  borderRadius: BorderRadius.circular(Dimension.radius.max),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0).copyWith(left: 16),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimension.padding.horizontal.small,
+                      vertical: Dimension.padding.vertical.small,
+                    ).copyWith(left: Dimension.padding.horizontal.max),
                     child: Row(
                       children: [
                         Expanded(
@@ -64,10 +70,13 @@ class DashboardSearchSectionWidget extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.all(11.0),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimension.padding.horizontal.large,
+                            vertical: Dimension.padding.vertical.large,
+                          ),
                           decoration: BoxDecoration(
                             color: theme.primary,
-                            borderRadius: BorderRadius.circular(100),
+                            shape: BoxShape.circle,
                           ),
                           child: Icon(Icons.search, color: theme.backgroundPrimary),
                         ),
@@ -76,7 +85,7 @@ class DashboardSearchSectionWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: Dimension.padding.vertical.max),
             ],
           ),
         );

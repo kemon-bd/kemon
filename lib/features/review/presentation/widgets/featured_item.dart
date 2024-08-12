@@ -16,16 +16,25 @@ class FeaturedReviewItemWidget extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          margin: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.medium),
           decoration: BoxDecoration(
             color: theme.backgroundPrimary,
-            border: Border.all(color: theme.backgroundTertiary, width: 1),
-            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(
+              color: theme.backgroundTertiary,
+              width: Dimension.divider.large,
+              strokeAlign: BorderSide.strokeAlignOutside,
+            ),
+            borderRadius: BorderRadius.circular(Dimension.radius.twelve),
           ),
+          clipBehavior: Clip.antiAlias,
           child: ListView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimension.padding.horizontal.large,
+              vertical: Dimension.padding.vertical.large,
+            ),
+            clipBehavior: Clip.antiAlias,
             children: [
               BlocProvider(
                 create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
@@ -41,7 +50,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: Dimension.padding.horizontal.medium),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -54,7 +63,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                             );
                           },
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: Dimension.padding.vertical.verySmall),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -63,18 +72,18 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                               itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
                               unratedColor: theme.textSecondary.withAlpha(50),
                               itemCount: 5,
-                              itemSize: 16,
+                              itemSize: Dimension.radius.twelve,
                               direction: Axis.horizontal,
                             ),
-                            const SizedBox(width: 8),
-                            Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
-                            const SizedBox(width: 8),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            Icon(Icons.circle, size: Dimension.radius.three, color: theme.backgroundTertiary),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
                             StreamBuilder(
                               stream: Stream.periodic(const Duration(seconds: 1)),
                               builder: (context, snapshot) {
                                 return Text(
                                   review.date.duration,
-                                  style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                  style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
                                 );
                               },
                             ),
@@ -85,7 +94,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(height: 24, thickness: .075),
+              Divider(height: Dimension.size.vertical.tweenty),
               Text(
                 review.title,
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary),
@@ -93,10 +102,10 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                 maxLines: 1,
               ),
               if (review.description != null) ...[
-                const SizedBox(height: 4),
+                SizedBox(height: Dimension.padding.vertical.small),
                 Text(
                   review.description ?? "",
-                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                  style: TextStyles.body(context: context, color: theme.textSecondary.withAlpha(150)).copyWith(height: 1.1),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),

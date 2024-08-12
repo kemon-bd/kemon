@@ -22,4 +22,10 @@ abstract class ProfileRepository {
     required ProfileEntity profile,
     XFile? avatar,
   });
+
+  FutureOr<Either<Failure, String>> generateOtpForAccountDeactivation();
+
+  FutureOr<Either<Failure, void>> deactivateAccount({
+    required String otp,
+  });
 }

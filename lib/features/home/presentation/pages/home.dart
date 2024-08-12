@@ -34,32 +34,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+      context,
+      designSize: Size(
+        Dimension.size.horizontal.max,
+        Dimension.size.vertical.max,
+      ),
+    );
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
-            elevation: 0,
-            scrolledUnderElevation: 0,
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
             leading: Image.asset(
               'images/logo/full.png',
-              height: 24,
-              width: 24,
+              width: Dimension.size.horizontal.twentyFour,
+              height: Dimension.size.vertical.twentyFour,
               fit: BoxFit.cover,
             ),
             title: const Text('KEMON'),
             titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
               fontWeight: FontWeight.bold,
-              fontSize: 30,
             ),
             centerTitle: false,
             actions: [
               MyProfilePictureWidget(
-                size: 32,
-                border: .5,
+                size: Dimension.radius.thirtyTwo,
+                border: Dimension.divider.normal,
                 borderColor: theme.white,
                 onTap: () {
                   context.pushNamed(ProfilePage.name);
@@ -69,9 +73,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(
                   Icons.menu_rounded,
                   color: theme.white,
-                  size: 24.0,
-                  grade: 200,
-                  weight: 700,
+                  size: Dimension.size.horizontal.twentyFour,
                 ),
                 onPressed: () {
                   showCupertinoModalPopup(
@@ -86,7 +88,9 @@ class _HomePageState extends State<HomePage> {
           ),
           body: ListView(
             shrinkWrap: false,
-            padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + 16),
+            padding: EdgeInsets.zero.copyWith(
+              bottom: context.bottomInset + Dimension.padding.vertical.max,
+            ),
             children: const [
               DashboardSearchSectionWidget(),
               DashboardFeaturedCategoriesSectionWidget(),

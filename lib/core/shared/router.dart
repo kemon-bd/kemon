@@ -92,6 +92,16 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: DeactivateAccountPage.path,
+      name: DeactivateAccountPage.name,
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<DeactivateAccountBloc>(),
+        child: DeactivateAccountPage(
+          otp: state.uri.queryParameters['otp']!,
+        ),
+      ),
+    ),
+    GoRoute(
       path: PublicProfilePage.path,
       name: PublicProfilePage.name,
       builder: (context, state) => BlocProvider(

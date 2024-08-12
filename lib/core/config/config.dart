@@ -44,6 +44,8 @@ class AppConfig {
 
     // Initialize the configurations
     await _setupDependencies();
+
+    await ScreenUtil.ensureScreenSize();
   }
 
   static ThemeData themeData({
@@ -62,28 +64,31 @@ class AppConfig {
         filled: true,
         fillColor: theme.backgroundSecondary,
         labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
-        contentPadding: const EdgeInsets.all(16.0),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: Dimension.padding.horizontal.max,
+          vertical: Dimension.padding.vertical.max,
+        ),
         hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-        errorStyle: const TextStyle(height: 0),
-        helperStyle: const TextStyle(height: 0),
+        errorStyle: TextStyle(height: Dimension.size.vertical.min),
+        helperStyle: TextStyle(height: Dimension.size.vertical.min),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide.none,
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide(
             color: theme.negative.withAlpha(50),
             width: 1,
@@ -91,10 +96,10 @@ class AppConfig {
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide(
             color: theme.negative,
-            width: 1,
+            width: Dimension.size.horizontal.one,
             strokeAlign: BorderSide.strokeAlignOutside,
           ),
         ),
@@ -103,28 +108,38 @@ class AppConfig {
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.primary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
             side: BorderSide(
               color: theme.primary.withAlpha(150),
-              width: 4,
+              width: Dimension.size.horizontal.four,
               strokeAlign: BorderSide.strokeAlignOutside,
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimension.padding.horizontal.max,
+            vertical: Dimension.padding.vertical.max,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          elevation: 3,
+          elevation: Dimension.radius.three,
           backgroundColor: theme.backgroundPrimary,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimension.padding.horizontal.max,
+            vertical: Dimension.padding.vertical.max,
+          ),
         ),
       ),
       textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(color: theme.textPrimary, size: 20),
+      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.tweenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      dividerTheme: DividerThemeData(color: theme.backgroundTertiary, thickness: .25),
+      dividerTheme: DividerThemeData(
+        space: Dimension.divider.normal,
+        color: theme.backgroundTertiary,
+        thickness: Dimension.divider.normal,
+      ),
       appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: theme.textPrimary),
         titleSpacing: 0,

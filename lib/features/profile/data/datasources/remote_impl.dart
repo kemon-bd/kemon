@@ -121,4 +121,80 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
+
+  @override
+  FutureOr<void> deactivateAccount({
+    required String token,
+    required String username,
+    required String otp,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        "username": username,
+        "code": otp,
+      };
+
+      final Response response = await post(
+        RemoteEndpoints.deactivateAccount,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+
+        if (result.success) {
+          return;
+        } else {
+          throw RemoteFailure(message: result.error!);
+        }
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw RemoteFailure(message: "Internal server error.");
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw RemoteFailure(message: "Bad request.");
+      } else {
+        throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<String> generateOtpForAccountDeactivation({
+    required String token,
+    required String username,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        "username": username,
+      };
+
+      final Response response = await post(
+        RemoteEndpoints.deactivateAccount,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+
+        if (result.success) {
+          return result.result!;
+        } else {
+          throw RemoteFailure(message: result.error!);
+        }
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw RemoteFailure(message: "Internal server error.");
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw RemoteFailure(message: "Bad request.");
+      } else {
+        throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
 }

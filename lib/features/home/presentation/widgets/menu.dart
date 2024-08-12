@@ -17,13 +17,16 @@ class DashboardMenuWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.backgroundPrimary,
               border: Border(
-                top: BorderSide(color: theme.textPrimary, width: 1),
+                top: BorderSide(color: theme.textPrimary, width: Dimension.divider.veryLarge),
               ),
             ),
             child: ListView(
               shrinkWrap: true,
-              padding: const EdgeInsets.all(16).copyWith(
-                bottom: 16 + context.bottomInset,
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimension.padding.horizontal.max,
+                vertical: Dimension.padding.vertical.max,
+              ).copyWith(
+                bottom: Dimension.padding.vertical.max + context.bottomInset,
               ),
               physics: const NeverScrollableScrollPhysics(),
               children: [
@@ -41,8 +44,8 @@ class DashboardMenuWidget extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const MyProfilePictureWidget(size: 42, showWhenUnAuthorized: true),
-                          const SizedBox(width: 12),
+                          MyProfilePictureWidget(size: Dimension.radius.thirtyTwo, showWhenUnAuthorized: true),
+                          SizedBox(width: Dimension.padding.horizontal.large),
                           Expanded(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -63,9 +66,13 @@ class DashboardMenuWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: Dimension.padding.horizontal.large),
                           IconButton(
-                            icon: Icon(Icons.close, color: theme.textPrimary),
+                            icon: Icon(
+                              Icons.close,
+                              color: theme.textPrimary,
+                              size: Dimension.radius.twentyFour,
+                            ),
                             onPressed: () {
                               context.pop();
                             },
@@ -75,12 +82,12 @@ class DashboardMenuWidget extends StatelessWidget {
                     );
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: Dimension.padding.vertical.large),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.backgroundSecondary,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: theme.backgroundTertiary, width: .25),
+                    borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
+                    border: Border.all(color: theme.backgroundTertiary, width: Dimension.divider.normal),
                   ),
                   child: ListView(
                     shrinkWrap: true,
@@ -89,19 +96,19 @@ class DashboardMenuWidget extends StatelessWidget {
                     children: [
                       ListTile(
                         leading: CircleAvatar(
-                          radius: 16,
+                          radius: Dimension.radius.sixteen,
                           backgroundColor: themeMode == ThemeMode.dark ? Colors.orange : Colors.teal,
                           child: Icon(
                             themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-                            color: Colors.white,
-                            size: 16,
+                            color: theme.white,
+                            size: Dimension.radius.sixteen,
                           ),
                         ),
                         title: Text(
                           'Theme',
                           style: TextStyles.title(context: context, color: theme.textPrimary),
                         ),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 12),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.eight),
                         onTap: () {
                           context.read<ThemeBloc>().add(const ToggleTheme());
                         },
@@ -109,7 +116,7 @@ class DashboardMenuWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: Dimension.padding.vertical.large),
                 BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (context, state) {
                     final bool loggedIn = state.profile != null;
@@ -117,22 +124,25 @@ class DashboardMenuWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: loggedIn ? theme.negative.withAlpha(15) : theme.positiveBackground,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: loggedIn ? theme.negative : theme.positiveBackground, width: .5),
+                        border: Border.all(
+                          color: loggedIn ? theme.negative : theme.primary,
+                          width: Dimension.divider.veryLarge,
+                        ),
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
-                          radius: 16,
+                          radius: Dimension.radius.sixteen,
                           backgroundColor: loggedIn ? theme.negative : theme.primary,
-                          child: Icon(Icons.logout_rounded, color: theme.backgroundPrimary, size: 16),
+                          child: Icon(Icons.logout_rounded, color: theme.backgroundPrimary, size: Dimension.radius.sixteen),
                         ),
                         title: Text(
                           loggedIn ? 'Logout' : 'Login',
-                          style: TextStyles.title(context: context, color: loggedIn ? theme.negative : theme.positive),
+                          style: TextStyles.title(context: context, color: loggedIn ? theme.negative : theme.primary),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 12,
-                          color: loggedIn ? theme.negative : theme.positive,
+                          size: Dimension.radius.eight,
+                          color: loggedIn ? theme.negative : theme.primary,
                         ),
                         onTap: () async {
                           if (loggedIn) {

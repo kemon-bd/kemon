@@ -45,6 +45,7 @@ class ProfilePage extends StatelessWidget {
                 ProfileInformationWidget(edit: true),
                 ProfileFeatureOptionsWidget(),
                 ProfilePreferenceWidget(),
+                ProfileDangerZoneWidget(),
               ],
             ),
           ),

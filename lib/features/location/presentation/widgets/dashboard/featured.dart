@@ -16,7 +16,10 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
             } else if (state is FeaturedLocationsDone) {
               final locations = state.locations;
               return ListView(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimension.padding.horizontal.max,
+                  vertical: Dimension.padding.horizontal.max,
+                ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
@@ -53,12 +56,13 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                       ), */
                     ],
                   ),
+                  SizedBox(height: Dimension.padding.vertical.small),
                   SizedBox(
-                    height: 140,
+                    height: 400.h,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 0,
+                      mainAxisSpacing: Dimension.padding.horizontal.medium,
+                      crossAxisSpacing: Dimension.padding.vertical.small,
                       padding: EdgeInsets.zero,
                       itemCount: locations.length,
                       scrollDirection: Axis.horizontal,
@@ -68,8 +72,11 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                         final category = locations.elementAt(index);
                         return ActionChip(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(width: 1, color: theme.positive),
+                            borderRadius: BorderRadius.circular(Dimension.radius.max),
+                            side: BorderSide(
+                              width: Dimension.divider.large,
+                              color: theme.positiveBackgroundTertiary,
+                            ),
                           ),
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
@@ -82,16 +89,15 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                               },
                             ); */
                           },
-                          avatar: Icon(Icons.place_rounded, color: theme.positive),
+                          avatar: Icon(Icons.place_rounded, color: theme.primary),
                           label: Text(
                             category.name.full,
-                            style: TextStyles.subTitle(context: context, color: theme.positive),
+                            style: TextStyles.subTitle(context: context, color: theme.primary),
                           ),
                         );
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
                 ],
               );
             } else if (state is FeaturedLocationsError) {

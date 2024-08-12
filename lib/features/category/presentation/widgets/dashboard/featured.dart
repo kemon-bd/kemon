@@ -16,12 +16,14 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
             } else if (state is FeaturedCategoriesDone) {
               final categories = state.categories;
               return ListView(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimension.padding.horizontal.max,
+                  vertical: Dimension.padding.horizontal.max,
+                ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
                 children: [
-                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,12 +58,13 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                       ), */
                     ],
                   ),
+                  SizedBox(height: Dimension.padding.vertical.small),
                   SizedBox(
-                    height: 140,
+                    height: 400.h,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 0,
+                      mainAxisSpacing: Dimension.padding.horizontal.medium,
+                      crossAxisSpacing: Dimension.padding.vertical.small,
                       padding: EdgeInsets.zero,
                       itemCount: categories.length,
                       scrollDirection: Axis.horizontal,
@@ -71,8 +74,8 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                         final category = categories.elementAt(index);
                         return ActionChip(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(width: 1, color: theme.positive),
+                            borderRadius: BorderRadius.circular(Dimension.radius.max),
+                            side: BorderSide(width: Dimension.divider.large, color: theme.positiveBackgroundTertiary),
                           ),
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
@@ -86,17 +89,17 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                           },
                           avatar: CachedNetworkImage(
                             imageUrl: category.icon.url,
-                            width: 20,
-                            height: 20,
-                            errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.positive),
+                            width: Dimension.radius.tweenty,
+                            height: Dimension.radius.tweenty,
+                            placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.tweenty),
+                            errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.primary),
                           ),
                           label: Text(category.name.full),
-                          labelStyle: TextStyles.subTitle(context: context, color: theme.positive),
+                          labelStyle: TextStyles.subTitle(context: context, color: theme.primary),
                         );
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
                 ],
               );
             } else {
