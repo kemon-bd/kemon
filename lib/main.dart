@@ -5,7 +5,6 @@ import 'features/authentication/authentication.dart';
 FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize all the configurations.
   await AppConfig.init();
 
   runApp(
@@ -25,6 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
+    ScreenUtil.init(context);
 
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
@@ -32,12 +32,8 @@ class MainApp extends StatelessWidget {
           themeMode: state.mode,
           routerConfig: router,
           debugShowCheckedModeBanner: false,
-          theme: AppConfig.themeData(context: context, mode: state.mode),
-          darkTheme: AppConfig.themeData(context: context, mode: state.mode),
-          themeAnimationStyle: AnimationStyle(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.fastLinearToSlowEaseIn,
-          ),
+          theme: AppConfig.themeData(context: _, mode: state.mode),
+          darkTheme: AppConfig.themeData(context: _, mode: state.mode),
         );
       },
     );

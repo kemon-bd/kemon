@@ -4,25 +4,16 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc
-    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase useCase;
-  FindBusinessesByCategoryBloc({required this.useCase})
-      : super(const FindBusinessesByCategoryInitial()) {
+  FindBusinessesByCategoryBloc({required this.useCase}) : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
-      emit(FindBusinessesByCategoryLoading(type: state.type));
+      emit(const FindBusinessesByCategoryLoading());
       final result = await useCase(category: event.category);
       result.fold(
-        (failure) => emit(
-            FindBusinessesByCategoryError(failure: failure, type: state.type)),
-        (businesses) => emit(FindBusinessesByCategoryDone(
-            businesses: businesses, type: state.type)),
+        (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+        (businesses) => emit(FindBusinessesByCategoryDone(businesses: businesses)),
       );
-    });
-
-    on<ToggleListingType>((event, emit) {
-      final newState = state.copyWith(type: event.type);
-      emit(newState);
     });
   }
 }

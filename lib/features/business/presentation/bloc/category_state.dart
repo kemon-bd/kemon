@@ -1,25 +1,18 @@
 part of 'category_bloc.dart';
 
 abstract class FindBusinessesByCategoryState extends Equatable {
-  final ListingType type;
-  const FindBusinessesByCategoryState({
-    required this.type,
-  });
+  const FindBusinessesByCategoryState();
 
   @override
-  List<Object> get props => [
-        type,
-      ];
+  List<Object> get props => [];
 }
 
 class FindBusinessesByCategoryInitial extends FindBusinessesByCategoryState {
-  const FindBusinessesByCategoryInitial({
-    super.type = ListingType.business,
-  });
+  const FindBusinessesByCategoryInitial();
 }
 
 class FindBusinessesByCategoryLoading extends FindBusinessesByCategoryState {
-  const FindBusinessesByCategoryLoading({required super.type});
+  const FindBusinessesByCategoryLoading();
 }
 
 class FindBusinessesByCategoryError extends FindBusinessesByCategoryState {
@@ -27,11 +20,10 @@ class FindBusinessesByCategoryError extends FindBusinessesByCategoryState {
 
   const FindBusinessesByCategoryError({
     required this.failure,
-    required super.type,
   });
 
   @override
-  List<Object> get props => [failure, type];
+  List<Object> get props => [failure];
 }
 
 class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
@@ -39,9 +31,8 @@ class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
 
   const FindBusinessesByCategoryDone({
     required this.businesses,
-    required super.type,
   });
 
   @override
-  List<Object> get props => [businesses, type];
+  List<Object> get props => [businesses];
 }

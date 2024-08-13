@@ -22,4 +22,15 @@ abstract class ProfileRemoteDataSource {
     required ProfileEntity profile,
     XFile? avatar,
   });
+
+  FutureOr<String> generateOtpForAccountDeactivation({
+    required String token,
+    required String username,
+  });
+
+  FutureOr<void> deactivateAccount({
+    required String token,
+    required String username,
+    required String otp,
+  });
 }

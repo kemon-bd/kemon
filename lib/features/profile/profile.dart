@@ -12,16 +12,20 @@ export 'domain/usecases/delete.dart';
 export 'domain/usecases/find.dart';
 export 'domain/usecases/refresh.dart';
 export 'domain/usecases/update.dart';
+export 'domain/usecases/deactivate.dart';
+export 'domain/usecases/generate_otp_for_deactivation.dart';
 
 export 'presentation/bloc/check_bloc.dart';
 export 'presentation/bloc/delete_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/update_bloc.dart';
+export 'presentation/bloc/deactivate_bloc.dart';
 
 export 'presentation/pages/profile.dart';
 export 'presentation/pages/public.dart';
 export 'presentation/pages/check.dart';
 export 'presentation/pages/edit.dart';
+export 'presentation/pages/deactivate.dart';
 export 'presentation/widgets/picture.dart';
 export 'presentation/widgets/name.dart';
 export 'presentation/widgets/username.dart';
@@ -30,3 +34,4 @@ export 'presentation/widgets/point.dart';
 export 'presentation/widgets/info.dart';
 export 'presentation/widgets/features.dart';
 export 'presentation/widgets/preference.dart';
+export 'presentation/widgets/danger.dart';

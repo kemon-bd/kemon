@@ -23,6 +23,12 @@ Future<void> get profileDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => DeactivateAccountBloc(
+      generate: sl(),
+      deactivate: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -47,6 +53,16 @@ Future<void> get profileDependencies async {
   );
   sl.registerFactory(
     () => DeleteProfileUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => DeactivateAccountUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => GenerateOtpForAccountDeactivationUseCase(
       repository: sl(),
     ),
   );

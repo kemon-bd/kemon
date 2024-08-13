@@ -16,7 +16,10 @@ class FeaturedReviewsWidget extends StatelessWidget {
             } else if (state is RecentReviewsDone) {
               final reviews = state.reviews;
               return ListView(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimension.padding.horizontal.max,
+                  vertical: Dimension.padding.vertical.max,
+                ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
@@ -25,7 +28,7 @@ class FeaturedReviewsWidget extends StatelessWidget {
                     "Recent reviews",
                     style: TextStyles.title(context: context, color: theme.textPrimary),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: Dimension.padding.vertical.small),
                   if (reviews.isNotEmpty)
                     CarouselSlider.builder(
                       itemCount: reviews.length,
@@ -49,7 +52,6 @@ class FeaturedReviewsWidget extends StatelessWidget {
                       ),
                     ),
                   if (reviews.isEmpty) const Text('No reviews yet'),
-                  const SizedBox(height: 16),
                 ],
               );
             } else if (state is RecentReviewsError) {

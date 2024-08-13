@@ -17,6 +17,7 @@ class RemoteEndpoints {
 
   //! login
   static Uri get login => Uri.parse('$_baseUrl/token');
+  static Uri get deactivateAccount => Uri.parse('$_baseUrl/deactivate-profile');
 
   //! registration
   static Uri get registration => Uri.parse('$_baseUrl/register');

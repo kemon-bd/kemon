@@ -114,7 +114,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           child: InkWell(
                             onTap: () {
                               context.pushNamed(PhotoPreviewPage.name, pathParameters: {'url': photo.url});
@@ -124,8 +124,8 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               width: 64,
                               height: 64,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) => const Icon(Icons.error_outline_rounded),
+                              placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 12),
+                              errorWidget: (context, url, error) => const Icon(Icons.broken_image_rounded),
                             ),
                           ),
                         ),

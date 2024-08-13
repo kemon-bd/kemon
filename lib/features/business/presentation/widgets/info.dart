@@ -19,7 +19,7 @@ class BusinessInformationWidget extends StatelessWidget {
           end: Alignment.bottomCenter,
         );
         return Container(
-          padding: const EdgeInsets.all(16.0).copyWith(top: 4),
+          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
           decoration: BoxDecoration(gradient: gradient),
           child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
             builder: (context, state) {
@@ -35,29 +35,40 @@ class BusinessInformationWidget extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 64,
-                          height: 64,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            gradient: gradient,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: theme.semiWhite, width: .75),
+                        InkWell(
+                          onTap: () {
+                            if (business.logo.isNotEmpty) {
+                              context.pushNamed(
+                                PhotoPreviewPage.name,
+                                pathParameters: {'url': business.logo.url},
+                              );
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            width: 64,
+                            height: 64,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              gradient: gradient,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: theme.semiWhite, width: .75),
+                            ),
+                            child: business.logo.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: business.logo.url,
+                                    width: 64,
+                                    height: 64,
+                                    fit: BoxFit.contain,
+                                    placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
+                                    errorWidget: (context, error, stackTrace) => const Center(
+                                      child: Icon(Icons.category_rounded),
+                                    ),
+                                  )
+                                : const Center(child: Icon(Icons.category_rounded)),
                           ),
-                          child: business.logo.isNotEmpty
-                              ? CachedNetworkImage(
-                                  imageUrl: business.logo.url,
-                                  width: 64,
-                                  height: 64,
-                                  fit: BoxFit.contain,
-                                  placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
-                                  errorWidget: (context, error, stackTrace) => const Center(
-                                    child: Icon(Icons.category_rounded),
-                                  ),
-                                )
-                              : const Center(child: Icon(Icons.category_rounded)),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -66,15 +77,9 @@ class BusinessInformationWidget extends StatelessWidget {
                               if (state is FindRatingDone) {
                                 final rating = state.rating;
                                 return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      rating.total > 0
-                                          ? "${rating.total} review${rating.total > 1 ? "s" : ""} • ${rating.remarks}"
-                                          : 'No review yet',
-                                      style: TextStyles.body(context: context, color: theme.textSecondary.withAlpha(150)),
-                                    ),
-                                    const SizedBox(height: 4),
                                     RatingBarIndicator(
                                       itemBuilder: (context, index) => Icon(Icons.star, color: theme.primary),
                                       itemSize: 16,
@@ -82,19 +87,99 @@ class BusinessInformationWidget extends StatelessWidget {
                                       unratedColor: theme.textSecondary.withAlpha(50),
                                     ),
                                     const SizedBox(height: 4),
-                                    if (business.address.formatted.isNotEmpty) ...[
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        business.address.formatted,
-                                        style: TextStyles.caption(context: context, color: theme.white),
-                                      ),
-                                    ],
+                                    Text(
+                                      rating.total > 0
+                                          ? "${rating.total} review${rating.total > 1 ? 's' : ''}  •  ${rating.remarks}"
+                                          : 'No review yet',
+                                      style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                    ),
+                                    const SizedBox(height: 4),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        IconButton(
+                                        if ((business.contact.phone ?? '').isNotEmpty) ...[
+                                          ActionChip(
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'tel', path: business.contact.phone);
+                                              launchUrl(uri);
+                                            },
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: theme.positiveBackground,
+                                            side: BorderSide(color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            label: Icon(
+                                              Icons.phone_rounded,
+                                              color: theme.primary,
+                                              size: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                        if ((business.contact.email ?? '').isNotEmpty) ...[
+                                          ActionChip(
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'mailto', path: business.contact.phone);
+                                              launchUrl(uri);
+                                            },
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: theme.positiveBackground,
+                                            side: BorderSide(color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            label: Icon(
+                                              Icons.email_rounded,
+                                              color: theme.primary,
+                                              size: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                        if (business.address.formatted.isNotEmpty) ...[
+                                          ActionChip(
+                                            onPressed: () {
+                                              final uri = Uri(scheme: 'geo', path: business.address.formatted);
+                                              launchUrl(uri);
+                                            },
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: theme.positiveBackground,
+                                            side: BorderSide(color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            label: Icon(
+                                              Icons.place_rounded,
+                                              color: theme.primary,
+                                              size: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                        if ((business.contact.website ?? '').isNotEmpty) ...[
+                                          ActionChip(
+                                            onPressed: () {
+                                              final uri =
+                                                  Uri(scheme: 'https', path: business.contact.website!.replaceAll('https', ''));
+                                              launchUrl(uri);
+                                            },
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: theme.positiveBackground,
+                                            side: BorderSide(color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            label: Icon(
+                                              Icons.language_rounded,
+                                              color: theme.primary,
+                                              size: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                        ActionChip(
                                           padding: EdgeInsets.zero,
+                                          backgroundColor: theme.positiveBackground,
+                                          side: BorderSide(color: theme.primary, width: 1),
                                           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                           onPressed: () {
                                             showCupertinoModalPopup(
                                               context: context,
@@ -106,15 +191,19 @@ class BusinessInformationWidget extends StatelessWidget {
                                               ),
                                             );
                                           },
-                                          icon: Icon(
+                                          label: Icon(
                                             business.claimed ? Icons.admin_panel_settings_rounded : Icons.privacy_tip_outlined,
-                                            color: business.claimed ? theme.primary : theme.textSecondary.withAlpha(100),
-                                            size: 20,
+                                            color: theme.primary,
+                                            size: 16,
                                           ),
                                         ),
-                                        IconButton(
+                                        const SizedBox(width: 8),
+                                        ActionChip(
                                           padding: EdgeInsets.zero,
+                                          backgroundColor: theme.positiveBackground,
+                                          side: BorderSide(color: theme.primary, width: 1),
                                           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                           onPressed: () {
                                             showCupertinoModalPopup(
                                               context: context,
@@ -126,20 +215,11 @@ class BusinessInformationWidget extends StatelessWidget {
                                               ),
                                             );
                                           },
-                                          icon: business.verified
-                                              ? Icon(Icons.verified, color: theme.primary, size: 20)
-                                                  .animate(
-                                                    onComplete: (controller) => controller.repeat(),
-                                                  )
-                                                  .shake(
-                                                    offset: Offset.zero,
-                                                    rotation: pi / 15,
-                                                    hz: 1,
-                                                    duration: const Duration(seconds: 1),
-                                                    curve: Curves.easeInSine,
-                                                  )
-                                              : Icon(Icons.verified_outlined,
-                                                  color: theme.textSecondary.withAlpha(100), size: 20),
+                                          label: Icon(
+                                            business.verified ? Icons.verified_rounded : Icons.verified_outlined,
+                                            color: theme.primary,
+                                            size: 16,
+                                          ),
                                         ),
                                       ],
                                     ),
