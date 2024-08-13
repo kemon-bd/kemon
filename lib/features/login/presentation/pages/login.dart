@@ -202,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                                     "Login".toUpperCase(),
                                     style: TextStyles.miniHeadline(
                                       context: context,
-                                      color: theme.backgroundPrimary,
+                                      color: theme.white,
                                     ).copyWith(
                                       fontWeight: FontWeight.w900,
                                     ),

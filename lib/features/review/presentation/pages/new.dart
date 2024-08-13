@@ -353,8 +353,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                   }
                                 },
                                 child: Text(
-                                  "Submit",
-                                  style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+                                  "Submit".toUpperCase(),
+                                  style: TextStyles.miniHeadline(
+                                    context: context,
+                                    color: theme.white,
+                                  ).copyWith(
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               );
                             }

@@ -117,7 +117,7 @@ class AppConfig {
           ),
           padding: EdgeInsets.symmetric(
             horizontal: Dimension.padding.horizontal.max,
-            vertical: Dimension.padding.vertical.max,
+            vertical: Dimension.padding.vertical.large,
           ),
         ),
       ),
@@ -128,7 +128,7 @@ class AppConfig {
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           padding: EdgeInsets.symmetric(
             horizontal: Dimension.padding.horizontal.max,
-            vertical: Dimension.padding.vertical.max,
+            vertical: Dimension.padding.vertical.large,
           ),
         ),
       ),

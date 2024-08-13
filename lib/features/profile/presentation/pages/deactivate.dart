@@ -244,7 +244,10 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                   },
                                   child: Text(
                                     "Verify".toUpperCase(),
-                                    style: TextStyles.miniHeadline(context: context, color: theme.white).copyWith(
+                                    style: TextStyles.miniHeadline(
+                                      context: context,
+                                      color: theme.white,
+                                    ).copyWith(
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),

@@ -149,7 +149,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   "Continue".toUpperCase(),
                                   style: TextStyles.miniHeadline(
                                     context: context,
-                                    color: theme.backgroundPrimary,
+                                    color: theme.white,
                                   ).copyWith(
                                     fontWeight: FontWeight.w900,
                                   ),

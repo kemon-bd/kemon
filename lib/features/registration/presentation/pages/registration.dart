@@ -635,7 +635,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     "Sign up".toUpperCase(),
                                     style: TextStyles.miniHeadline(
                                       context: context,
-                                      color: theme.backgroundPrimary,
+                                      color: theme.white,
                                     ).copyWith(
                                       fontWeight: FontWeight.w900,
                                     ),

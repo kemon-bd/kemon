@@ -493,7 +493,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         "Update".toUpperCase(),
                                         style: TextStyles.miniHeadline(
                                           context: context,
-                                          color: theme.backgroundPrimary,
+                                          color: theme.white,
                                         ).copyWith(
                                           fontWeight: FontWeight.w900,
                                         ),
