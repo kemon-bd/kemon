@@ -55,8 +55,8 @@ class BusinessRatingsWidget extends StatelessWidget {
                                   },
                                 );
                                 if (added ?? false) {
-                                  ratingBloc.add(FindRating(urlSlug: business.urlSlug));
-                                  reviewBloc.add(FindListingReviews(urlSlug: business.urlSlug));
+                                  ratingBloc.add(RefreshRating(urlSlug: business.urlSlug));
+                                  reviewBloc.add(RefreshListingReviews(urlSlug: business.urlSlug));
                                 }
                               },
                               itemCount: 5,

@@ -18,8 +18,7 @@ abstract class ReviewLocalDataSource {
   });
 
   FutureOr<void> remove({
-    required String key,
-    required Identity review,
+    required String urlSlug,
   });
 
   FutureOr<void> removeAll();

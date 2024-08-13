@@ -16,3 +16,13 @@ class FindListingReviews extends FindListingReviewsEvent {
   @override
   List<Object> get props => [urlSlug];
 }
+
+class RefreshListingReviews extends FindListingReviewsEvent {
+  final String urlSlug;
+
+  const RefreshListingReviews({
+    required this.urlSlug,
+  });
+  @override
+  List<Object> get props => [urlSlug];
+}

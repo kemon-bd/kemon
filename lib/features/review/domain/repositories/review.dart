@@ -17,6 +17,7 @@ abstract class ReviewRepository {
 
   Future<Either<Failure, RatingEntity>> rating({
     required String urlSlug,
+    bool refresh = false,
   });
 
   FutureOr<Either<Failure, List<ReviewEntity>>> find({
@@ -27,6 +28,7 @@ abstract class ReviewRepository {
 
   FutureOr<Either<Failure, List<ReviewEntity>>> reviews({
     required String urlSlug,
+    bool refresh = false,
   });
 
   FutureOr<Either<Failure, void>> update({

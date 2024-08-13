@@ -31,7 +31,7 @@ class ProfileSinceWidget extends StatelessWidget {
             } else if (state is FindProfileLoading) {
               return Align(
                 alignment: shimmerAlignment ?? Alignment.centerLeft,
-                child: const ShimmerLabel(width: 112, height: 12, radius: 12),
+                child: const ShimmerLabel(width: 84, height: 8, radius: 12),
               );
             }
             return Container();

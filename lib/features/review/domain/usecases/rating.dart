@@ -10,7 +10,8 @@ class FindRatingUseCase {
 
   Future<Either<Failure, RatingEntity>> call({
     required String urlSlug,
+    bool refresh = false,
   }) async {
-    return await repository.rating(urlSlug: urlSlug);
+    return await repository.rating(urlSlug: urlSlug, refresh: refresh);
   }
 }

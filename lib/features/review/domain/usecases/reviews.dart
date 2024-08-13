@@ -10,7 +10,8 @@ class FindListingReviewUseCase {
 
   FutureOr<Either<Failure, List<ReviewEntity>>> call({
     required String urlSlug,
+    bool refresh = false,
   }) async {
-    return await repository.reviews(urlSlug: urlSlug);
+    return await repository.reviews(urlSlug: urlSlug, refresh: refresh);
   }
 }

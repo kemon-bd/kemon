@@ -47,16 +47,10 @@ class ReviewLocalDataSourceImpl extends ReviewLocalDataSource {
 
   @override
   FutureOr<void> remove({
-    required String key,
-    required Identity review,
+    required String urlSlug,
   }) {
-    final index = _cache[key]?.indexWhere(
-          (r) => r.identity.guid.like(text: review.guid),
-        ) ??
-        -1;
-    if (!index.isNegative) {
-      _cache[key]!.removeAt(index);
-    }
+      _cache.remove(urlSlug);
+      _cacheRating.remove(urlSlug);
   }
 
   @override

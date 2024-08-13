@@ -16,3 +16,13 @@ class FindRating extends FindRatingEvent {
   @override
   List<Object> get props => [urlSlug];
 }
+
+class RefreshRating extends FindRatingEvent {
+  final String urlSlug;
+
+  const RefreshRating({
+    required this.urlSlug,
+  });
+  @override
+  List<Object> get props => [urlSlug];
+}

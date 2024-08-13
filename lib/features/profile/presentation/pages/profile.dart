@@ -27,15 +27,23 @@ class ProfilePage extends StatelessWidget {
               backgroundColor: theme.primary,
               surfaceTintColor: theme.primary,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
+                icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                 onPressed: context.pop,
               ),
               title: MyProfileUsernameWidget(
+                shimmerAlignment: Alignment.center,
                 style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1,
                 ),
               ),
+              titleSpacing: 0,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.logout_rounded, color: theme.white),
+                  onPressed: () => context.read<AuthenticationBloc>().add(const AuthenticationLogout()),
+                ),
+              ],
               centerTitle: true,
             ),
             body: ListView(

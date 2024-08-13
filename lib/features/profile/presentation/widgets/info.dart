@@ -59,6 +59,7 @@ class ProfileInformationWidget extends StatelessWidget {
                   height: 1,
                 ),
                 align: TextAlign.center,
+                shimmerAlignment: Alignment.center,
               ),
               if (edit) ...[
                 const SizedBox(height: 24),

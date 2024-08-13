@@ -43,8 +43,13 @@ class ProfileUsernameWidget extends StatelessWidget {
 }
 
 class MyProfileUsernameWidget extends StatelessWidget {
+  final Alignment? shimmerAlignment;
   final TextStyle? style;
-  const MyProfileUsernameWidget({super.key, this.style});
+  const MyProfileUsernameWidget({
+    super.key,
+    this.style,
+    this.shimmerAlignment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +59,7 @@ class MyProfileUsernameWidget extends StatelessWidget {
         if (profile != null) {
           return BlocProvider(
             create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
-            child: ProfileUsernameWidget(style: style),
+            child: ProfileUsernameWidget(style: style, shimmerAlignment: shimmerAlignment),
           );
         }
         return Container();

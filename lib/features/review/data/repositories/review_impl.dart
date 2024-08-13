@@ -58,7 +58,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
           review: review,
         );
 
-        await local.remove(key: auth.guid!, review: review);
+        // await local.remove(urlSlug: auth.guid!, review: review);
 
         return const Right(null);
       } else {
@@ -72,11 +72,18 @@ class ReviewRepositoryImpl extends ReviewRepository {
   @override
   Future<Either<Failure, RatingEntity>> rating({
     required String urlSlug,
+    bool refresh = false,
   }) async {
     try {
+      if (refresh) {
+        throw RatingNotFoundInLocalCacheFailure();
+      }
       final rating = await local.findRating(urlSlug: urlSlug);
       return Right(rating);
     } on RatingNotFoundInLocalCacheFailure {
+      if (refresh) {
+        await local.remove(urlSlug: urlSlug);
+      }
       if (await network.online) {
         final rating = await remote.rating(urlSlug: urlSlug);
 
@@ -118,8 +125,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(
-            token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);
@@ -134,11 +140,18 @@ class ReviewRepositoryImpl extends ReviewRepository {
   @override
   FutureOr<Either<Failure, List<ReviewEntity>>> reviews({
     required String urlSlug,
+    bool refresh = false,
   }) async {
     try {
+      if (refresh) {
+        throw ReviewNotFoundInLocalCacheFailure();
+      }
       final reviews = await local.find(key: urlSlug);
       return Right(reviews);
     } on ReviewNotFoundInLocalCacheFailure {
+      if (refresh) {
+        await local.remove(urlSlug: urlSlug);
+      }
       if (await network.online) {
         final reviews = await remote.rating(
           urlSlug: urlSlug,

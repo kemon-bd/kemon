@@ -10,6 +10,7 @@ class FindUserReviewsUseCase {
 
   FutureOr<Either<Failure, List<ReviewEntity>>> call({
     required Identity user,
+    bool refresh = false,
   }) async {
     return await repository.find(user: user);
   }
