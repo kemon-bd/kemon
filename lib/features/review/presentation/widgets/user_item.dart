@@ -83,9 +83,19 @@ class UserReviewItemWidget extends StatelessWidget {
               ),
               if (review.description != null) ...[
                 const SizedBox(height: 4),
-                Text(
+                ReadMoreText(
                   review.description ?? "",
                   style: TextStyles.body(context: context, color: theme.textSecondary),
+                  trimMode: TrimMode.Line,
+                  trimLines: 2,
+                  trimCollapsedText: '...more',
+                  trimExpandedText: '\t\tShow less',
+                  lessStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  moreStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
               if (review.photos.isNotEmpty) ...[

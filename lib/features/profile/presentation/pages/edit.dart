@@ -146,6 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         onTap: () async {
                                           final ImageSource? source = await showDialog(
                                             context: context,
+                                            barrierColor: context.barrierColor,
                                             builder: (_) => const ChooseUploadMethodWidget(),
                                           );
 

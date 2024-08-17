@@ -87,7 +87,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(height: 24, thickness: .075),
+              const Divider(height: 16, thickness: .15),
               Text(
                 review.title,
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
@@ -96,10 +96,20 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 ),
               ),
               if (review.description != null) ...[
-                const SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 6),
+                ReadMoreText(
                   review.description ?? "",
                   style: TextStyles.body(context: context, color: theme.textSecondary),
+                  trimMode: TrimMode.Line,
+                  trimLines: 2,
+                  trimCollapsedText: '...more',
+                  trimExpandedText: '\t\tShow less',
+                  lessStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  moreStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
               if (review.photos.isNotEmpty) ...[

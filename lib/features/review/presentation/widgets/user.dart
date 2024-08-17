@@ -28,7 +28,7 @@ class UserReviewsWidget extends StatelessWidget {
                     return UserReviewItemWidget(review: review);
                   },
                   separatorBuilder: (context, index) => const SizedBox(height: 16),
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   itemCount: reviews.length,
                   padding: const EdgeInsets.all(16.0).copyWith(bottom: 16 + context.bottomInset),
                   shrinkWrap: true,

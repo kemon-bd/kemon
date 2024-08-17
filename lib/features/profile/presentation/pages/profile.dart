@@ -48,7 +48,9 @@ class ProfilePage extends StatelessWidget {
             ),
             body: ListView(
               shrinkWrap: false,
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.zero.copyWith(
+                bottom: context.bottomInset + 16,
+              ),
               children: const [
                 ProfileInformationWidget(edit: true),
                 ProfileFeatureOptionsWidget(),

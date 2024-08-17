@@ -118,7 +118,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       controller: descriptionController,
                       style: TextStyles.body(context: context, color: theme.textPrimary),
                       minLines: 4,
-                      maxLines: 8,
+                      maxLines: 20,
                       decoration: const InputDecoration(hintText: "optional"),
                     ),
                     const SizedBox(height: 16),
@@ -287,13 +287,14 @@ class _NewReviewPageState extends State<NewReviewPage> {
                           context.pop(true);
                           showDialog(
                             context: context,
+                            barrierColor: context.barrierColor,
                             builder: (_) => AlertDialog(
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
                                     Icons.check_circle_outline_rounded,
-                                    color: theme.negative,
+                                    color: theme.positive,
                                     size: 144,
                                   ),
                                   const SizedBox(height: 16),
@@ -308,6 +309,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         } else if (state is CreateReviewError) {
                           showDialog(
                             context: context,
+                            barrierColor: context.barrierColor,
                             builder: (_) => AlertDialog(
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,

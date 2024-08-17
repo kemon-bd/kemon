@@ -96,3 +96,4 @@ export 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 export 'package:flutter_widget_from_html/flutter_widget_from_html.dart' hide ImageSource;
 export 'package:photo_view/photo_view.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:readmore/readmore.dart';
