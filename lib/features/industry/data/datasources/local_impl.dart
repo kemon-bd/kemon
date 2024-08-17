@@ -7,26 +7,29 @@ class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
   @override
   FutureOr<void> add({
     required IndustryEntity industry,
-  }) {
+  }) async {
     _cache[industry.urlSlug] = industry;
+    return Future.value();
   }
 
   @override
   FutureOr<void> addAll({
     required List<IndustryEntity> industries,
-  }) {
+  }) async {
     for (final item in industries) {
       _cache[item.urlSlug] = item;
     }
+    return Future.value();
   }
 
   @override
-  FutureOr<void> removeAll() {
+  FutureOr<void> removeAll() async {
     _cache.clear();
+    return Future.value();
   }
 
   @override
-  FutureOr<List<IndustryEntity>> findAll() {
+  FutureOr<List<IndustryEntity>> findAll() async {
     final item = _cache.values.toList();
     if (item.isEmpty) {
       throw IndustryNotFoundInLocalCacheFailure();

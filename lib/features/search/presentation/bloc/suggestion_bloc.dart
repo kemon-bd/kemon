@@ -25,7 +25,6 @@ class SearchSuggestionBloc
             industries: suggestions.industries,
             categories: suggestions.categories,
             subCategories: suggestions.subCategories,
-            suggestions: suggestions,
           ),
         ),
       );
