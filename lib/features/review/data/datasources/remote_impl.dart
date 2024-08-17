@@ -37,7 +37,8 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
-      throw RemoteFailure(message: streamedResponse.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(
+          message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
 

@@ -25,5 +25,13 @@ class FindRatingBloc extends Bloc<FindRatingEvent, FindRatingState> {
         (rating) => emit(FindRatingDone(rating: rating)),
       );
     });
+    on<RefreshRating>((event, emit) async {
+      emit(const FindRatingLoading());
+      final result = await useCase(urlSlug: event.urlSlug);
+      result.fold(
+        (failure) => emit(FindRatingError(failure: failure)),
+        (rating) => emit(FindRatingDone(rating: rating)),
+      );
+    });
   }
 }
