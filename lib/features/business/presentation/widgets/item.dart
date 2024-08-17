@@ -187,7 +187,6 @@ class BusinessItemWidget extends StatelessWidget {
                               clipBehavior: Clip.none,
                               children: [
                                 Padding(
-                                  
                                   padding: const EdgeInsets.all(12.0).copyWith(top: 4),
                                   child: expandWidget(true),
                                 ),
