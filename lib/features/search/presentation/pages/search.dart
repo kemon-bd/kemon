@@ -34,12 +34,13 @@ class _SearchPageState extends State<SearchPage> {
             title: TextField(
               autofocus: true,
               controller: controller,
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textPrimary),
+              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               onChanged: (query) {
-                context
-                    .read<SearchSuggestionBloc>()
-                    .add(SearchSuggestion(query: query));
+                if (query.isNotEmpty) {
+                  context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
+                } else {
+                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
+                }
                 setState(() {});
               },
               decoration: InputDecoration(
@@ -62,15 +63,12 @@ class _SearchPageState extends State<SearchPage> {
                     controller.clear();
                   });
 
-                  context
-                      .read<SearchSuggestionBloc>()
-                      .add(const ResetSuggestion());
+                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
                 },
               ),
             ],
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           floatingActionButton: controller.text.isEmpty
               ? null
               : FloatingActionButton.extended(
@@ -84,12 +82,10 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   },
                   isExtended: true,
-                  icon: Icon(Icons.search_rounded,
-                      color: theme.backgroundPrimary),
+                  icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.title(
-                        context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.title(context: context, color: theme.backgroundPrimary),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
@@ -103,8 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                   padding: EdgeInsets.zero,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       color: theme.backgroundSecondary,
                       alignment: Alignment.centerLeft,
                       child: Container(
@@ -124,10 +119,8 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           dense: true,
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 16),
-                          visualDensity:
-                              const VisualDensity(horizontal: -4, vertical: -4),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                           title: Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
@@ -154,125 +147,72 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 );
               } else if (state is SearchSuggestionDone) {
+                final businesses = state.businesses;
+                final industries = state.industries;
+                final categories = state.categories;
+                final subCategories = state.subCategories;
+
                 return ListView(
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   children: [
-                    if (state.businesses.isNotEmpty)
+                    if (businesses.isNotEmpty) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
-                          "Businesses",
-                          style: TextStyles.caption(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    const SizedBox(height: 8),
-                    ...state.businesses
-                        .map(
-                          (urlSlug) => BlocProvider(
-                            create: (_) => sl<FindBusinessBloc>()
-                              ..add(FindBusiness(urlSlug: urlSlug)),
-                            child: BlocBuilder<FindBusinessBloc,
-                                FindBusinessState>(
-                              builder: (context, state) {
-                                if (state is FindBusinessLoading) {
-                                  return ListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    visualDensity: const VisualDensity(
-                                        horizontal: -4, vertical: -4),
-                                    title: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                        width: 100.0 + Random().nextInt(100),
-                                        height: 12,
-                                        decoration: BoxDecoration(
-                                          color: theme.backgroundTertiary,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                    ),
-                                    leading: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: BoxDecoration(
-                                        color: theme.backgroundTertiary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  );
-                                } else if (state is FindBusinessDone) {
-                                  final business = state.business;
-
-                                  return ListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    visualDensity: const VisualDensity(
-                                        horizontal: -4, vertical: -4),
-                                    title: Text(
-                                      business.name.full,
-                                      style: TextStyles.body(
-                                          context: context,
-                                          color: theme.primary),
-                                    ),
-                                    trailing: Icon(
-                                      Icons.open_in_new_rounded,
-                                      color: theme.primary,
-                                      size: 16,
-                                    ),
-                                    onTap: () {
-                                      context.pushNamed(
-                                        BusinessPage.name,
-                                        pathParameters: {
-                                          "urlSlug": business.urlSlug,
-                                        },
-                                      );
-                                    },
-                                  );
-                                }
-                                return const SizedBox();
-                              },
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    if (state.industries.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        color: theme.backgroundSecondary,
-                        child: Text(
-                          "Industries",
-                          style: TextStyles.caption(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
+                          "${businesses.length} Business${businesses.length > 1 ? "es" : ""}",
+                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      ...state.industries.map(
+                      ListView.separated(
+                        itemBuilder: (_, index) {
+                          final urlSlug = businesses[index];
+                          return BlocProvider(
+                            create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+                            child: const Row(
+                              children: [
+                                BusinessLogoWidget(size: 16),
+                                SizedBox(width: 16),
+                                Expanded(child: BusinessNameWidget()),
+                                SizedBox(width: 16),
+                                
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (_, __) => const Divider(height: .15),
+                        itemCount: businesses.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    ],
+                    if (industries.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        color: theme.backgroundSecondary,
+                        child: Text(
+                          "${industries.length} Industr${industries.length > 1 ? "ies" : "y"}",
+                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ...industries.map(
                         (industry) {
                           return ListTile(
                             dense: true,
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(
-                                horizontal: -4, vertical: -4),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               industry.name.full,
-                              style: TextStyles.body(
-                                  context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -291,34 +231,28 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ).toList(),
                     ],
-                    if (state.categories.isNotEmpty) ...[
+                    if (categories.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
-                          "Categories",
-                          style: TextStyles.caption(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
+                          "${categories.length} Categor${categories.length > 1 ? "ies" : "y"}",
+                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      ...state.categories.map(
+                      ...categories.map(
                         (category) {
                           return ListTile(
                             dense: true,
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(
-                                horizontal: -4, vertical: -4),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               category.name.full,
-                              style: TextStyles.body(
-                                  context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -337,34 +271,28 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ).toList(),
                     ],
-                    if (state.subCategories.isNotEmpty) ...[
+                    if (subCategories.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
-                          "Sub categories",
-                          style: TextStyles.caption(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
+                          "${subCategories.length} Sub categor${subCategories.length > 1 ? "ies" : "y"}",
+                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      ...state.subCategories.map(
+                      ...subCategories.map(
                         (subCategory) {
                           return ListTile(
                             dense: true,
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(
-                                horizontal: -4, vertical: -4),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               subCategory.name.full,
-                              style: TextStyles.body(
-                                  context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,

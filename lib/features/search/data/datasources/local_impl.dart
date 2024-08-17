@@ -12,6 +12,7 @@ class SearchLocalDataSourceImpl extends SearchLocalDataSource {
     required SearchResults results,
   }) async {
     _results[(query, filter)] = results;
+    return Future.value();
   }
 
   @override
@@ -20,6 +21,7 @@ class SearchLocalDataSourceImpl extends SearchLocalDataSource {
     required AutoCompleteSuggestions suggestions,
   }) async {
     _suggestions[query] = suggestions;
+    return Future.value();
   }
 
   @override
@@ -51,5 +53,6 @@ class SearchLocalDataSourceImpl extends SearchLocalDataSource {
   Future<void> removeAll() async {
     _suggestions.clear();
     _results.clear();
+    return Future.value();
   }
 }

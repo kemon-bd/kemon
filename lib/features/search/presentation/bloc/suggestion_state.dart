@@ -27,12 +27,10 @@ class SearchSuggestionDone extends SearchSuggestionState {
   final List<IndustryEntity> industries;
   final List<CategoryEntity> categories;
   final List<SubCategoryEntity> subCategories;
-  final AutoCompleteSuggestions suggestions;
   const SearchSuggestionDone({
     required this.businesses,
     required this.industries,
     required this.categories,
     required this.subCategories,
-    required this.suggestions,
   });
 }

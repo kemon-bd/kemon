@@ -8,8 +8,9 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   @override
   FutureOr<void> add({
     required CategoryEntity category,
-  }) {
+  }) async {
     _cache[category.urlSlug] = category;
+    return Future.value();
   }
 
   @override
@@ -19,21 +20,23 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
     for (final category in categories) {
       add(category: category);
     }
+    return Future.value();
   }
 
   @override
   FutureOr<void> addAllByIndustry({
     required String industry,
     required List<CategoryEntity> categories,
-  }) {
+  }) async {
     _industry[industry] = categories;
-    addAll(categories: categories);
+    await addAll(categories: categories);
+    return Future.value();
   }
 
   @override
   FutureOr<CategoryEntity> find({
     required String urlSlug,
-  }) {
+  }) async {
     final category = _cache[urlSlug];
 
     if (category == null) {
@@ -45,7 +48,7 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   @override
   FutureOr<List<CategoryEntity>> findByIndustry({
     required String industry,
-  }) {
+  }) async {
     final categories = _industry[industry];
 
     if (categories == null) {
@@ -55,8 +58,9 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   }
 
   @override
-  FutureOr<void> removeAll() {
+  FutureOr<void> removeAll() async {
     _cache.clear();
     _industry.clear();
+    return Future.value();
   }
 }
