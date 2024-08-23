@@ -192,7 +192,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       Expanded(
                                         child: TextFormField(
                                           controller: confirmPasswordController,
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.text,
                                           textAlign: TextAlign.end,
                                           textAlignVertical: TextAlignVertical.center,
                                           textInputAction: TextInputAction.done,
