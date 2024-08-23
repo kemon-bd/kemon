@@ -197,25 +197,20 @@ class BusinessItemWidget extends StatelessWidget {
                                       if (state is FindListingReviewsDone) {
                                         final reviews = state.reviews;
                                         if (reviews.isNotEmpty) {
-                                          return CarouselSlider.builder(
-                                            itemCount: reviews.length,
-                                            itemBuilder: (_, index, __) {
-                                              final review = reviews[index];
-                                              return FeaturedReviewItemWidget(review: review);
-                                            },
-                                            options: CarouselOptions(
-                                              aspectRatio: 2.6,
-                                              enlargeStrategy: CenterPageEnlargeStrategy.height,
-                                              enableInfiniteScroll: true,
-                                              enlargeCenterPage: true,
-                                              enlargeFactor: .33,
-                                              scrollDirection: Axis.horizontal,
-                                              autoPlay: true,
-                                              autoPlayAnimationDuration: const Duration(seconds: 1),
-                                              autoPlayInterval: const Duration(seconds: 5),
-                                              viewportFraction: .9,
-                                              clipBehavior: Clip.none,
-                                              padEnds: true,
+                                          return SizedBox(
+                                            height: Dimension.size.vertical.carousel,
+                                            child: CarouselView(
+                                              itemExtent: context.width * .75,
+                                              itemSnapping: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+                                              ),
+                                              padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.small),
+                                              children: reviews
+                                                  .map(
+                                                    (review) => FeaturedReviewItemWidget(review: review),
+                                                  )
+                                                  .toList(),
                                             ),
                                           );
                                         } else {

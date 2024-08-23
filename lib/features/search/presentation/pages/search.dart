@@ -3,6 +3,7 @@ import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
+import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
 
@@ -171,16 +172,52 @@ class _SearchPageState extends State<SearchPage> {
                       ListView.separated(
                         itemBuilder: (_, index) {
                           final urlSlug = businesses[index];
-                          return BlocProvider(
-                            create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
-                            child: const Row(
-                              children: [
-                                BusinessLogoWidget(size: 16),
-                                SizedBox(width: 16),
-                                Expanded(child: BusinessNameWidget()),
-                                SizedBox(width: 16),
-                                
-                              ],
+                          return InkWell(
+                            onTap: () {
+                              context.pushReplacementNamed(
+                                BusinessPage.name,
+                                pathParameters: {
+                                  'urlSlug': urlSlug,
+                                },
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                    create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+                                  ),
+                                  BlocProvider(
+                                    create: (_) => sl<FindRatingBloc>()..add(FindRating(urlSlug: urlSlug)),
+                                  ),
+                                ],
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    BusinessLogoWidget(
+                                      size: 32,
+                                      radius: 8,
+                                      backgroundColor: theme.backgroundSecondary,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          BusinessNameWidget(
+                                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          BusinessRatingWidget(urlSlug: urlSlug),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -188,7 +225,7 @@ class _SearchPageState extends State<SearchPage> {
                         itemCount: businesses.length,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(0),
                       ),
                     ],
                     if (industries.isNotEmpty) ...[

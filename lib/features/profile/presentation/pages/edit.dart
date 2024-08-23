@@ -66,22 +66,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         child: KeyboardVisibilityBuilder(
                           builder: (_, visible) => visible
                               ? Container(height: 2)
-                              : Column(
-                                  mainAxisSize: MainAxisSize.min,
+                              : Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Getting a new skin :p',
-                                      style: TextStyles.headline(context: context, color: theme.white).copyWith(
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 2,
-                                      ),
+                                    IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                      onPressed: context.pop,
+                                      icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Let us know about you, more precisely.',
-                                      style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
-                                        height: 1,
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Getting a new skin :p',
+                                            style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 2,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            'Let us know about you, more precisely.',
+                                            style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                              height: 1,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],

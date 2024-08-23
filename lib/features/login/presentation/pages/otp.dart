@@ -1,5 +1,3 @@
-import 'package:flutter/gestures.dart';
-
 import '../../../../core/shared/shared.dart';
 import '../../../registration/registration.dart';
 

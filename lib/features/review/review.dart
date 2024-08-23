@@ -36,3 +36,4 @@ export 'presentation/widgets/business.dart';
 export 'presentation/widgets/business_item.dart';
 export 'presentation/widgets/user.dart';
 export 'presentation/widgets/user_item.dart';
+export 'presentation/widgets/business_rating.dart';

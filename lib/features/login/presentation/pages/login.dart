@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Container(
                     width: double.maxFinite,
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
                     decoration: BoxDecoration(
                       color: theme.primary,
@@ -76,33 +76,52 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
-                          ? Container(height: 4)
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
+                          ? IconButton(
+                              padding: const EdgeInsets.all(0),
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              onPressed: context.pop,
+                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                            )
+                          : Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Hey, we know you.',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2,
-                                  ),
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  onPressed: context.pop,
+                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Continue with your secured password.',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
-                                    height: 1,
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Hey, we know you.',
+                                        style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 2,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Continue with your secured password.',
+                                        style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                          height: 1,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                     ),
                   ),
-                  Form(
-                    key: formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Expanded(
+                  Expanded(
+                    child: Form(
+                      key: formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: ListView(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
