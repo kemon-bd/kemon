@@ -32,6 +32,8 @@ class ProfileNameWidget extends StatelessWidget {
                   state.profile.name.full,
                   style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
                   textAlign: align,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               );
             } else if (state is FindProfileLoading) {

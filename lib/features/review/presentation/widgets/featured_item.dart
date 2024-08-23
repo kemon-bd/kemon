@@ -16,13 +16,12 @@ class FeaturedReviewItemWidget extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.medium),
           decoration: BoxDecoration(
             color: theme.backgroundPrimary,
             border: Border.all(
               color: theme.backgroundTertiary,
               width: Dimension.divider.large,
-              strokeAlign: BorderSide.strokeAlignOutside,
+              strokeAlign: BorderSide.strokeAlignInside,
             ),
             borderRadius: BorderRadius.circular(Dimension.radius.twelve),
           ),
@@ -51,45 +50,51 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                       },
                     ),
                     SizedBox(width: Dimension.padding.horizontal.medium),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ProfileNameWidget(
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                          onTap: () {
-                            context.pushNamed(
-                              PublicProfilePage.name,
-                              pathParameters: {'user': review.user.guid},
-                            );
-                          },
-                        ),
-                        SizedBox(height: Dimension.padding.vertical.verySmall),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            RatingBarIndicator(
-                              rating: review.rating.toDouble(),
-                              itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
-                              unratedColor: theme.textSecondary.withAlpha(50),
-                              itemCount: 5,
-                              itemSize: Dimension.radius.twelve,
-                              direction: Axis.horizontal,
-                            ),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
-                            Icon(Icons.circle, size: Dimension.radius.three, color: theme.backgroundTertiary),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
-                            StreamBuilder(
-                              stream: Stream.periodic(const Duration(seconds: 1)),
-                              builder: (context, snapshot) {
-                                return Text(
-                                  review.date.duration,
-                                  style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ProfileNameWidget(
+                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                            onTap: () {
+                              context.pushNamed(
+                                PublicProfilePage.name,
+                                pathParameters: {'user': review.user.guid},
+                              );
+                            },
+                          ),
+                          SizedBox(height: Dimension.padding.vertical.verySmall),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RatingBarIndicator(
+                                rating: review.rating.toDouble(),
+                                itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
+                                unratedColor: theme.textSecondary.withAlpha(50),
+                                itemCount: 5,
+                                itemSize: Dimension.radius.twelve,
+                                direction: Axis.horizontal,
+                              ),
+                              SizedBox(width: Dimension.padding.horizontal.medium),
+                              Icon(Icons.circle, size: Dimension.radius.three, color: theme.backgroundTertiary),
+                              SizedBox(width: Dimension.padding.horizontal.medium),
+                              Expanded(
+                                child: StreamBuilder(
+                                  stream: Stream.periodic(const Duration(seconds: 1)),
+                                  builder: (context, snapshot) {
+                                    return Text(
+                                      review.date.duration,
+                                      style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

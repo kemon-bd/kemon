@@ -48,8 +48,8 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                   flex: 1,
                   child: Container(
                     width: double.maxFinite,
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(left: 24, bottom: 16),
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.only(left: 24, bottom: 16).copyWith(top: context.topInset + 8),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -61,11 +61,23 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                     ),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
-                          ? Container()
+                          ? IconButton(
+                              padding: const EdgeInsets.all(0),
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              onPressed: context.pop,
+                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                            )
                           : Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  onPressed: context.pop,
+                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                ),
+                                const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
                                   style: TextStyles.headline(context: context, color: theme.white).copyWith(

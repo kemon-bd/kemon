@@ -7,6 +7,7 @@ class BusinessLogoWidget extends StatelessWidget {
   final Color? backgroundColor;
   final Color? placeholderColor;
   final double border;
+  final double radius;
   final Color? borderColor;
   final VoidCallback? onTap;
 
@@ -14,6 +15,7 @@ class BusinessLogoWidget extends StatelessWidget {
     super.key,
     this.size = 20,
     this.border = 0,
+    this.radius = 0,
     this.borderColor,
     this.backgroundColor,
     this.placeholderColor,
@@ -27,7 +29,7 @@ class BusinessLogoWidget extends StatelessWidget {
         final theme = state.scheme;
         return InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(size),
+          borderRadius: BorderRadius.circular(radius),
           child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
             builder: (context, state) {
               if (state is FindBusinessDone) {
@@ -39,7 +41,7 @@ class BusinessLogoWidget extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: backgroundColor ?? theme.primary,
-                        borderRadius: BorderRadius.circular(size),
+                        borderRadius: BorderRadius.circular(radius),
                         border: Border.all(
                           color: borderColor ?? Colors.transparent,
                           width: border,
@@ -51,7 +53,7 @@ class BusinessLogoWidget extends StatelessWidget {
                         imageUrl: url,
                         width: size,
                         height: size,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         placeholder: (_, __) => ShimmerIcon(radius: size),
                         errorWidget: (_, __, ___) => Center(
                           child: Text(
