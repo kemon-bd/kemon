@@ -24,6 +24,7 @@ class FeaturedReviewsShimmerWidget extends StatelessWidget {
               height: Dimension.size.vertical.carousel,
               child: CarouselView(
                 itemExtent: context.width * .75,
+                shrinkExtent: context.width * .75,
                 itemSnapping: true,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(Dimension.radius.twelve),
@@ -32,57 +33,78 @@ class FeaturedReviewsShimmerWidget extends StatelessWidget {
                 children: [0, 1, 2]
                     .map(
                       (review) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: PhysicalModel(
-                          color: theme.backgroundSecondary,
-                          elevation: 4,
-                          shadowColor: theme.textSecondary,
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: ListView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(16.0),
-                            children: [
-                              Row(
-                                children: [
-                                  const ShimmerIcon(radius: 32),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const ShimmerLabel(width: 128, height: 12.0),
-                                        const SizedBox(height: 4),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            const ShimmerLabel(width: 78, height: 10.0),
-                                            const SizedBox(width: 8),
-                                            Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
-                                            const SizedBox(width: 8),
-                                            const ShimmerLabel(width: 64, height: 8.0),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(height: 24, thickness: .15),
-                              const Align(
-                                alignment: Alignment.centerLeft,
-                                child: ShimmerLabel(width: 240, height: 12.0),
-                              ),
-                              const SizedBox(height: 12),
-                              const ShimmerLabel(width: 112, height: 8.0),
-                              const SizedBox(height: 6),
-                              const Align(
-                                alignment: Alignment.centerLeft,
-                                child: ShimmerLabel(width: 240, height: 8.0),
-                              ),
-                            ],
+                        decoration: BoxDecoration(
+                          color: theme.backgroundPrimary,
+                          border: Border.all(
+                            color: theme.backgroundTertiary,
+                            width: Dimension.divider.large,
+                            strokeAlign: BorderSide.strokeAlignInside,
                           ),
+                          borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: ListView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimension.padding.horizontal.large,
+                            vertical: Dimension.padding.vertical.large,
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ShimmerIcon(radius: Dimension.radius.thirtyTwo),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ShimmerLabel(
+                                        width: Dimension.size.horizontal.sixtyFour,
+                                        height: Dimension.size.vertical.twelve,
+                                        radius: Dimension.radius.eight,
+                                      ),
+                                      SizedBox(height: Dimension.padding.vertical.verySmall),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ShimmerLabel(
+                                            width: Dimension.size.horizontal.fortyEight,
+                                            height: Dimension.size.vertical.twelve,
+                                            radius: Dimension.radius.eight,
+                                          ),
+                                          SizedBox(width: Dimension.padding.horizontal.medium),
+                                          Icon(Icons.circle, size: Dimension.radius.three, color: theme.backgroundTertiary),
+                                          SizedBox(width: Dimension.padding.horizontal.medium),
+                                          Expanded(
+                                            child: ShimmerLabel(
+                                              width: Dimension.size.horizontal.thirtyTwo,
+                                              height: Dimension.size.vertical.twelve,
+                                              radius: Dimension.radius.eight,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Divider(height: Dimension.size.vertical.tweenty),
+                            ShimmerLabel(
+                              width: Dimension.size.horizontal.oneTwentyEight,
+                              height: Dimension.size.vertical.twelve,
+                              radius: Dimension.radius.eight,
+                            ),
+                            SizedBox(height: Dimension.padding.vertical.small),
+                            ShimmerLabel(
+                              width: Dimension.size.horizontal.seventyTwo,
+                              height: Dimension.size.vertical.twelve,
+                              radius: Dimension.radius.eight,
+                            )
+                          ],
                         ),
                       ),
                     )

@@ -41,7 +41,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ProfilePictureWidget(
-                      size: 32,
+                      size: Dimension.radius.thirtyTwo,
                       onTap: () {
                         context.pushNamed(
                           PublicProfilePage.name,
