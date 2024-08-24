@@ -9,12 +9,13 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   });
 
   @override
-  FutureOr<List<BusinessModel>> category({
-    required urlSlug,
+  FutureOr<BusinessesByCategoryPaginatedResponse> category({
+    required int page,
+    required String urlSlug,
   }) async {
     final Map<String, String> headers = {
       'urlSlug': urlSlug,
-      'pageno': '1',
+      'pageno': '$page',
     };
 
     final Response response = await client.get(
@@ -27,8 +28,12 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
 
       if (networkReponse.success) {
         final List<dynamic> data = List<dynamic>.from(networkReponse.result!["listingDatas"]);
+        final int total = networkReponse.result!["totalCount"];
 
-        return data.map((e) => BusinessModel.parse(map: e)).toList();
+        return (
+          businesses: data.map((e) => BusinessModel.parse(map: e)).toList(),
+          total: total,
+        );
       } else {
         throw RemoteFailure(message: networkReponse.error ?? 'Failed to load categories');
       }

@@ -16,3 +16,15 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
   @override
   List<Object> get props => [category];
 }
+
+class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
+  final int page;
+  final String category;
+
+  const PaginateBusinessesByCategory({
+    required this.page,
+    required this.category,
+  });
+  @override
+  List<Object> get props => [category, page];
+}

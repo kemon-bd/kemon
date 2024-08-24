@@ -27,12 +27,27 @@ class FindBusinessesByCategoryError extends FindBusinessesByCategoryState {
 }
 
 class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
+  final int page;
+  final int total;
   final List<BusinessEntity> businesses;
 
   const FindBusinessesByCategoryDone({
+    required this.page,
+    required this.total,
     required this.businesses,
   });
 
   @override
-  List<Object> get props => [businesses];
+  List<Object> get props => [businesses, total, page];
+}
+
+class FindBusinessesByCategoryPaginating extends FindBusinessesByCategoryDone {
+  const FindBusinessesByCategoryPaginating({
+    required super.page,
+    required super.total,
+    required super.businesses,
+  });
+
+  @override
+  List<Object> get props => [businesses, total, page];
 }

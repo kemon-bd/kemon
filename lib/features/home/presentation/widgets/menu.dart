@@ -1,6 +1,7 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../../profile/profile.dart';
+import '../../../registration/registration.dart';
 
 class DashboardMenuWidget extends StatelessWidget {
   const DashboardMenuWidget({super.key});
@@ -150,7 +151,13 @@ class DashboardMenuWidget extends StatelessWidget {
                             context.auth.add(const AuthenticationLogout());
                           } else {
                             context.pop();
-                            context.pushNamed(CheckProfilePage.name);
+                            // context.pushNamed(CheckProfilePage.name);
+                            context.pushNamed(
+                              RegistrationPage.name,
+                              queryParameters: {
+                                'username': '01741005856',
+                              },
+                            );
                           }
                         },
                       ),

@@ -15,7 +15,7 @@ extension ProfileModelExtension on ProfileModel {
       "profilePicture": profilePicture,
       "joinDate": memberSince.toIso8601String(),
       "dob": dob?.toIso8601String(),
-      "gender": gender.index,
+      "gender": gender?.index ?? -1,
       "point": kemonIdentity.point,
       "referrar": kemonIdentity.referrer,
     };

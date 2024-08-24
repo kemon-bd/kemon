@@ -114,7 +114,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
                           validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                          decoration: const InputDecoration(hintText: "username / email"),
+                          decoration: const InputDecoration(hintText: "Email / Phone"),
                         ),
                         const SizedBox(height: 20),
                         SizedBox(

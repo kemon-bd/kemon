@@ -8,6 +8,7 @@ environment:
 dependencies:
   cached_network_image: ^3.3.1
   collection: ^1.18.0
+  dots_indicator: ^3.0.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
   expandable: ^5.0.1

@@ -246,7 +246,10 @@ final router = GoRouter(
     GoRoute(
       path: PhotoPreviewPage.path,
       name: PhotoPreviewPage.name,
-      builder: (context, state) => PhotoPreviewPage(url: state.pathParameters['url']!),
+      builder: (context, state) => PhotoPreviewPage(
+        url: state.pathParameters['url']!.split(','),
+        index: int.tryParse(state.uri.queryParameters['index'] ?? '') ?? 0,
+      ),
     ),
     GoRoute(
       path: IndustryPage.path,
@@ -262,7 +265,9 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                  category: state.pathParameters['urlSlug']!,
+                ),
               ),
           ),
         ],

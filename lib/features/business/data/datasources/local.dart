@@ -7,8 +7,9 @@ abstract class BusinessLocalDataSource {
   });
 
   FutureOr<void> addCategory({
+    required int page,
     required String category,
-    required List<BusinessEntity> businesses,
+    required BusinessesByCategoryPaginatedResponse response,
   });
 
   FutureOr<void> addAll({
@@ -21,7 +22,8 @@ abstract class BusinessLocalDataSource {
     required String urlSlug,
   });
 
-  FutureOr<List<BusinessEntity>> findCategory({
+  FutureOr<BusinessesByCategoryPaginatedResponse> findCategory({
+    required int page,
     required String urlSlug,
   });
 }

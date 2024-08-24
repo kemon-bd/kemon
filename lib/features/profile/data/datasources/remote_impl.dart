@@ -101,7 +101,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       'email': profile.contact.email ?? '',
       'phone': profile.contact.phone ?? '',
       'dob': profile.dob?.toIso8601String() ?? '',
-      'gender': profile.gender.index.toString(),
+      'gender': profile.gender?.index.toString() ?? '-1',
       'isupload': avatar != null ? 'true' : 'false',
     });
     if (avatar != null) {

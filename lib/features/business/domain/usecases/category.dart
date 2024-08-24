@@ -8,9 +8,9 @@ class BusinessesByCategoryUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, List<BusinessEntity>>> call({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> call({
+    required int page,
     required String category,
-  }) async {
-    return await repository.category(category: category);
-  }
+  }) async =>
+      await repository.category(category: category, page: page);
 }

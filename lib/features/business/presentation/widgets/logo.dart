@@ -49,17 +49,21 @@ class BusinessLogoWidget extends StatelessWidget {
                         ),
                       ),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: CachedNetworkImage(
-                        imageUrl: url,
-                        width: size,
-                        height: size,
-                        fit: BoxFit.contain,
-                        placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
-                        errorWidget: (_, __, ___) => Center(
-                          child: Text(
-                            state.business.name.symbol,
-                            style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
-                              fontSize: size / 2,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(radius),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          width: size,
+                          height: size,
+                          fit: BoxFit.contain,
+                          placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
+                          errorWidget: (_, __, ___) => Center(
+                            child: Text(
+                              state.business.name.symbol,
+                              style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                                fontSize: size / 2,
+                              ),
                             ),
                           ),
                         ),

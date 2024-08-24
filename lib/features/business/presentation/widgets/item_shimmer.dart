@@ -72,7 +72,7 @@ class BusinessItemShimmerWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: Dimension.padding.vertical.medium),
+              /* SizedBox(height: Dimension.padding.vertical.medium),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -92,7 +92,7 @@ class BusinessItemShimmerWidget extends StatelessWidget {
                     radius: Dimension.radius.eight,
                   ),
                 ],
-              ),
+              ), */
             ],
           ),
         );

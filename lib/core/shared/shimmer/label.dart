@@ -38,7 +38,7 @@ class ShimmerLabel extends StatelessWidget {
         ),
       )
           .animate(
-            onComplete: (controller) => controller.repeat(),
+            onComplete: (controller) => controller.repeat(reverse: true),
           )
           .shimmer(
             color: theme.backgroundTertiary,

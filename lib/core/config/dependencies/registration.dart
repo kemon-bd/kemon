@@ -29,8 +29,10 @@ Future<void> get registrationDependencies async {
   sl.registerLazySingleton<RegistrationRepository>(
     () => RegistrationRepositoryImpl(
       network: sl(),
+      auth: sl(),
       profile: sl(),
       remote: sl(),
+      login: sl(),
     ),
   );
 

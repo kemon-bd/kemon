@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             centerTitle: false,
             actions: [
               MyProfilePictureWidget(
-                size: Dimension.radius.thirtyTwo,
+                size: Dimension.radius.twentyFour,
                 border: Dimension.divider.normal,
                 borderColor: theme.white,
                 onTap: () {

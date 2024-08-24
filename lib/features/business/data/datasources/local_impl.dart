@@ -3,7 +3,7 @@ import '../../business.dart';
 
 class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   final Map<String, BusinessEntity> _cache = {};
-  final Map<String, List<BusinessEntity>> _category = {};
+  final Map<(String, int), BusinessesByCategoryPaginatedResponse> _category = {};
 
   @override
   FutureOr<void> add({
@@ -39,21 +39,32 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
 
   @override
   FutureOr<void> addCategory({
+    required int page,
     required String category,
-    required List<BusinessEntity> businesses,
+    required BusinessesByCategoryPaginatedResponse response,
   }) {
-    _category[category] = businesses;
-    addAll(businesses: businesses);
+    _category[(category, page)] = response;
+    addAll(businesses: response.businesses);
   }
 
   @override
-  FutureOr<List<BusinessEntity>> findCategory({
+  FutureOr<BusinessesByCategoryPaginatedResponse> findCategory({
+    required int page,
     required String urlSlug,
-  }) {
-    final businesses = _category[urlSlug];
-    if (businesses == null) {
+  }) async {
+    if (!_category.containsKey((urlSlug, page))) {
       throw BusinessNotFoundByCategoryInLocalCacheFailure();
     }
-    return businesses;
+    int total = 0;
+    List<BusinessEntity> businesses = [];
+    for (int p = 1; p <= page; p++) {
+      final item = _category[(urlSlug, p)];
+      if (item != null) {
+        total = item.total;
+        businesses.addAll(item.businesses);
+      }
+    }
+
+    return (total: total, businesses: businesses);
   }
 }

@@ -26,7 +26,7 @@ class ShimmerIcon extends StatelessWidget {
       decoration: BoxDecoration(gradient: gradient, shape: BoxShape.circle),
     )
         .animate(
-          onComplete: (controller) => controller.repeat(),
+          onComplete: (controller) => controller.repeat(reverse: true),
         )
         .shimmer(
           color: theme.backgroundTertiary,

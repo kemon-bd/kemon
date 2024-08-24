@@ -1,16 +1,22 @@
 import '../../../../core/shared/shared.dart';
+import '../../../authentication/authentication.dart';
+import '../../../login/login.dart';
 import '../../../profile/profile.dart';
 import '../../registration.dart';
 
 class RegistrationRepositoryImpl extends RegistrationRepository {
   final NetworkInfo network;
+  final AuthenticationBloc auth;
   final ProfileRemoteDataSource profile;
   final RegistrationRemoteDataSource remote;
+  final LoginRemoteDataSource login;
 
   RegistrationRepositoryImpl({
     required this.network,
+    required this.auth,
     required this.profile,
     required this.remote,
+    required this.login,
   });
 
   @override
@@ -18,10 +24,6 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
     required String username,
     required String password,
     required String refference,
-    required Name name,
-    required Contact contact,
-    required DateTime dob,
-    required Gender gender,
   }) async {
     try {
       if (await network.online) {
@@ -29,11 +31,21 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
           username: username,
           password: password,
           refference: refference,
-          name: name,
-          contact: contact,
-          dob: dob,
-          gender: gender,
         );
+
+        final response = await login.login(username: username, password: password);
+
+        auth.add(
+          AuthorizeAuthentication(
+            username: username,
+            password: password,
+            remember: false,
+            token: response.token,
+            profile: response.profile,
+          ),
+        );
+
+        await Future.delayed(const Duration(milliseconds: 1));
 
         return Right(result);
       } else {

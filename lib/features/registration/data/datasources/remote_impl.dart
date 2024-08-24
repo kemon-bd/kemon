@@ -13,22 +13,18 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
     required String username,
     required String password,
     required String refference,
-    required Name name,
-    required Contact contact,
-    required DateTime dob,
-    required Gender gender,
   }) async {
     final Map<String, String> headers = {
       "userName": username,
       "password": password,
       "socialid": '',
       "refference": refference,
-      "firstName": name.first,
-      "lastName": name.last,
-      "email": contact.email ?? '',
-      "phone": contact.phone ?? '',
-      "dob": dob.MMddyyyy,
-      "gender": gender.index.toString(),
+      "firstName": '',
+      "lastName": '',
+      "email": '',
+      "phone": '',
+      "dob": '',
+      "gender": '-1',
     };
 
     final Response response = await client.post(

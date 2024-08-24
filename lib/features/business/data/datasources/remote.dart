@@ -6,7 +6,8 @@ abstract class BusinessRemoteDataSource {
     required String urlSlug,
   });
 
-  FutureOr<List<BusinessModel>> category({
+  FutureOr<BusinessesByCategoryPaginatedResponse> category({
+    required int page,
     required String urlSlug,
   });
 }

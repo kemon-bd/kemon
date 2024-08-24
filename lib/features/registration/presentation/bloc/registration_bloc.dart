@@ -16,10 +16,6 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         username: event.username,
         password: event.password,
         refference: event.refference,
-        name: Name(first: event.firstName, last: event.lastName),
-        contact: Contact(phone: event.phone, email: event.email),
-        dob: event.dob,
-        gender: event.gender,
       );
 
       result.fold(

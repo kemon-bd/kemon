@@ -21,6 +21,8 @@ class _Radius {
   final double twelve = 12.0.r;
   final double ten = 10.0.r;
   final double eight = 8.0.r;
+  final double six = 6.0.r;
+  final double four = 4.0.r;
   final double three = 3.0.r;
   final double one = 1.0.r;
 } //? ------------------- Radius -------------------
@@ -61,6 +63,7 @@ class _HorizontalSize {
   final double max = 1080.0.w;
   final double one = 1.0.w;
   final double four = 4.0.w;
+  final double eight = 8.0.w;
   final double sixteen = 16.0.w;
   final double tweenty = 20.0.w;
   final double twentyFour = 24.0.w;

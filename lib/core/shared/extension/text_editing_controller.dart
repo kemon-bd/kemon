@@ -2,7 +2,7 @@ import '../shared.dart';
 
 extension TextEditingControllerExtension on TextEditingController {
   bool get validPassword {
-    return text.length >= 8;
+    return text.length >= 6;
   }
 
   bool get validName {

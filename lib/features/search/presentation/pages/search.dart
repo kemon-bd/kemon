@@ -155,7 +155,7 @@ class _SearchPageState extends State<SearchPage> {
 
                 return ListView(
                   shrinkWrap: true,
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + Dimension.padding.vertical.max),
                   children: [
                     if (businesses.isNotEmpty) ...[
                       Container(

@@ -115,7 +115,8 @@ class ProfileModel extends ProfileEntity {
         map['gender'] is int?,
         'ProfileModel.parse: "gender" is not a int?.',
       );
-      final Gender gender = Gender.values.elementAt((map['gender'] as int?) ?? 0);
+      final int genderIndex = (map['gender'] as int?) ?? 0;
+      final Gender? gender = genderIndex.isNegative ? null : Gender.values.elementAt(genderIndex);
 
       // assert(
       //   map.containsKey('point'),

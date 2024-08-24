@@ -33,19 +33,31 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, List<BusinessEntity>>> category({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
+    required int page,
     required String category,
   }) async {
     try {
-      final result = await local.findCategory(urlSlug: category);
+      final result = await local.findCategory(urlSlug: category, page: page);
       return Right(result);
     } on BusinessNotFoundByCategoryInLocalCacheFailure catch (_) {
       if (await network.online) {
-        final result = await remote.category(urlSlug: category);
+        final result = await remote.category(
+          page: page,
+          urlSlug: category,
+        );
 
-        await local.addCategory(category: category, businesses: result);
+        await local.addCategory(category: category, response: result, page: page);
 
-        return Right(result);
+        final oldBuinesses =
+            page == 1 ? (total: 0, businesses: []) : await local.findCategory(page: page - 1, urlSlug: category);
+
+        return Right(
+          (
+            total: result.total,
+            businesses: [...oldBuinesses.businesses, ...result.businesses],
+          ),
+        );
       } else {
         return Left(NoInternetFailure());
       }

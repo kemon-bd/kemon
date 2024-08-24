@@ -7,7 +7,7 @@ class ProfileEntity extends Equatable {
   final DateTime? dob;
   final DateTime memberSince;
   final String? profilePicture;
-  final Gender gender;
+  final Gender? gender;
   final KemonIdentity kemonIdentity;
 
   const ProfileEntity({

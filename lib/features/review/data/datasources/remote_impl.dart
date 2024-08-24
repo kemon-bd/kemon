@@ -37,8 +37,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
 
@@ -76,7 +75,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required String urlSlug,
   }) async {
     final Map<String, String> headers = {
-      'urlslug': urlSlug,
+      'urlslug': Uri.encodeComponent(urlSlug),
     };
 
     final Response response = await client.get(

@@ -21,7 +21,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController phoneController = TextEditingController();
 
   DateTime? dob;
-  late Gender gender;
+  Gender? gender;
   XFile? profilePicture;
 
   @override
@@ -455,7 +455,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           gender = selection;
                                         });
                                       },
-                                      text: gender.text,
+                                      text: gender?.text ?? 'Select one',
                                       popup: GenderFilterWidget(selection: gender),
                                     ),
                                   ],
