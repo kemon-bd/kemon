@@ -113,7 +113,11 @@ class UserReviewItemWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                           child: InkWell(
                             onTap: () {
-                              context.pushNamed(PhotoPreviewPage.name, pathParameters: {'url': photo.url});
+                              context.pushNamed(
+                                PhotoPreviewPage.name,
+                                pathParameters: {'url': review.photos.map((e) => e.url).join(',')},
+                                queryParameters: {'index': index.toString()},
+                              );
                             },
                             child: CachedNetworkImage(
                               imageUrl: photo.url,
