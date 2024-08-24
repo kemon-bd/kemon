@@ -6,6 +6,7 @@ class ThemeScheme {
   final Color backgroundTertiary;
   final Color textPrimary;
   final Color textSecondary;
+  final Color link;
   final Color positive;
   final Color positiveBackground;
   final Color positiveBackgroundSecondary;
@@ -26,6 +27,7 @@ class ThemeScheme {
     required this.textPrimary,
     required this.textSecondary,
     required this.primary,
+    required this.link,
     required this.positive,
     required this.positiveBackground,
     required this.positiveBackgroundSecondary,
@@ -37,13 +39,14 @@ class ThemeScheme {
 
   factory ThemeScheme.light() {
     final theme = ThemeScheme(
-      backgroundPrimary: const Color(0xFFffffff),
-      backgroundSecondary: const Color(0xFFf5f3f4),
-      backgroundTertiary: const Color(0xFFd3d3d3),
-      textPrimary: const Color(0xFF020202),
-      textSecondary: const Color(0xFF474747),
+      backgroundPrimary: const Color(0xFFfafaff),
+      backgroundSecondary: const Color(0xFFeef0f2),
+      backgroundTertiary: const Color(0xFFdaddd8),
+      textPrimary: const Color(0xFF1c1c1c),
+      textSecondary: const Color(0xFF66666e),
       primary: const Color(0xFF2BB673),
       positive: const Color(0xFF058c42),
+      link: Colors.lightBlueAccent.shade700,
       positiveBackground: const Color(0xFFeefbf5),
       positiveBackgroundSecondary: const Color(0xFFdef7eb),
       positiveBackgroundTertiary: const Color(0xFFcdf3e1),
@@ -63,6 +66,7 @@ class ThemeScheme {
       textPrimary: const Color(0xFFe9ecef),
       textSecondary: const Color(0xFFc2c2c2),
       primary: const Color(0xFF2BB673),
+      link: Colors.cyanAccent.shade400,
       positive: const Color(0xFF058c42),
       positiveBackground: const Color(0xFF04110a),
       positiveBackgroundSecondary: const Color(0xFF082115),

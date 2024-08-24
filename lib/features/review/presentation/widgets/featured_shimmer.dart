@@ -47,23 +47,25 @@ class FeaturedReviewsShimmerWidget extends StatelessWidget {
                                 children: [
                                   const ShimmerIcon(radius: 32),
                                   const SizedBox(width: 8),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const ShimmerLabel(width: 128, height: 12.0),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          const ShimmerLabel(width: 78, height: 10.0),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
-                                          const SizedBox(width: 8),
-                                          const ShimmerLabel(width: 64, height: 8.0),
-                                        ],
-                                      ),
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const ShimmerLabel(width: 128, height: 12.0),
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            const ShimmerLabel(width: 78, height: 10.0),
+                                            const SizedBox(width: 8),
+                                            Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                            const SizedBox(width: 8),
+                                            const ShimmerLabel(width: 64, height: 8.0),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

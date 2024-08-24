@@ -5,24 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "kemon-mobile-app",
+            "name": "Debug",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "kemon-mobile-app (debug mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "debug"
-        },
-        {
-            "name": "kemon-mobile-app (profile mode)",
+            "name": "Profile",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "kemon-mobile-app (release mode)",
+            "name": "Release",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

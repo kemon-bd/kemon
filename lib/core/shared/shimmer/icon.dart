@@ -10,39 +10,33 @@ class ShimmerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        final theme = state.scheme;
-        return Container(
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(
-            color: theme.backgroundTertiary,
-            shape: BoxShape.circle,
-          ),
-        )
-            .animate(
-              onComplete: (controller) => controller.repeat(),
-            )
-            .shimmer(
-              color: theme.backgroundTertiary,
-              colors: [
-                theme.backgroundTertiary,
-                theme.textPrimary.withAlpha(25),
-                theme.backgroundSecondary,
-                theme.textSecondary.withAlpha(25),
-                theme.backgroundPrimary,
-              ],
-              stops: [
-                .1,
-                .3,
-                .5,
-                .7,
-                .9,
-              ],
-              duration: const Duration(seconds: 1),
-            );
-      },
+    final theme = context.theme.scheme;
+    final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        theme.backgroundTertiary,
+        theme.backgroundPrimary,
+        theme.backgroundSecondary,
+      ],
     );
+    return Container(
+      width: radius,
+      height: radius,
+      decoration: BoxDecoration(gradient: gradient, shape: BoxShape.circle),
+    )
+        .animate(
+          onComplete: (controller) => controller.repeat(),
+        )
+        .shimmer(
+          color: theme.backgroundTertiary,
+          colors: [
+            theme.backgroundPrimary,
+            theme.backgroundSecondary,
+            theme.backgroundTertiary,
+          ],
+          stops: [.33, .66, .99],
+          duration: const Duration(seconds: 1),
+        );
   }
 }

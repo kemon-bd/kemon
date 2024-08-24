@@ -12,11 +12,14 @@ class Dimension {
 //* ------------------- Radius -------------------
 class _Radius {
   final double max = 100.0.r;
+  final double fortyEight = 48.0.r;
+  final double fortyTwo = 42.0.r;
   final double thirtyTwo = 32.0.r;
   final double twentyFour = 24.0.r;
   final double tweenty = 20.0.r;
   final double sixteen = 16.0.r;
   final double twelve = 12.0.r;
+  final double ten = 10.0.r;
   final double eight = 8.0.r;
   final double three = 3.0.r;
   final double one = 1.0.r;
@@ -61,10 +64,21 @@ class _HorizontalSize {
   final double sixteen = 16.0.w;
   final double tweenty = 20.0.w;
   final double twentyFour = 24.0.w;
+  final double thirtyTwo = 32.0.w;
+  final double fortyEight = 48.0.w;
+  final double sixtyFour = 64.0.w;
+  final double seventyTwo = 72.0.w;
+  final double oneTwentyEight = 128.0.w;
 }
 
 class _VerticalSize {
   final double max = 2400.0.h;
+  final double one = 1.0.h;
+  final double three = 3.0.h;
+  final double four = 4.0.h;
+  final double eight = 8.0.h;
+  final double ten = 10.0.h;
+  final double twelve = 12.0.h;
   final double sixteen = 16.0.h;
   final double tweenty = 20.0.h;
   final double twentyFour = 24.0.h;

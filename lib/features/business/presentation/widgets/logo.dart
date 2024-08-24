@@ -54,7 +54,7 @@ class BusinessLogoWidget extends StatelessWidget {
                         width: size,
                         height: size,
                         fit: BoxFit.contain,
-                        placeholder: (_, __) => ShimmerIcon(radius: size),
+                        placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
                         errorWidget: (_, __, ___) => Center(
                           child: Text(
                             state.business.name.symbol,

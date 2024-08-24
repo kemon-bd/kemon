@@ -51,11 +51,11 @@ class CategoryPage extends StatelessWidget {
                   itemBuilder: (_, index) {
                     return const BusinessItemShimmerWidget();
                   },
-                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: 10,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.max),
                 );
               } else if (state is FindBusinessesByCategoryDone) {
                 final businesses = state.businesses;
@@ -66,11 +66,11 @@ class CategoryPage extends StatelessWidget {
                           final business = businesses[index];
                           return BusinessItemWidget(urlSlug: business.urlSlug);
                         },
-                        separatorBuilder: (_, __) => const SizedBox(height: 16),
+                        separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                         itemCount: businesses.length,
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.max),
                       )
                     : Center(
                         child: Padding(

@@ -8,79 +8,90 @@ class BusinessItemShimmerWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
-        final random = Random();
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+          margin: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimension.padding.horizontal.large,
+            vertical: Dimension.padding.vertical.large,
+          ),
           decoration: BoxDecoration(
-            color: theme.backgroundPrimary,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: theme.backgroundTertiary,
-                blurRadius: .25,
-                spreadRadius: .25,
-              ),
-            ],
+            color: theme.backgroundSecondary,
+            borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           ),
           clipBehavior: Clip.none,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0).copyWith(bottom: 4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerLabel(width: 48, height: 48, radius: 8),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ShimmerLabel(
-                              width: 72.0 + random.nextInt(112),
-                              height: 12,
-                              radius: 8),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const ShimmerLabel(
-                                  width: 78, height: 12, radius: 8),
-                              const SizedBox(width: 16),
-                              ShimmerLabel(
-                                  width: 64.0 + random.nextInt(64),
-                                  height: 8,
-                                  radius: 8),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.all(12.0).copyWith(top: 4, bottom: 10),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ShimmerLabel(
+                    width: Dimension.radius.fortyTwo,
+                    height: Dimension.radius.fortyTwo,
+                    radius: Dimension.radius.eight,
+                  ),
+                  SizedBox(width: Dimension.padding.horizontal.large),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ShimmerIcon(radius: 16),
-                        SizedBox(width: 8),
-                        ShimmerIcon(radius: 16),
-                        SizedBox(width: 8),
-                        ShimmerIcon(radius: 16),
+                        ShimmerLabel(
+                          width: Dimension.size.horizontal.oneTwentyEight,
+                          height: Dimension.size.vertical.twelve,
+                          radius: Dimension.radius.eight,
+                        ),
+                        SizedBox(height: Dimension.padding.vertical.small),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ShimmerIcon(radius: Dimension.radius.twelve),
+                            SizedBox(width: Dimension.padding.horizontal.verySmall),
+                            ShimmerLabel(
+                              width: Dimension.size.horizontal.sixteen,
+                              height: Dimension.size.vertical.ten,
+                              radius: Dimension.radius.eight,
+                            ),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            Icon(
+                              Icons.circle,
+                              size: Dimension.padding.horizontal.small,
+                              color: theme.backgroundTertiary,
+                            ),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            ShimmerLabel(
+                              width: Dimension.size.horizontal.fortyEight,
+                              height: Dimension.size.vertical.ten,
+                              radius: Dimension.radius.eight,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    ShimmerLabel(width: 112, height: 12, radius: 8),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+              SizedBox(height: Dimension.padding.vertical.medium),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShimmerIcon(radius: Dimension.radius.sixteen),
+                      SizedBox(width: Dimension.padding.horizontal.medium),
+                      ShimmerIcon(radius: Dimension.radius.sixteen),
+                      SizedBox(width: Dimension.padding.horizontal.medium),
+                      ShimmerIcon(radius: Dimension.radius.sixteen),
+                    ],
+                  ),
+                  ShimmerLabel(
+                    width: Dimension.size.horizontal.sixtyFour,
+                    height: Dimension.size.vertical.twelve,
+                    radius: Dimension.radius.eight,
+                  ),
+                ],
               ),
             ],
           ),
