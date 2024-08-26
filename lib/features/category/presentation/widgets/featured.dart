@@ -1,5 +1,5 @@
-import '../../../../../core/shared/shared.dart';
-import '../../../category.dart';
+import '../../../../core/shared/shared.dart';
+import '../../category.dart';
 
 class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
   const DashboardFeaturedCategoriesSectionWidget({super.key});

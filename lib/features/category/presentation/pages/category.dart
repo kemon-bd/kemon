@@ -42,28 +42,34 @@ class CategoryPage extends StatelessWidget {
               },
             ),
             actions: [
-              BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
-                builder: (context, state) {
-                  if (state is FindBusinessesByCategoryDone) {
-                    return Container(
-                      margin: EdgeInsets.only(right: Dimension.padding.horizontal.max),
-                      child: Text(
+              Container(
+                margin: EdgeInsets.only(right: Dimension.padding.horizontal.small),
+                alignment: Alignment.centerRight,
+                child: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                  builder: (context, state) {
+                    if (state is FindBusinessesByCategoryDone) {
+                      return Text(
                         '${state.businesses.length} out of ${state.total}',
                         style: TextStyles.caption(context: context, color: theme.textPrimary),
-                      ),
-                    );
-                  } else if (state is FindBusinessesByCategoryPaginating) {
-                    return Container(
-                      margin: EdgeInsets.only(right: Dimension.padding.horizontal.max),
-                      child: Text(
+                      );
+                    } else if (state is FindBusinessesByCategoryPaginating) {
+                      return Text(
                         'fetching more...',
                         style: TextStyles.caption(context: context, color: theme.textPrimary),
-                      ),
-                    );
-                  }
-                  return Container();
-                },
+                      );
+                    }
+                    return Container();
+                  },
+                ),
               ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.filter_alt_rounded,
+                  color: theme.primary,
+                  size: Dimension.radius.tweenty,
+                ),
+              )
             ],
             centerTitle: false,
           ),

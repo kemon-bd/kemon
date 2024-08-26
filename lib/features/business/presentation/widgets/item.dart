@@ -29,8 +29,8 @@ class BusinessItemWidget extends StatelessWidget {
                           children: [
                             if (business.contact.phone?.isNotEmpty ?? false) ...[
                               Icon(
-                                Icons.phone_rounded,
-                                color: theme.primary,
+                                Icons.phone_outlined,
+                                color: theme.textSecondary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
@@ -38,15 +38,15 @@ class BusinessItemWidget extends StatelessWidget {
                             if (business.contact.email?.isNotEmpty ?? false) ...[
                               Icon(
                                 Icons.email_outlined,
-                                color: theme.primary,
+                                color: theme.textSecondary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
                             ],
                             if (business.address.formatted.isNotEmpty) ...[
                               Icon(
-                                Icons.place_rounded,
-                                color: theme.primary,
+                                Icons.place_outlined,
+                                color: theme.textSecondary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
@@ -54,7 +54,7 @@ class BusinessItemWidget extends StatelessWidget {
                             if (business.contact.website?.isNotEmpty ?? false) ...[
                               Icon(
                                 Icons.language_rounded,
-                                color: theme.primary,
+                                color: theme.textSecondary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),

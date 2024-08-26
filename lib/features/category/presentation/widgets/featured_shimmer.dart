@@ -1,4 +1,4 @@
-import '../../../../../core/shared/shared.dart';
+import '../../../../core/shared/shared.dart';
 
 class DashboardFeaturedCategoriesSectionShimmerWidget extends StatelessWidget {
   const DashboardFeaturedCategoriesSectionShimmerWidget({super.key});
