@@ -17,3 +17,4 @@ export 'presentation/bloc/industry_bloc.dart';
 export 'presentation/pages/category.dart';
 export 'presentation/widgets/featured.dart';
 export 'presentation/widgets/featured_shimmer.dart';
+export 'presentation/widgets/filter.dart';

@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
@@ -57,14 +58,20 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     }
     int total = 0;
     List<BusinessEntity> businesses = [];
+    List<SubCategoryEntity> related = [];
     for (int p = 1; p <= page; p++) {
       final item = _category[(urlSlug, p)];
       if (item != null) {
         total = item.total;
         businesses.addAll(item.businesses);
+        related.addAll(item.related);
       }
     }
 
-    return (total: total, businesses: businesses);
+    return (
+      total: total,
+      businesses: businesses,
+      related: related,
+    );
   }
 }

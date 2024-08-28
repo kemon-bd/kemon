@@ -2,7 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../category.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
   static const String path = '/category/:urlSlug';
   static const String name = 'CategoryPage';
 
@@ -14,11 +14,19 @@ class CategoryPage extends StatelessWidget {
   });
 
   @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         final theme = state.scheme;
         return Scaffold(
+          key: scaffoldKey,
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
             leading: IconButton(
@@ -63,7 +71,9 @@ class CategoryPage extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  scaffoldKey.currentState?.openEndDrawer();
+                },
                 icon: Icon(
                   Icons.filter_alt_rounded,
                   color: theme.primary,
@@ -73,6 +83,7 @@ class CategoryPage extends StatelessWidget {
             ],
             centerTitle: false,
           ),
+          endDrawer: const FilterMenuWidget(),
           body: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
             builder: (context, state) {
               if (state is FindBusinessesByCategoryLoading) {
@@ -96,7 +107,7 @@ class CategoryPage extends StatelessWidget {
                           if (index == businesses.length) {
                             if (state is! FindBusinessesByCategoryPaginating) {
                               context.read<FindBusinessesByCategoryBloc>().add(
-                                    PaginateBusinessesByCategory(page: state.page + 1, category: urlSlug),
+                                    PaginateBusinessesByCategory(page: state.page + 1, category: widget.urlSlug),
                                   );
                             }
                             return const BusinessItemShimmerWidget();

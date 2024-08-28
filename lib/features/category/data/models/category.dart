@@ -22,15 +22,15 @@ class CategoryModel extends CategoryEntity {
       );
       final String name = map['name'] as String;
 
+      // assert(
+      //   map.containsKey('icon'),
+      //   'CategoryModel.parse: "icon" not found.',
+      // );
       assert(
-        map.containsKey('icon'),
-        'CategoryModel.parse: "icon" not found.',
+        map['icon'] is String?,
+        'CategoryModel.parse: "icon" is not a String?.',
       );
-      assert(
-        map['icon'] is String,
-        'CategoryModel.parse: "icon" is not a String.',
-      );
-      final String icon = map['icon'] as String;
+      final String icon = map['icon'] ?? '';
 
       assert(
         map.containsKey('urlslug'),

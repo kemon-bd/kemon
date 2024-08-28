@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../business.dart';
 
 part 'category_event.dart';
@@ -17,6 +18,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
             page: 1,
             total: response.total,
             businesses: response.businesses,
+            related: response.related,
           ),
         ),
       );
@@ -29,6 +31,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
           total: oldState.total,
           page: event.page,
           businesses: oldState.businesses,
+          related: oldState.related,
         ));
         final result = await useCase(category: event.category, page: event.page);
         result.fold(
@@ -38,6 +41,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
               page: event.page,
               total: response.total,
               businesses: response.businesses,
+              related: response.related,
             ),
           ),
         );

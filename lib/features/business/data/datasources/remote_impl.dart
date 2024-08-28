@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
@@ -27,12 +28,14 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       final RemoteResponse<Map<String, dynamic>> networkReponse = RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
-        final List<dynamic> data = List<dynamic>.from(networkReponse.result!["listingDatas"]);
+        final List<dynamic> businesses = List<dynamic>.from(networkReponse.result!["listingDatas"]);
+        final List<dynamic> relatedCategories = List<dynamic>.from(networkReponse.result!["relatedDatas"]);
         final int total = networkReponse.result!["totalCount"];
 
         return (
-          businesses: data.map((e) => BusinessModel.parse(map: e)).toList(),
+          businesses: businesses.map((e) => BusinessModel.parse(map: e)).toList(),
           total: total,
+          related: relatedCategories.map((e) => SubCategoryModel.parse(map: e)).toList(),
         );
       } else {
         throw RemoteFailure(message: networkReponse.error ?? 'Failed to load categories');

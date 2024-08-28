@@ -1,9 +1,11 @@
 import '../../../../core/shared/shared.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 typedef BusinessesByCategoryPaginatedResponse = ({
   int total,
   List<BusinessEntity> businesses,
+  List<SubCategoryEntity> related,
 });
 
 abstract class BusinessRepository {

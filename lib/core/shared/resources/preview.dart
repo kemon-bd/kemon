@@ -57,6 +57,9 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                           return PhotoViewGalleryPageOptions(
                             imageProvider: CachedNetworkImageProvider(widget.url.elementAt(index)),
                             initialScale: PhotoViewComputedScale.contained,
+                            minScale: PhotoViewComputedScale.contained,
+                            maxScale: PhotoViewComputedScale.covered,
+                            tightMode: true,
                             heroAttributes: PhotoViewHeroAttributes(tag: widget.url.elementAt(index)),
                           );
                         },

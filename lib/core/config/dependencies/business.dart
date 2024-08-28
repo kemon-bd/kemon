@@ -31,6 +31,7 @@ Future<void> get businessDependencies async {
       network: sl(),
       remote: sl(),
       local: sl(),
+      subCategory: sl(),
     ),
   );
 

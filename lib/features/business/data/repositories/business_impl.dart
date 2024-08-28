@@ -1,15 +1,18 @@
 import '../../../../core/shared/shared.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 class BusinessRepositoryImpl extends BusinessRepository {
   final NetworkInfo network;
   final BusinessLocalDataSource local;
+  final SubCategoryLocalDataSource subCategory;
   final BusinessRemoteDataSource remote;
 
   BusinessRepositoryImpl({
     required this.network,
     required this.local,
     required this.remote,
+    required this.subCategory,
   });
 
   @override
@@ -48,14 +51,21 @@ class BusinessRepositoryImpl extends BusinessRepository {
         );
 
         await local.addCategory(category: category, response: result, page: page);
+        await subCategory.addAll(subCategories: result.related);
 
-        final oldBuinesses =
-            page == 1 ? (total: 0, businesses: []) : await local.findCategory(page: page - 1, urlSlug: category);
+        final oldBuinesses = page == 1
+            ? (
+                total: 0,
+                businesses: [],
+                related: [],
+              )
+            : await local.findCategory(page: page - 1, urlSlug: category);
 
         return Right(
           (
             total: result.total,
             businesses: [...oldBuinesses.businesses, ...result.businesses],
+            related: result.related,
           ),
         );
       } else {
