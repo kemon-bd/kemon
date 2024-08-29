@@ -11,7 +11,7 @@ class FilterMenuWidget extends StatefulWidget {
 
 class _FilterMenuWidgetState extends State<FilterMenuWidget> {
   String sort = 'Select one';
-  
+  final List<int> ratings = [];
 
   @override
   void initState() {
@@ -137,12 +137,16 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: theme.backgroundTertiary, width: .25),
                 ),
-                child: ListView(
+                child: ListView.separated(
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ListTile(
+                  itemCount: 5,
+                  separatorBuilder: (context, index) => const Divider(height: 8),
+                  itemBuilder: (context, index) {
+                    final rating = index + 1;
+                    final selected = ratings.contains(rating);
+                    return ListTile(
                       dense: true,
                       horizontalTitleGap: 24,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -151,117 +155,37 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                         width: 24,
                         height: 24,
                         decoration: BoxDecoration(
-                          color: theme.backgroundTertiary,
+                          color: selected ? theme.primary : theme.backgroundTertiary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: theme.textPrimary, width: 1),
                         ),
-                        // child: Icon(Icons.done_all_rounded, size: 16, color: theme.textPrimary),
+                        child: selected
+                            ? Icon(
+                                Icons.check_rounded,
+                                size: 16,
+                                color: theme.white,
+                                weight: 700,
+                                grade: 200,
+                              )
+                            : null,
                       ),
                       title: RatingBarIndicator(
-                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.positive),
+                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.primary),
                         itemSize: 24,
-                        itemCount: 1,
+                        itemCount: rating,
                         unratedColor: theme.textSecondary,
-                        rating: 1,
+                        rating: rating.toDouble(),
                       ),
-                    ),
-                    const Divider(height: 8),
-                    ListTile(
-                      dense: true,
-                      horizontalTitleGap: 24,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                      leading: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: theme.backgroundTertiary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: theme.textPrimary, width: 1),
-                        ),
-                        // child: Icon(Icons.done_all_rounded, size: 16, color: theme.textPrimary),
-                      ),
-                      title: RatingBarIndicator(
-                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.positive),
-                        itemSize: 24,
-                        itemCount: 2,
-                        unratedColor: theme.textSecondary,
-                        rating: 2,
-                      ),
-                    ),
-                    const Divider(height: 8),
-                    ListTile(
-                      dense: true,
-                      horizontalTitleGap: 24,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                      leading: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: theme.backgroundTertiary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: theme.textPrimary, width: 1),
-                        ),
-                        // child: Icon(Icons.done_all_rounded, size: 16, color: theme.textPrimary),
-                      ),
-                      title: RatingBarIndicator(
-                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.positive),
-                        itemSize: 24,
-                        itemCount: 3,
-                        unratedColor: theme.textSecondary,
-                        rating: 3,
-                      ),
-                    ),
-                    const Divider(height: 8),
-                    ListTile(
-                      dense: true,
-                      horizontalTitleGap: 24,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                      leading: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: theme.backgroundTertiary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: theme.textPrimary, width: 1),
-                        ),
-                        // child: Icon(Icons.done_all_rounded, size: 16, color: theme.textPrimary),
-                      ),
-                      title: RatingBarIndicator(
-                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.positive),
-                        itemSize: 24,
-                        itemCount: 4,
-                        unratedColor: theme.textSecondary,
-                        rating: 4,
-                      ),
-                    ),
-                    const Divider(height: 8),
-                    ListTile(
-                      dense: true,
-                      horizontalTitleGap: 24,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                      leading: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: theme.backgroundTertiary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: theme.textPrimary, width: 1),
-                        ),
-                        // child: Icon(Icons.done_all_rounded, size: 16, color: theme.textPrimary),
-                      ),
-                      title: RatingBarIndicator(
-                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.positive),
-                        itemSize: 24,
-                        itemCount: 5,
-                        unratedColor: theme.textSecondary,
-                        rating: 5,
-                      ),
-                    ),
-                  ],
+                      onTap: () {
+                        if (selected) {
+                          ratings.remove(rating);
+                        } else {
+                          ratings.add(rating);
+                        }
+                        setState(() {});
+                      },
+                    );
+                  },
                 ),
               ),
               BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
