@@ -282,6 +282,9 @@ final router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
+            create: (context) => FilterBloc(),
+          ),
+          BlocProvider(
             create: (context) => sl<FindCategoryBloc>()
               ..add(
                 FindCategory(urlSlug: state.pathParameters['urlSlug']!),
