@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../location/location.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -39,18 +40,49 @@ class BusinessRepositoryImpl extends BusinessRepository {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
     required String category,
+    required SortBy? sort,
+    required LocationEntity? division,
+    required LocationEntity? district,
+    required LocationEntity? thana,
+    required SubCategoryEntity? sub,
+    required List<int> ratings,
   }) async {
     try {
-      final result = await local.findCategory(urlSlug: category, page: page);
+      final result = await local.findCategory(
+        category: category,
+        page: page,
+        sort: sort,
+        division: division,
+        district: district,
+        thana: thana,
+        sub: sub,
+        ratings: ratings,
+      );
       return Right(result);
     } on BusinessNotFoundByCategoryInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.category(
           page: page,
           urlSlug: category,
+          sort: sort,
+          division: division,
+          district: district,
+          thana: thana,
+          subCategory: sub,
+          ratings: ratings,
         );
 
-        await local.addCategory(category: category, response: result, page: page);
+        await local.addCategory(
+          category: category,
+          page: page,
+          sort: sort,
+          division: division,
+          district: district,
+          thana: thana,
+          sub: sub,
+          ratings: ratings,
+          response: result,
+        );
         await subCategory.addAll(subCategories: result.related);
 
         final oldBuinesses = page == 1
@@ -59,7 +91,86 @@ class BusinessRepositoryImpl extends BusinessRepository {
                 businesses: [],
                 related: [],
               )
-            : await local.findCategory(page: page - 1, urlSlug: category);
+            : await local.findCategory(
+                category: category,
+                sort: sort,
+                division: division,
+                district: district,
+                thana: thana,
+                sub: sub,
+                ratings: ratings,
+                page: page - 1,
+              );
+
+        return Right(
+          (
+            total: result.total,
+            businesses: [...oldBuinesses.businesses, ...result.businesses],
+            related: result.related,
+          ),
+        );
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
+    required int page,
+    required String category,
+    required SortBy? sort,
+    required LocationEntity? division,
+    required LocationEntity? district,
+    required LocationEntity? thana,
+    required SubCategoryEntity? sub,
+    required List<int> ratings,
+  }) async {
+    try {
+      await local.removeAll();
+      if (await network.online) {
+        final result = await remote.category(
+          page: page,
+          urlSlug: category,
+          sort: sort,
+          division: division,
+          district: district,
+          thana: thana,
+          subCategory: sub,
+          ratings: ratings,
+        );
+
+        await local.addCategory(
+          category: category,
+          page: page,
+          sort: sort,
+          division: division,
+          district: district,
+          thana: thana,
+          sub: sub,
+          ratings: ratings,
+          response: result,
+        );
+        await subCategory.addAll(subCategories: result.related);
+
+        final oldBuinesses = page == 1
+            ? (
+                total: 0,
+                businesses: [],
+                related: [],
+              )
+            : await local.findCategory(
+                category: category,
+                page: page - 1,
+                sort: sort,
+                division: division,
+                district: district,
+                thana: thana,
+                sub: sub,
+                ratings: ratings,
+              );
 
         return Right(
           (

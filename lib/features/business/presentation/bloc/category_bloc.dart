@@ -1,16 +1,27 @@
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../location/location.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
 
 class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
-  final BusinessesByCategoryUseCase useCase;
-  FindBusinessesByCategoryBloc({required this.useCase}) : super(const FindBusinessesByCategoryInitial()) {
+  final BusinessesByCategoryUseCase find;
+  FindBusinessesByCategoryBloc({required this.find}) : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
       emit(const FindBusinessesByCategoryLoading());
-      final result = await useCase(category: event.category, page: 1);
+      final result = await find(
+        category: event.category,
+        page: 1,
+        sort: event.sort,
+        division: event.division,
+        district: event.district,
+        thana: event.thana,
+        subCategory: event.subCategory,
+        ratings: event.ratings,
+      );
       result.fold(
         (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
         (response) => emit(
@@ -33,7 +44,16 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
           businesses: oldState.businesses,
           related: oldState.related,
         ));
-        final result = await useCase(category: event.category, page: event.page);
+        final result = await find(
+          category: event.category,
+          page: event.page,
+          sort: event.sort,
+          division: event.division,
+          district: event.district,
+          thana: event.thana,
+          subCategory: event.subCategory,
+          ratings: event.ratings,
+        );
         result.fold(
           (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
           (response) => emit(

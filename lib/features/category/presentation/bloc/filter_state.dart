@@ -1,7 +1,7 @@
 part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
-  final String sortBy;
+  final SortBy? sortBy;
   final LocationEntity? division;
   final LocationEntity? district;
   final LocationEntity? thana;
@@ -22,13 +22,13 @@ class FilterState extends Equatable {
 }
 
 class DefaultFilter extends FilterState {
-  DefaultFilter()
+  const DefaultFilter()
       : super(
-          sortBy: '',
+          sortBy: null,
           division: null,
           district: null,
           thana: null,
           subCategory: null,
-          ratings: <int>[],
+          ratings: const <int>[],
         );
 }

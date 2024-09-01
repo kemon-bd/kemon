@@ -22,7 +22,7 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
     };
 
     if (filter.sortBy != null) {
-      headers['sortby'] = filter.sortBy!;
+      headers['sortby'] = filter.sortBy.value;
     }
     if (filter.filterBy != null) {
       headers['filterby'] = filter.filterBy!;

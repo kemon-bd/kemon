@@ -18,7 +18,7 @@ typedef SearchResults = ({
 });
 
 typedef FilterOptions = ({
-  String? sortBy,
+  SortBy? sortBy,
   String? filterBy,
   String? division,
   String? district,

@@ -83,7 +83,22 @@ class _CategoryPageState extends State<CategoryPage> {
             ],
             centerTitle: false,
           ),
-          endDrawer: const FilterMenuWidget(),
+          endDrawer: BlocListener<FilterBloc, FilterState>(
+            listener: (_, state) {
+              context.read<FindBusinessesByCategoryBloc>().add(
+                    FindBusinessesByCategory(
+                      category: widget.urlSlug,
+                      sort: state.sortBy,
+                      ratings: state.ratings,
+                      division: state.division,
+                      district: state.district,
+                      thana: state.thana,
+                      subCategory: state.subCategory,
+                    ),
+                  );
+            },
+            child: const FilterMenuWidget(),
+          ),
           body: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
             builder: (context, state) {
               if (state is FindBusinessesByCategoryLoading) {
@@ -106,8 +121,18 @@ class _CategoryPageState extends State<CategoryPage> {
                         itemBuilder: (_, index) {
                           if (index == businesses.length) {
                             if (state is! FindBusinessesByCategoryPaginating) {
+                              final filter = context.read<FilterBloc>().state;
                               context.read<FindBusinessesByCategoryBloc>().add(
-                                    PaginateBusinessesByCategory(page: state.page + 1, category: widget.urlSlug),
+                                    PaginateBusinessesByCategory(
+                                      page: state.page + 1,
+                                      category: widget.urlSlug,
+                                      sort: filter.sortBy,
+                                      ratings: filter.ratings,
+                                      division: filter.division,
+                                      district: filter.district,
+                                      thana: filter.thana,
+                                      subCategory: filter.subCategory,
+                                    ),
                                   );
                             }
                             return const BusinessItemShimmerWidget();

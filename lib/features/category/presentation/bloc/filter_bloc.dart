@@ -6,7 +6,7 @@ part 'filter_event.dart';
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
-  FilterBloc() : super(DefaultFilter()) {
+  FilterBloc() : super(const DefaultFilter()) {
     on<ApplyFilter>((event, emit) {
       emit(
         FilterState(

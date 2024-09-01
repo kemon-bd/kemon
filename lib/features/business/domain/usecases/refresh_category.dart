@@ -3,10 +3,10 @@ import '../../../location/location.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
-class BusinessesByCategoryUseCase {
+class RefreshBusinessesByCategoryUseCase {
   final BusinessRepository repository;
 
-  BusinessesByCategoryUseCase({
+  RefreshBusinessesByCategoryUseCase({
     required this.repository,
   });
 

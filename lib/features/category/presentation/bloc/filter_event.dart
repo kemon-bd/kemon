@@ -8,7 +8,7 @@ sealed class FilterEvent extends Equatable {
 }
 
 class ApplyFilter extends FilterEvent {
-  final String sortBy;
+  final SortBy? sortBy;
   final LocationEntity? division;
   final LocationEntity? district;
   final LocationEntity? thana;

@@ -25,3 +25,36 @@ extension GenderExtension on Gender {
     }
   }
 }
+
+extension SortByExtension on SortBy? {
+  String get value {
+    if(this == null) {
+      return 'Recommended';
+    }
+    switch (this) {
+      case SortBy.recommended:
+        return 'Recommended';
+      case SortBy.mostReviewd:
+        return 'MostReviewed';
+      case SortBy.highestRated:
+        return 'HighestRated';
+      default:
+        return 'Recommended';
+    }
+  }
+  String get text {
+    if(this == null) {
+      return 'Select one';
+    }
+    switch (this) {
+      case SortBy.recommended:
+        return 'Recommended';
+      case SortBy.mostReviewd:
+        return 'Most Reviewed';
+      case SortBy.highestRated:
+        return 'Highest Rated';
+      default:
+        return 'Recommended';
+    }
+  }
+}

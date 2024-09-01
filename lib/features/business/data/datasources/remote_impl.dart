@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../location/location.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -13,10 +14,22 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   FutureOr<BusinessesByCategoryPaginatedResponse> category({
     required int page,
     required String urlSlug,
+    required SortBy? sort,
+    required LocationEntity? division,
+    required LocationEntity? district,
+    required LocationEntity? thana,
+    required SubCategoryEntity? subCategory,
+    required List<int> ratings,
   }) async {
     final Map<String, String> headers = {
       'urlSlug': urlSlug,
       'pageno': '$page',
+      'division': division?.urlSlug ?? '',
+      'district': district?.urlSlug ?? '',
+      'thana': thana?.urlSlug ?? '',
+      'subcategoryslug': subCategory?.urlSlug ?? '',
+      'sortby': sort.value,
+      'rating': ratings.join(','),
     };
 
     final Response response = await client.get(

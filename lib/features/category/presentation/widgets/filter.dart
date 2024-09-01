@@ -1,27 +1,43 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../location/location.dart';
 import '../../../sub_category/sub_category.dart';
+import '../../category.dart';
 
 class FilterMenuWidget extends StatefulWidget {
-  const FilterMenuWidget({super.key});
+  const FilterMenuWidget({
+    super.key,
+  });
 
   @override
   State<FilterMenuWidget> createState() => _FilterMenuWidgetState();
 }
 
 class _FilterMenuWidgetState extends State<FilterMenuWidget> {
-  String sort = 'Select one';
+  SortBy? sort;
+  LocationEntity? division;
+  LocationEntity? district;
+  LocationEntity? thana;
+  SubCategoryEntity? subCategory;
+
   final List<int> ratings = [];
 
   @override
   void initState() {
     super.initState();
+    final filter = context.read<FilterBloc>().state;
+    sort = filter.sortBy;
+    ratings.addAll(filter.ratings);
+    division = filter.division;
+    district = filter.district;
+    thana = filter.thana;
+    subCategory = filter.subCategory;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         final theme = state.scheme;
 
         return Drawer(
@@ -67,7 +83,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 child: DropdownWidget(
                   label: 'Sort by',
                   labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                  text: sort,
+                  text: sort.text,
                   textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
               ),
@@ -91,21 +107,21 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                     DropdownWidget(
                       label: 'Division',
                       labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                      text: sort,
+                      text: division?.name.full ?? 'Select one',
                       textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     const Divider(),
                     DropdownWidget(
                       label: 'District',
                       labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                      text: sort,
+                      text: district?.name.full ?? 'Select one',
                       textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     const Divider(),
                     DropdownWidget(
                       label: 'Thana',
                       labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                      text: sort,
+                      text: thana?.name.full ?? 'Select one',
                       textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                   ],
@@ -121,7 +137,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 child: DropdownWidget(
                   label: 'Category',
                   labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                  text: sort,
+                  text: subCategory?.name.full ?? 'Select one',
                   textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
               ),
@@ -254,7 +270,17 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
               ),
               const Divider(height: 42),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<FilterBloc>().add(ApplyFilter(
+                        sortBy: sort,
+                        division: division,
+                        district: district,
+                        thana: thana,
+                        subCategory: subCategory,
+                        ratings: ratings,
+                      ));
+                  context.pop();
+                },
                 child: Text(
                   'Apply'.toUpperCase(),
                   style: TextStyles.miniHeadline(context: context, color: theme.white).copyWith(

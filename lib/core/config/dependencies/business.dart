@@ -9,7 +9,7 @@ Future<void> get businessDependencies async {
   );
   sl.registerFactory(
     () => FindBusinessesByCategoryBloc(
-      useCase: sl(),
+      find: sl(),
     ),
   );
 
