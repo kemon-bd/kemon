@@ -64,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: double.maxFinite,
                     alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
+                    padding: EdgeInsets.only(
+                        left: 24, bottom: 16, top: context.topInset + 16),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -78,28 +79,36 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (_, visible) => visible
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
-                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              visualDensity: const VisualDensity(
+                                  horizontal: -4, vertical: -4),
                               onPressed: context.pop,
-                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                              icon: Icon(Icons.arrow_back_rounded,
+                                  color: theme.white),
                             )
                           : Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
-                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   onPressed: context.pop,
-                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                  icon: Icon(Icons.arrow_back_rounded,
+                                      color: theme.white),
                                 ),
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Hey, we know you.',
-                                        style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                        style: TextStyles.headline(
+                                                context: context,
+                                                color: theme.white)
+                                            .copyWith(
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2,
                                         ),
@@ -107,7 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                                       const SizedBox(height: 4),
                                       Text(
                                         'Continue with your secured password.',
-                                        style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                        style: TextStyles.body(
+                                                context: context,
+                                                color: theme.semiWhite)
+                                            .copyWith(
                                           height: 1,
                                         ),
                                       ),
@@ -125,7 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: ListView(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                        padding: const EdgeInsets.all(16)
+                            .copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           const SizedBox(height: 32),
                           ProfilePictureWidget(
@@ -135,24 +148,31 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 16),
                           ProfileNameWidget(
-                            style: TextStyles.miniHeadline(context: context, color: theme.textSecondary),
+                            style: TextStyles.miniHeadline(
+                                context: context, color: theme.textSecondary),
                             align: TextAlign.center,
                             shimmerAlignment: Alignment.center,
                           ),
                           const SizedBox(height: 32),
                           TextFormField(
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(
+                                context: context, color: theme.textPrimary),
                             controller: passwordController,
                             keyboardType: TextInputType.text,
                             autocorrect: false,
-                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                            validator: (val) =>
+                                (val?.isNotEmpty ?? false) ? null : "",
                             decoration: InputDecoration(
                               hintText: "password",
                               suffixIcon: IconButton(
                                 padding: EdgeInsets.zero,
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
-                                icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off, color: theme.textPrimary),
+                                icon: Icon(
+                                    isObscured
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: theme.textPrimary),
                                 onPressed: () {
                                   setState(() {
                                     isObscured = !isObscured;
@@ -168,7 +188,8 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(
                                 "Remember me",
-                                style: TextStyles.title(context: context, color: theme.textPrimary),
+                                style: TextStyles.title(
+                                    context: context, color: theme.textPrimary),
                               ),
                               Switch(
                                 activeColor: theme.backgroundSecondary,
@@ -190,24 +211,31 @@ class _LoginPageState extends State<LoginPage> {
                             child: BlocConsumer<LoginBloc, LoginState>(
                               listener: (context, state) {
                                 if (state is LoginError) {
-                                  context.errorNotification(message: state.failure.message);
+                                  context.errorNotification(
+                                      message: state.failure.message);
                                 } else if (state is LoginDone) {
-                                  context.successNotification(message: 'Logged-in successfully !!!');
+                                  context.successNotification(
+                                      message: 'Logged-in successfully !!!');
                                 }
                               },
                               builder: (context, state) {
                                 if (state is LoginLoading) {
                                   return ElevatedButton(
                                     onPressed: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
                                     },
-                                    child: NetworkingIndicator(dimension: 28, color: theme.backgroundPrimary),
+                                    child: NetworkingIndicator(
+                                        dimension: 28,
+                                        color: theme.backgroundPrimary),
                                   );
                                 }
                                 return ElevatedButton(
                                   onPressed: () {
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                    if (formKey.currentState?.validate() ?? false) {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                    if (formKey.currentState?.validate() ??
+                                        false) {
                                       context.read<LoginBloc>().add(
                                             Login(
                                               username: widget.username,

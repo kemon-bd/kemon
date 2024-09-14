@@ -5,7 +5,8 @@ import '../../../../core/shared/shared.dart';
 part 'deactivate_event.dart';
 part 'deactivate_state.dart';
 
-class DeactivateAccountBloc extends Bloc<DeactivateAccountEvent, DeactivateAccountState> {
+class DeactivateAccountBloc
+    extends Bloc<DeactivateAccountEvent, DeactivateAccountState> {
   final GenerateOtpForAccountDeactivationUseCase generate;
   final DeactivateAccountUseCase deactivate;
   DeactivateAccountBloc({

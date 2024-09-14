@@ -1,5 +1,6 @@
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
+import '../../features/leaderboard/leaderboard.dart';
 import '../../features/registration/registration.dart';
 import '../../features/search/search.dart';
 import '../../features/review/review.dart';
@@ -16,6 +17,7 @@ import '../../features/authentication/authentication.dart';
 part 'dependencies.dart';
 part 'network_certificates.dart';
 //! mason:linking-dependencies - DO NOT REMOVE THIS COMMENT ---------------------->
+part 'dependencies/leaderboard.dart';
 part 'dependencies/registration.dart';
 part 'dependencies/search.dart';
 part 'dependencies/review.dart';
@@ -52,7 +54,8 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme = mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme =
+        mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
       canvasColor: theme.backgroundPrimary,
       scaffoldBackgroundColor: theme.backgroundPrimary,
@@ -68,7 +71,8 @@ class AppConfig {
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle:
+            TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: TextStyle(height: Dimension.size.vertical.min),
         helperStyle: TextStyle(height: Dimension.size.vertical.min),
         border: OutlineInputBorder(
@@ -132,8 +136,10 @@ class AppConfig {
           ),
         ),
       ),
-      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.tweenty),
+      textSelectionTheme:
+          TextSelectionThemeData(cursorColor: theme.textPrimary),
+      iconTheme: IconThemeData(
+          color: theme.textPrimary, size: Dimension.radius.tweenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(
         space: Dimension.divider.normal,
@@ -148,7 +154,10 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: (mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
+        systemOverlayStyle: (mode != ThemeMode.dark
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light)
+            .copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
         ),

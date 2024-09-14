@@ -56,7 +56,9 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             title: const Text('KEMON'),
-            titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
+            titleTextStyle:
+                TextStyles.headline(context: context, color: theme.white)
+                    .copyWith(
               fontWeight: FontWeight.bold,
             ),
             centerTitle: false,

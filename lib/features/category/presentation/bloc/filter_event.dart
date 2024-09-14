@@ -25,5 +25,6 @@ class ApplyFilter extends FilterEvent {
   });
 
   @override
-  List<Object?> get props => [sortBy, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [sortBy, division, district, thana, subCategory, ratings];
 }

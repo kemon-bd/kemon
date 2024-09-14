@@ -33,7 +33,8 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
           refference: refference,
         );
 
-        final response = await login.login(username: username, password: password);
+        final response =
+            await login.login(username: username, password: password);
 
         auth.add(
           AuthorizeAuthentication(

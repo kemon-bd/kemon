@@ -35,12 +35,17 @@ class _SearchPageState extends State<SearchPage> {
             title: TextField(
               autofocus: true,
               controller: controller,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: TextStyles.subTitle(
+                  context: context, color: theme.textPrimary),
               onChanged: (query) {
                 if (query.isNotEmpty) {
-                  context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
+                  context
+                      .read<SearchSuggestionBloc>()
+                      .add(SearchSuggestion(query: query));
                 } else {
-                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
+                  context
+                      .read<SearchSuggestionBloc>()
+                      .add(const ResetSuggestion());
                 }
                 setState(() {});
               },
@@ -64,12 +69,15 @@ class _SearchPageState extends State<SearchPage> {
                     controller.clear();
                   });
 
-                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
+                  context
+                      .read<SearchSuggestionBloc>()
+                      .add(const ResetSuggestion());
                 },
               ),
             ],
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: controller.text.isEmpty
               ? null
               : FloatingActionButton.extended(
@@ -83,10 +91,12 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   },
                   isExtended: true,
-                  icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
+                  icon: Icon(Icons.search_rounded,
+                      color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.title(
+                        context: context, color: theme.backgroundPrimary),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
@@ -100,7 +110,8 @@ class _SearchPageState extends State<SearchPage> {
                   padding: EdgeInsets.zero,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       color: theme.backgroundSecondary,
                       alignment: Alignment.centerLeft,
                       child: Container(
@@ -120,8 +131,10 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           dense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
                           title: Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
@@ -155,15 +168,20 @@ class _SearchPageState extends State<SearchPage> {
 
                 return ListView(
                   shrinkWrap: true,
-                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + Dimension.padding.vertical.max),
+                  padding: EdgeInsets.zero.copyWith(
+                      bottom:
+                          context.bottomInset + Dimension.padding.vertical.max),
                   children: [
                     if (businesses.isNotEmpty) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${businesses.length} Business${businesses.length > 1 ? "es" : ""}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.caption(
+                                  context: context, color: theme.textPrimary)
+                              .copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -186,10 +204,12 @@ class _SearchPageState extends State<SearchPage> {
                               child: MultiBlocProvider(
                                 providers: [
                                   BlocProvider(
-                                    create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+                                    create: (_) => sl<FindBusinessBloc>()
+                                      ..add(FindBusiness(urlSlug: urlSlug)),
                                   ),
                                   BlocProvider(
-                                    create: (_) => sl<FindRatingBloc>()..add(FindRating(urlSlug: urlSlug)),
+                                    create: (_) => sl<FindRatingBloc>()
+                                      ..add(FindRating(urlSlug: urlSlug)),
                                   ),
                                 ],
                                 child: Row(
@@ -198,19 +218,24 @@ class _SearchPageState extends State<SearchPage> {
                                     BusinessLogoWidget(
                                       size: 32,
                                       radius: 8,
-                                      backgroundColor: theme.backgroundSecondary,
+                                      backgroundColor:
+                                          theme.backgroundSecondary,
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           BusinessNameWidget(
-                                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                                            style: TextStyles.subTitle(
+                                                context: context,
+                                                color: theme.primary),
                                           ),
                                           const SizedBox(height: 4),
-                                          BusinessRatingWidget(urlSlug: urlSlug),
+                                          BusinessRatingWidget(
+                                              urlSlug: urlSlug),
                                         ],
                                       ),
                                     ),
@@ -231,11 +256,14 @@ class _SearchPageState extends State<SearchPage> {
                     if (industries.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${industries.length} Industr${industries.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.caption(
+                                  context: context, color: theme.textPrimary)
+                              .copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -245,11 +273,14 @@ class _SearchPageState extends State<SearchPage> {
                         (industry) {
                           return ListTile(
                             dense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
                             title: Text(
                               industry.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(
+                                  context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -271,11 +302,14 @@ class _SearchPageState extends State<SearchPage> {
                     if (categories.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${categories.length} Categor${categories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.caption(
+                                  context: context, color: theme.textPrimary)
+                              .copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -285,11 +319,14 @@ class _SearchPageState extends State<SearchPage> {
                         (category) {
                           return ListTile(
                             dense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
                             title: Text(
                               category.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(
+                                  context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -311,11 +348,14 @@ class _SearchPageState extends State<SearchPage> {
                     if (subCategories.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${subCategories.length} Sub categor${subCategories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.caption(
+                                  context: context, color: theme.textPrimary)
+                              .copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -325,11 +365,14 @@ class _SearchPageState extends State<SearchPage> {
                         (subCategory) {
                           return ListTile(
                             dense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
                             title: Text(
                               subCategory.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(
+                                  context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,

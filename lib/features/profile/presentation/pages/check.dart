@@ -49,7 +49,8 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                   child: Container(
                     width: double.maxFinite,
                     alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 24, bottom: 16).copyWith(top: context.topInset + 8),
+                    padding: const EdgeInsets.only(left: 24, bottom: 16)
+                        .copyWith(top: context.topInset + 8),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -63,9 +64,11 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                       builder: (_, visible) => visible
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
-                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              visualDensity: const VisualDensity(
+                                  horizontal: -4, vertical: -4),
                               onPressed: context.pop,
-                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                              icon: Icon(Icons.arrow_back_rounded,
+                                  color: theme.white),
                             )
                           : Column(
                               mainAxisSize: MainAxisSize.min,
@@ -73,14 +76,18 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                               children: [
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
-                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   onPressed: context.pop,
-                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                  icon: Icon(Icons.arrow_back_rounded,
+                                      color: theme.white),
                                 ),
                                 const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.headline(
+                                          context: context, color: theme.white)
+                                      .copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -88,7 +95,10 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Sign in to your account to continue',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.body(
+                                          context: context,
+                                          color: theme.semiWhite)
+                                      .copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -105,24 +115,30 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                     child: ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                      padding: const EdgeInsets.all(16)
+                          .copyWith(bottom: 16 + context.bottomInset),
                       children: [
                         const SizedBox(height: 42),
                         TextFormField(
-                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          style: TextStyles.body(
+                              context: context, color: theme.textPrimary),
                           controller: usernameController,
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
-                          validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                          decoration: const InputDecoration(hintText: "Email / Phone"),
+                          validator: (val) =>
+                              (val?.isNotEmpty ?? false) ? null : "",
+                          decoration:
+                              const InputDecoration(hintText: "Email / Phone"),
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: BlocConsumer<CheckProfileBloc, CheckProfileState>(
+                          child:
+                              BlocConsumer<CheckProfileBloc, CheckProfileState>(
                             listener: (context, state) {
                               if (state is CheckProfileError) {
-                                context.errorNotification(message: state.failure.message);
+                                context.errorNotification(
+                                    message: state.failure.message);
                               } else if (state is CheckProfileExistingUser) {
                                 context.pushReplacementNamed(
                                   LoginPage.name,
@@ -145,16 +161,23 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                               if (state is CheckProfileLoading) {
                                 return ElevatedButton(
                                   onPressed: () {
-                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
                                   },
-                                  child: NetworkingIndicator(dimension: 28, color: theme.backgroundPrimary),
+                                  child: NetworkingIndicator(
+                                      dimension: 28,
+                                      color: theme.backgroundPrimary),
                                 );
                               }
                               return ElevatedButton(
                                 onPressed: () {
-                                  FocusScope.of(context).requestFocus(FocusNode());
-                                  if (formKey.currentState?.validate() ?? false) {
-                                    context.read<CheckProfileBloc>().add(CheckProfile(username: usernameController.text));
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  if (formKey.currentState?.validate() ??
+                                      false) {
+                                    context.read<CheckProfileBloc>().add(
+                                        CheckProfile(
+                                            username: usernameController.text));
                                   }
                                 },
                                 child: Text(

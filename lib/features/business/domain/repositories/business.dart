@@ -24,7 +24,8 @@ abstract class BusinessRepository {
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
+      refreshCategory({
     required int page,
     required String category,
     required SortBy? sort,

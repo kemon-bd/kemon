@@ -29,7 +29,8 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Featured locations",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                        style: TextStyles.title(
+                            context: context, color: theme.textPrimary),
                       ),
                       // TODO
                       /* FilterChip(
@@ -72,13 +73,15 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                         final category = locations.elementAt(index);
                         return ActionChip(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimension.radius.max),
+                            borderRadius:
+                                BorderRadius.circular(Dimension.radius.max),
                             side: BorderSide(
                               width: Dimension.divider.large,
                               color: theme.positiveBackgroundTertiary,
                             ),
                           ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
                           onPressed: () {
                             // TODO
@@ -89,10 +92,12 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                               },
                             ); */
                           },
-                          avatar: Icon(Icons.place_rounded, color: theme.primary),
+                          avatar:
+                              Icon(Icons.place_rounded, color: theme.primary),
                           label: Text(
                             category.name.full,
-                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                            style: TextStyles.subTitle(
+                                context: context, color: theme.primary),
                           ),
                         );
                       },

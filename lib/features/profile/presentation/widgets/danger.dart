@@ -18,7 +18,8 @@ class ProfileDangerZoneWidget extends StatelessWidget {
           children: [
             Text(
               'Danger Zone',
-              style: TextStyles.subTitle(context: context, color: theme.negative),
+              style:
+                  TextStyles.subTitle(context: context, color: theme.negative),
             ),
             const SizedBox(height: 8),
             Container(
@@ -36,7 +37,8 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                 children: [
                   BlocProvider(
                     create: (context) => sl<DeactivateAccountBloc>(),
-                    child: BlocConsumer<DeactivateAccountBloc, DeactivateAccountState>(
+                    child: BlocConsumer<DeactivateAccountBloc,
+                        DeactivateAccountState>(
                       listener: (context, state) {
                         if (state is DeactivateAccountOtp) {
                           context.pushNamed(
@@ -52,19 +54,26 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                           leading: const CircleAvatar(
                             radius: 16,
                             backgroundColor: Colors.deepPurple,
-                            child: Icon(Icons.block_rounded, color: Colors.white, size: 16),
+                            child: Icon(Icons.block_rounded,
+                                color: Colors.white, size: 16),
                           ),
                           title: Text(
                             'Deactivate account',
-                            style: TextStyles.title(context: context, color: Colors.deepPurple),
+                            style: TextStyles.title(
+                                context: context, color: Colors.deepPurple),
                           ),
                           trailing: state is DeactivateAccountLoading
-                              ? const NetworkingIndicator(dimension: 16, color: Colors.deepPurple)
-                              : const Icon(Icons.open_in_new_rounded, color: Colors.deepPurple, size: 16),
+                              ? const NetworkingIndicator(
+                                  dimension: 16, color: Colors.deepPurple)
+                              : const Icon(Icons.open_in_new_rounded,
+                                  color: Colors.deepPurple, size: 16),
                           onTap: () {
-                            deactivateContext.read<DeactivateAccountBloc>().add(GenerateOtpForAccountDeactivation());
+                            deactivateContext
+                                .read<DeactivateAccountBloc>()
+                                .add(GenerateOtpForAccountDeactivation());
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
                         );
                       },
                     ),
@@ -74,15 +83,20 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                     leading: CircleAvatar(
                       radius: 16,
                       backgroundColor: theme.negative,
-                      child: Icon(Icons.logout_rounded, color: theme.white, size: 16),
+                      child: Icon(Icons.logout_rounded,
+                          color: theme.white, size: 16),
                     ),
                     title: Text(
                       'Logout',
-                      style: TextStyles.title(context: context, color: theme.negative),
+                      style: TextStyles.title(
+                          context: context, color: theme.negative),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.negative),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded,
+                        size: 12, color: theme.negative),
                     onTap: () {
-                      context.read<AuthenticationBloc>().add(const AuthenticationLogout());
+                      context
+                          .read<AuthenticationBloc>()
+                          .add(const AuthenticationLogout());
                     },
                   ),
                 ],

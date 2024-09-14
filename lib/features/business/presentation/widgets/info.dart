@@ -54,7 +54,8 @@ class BusinessInformationWidget extends StatelessWidget {
                             decoration: BoxDecoration(
                               gradient: gradient,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: theme.semiWhite, width: .75),
+                              border: Border.all(
+                                  color: theme.semiWhite, width: .75),
                             ),
                             child: business.logo.isNotEmpty
                                 ? CachedNetworkImage(
@@ -62,12 +63,16 @@ class BusinessInformationWidget extends StatelessWidget {
                                     width: 64,
                                     height: 64,
                                     fit: BoxFit.contain,
-                                    placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 16),
-                                    errorWidget: (context, error, stackTrace) => const Center(
+                                    placeholder: (context, url) =>
+                                        const ShimmerLabel(
+                                            width: 64, height: 64, radius: 16),
+                                    errorWidget: (context, error, stackTrace) =>
+                                        const Center(
                                       child: Icon(Icons.category_rounded),
                                     ),
                                   )
-                                : const Center(child: Icon(Icons.category_rounded)),
+                                : const Center(
+                                    child: Icon(Icons.category_rounded)),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -81,33 +86,46 @@ class BusinessInformationWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     RatingBarIndicator(
-                                      itemBuilder: (context, index) => Icon(Icons.star, color: theme.primary),
+                                      itemBuilder: (context, index) => Icon(
+                                          Icons.star,
+                                          color: theme.primary),
                                       itemSize: 16,
                                       rating: rating.average,
-                                      unratedColor: theme.textSecondary.withAlpha(50),
+                                      unratedColor:
+                                          theme.textSecondary.withAlpha(50),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? 's' : ''}  •  ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                      style: TextStyles.caption(
+                                          context: context,
+                                          color: theme.textSecondary),
                                     ),
                                     const SizedBox(height: 4),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        if ((business.contact.phone ?? '').isNotEmpty) ...[
+                                        if ((business.contact.phone ?? '')
+                                            .isNotEmpty) ...[
                                           ActionChip(
                                             onPressed: () {
-                                              final uri = Uri(scheme: 'tel', path: business.contact.phone);
+                                              final uri = Uri(
+                                                  scheme: 'tel',
+                                                  path: business.contact.phone);
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.positiveBackground,
-                                            side: BorderSide(color: theme.primary, width: 1),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            backgroundColor:
+                                                theme.positiveBackground,
+                                            side: BorderSide(
+                                                color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(
+                                                horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
                                             label: Icon(
                                               Icons.phone_rounded,
                                               color: theme.primary,
@@ -116,17 +134,25 @@ class BusinessInformationWidget extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8),
                                         ],
-                                        if ((business.contact.email ?? '').isNotEmpty) ...[
+                                        if ((business.contact.email ?? '')
+                                            .isNotEmpty) ...[
                                           ActionChip(
                                             onPressed: () {
-                                              final uri = Uri(scheme: 'mailto', path: business.contact.phone);
+                                              final uri = Uri(
+                                                  scheme: 'mailto',
+                                                  path: business.contact.phone);
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.positiveBackground,
-                                            side: BorderSide(color: theme.primary, width: 1),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            backgroundColor:
+                                                theme.positiveBackground,
+                                            side: BorderSide(
+                                                color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(
+                                                horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
                                             label: Icon(
                                               Icons.email_rounded,
                                               color: theme.primary,
@@ -135,17 +161,26 @@ class BusinessInformationWidget extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8),
                                         ],
-                                        if (business.address.formatted.isNotEmpty) ...[
+                                        if (business
+                                            .address.formatted.isNotEmpty) ...[
                                           ActionChip(
                                             onPressed: () {
-                                              final uri = Uri(scheme: 'geo', path: business.address.formatted);
+                                              final uri = Uri(
+                                                  scheme: 'geo',
+                                                  path: business
+                                                      .address.formatted);
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.positiveBackground,
-                                            side: BorderSide(color: theme.primary, width: 1),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            backgroundColor:
+                                                theme.positiveBackground,
+                                            side: BorderSide(
+                                                color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(
+                                                horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
                                             label: Icon(
                                               Icons.place_rounded,
                                               color: theme.primary,
@@ -154,18 +189,27 @@ class BusinessInformationWidget extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8),
                                         ],
-                                        if ((business.contact.website ?? '').isNotEmpty) ...[
+                                        if ((business.contact.website ?? '')
+                                            .isNotEmpty) ...[
                                           ActionChip(
                                             onPressed: () {
-                                              final uri =
-                                                  Uri(scheme: 'https', path: business.contact.website!.replaceAll('https', ''));
+                                              final uri = Uri(
+                                                  scheme: 'https',
+                                                  path: business
+                                                      .contact.website!
+                                                      .replaceAll('https', ''));
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.positiveBackground,
-                                            side: BorderSide(color: theme.primary, width: 1),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                            backgroundColor:
+                                                theme.positiveBackground,
+                                            side: BorderSide(
+                                                color: theme.primary, width: 1),
+                                            visualDensity: const VisualDensity(
+                                                horizontal: -4, vertical: -4),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
                                             label: Icon(
                                               Icons.language_rounded,
                                               color: theme.primary,
@@ -176,23 +220,35 @@ class BusinessInformationWidget extends StatelessWidget {
                                         ],
                                         ActionChip(
                                           padding: EdgeInsets.zero,
-                                          backgroundColor: theme.positiveBackground,
-                                          side: BorderSide(color: theme.primary, width: 1),
-                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                          backgroundColor:
+                                              theme.positiveBackground,
+                                          side: BorderSide(
+                                              color: theme.primary, width: 1),
+                                          visualDensity: const VisualDensity(
+                                              horizontal: -4, vertical: -4),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
                                           onPressed: () {
                                             showCupertinoModalPopup(
                                               context: context,
-                                              barrierColor: context.barrierColor,
+                                              barrierColor:
+                                                  context.barrierColor,
                                               barrierDismissible: true,
-                                              builder: (_) => BlocProvider.value(
-                                                value: context.read<FindBusinessBloc>(),
-                                                child: const BusinessClaimWidget(),
+                                              builder: (_) =>
+                                                  BlocProvider.value(
+                                                value: context
+                                                    .read<FindBusinessBloc>(),
+                                                child:
+                                                    const BusinessClaimWidget(),
                                               ),
                                             );
                                           },
                                           label: Icon(
-                                            business.claimed ? Icons.admin_panel_settings_rounded : Icons.privacy_tip_outlined,
+                                            business.claimed
+                                                ? Icons
+                                                    .admin_panel_settings_rounded
+                                                : Icons.privacy_tip_outlined,
                                             color: theme.primary,
                                             size: 16,
                                           ),
@@ -200,23 +256,34 @@ class BusinessInformationWidget extends StatelessWidget {
                                         const SizedBox(width: 8),
                                         ActionChip(
                                           padding: EdgeInsets.zero,
-                                          backgroundColor: theme.positiveBackground,
-                                          side: BorderSide(color: theme.primary, width: 1),
-                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                          backgroundColor:
+                                              theme.positiveBackground,
+                                          side: BorderSide(
+                                              color: theme.primary, width: 1),
+                                          visualDensity: const VisualDensity(
+                                              horizontal: -4, vertical: -4),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
                                           onPressed: () {
                                             showCupertinoModalPopup(
                                               context: context,
-                                              barrierColor: context.barrierColor,
+                                              barrierColor:
+                                                  context.barrierColor,
                                               barrierDismissible: true,
-                                              builder: (_) => BlocProvider.value(
-                                                value: context.read<FindBusinessBloc>(),
-                                                child: const BusinessVerifiedWidget(),
+                                              builder: (_) =>
+                                                  BlocProvider.value(
+                                                value: context
+                                                    .read<FindBusinessBloc>(),
+                                                child:
+                                                    const BusinessVerifiedWidget(),
                                               ),
                                             );
                                           },
                                           label: Icon(
-                                            business.verified ? Icons.verified_rounded : Icons.verified_outlined,
+                                            business.verified
+                                                ? Icons.verified_rounded
+                                                : Icons.verified_outlined,
                                             color: theme.primary,
                                             size: 16,
                                           ),

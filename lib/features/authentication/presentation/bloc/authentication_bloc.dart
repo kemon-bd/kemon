@@ -5,7 +5,8 @@ import '../../../profile/profile.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc()
       : super(
           const AuthenticationState(

@@ -33,15 +33,18 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<String> networkReponse = RemoteResponse.parse(response: response);
+      final RemoteResponse<String> networkReponse =
+          RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
         return Identity.guid(guid: networkReponse.result!);
       } else {
-        throw RemoteFailure(message: networkReponse.error ?? 'Failed to load profile');
+        throw RemoteFailure(
+            message: networkReponse.error ?? 'Failed to load profile');
       }
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load profile');
+      throw RemoteFailure(
+          message: response.reasonPhrase ?? 'Failed to load profile');
     }
   }
 }

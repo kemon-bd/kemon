@@ -35,7 +35,9 @@ class BusinessPage extends StatelessWidget {
                   final business = state.business;
                   return Text(
                     business.name.full,
-                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                    style: TextStyles.title(
+                            context: context, color: theme.textPrimary)
+                        .copyWith(
                       fontWeight: FontWeight.bold,
                       height: 1.1,
                     ),
@@ -49,7 +51,8 @@ class BusinessPage extends StatelessWidget {
             centerTitle: false,
             actions: [
               IconButton(
-                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -4),
                 onPressed: () {
                   showCupertinoModalPopup(
                     context: context,

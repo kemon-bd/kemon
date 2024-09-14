@@ -55,12 +55,14 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                         scrollPhysics: const BouncingScrollPhysics(),
                         builder: (BuildContext context, int index) {
                           return PhotoViewGalleryPageOptions(
-                            imageProvider: CachedNetworkImageProvider(widget.url.elementAt(index)),
+                            imageProvider: CachedNetworkImageProvider(
+                                widget.url.elementAt(index)),
                             initialScale: PhotoViewComputedScale.contained,
                             minScale: PhotoViewComputedScale.contained,
                             maxScale: PhotoViewComputedScale.covered,
                             tightMode: true,
-                            heroAttributes: PhotoViewHeroAttributes(tag: widget.url.elementAt(index)),
+                            heroAttributes: PhotoViewHeroAttributes(
+                                tag: widget.url.elementAt(index)),
                           );
                         },
                         itemCount: widget.url.length,
@@ -69,7 +71,10 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                             width: Dimension.size.horizontal.max,
                             height: Dimension.size.vertical.max,
                             child: CircularProgressIndicator(
-                              value: event == null ? 0 : event.cumulativeBytesLoaded / (event.expectedTotalBytes ?? 1),
+                              value: event == null
+                                  ? 0
+                                  : event.cumulativeBytesLoaded /
+                                      (event.expectedTotalBytes ?? 1),
                             ),
                           ),
                         ),
@@ -82,13 +87,15 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                       ),
                     ),
                     Positioned(
-                      bottom: context.bottomInset + Dimension.padding.vertical.max,
+                      bottom:
+                          context.bottomInset + Dimension.padding.vertical.max,
                       left: 0,
                       right: 0,
                       child: Center(
                         child: PhysicalModel(
                           color: theme.white,
-                          borderRadius: BorderRadius.circular(Dimension.radius.max),
+                          borderRadius:
+                              BorderRadius.circular(Dimension.radius.max),
                           child: DotsIndicator(
                             position: index,
                             dotsCount: widget.url.length,
@@ -96,9 +103,12 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             decorator: DotsDecorator(
                               size: Size.square(Dimension.radius.four),
-                              activeSize: Size(Dimension.size.horizontal.twentyFour, Dimension.size.vertical.four),
+                              activeSize: Size(
+                                  Dimension.size.horizontal.twentyFour,
+                                  Dimension.size.vertical.four),
                               activeShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(Dimension.radius.four),
+                                borderRadius: BorderRadius.circular(
+                                    Dimension.radius.four),
                               ),
                               color: theme.semiBlack,
                               activeColor: theme.primary,

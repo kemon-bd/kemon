@@ -7,9 +7,11 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc
+    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase find;
-  FindBusinessesByCategoryBloc({required this.find}) : super(const FindBusinessesByCategoryInitial()) {
+  FindBusinessesByCategoryBloc({required this.find})
+      : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
       emit(const FindBusinessesByCategoryLoading());
       final result = await find(

@@ -23,13 +23,15 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(response: response);
+        final RemoteResponse<Map<String, dynamic>> result =
+            RemoteResponse.parse(response: response);
 
         if (result.success) {
           if (result.result!.containsKey('otp')) {
             return Left(result.result!["otp"]);
           } else {
-            final ProfileModel profile = ProfileModel.parse(map: result.result!);
+            final ProfileModel profile =
+                ProfileModel.parse(map: result.result!);
             return Right(profile);
           }
         } else {
@@ -72,17 +74,21 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse = RemoteResponse.parse(response: response);
+      final RemoteResponse<dynamic> networkReponse =
+          RemoteResponse.parse(response: response);
 
       if (networkReponse.success) {
-        final Map<String, dynamic> data = networkReponse.result as Map<String, dynamic>;
+        final Map<String, dynamic> data =
+            networkReponse.result as Map<String, dynamic>;
 
         return ProfileModel.parse(map: data['profile']);
       } else {
-        throw RemoteFailure(message: networkReponse.error ?? 'Failed to load profile');
+        throw RemoteFailure(
+            message: networkReponse.error ?? 'Failed to load profile');
       }
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load profile');
+      throw RemoteFailure(
+          message: response.reasonPhrase ?? 'Failed to load profile');
     }
   }
 
@@ -115,10 +121,14 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       if (networkReponse.success) {
         return;
       } else {
-        throw RemoteFailure(message: networkReponse.error ?? response.reasonPhrase ?? "Someting went wrong.");
+        throw RemoteFailure(
+            message: networkReponse.error ??
+                response.reasonPhrase ??
+                "Someting went wrong.");
       }
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(
+          message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
 
@@ -140,7 +150,8 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+        final RemoteResponse<String> result =
+            RemoteResponse.parse(response: response);
 
         if (result.success) {
           return;
@@ -177,7 +188,8 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+        final RemoteResponse<String> result =
+            RemoteResponse.parse(response: response);
 
         if (result.success) {
           return result.result!;

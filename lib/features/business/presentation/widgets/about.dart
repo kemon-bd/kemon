@@ -33,15 +33,18 @@ class BusinessAboutWidget extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         title: Text(
                           'About ${business.name.full}',
-                          style: TextStyles.title(context: context, color: theme.textPrimary),
+                          style: TextStyles.title(
+                              context: context, color: theme.textPrimary),
                         ),
                         trailing: IconButton(
                           onPressed: context.pop,
-                          icon: Icon(Icons.close_rounded, color: theme.textPrimary),
+                          icon: Icon(Icons.close_rounded,
+                              color: theme.textPrimary),
                         ),
                       ),
                       Container(
-                        constraints: BoxConstraints(maxHeight: context.height * .5),
+                        constraints:
+                            BoxConstraints(maxHeight: context.height * .5),
                         child: ListView(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero.copyWith(bottom: 16),
@@ -49,7 +52,8 @@ class BusinessAboutWidget extends StatelessWidget {
                           children: [
                             HtmlWidget(
                               business.about,
-                              textStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              textStyle: TextStyles.body(
+                                  context: context, color: theme.textPrimary),
                             ),
                           ],
                         ),

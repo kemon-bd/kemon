@@ -30,7 +30,8 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Featured categories",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                        style: TextStyles.title(
+                            context: context, color: theme.textPrimary),
                       ),
                       // TODO
                       /* FilterChip(
@@ -74,10 +75,14 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                         final category = categories.elementAt(index);
                         return ActionChip(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimension.radius.max),
-                            side: BorderSide(width: Dimension.divider.large, color: theme.positiveBackgroundTertiary),
+                            borderRadius:
+                                BorderRadius.circular(Dimension.radius.max),
+                            side: BorderSide(
+                                width: Dimension.divider.large,
+                                color: theme.positiveBackgroundTertiary),
                           ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           backgroundColor: theme.positiveBackground,
                           onPressed: () {
                             context.pushNamed(
@@ -91,11 +96,15 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                             imageUrl: category.icon.url,
                             width: Dimension.radius.tweenty,
                             height: Dimension.radius.tweenty,
-                            placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.tweenty),
-                            errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.primary),
+                            placeholder: (context, url) =>
+                                ShimmerIcon(radius: Dimension.radius.tweenty),
+                            errorWidget: (context, url, error) => Icon(
+                                Icons.layers_outlined,
+                                color: theme.primary),
                           ),
                           label: Text(category.name.full),
-                          labelStyle: TextStyles.subTitle(context: context, color: theme.primary),
+                          labelStyle: TextStyles.subTitle(
+                              context: context, color: theme.primary),
                         );
                       },
                     ),

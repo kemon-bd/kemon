@@ -25,7 +25,9 @@ class ProfileSinceWidget extends StatelessWidget {
             if (state is FindProfileDone) {
               return Text(
                 'Joined on: ${state.profile.memberSince.dMMMMyyyy}.',
-                style: style ?? TextStyles.caption(context: context, color: theme.textPrimary),
+                style: style ??
+                    TextStyles.caption(
+                        context: context, color: theme.textPrimary),
                 textAlign: align,
               );
             } else if (state is FindProfileLoading) {
@@ -53,7 +55,8 @@ class MyPublicSinceWidget extends StatelessWidget {
         final profile = state.profile;
         if (profile != null) {
           return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
+            create: (context) => sl<FindProfileBloc>()
+              ..add(FindProfile(identity: profile.identity)),
             child: ProfileSinceWidget(style: style),
           );
         }

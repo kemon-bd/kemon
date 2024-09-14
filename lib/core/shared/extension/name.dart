@@ -5,5 +5,6 @@ extension NameExtension on Name {
     return '${first.trim()} ${last.trim()}'.trim();
   }
 
-  String get symbol => full.isEmpty ? '' : full.split(' ').take(2).map((w) => w[0]).join();
+  String get symbol =>
+      full.isEmpty ? '' : full.split(' ').take(2).map((w) => w[0]).join();
 }

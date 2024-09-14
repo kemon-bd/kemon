@@ -33,19 +33,25 @@ class BusinessVerifiedWidget extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         trailing: IconButton(
                           onPressed: context.pop,
-                          icon: Icon(Icons.close_rounded, color: theme.textPrimary),
+                          icon: Icon(Icons.close_rounded,
+                              color: theme.textPrimary),
                         ),
                       ),
                       const SizedBox(height: 24),
                       Icon(
-                        business.claimed ? Icons.verified_rounded : Icons.verified_outlined,
-                        color: business.claimed ? theme.primary : theme.textSecondary.withAlpha(100),
+                        business.claimed
+                            ? Icons.verified_rounded
+                            : Icons.verified_outlined,
+                        color: business.claimed
+                            ? theme.primary
+                            : theme.textSecondary.withAlpha(100),
                         size: 144,
                       ),
                       const SizedBox(height: 24),
                       Text(
                         'This business is ${business.verified ? 'verified by Kemon' : 'not verified yet'}.',
-                        style: TextStyles.body(context: context, color: theme.textPrimary),
+                        style: TextStyles.body(
+                            context: context, color: theme.textPrimary),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 32),

@@ -16,7 +16,8 @@ class ProfilePreferenceWidget extends StatelessWidget {
           children: [
             Text(
               'Preferences',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle(
+                  context: context, color: theme.textSecondary.withAlpha(100)),
             ),
             const SizedBox(height: 8),
             Container(
@@ -35,56 +36,77 @@ class ProfilePreferenceWidget extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 16,
-                      backgroundColor: themeMode == ThemeMode.dark ? Colors.indigoAccent : Colors.lightBlue,
+                      backgroundColor: themeMode == ThemeMode.dark
+                          ? Colors.indigoAccent
+                          : Colors.lightBlue,
                       child: Icon(
-                        themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                        themeMode == ThemeMode.dark
+                            ? Icons.dark_mode_rounded
+                            : Icons.light_mode_rounded,
                         color: theme.white,
                         size: 16,
                       ),
                     ),
                     title: Text(
                       'Theme',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.title(
+                          context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.backgroundTertiary),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded,
+                        size: 12, color: theme.backgroundTertiary),
                     onTap: () {
                       context.read<ThemeBloc>().add(const ToggleTheme());
                     },
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
                   ),
-                  Divider(height: .15, thickness: .15, color: theme.backgroundTertiary),
+                  Divider(
+                      height: .15,
+                      thickness: .15,
+                      color: theme.backgroundTertiary),
                   ListTile(
                     leading: const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.pinkAccent,
-                      child: Icon(Icons.privacy_tip_rounded, color: Colors.white, size: 16),
+                      child: Icon(Icons.privacy_tip_rounded,
+                          color: Colors.white, size: 16),
                     ),
                     title: Text(
                       'Privacy policy',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.title(
+                          context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                    trailing: Icon(Icons.open_in_new_rounded,
+                        color: theme.backgroundTertiary, size: 16),
                     onTap: () {
                       launchUrlString(ExternalLinks.privacyPolicy);
                     },
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
                   ),
-                  Divider(height: .15, thickness: .15, color: theme.backgroundTertiary),
+                  Divider(
+                      height: .15,
+                      thickness: .15,
+                      color: theme.backgroundTertiary),
                   ListTile(
                     leading: const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.indigoAccent,
-                      child: Icon(Icons.policy_rounded, color: Colors.white, size: 16),
+                      child: Icon(Icons.policy_rounded,
+                          color: Colors.white, size: 16),
                     ),
                     title: Text(
                       'Terms and conditions',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.title(
+                          context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                    trailing: Icon(Icons.open_in_new_rounded,
+                        color: theme.backgroundTertiary, size: 16),
                     onTap: () {
                       launchUrlString(ExternalLinks.termsAndConditions);
                     },
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
                   ),
                 ],
               ),

@@ -145,7 +145,9 @@ class BusinessModel extends BusinessEntity {
         urlSlug: urlSlug,
         about: description ?? '',
         logo: logo,
-        type: type.like(text: 'product') ? ListingType.product : ListingType.business,
+        type: type.like(text: 'product')
+            ? ListingType.product
+            : ListingType.business,
         claimed: claimed ?? false,
         verified: verified ?? false,
         address: Address.street(street: address),

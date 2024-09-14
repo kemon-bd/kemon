@@ -49,8 +49,8 @@ class ReviewLocalDataSourceImpl extends ReviewLocalDataSource {
   FutureOr<void> remove({
     required String urlSlug,
   }) {
-      _cache.remove(urlSlug);
-      _cacheRating.remove(urlSlug);
+    _cache.remove(urlSlug);
+    _cacheRating.remove(urlSlug);
   }
 
   @override

@@ -26,7 +26,8 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object?> get props => [category, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [category, sort, division, district, thana, subCategory, ratings];
 }
 
 class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {

@@ -39,7 +39,9 @@ class _CategoryPageState extends State<CategoryPage> {
                   final category = state.category;
                   return Text(
                     category.name.full,
-                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                    style: TextStyles.title(
+                            context: context, color: theme.textPrimary)
+                        .copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,
@@ -51,19 +53,23 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             actions: [
               Container(
-                margin: EdgeInsets.only(right: Dimension.padding.horizontal.small),
+                margin:
+                    EdgeInsets.only(right: Dimension.padding.horizontal.small),
                 alignment: Alignment.centerRight,
-                child: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                child: BlocBuilder<FindBusinessesByCategoryBloc,
+                    FindBusinessesByCategoryState>(
                   builder: (context, state) {
                     if (state is FindBusinessesByCategoryDone) {
                       return Text(
                         '${state.businesses.length} out of ${state.total}',
-                        style: TextStyles.caption(context: context, color: theme.textPrimary),
+                        style: TextStyles.caption(
+                            context: context, color: theme.textPrimary),
                       );
                     } else if (state is FindBusinessesByCategoryPaginating) {
                       return Text(
                         'fetching more...',
-                        style: TextStyles.caption(context: context, color: theme.textPrimary),
+                        style: TextStyles.caption(
+                            context: context, color: theme.textPrimary),
                       );
                     }
                     return Container();
@@ -99,18 +105,22 @@ class _CategoryPageState extends State<CategoryPage> {
             },
             child: const FilterMenuWidget(),
           ),
-          body: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+          body: BlocBuilder<FindBusinessesByCategoryBloc,
+              FindBusinessesByCategoryState>(
             builder: (context, state) {
               if (state is FindBusinessesByCategoryLoading) {
                 return ListView.separated(
                   itemBuilder: (_, index) {
                     return const BusinessItemShimmerWidget();
                   },
-                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                  separatorBuilder: (_, __) =>
+                      SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: 10,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+                  padding: EdgeInsets.zero.copyWith(
+                      bottom:
+                          Dimension.padding.vertical.max + context.bottomInset),
                 );
               } else if (state is FindBusinessesByCategoryDone) {
                 final businesses = state.businesses;
@@ -140,18 +150,24 @@ class _CategoryPageState extends State<CategoryPage> {
                           final business = businesses[index];
                           return BusinessItemWidget(urlSlug: business.urlSlug);
                         },
-                        separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                        separatorBuilder: (_, __) =>
+                            SizedBox(height: Dimension.padding.vertical.medium),
                         itemCount: businesses.length + (hasMore ? 1 : 0),
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+                        padding: EdgeInsets.zero.copyWith(
+                            bottom: Dimension.padding.vertical.max +
+                                context.bottomInset),
                       )
                     : Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                          padding: EdgeInsets.symmetric(
+                              vertical: context.height * .25),
                           child: Text(
                             "No listing found :(",
-                            style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                            style: TextStyles.title(
+                                context: context,
+                                color: theme.backgroundTertiary),
                           ),
                         ),
                       );

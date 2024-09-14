@@ -9,7 +9,8 @@ class BusinessItemShimmerWidget extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
+          margin: EdgeInsets.symmetric(
+              horizontal: Dimension.padding.horizontal.max),
           padding: EdgeInsets.symmetric(
             horizontal: Dimension.padding.horizontal.large,
             vertical: Dimension.padding.vertical.large,
@@ -47,19 +48,22 @@ class BusinessItemShimmerWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ShimmerIcon(radius: Dimension.radius.twelve),
-                            SizedBox(width: Dimension.padding.horizontal.verySmall),
+                            SizedBox(
+                                width: Dimension.padding.horizontal.verySmall),
                             ShimmerLabel(
                               width: Dimension.size.horizontal.sixteen,
                               height: Dimension.size.vertical.ten,
                               radius: Dimension.radius.eight,
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            SizedBox(
+                                width: Dimension.padding.horizontal.medium),
                             Icon(
                               Icons.circle,
                               size: Dimension.padding.horizontal.small,
                               color: theme.backgroundTertiary,
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            SizedBox(
+                                width: Dimension.padding.horizontal.medium),
                             ShimmerLabel(
                               width: Dimension.size.horizontal.fortyEight,
                               height: Dimension.size.vertical.ten,

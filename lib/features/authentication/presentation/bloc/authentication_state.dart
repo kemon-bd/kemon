@@ -23,7 +23,9 @@ class AuthenticationState extends Equatable {
       password: map["password"],
       remember: map["remember"],
       token: map["token"] != null ? TokenModel.parse(map: map["token"]) : null,
-      profile: map["profile"] != null ? ProfileModel.parse(map: map["profile"]) : null,
+      profile: map["profile"] != null
+          ? ProfileModel.parse(map: map["profile"])
+          : null,
     );
   }
 

@@ -17,7 +17,8 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
           children: [
             Text(
               'Account',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle(
+                  context: context, color: theme.textSecondary.withAlpha(100)),
             ),
             const SizedBox(height: 8),
             Container(
@@ -48,9 +49,11 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                           ),
                           title: Text(
                             '${identity.guid.like(text: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                            style: TextStyles.title(context: context, color: theme.textPrimary),
+                            style: TextStyles.title(
+                                context: context, color: theme.textPrimary),
                           ),
-                          trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                          trailing: Icon(Icons.open_in_new_rounded,
+                              color: theme.backgroundTertiary, size: 16),
                           onTap: () {
                             context.pushNamed(
                               UserReviewsPage.name,
@@ -76,9 +79,12 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Points',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.title(
+                          context: context, color: theme.textPrimary),
                     ),
-                    trailing: ProfilePointWidget(style: TextStyles.title(context: context, color: theme.positive)),
+                    trailing: ProfilePointWidget(
+                        style: TextStyles.title(
+                            context: context, color: theme.positive)),
                   ),
                 ],
               ),

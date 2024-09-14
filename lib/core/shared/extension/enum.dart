@@ -28,7 +28,7 @@ extension GenderExtension on Gender {
 
 extension SortByExtension on SortBy? {
   String get value {
-    if(this == null) {
+    if (this == null) {
       return 'Recommended';
     }
     switch (this) {
@@ -42,8 +42,9 @@ extension SortByExtension on SortBy? {
         return 'Recommended';
     }
   }
+
   String get text {
-    if(this == null) {
+    if (this == null) {
       return 'Select one';
     }
     switch (this) {

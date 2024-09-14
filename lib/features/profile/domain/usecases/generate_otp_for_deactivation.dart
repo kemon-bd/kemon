@@ -8,5 +8,6 @@ class GenerateOtpForAccountDeactivationUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, String>> call() async => await repository.generateOtpForAccountDeactivation();
+  FutureOr<Either<Failure, String>> call() async =>
+      await repository.generateOtpForAccountDeactivation();
 }

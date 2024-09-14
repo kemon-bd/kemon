@@ -18,7 +18,8 @@ class FilterState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [sortBy, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [sortBy, division, district, thana, subCategory, ratings];
 }
 
 class DefaultFilter extends FilterState {

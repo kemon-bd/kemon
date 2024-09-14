@@ -94,7 +94,8 @@ export 'package:flutter_rating_bar/flutter_rating_bar.dart';
 export 'package:expandable/expandable.dart';
 export 'package:pinput/pinput.dart';
 export 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-export 'package:flutter_widget_from_html/flutter_widget_from_html.dart' hide ImageSource;
+export 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
+    hide ImageSource;
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:readmore/readmore.dart';
 export 'package:dots_indicator/dots_indicator.dart';

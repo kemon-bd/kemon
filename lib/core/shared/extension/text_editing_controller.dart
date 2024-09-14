@@ -18,9 +18,14 @@ extension TextEditingControllerExtension on TextEditingController {
   }
 }
 
-extension PasswordTextEditingControllerExtension on ({TextEditingController password, TextEditingController confirmPassword}) {
+extension PasswordTextEditingControllerExtension on ({
+  TextEditingController password,
+  TextEditingController confirmPassword
+}) {
   bool get valid {
-    if (password.validPassword && confirmPassword.validPassword && password.text.like(text: confirmPassword.text)) {
+    if (password.validPassword &&
+        confirmPassword.validPassword &&
+        password.text.like(text: confirmPassword.text)) {
       return true;
     }
     return false;
