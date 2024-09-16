@@ -99,3 +99,4 @@ export 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:readmore/readmore.dart';
 export 'package:dots_indicator/dots_indicator.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';

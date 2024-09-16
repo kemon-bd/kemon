@@ -2,6 +2,7 @@ import '../../features/business/business.dart';
 import '../../features/category/category.dart';
 import '../../features/home/home.dart';
 import '../../features/industry/industry.dart';
+import '../../features/leaderboard/leaderboard.dart';
 import '../../features/location/location.dart';
 import '../../features/login/login.dart';
 import '../../features/profile/profile.dart';
@@ -20,15 +21,9 @@ final router = GoRouter(
       name: HomePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (context) => sl<FeaturedCategoriesBloc>()
-                ..add(const FeaturedCategories())),
-          BlocProvider(
-              create: (context) =>
-                  sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
-          BlocProvider(
-              create: (context) =>
-                  sl<RecentReviewsBloc>()..add(const RecentReviews())),
+          BlocProvider(create: (context) => sl<FeaturedCategoriesBloc>()..add(const FeaturedCategories())),
+          BlocProvider(create: (context) => sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
+          BlocProvider(create: (context) => sl<RecentReviewsBloc>()..add(const RecentReviews())),
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
@@ -43,9 +38,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindProfileBloc>()
               ..add(
-                FindProfile(
-                    identity: Identity.guid(
-                        guid: state.uri.queryParameters['guid']!)),
+                FindProfile(identity: Identity.guid(guid: state.uri.queryParameters['guid']!)),
               ),
           ),
           BlocProvider(create: (context) => sl<LoginBloc>()),
@@ -54,10 +47,7 @@ final router = GoRouter(
           username: state.uri.queryParameters['username']!,
         ),
       ),
-      redirect: (context, state) =>
-          state.uri.queryParameters.containsKey('guid')
-              ? null
-              : CheckProfilePage.path,
+      redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
     ),
     GoRoute(
       path: CheckProfilePage.path,
@@ -98,8 +88,7 @@ final router = GoRouter(
       path: ProfilePage.path,
       name: ProfilePage.name,
       builder: (context, state) => BlocProvider(
-        create: (context) => sl<FindProfileBloc>()
-          ..add(FindProfile(identity: context.auth.identity!)),
+        create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
         child: const ProfilePage(),
       ),
     ),
@@ -134,8 +123,7 @@ final router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<FindProfileBloc>()
-              ..add(FindProfile(identity: context.auth.identity!)),
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
           ),
           BlocProvider(create: (context) => sl<UpdateProfileBloc>()),
         ],
@@ -252,8 +240,7 @@ final router = GoRouter(
         ],
         child: NewReviewPage(
           urlSlug: state.pathParameters['urlSlug']!,
-          rating:
-              double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
+          rating: double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
         ),
       ),
     ),
@@ -307,8 +294,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(
-                    category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -331,8 +317,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(
-                    category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -340,6 +325,11 @@ final router = GoRouter(
           urlSlug: state.pathParameters['urlSlug']!,
         ),
       ),
+    ),
+    GoRoute(
+      path: LeaderboardPage.path,
+      name: LeaderboardPage.name,
+      builder: (context, state) => const LeaderboardPage(),
     ),
   ],
 );
