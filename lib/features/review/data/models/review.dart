@@ -43,7 +43,7 @@ class ReviewModel extends ReviewEntity {
       //   'ReviewModel.parse: "urlSlug" not found.',
       // );
       assert(
-        map['urlSlug'] is `String?,
+        map['urlSlug'] is String?,
         'ReviewModel.parse: "urlSlug" is not a String?.',
       );
       final String urlSlug = map['urlSlug'] ?? map['listingUrlslug'] ?? '';
