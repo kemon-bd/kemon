@@ -4,7 +4,7 @@ class LeaderboardEntity extends Equatable {
   // TODO: implement entity properties
   final String guid;
 
-  LeaderboardEntity({
+  const LeaderboardEntity({
     required this.guid,
   });
 
