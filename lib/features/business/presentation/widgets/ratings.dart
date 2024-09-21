@@ -17,16 +17,13 @@ class BusinessRatingsWidget extends StatelessWidget {
               return Center(child: Text(state.failure.message));
             } else if (state is FindRatingDone) {
               final RatingEntity rating = state.rating;
-              return BlocBuilder<FindListingReviewsBloc,
-                  FindListingReviewsState>(
+              return BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
                 builder: (context, state) {
                   if (state is FindListingReviewsDone) {
                     final userGuid = context.auth.guid ?? '';
                     final List<ReviewEntity> reviews = state.reviews;
-                    final bool hasMyReview =
-                        reviews.hasMyReview(userGuid: userGuid);
-                    final ratingWidget =
-                        Icon(Icons.star, color: theme.backgroundTertiary);
+                    final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
+                    final ratingWidget = Icon(Icons.star, color: theme.backgroundTertiary);
                     return ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -45,10 +42,8 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 empty: ratingWidget,
                               ),
                               onRatingUpdate: (value) async {
-                                final ratingBloc =
-                                    context.read<FindRatingBloc>();
-                                final reviewBloc =
-                                    context.read<FindListingReviewsBloc>();
+                                final ratingBloc = context.read<FindRatingBloc>();
+                                final reviewBloc = context.read<FindListingReviewsBloc>();
                                 final business = context.business;
                                 final bool? added = await context.pushNamed(
                                   NewReviewPage.name,
@@ -60,10 +55,8 @@ class BusinessRatingsWidget extends StatelessWidget {
                                   },
                                 );
                                 if (added ?? false) {
-                                  ratingBloc.add(
-                                      RefreshRating(urlSlug: business.urlSlug));
-                                  reviewBloc.add(RefreshListingReviews(
-                                      urlSlug: business.urlSlug));
+                                  ratingBloc.add(RefreshRating(urlSlug: business.urlSlug));
+                                  reviewBloc.add(RefreshListingReviews(urlSlug: business.urlSlug));
                                 }
                               },
                               itemCount: 5,
@@ -79,10 +72,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                           children: [
                             Text(
                               "Reviews",
-                              style: TextStyles.miniHeadline(
-                                      context: context,
-                                      color: theme.textPrimary)
-                                  .copyWith(
+                              style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -91,10 +81,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                             const SizedBox(width: 12),
                             Text(
                               rating.average.toStringAsFixed(1),
-                              style: TextStyles.miniHeadline(
-                                      context: context,
-                                      color: theme.textPrimary)
-                                  .copyWith(
+                              style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -104,8 +91,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             "Based on ${rating.total} review${rating.total > 1 ? "s" : ""}",
-                            style: TextStyles.body(
-                                context: context, color: theme.textSecondary),
+                            style: TextStyles.body(context: context, color: theme.textSecondary),
                           ),
                         ],
                         const SizedBox(height: 16),
@@ -176,13 +162,11 @@ class _RatingItem extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               text: label,
-              style:
-                  TextStyles.body(context: context, color: theme.textPrimary),
+              style: TextStyles.body(context: context, color: theme.textPrimary),
               children: [
                 TextSpan(
                   text: " ($count)",
-                  style: TextStyles.caption(
-                      context: context, color: theme.textSecondary),
+                  style: TextStyles.caption(context: context, color: theme.textSecondary),
                 ),
               ],
             ),
@@ -202,8 +186,7 @@ class _RatingItem extends StatelessWidget {
           flex: 2,
           child: Text(
             "${(rating * 100).ceil()}%",
-            style:
-                TextStyles.caption(context: context, color: theme.textPrimary),
+            style: TextStyles.caption(context: context, color: theme.textPrimary),
             textAlign: TextAlign.end,
           ),
         ),
