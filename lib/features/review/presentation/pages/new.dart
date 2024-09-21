@@ -76,13 +76,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       itemBuilder: (_, index) => Icon(
                         Icons.stars_rounded,
                         color: rating > 4
-                            ? theme.primary
+                            ? theme.positive
                             : rating > 3
-                                ? theme.primary.withRed(155)
+                                ? theme.positive.withRed(100)
                                 : rating > 2
-                                    ? theme.warning.withGreen(235)
+                                    ? theme.warning.withGreen(200)
                                     : rating > 1
-                                        ? theme.negative.withGreen(150)
+                                        ? theme.warning.withGreen(100)
                                         : theme.negative,
                       ),
                       itemSize: 64,

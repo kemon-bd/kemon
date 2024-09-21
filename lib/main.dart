@@ -1,6 +1,7 @@
 import 'core/config/config.dart';
 import 'core/shared/shared.dart';
 import 'features/authentication/authentication.dart';
+import 'features/whats_new/whats_new.dart';
 
 FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +11,7 @@ FutureOr<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => WhatsNewBloc()),
         BlocProvider(create: (_) => sl<ThemeBloc>()),
         BlocProvider(create: (_) => sl<AuthenticationBloc>()),
       ],

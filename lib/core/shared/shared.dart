@@ -9,6 +9,7 @@ export 'text_styles.dart';
 export 'alert/choose_contact_method.dart';
 export 'alert/choose_upload_method.dart';
 export 'alert/delete.dart';
+export 'alert/whats_new.dart';
 export 'dropdown/field.dart';
 export 'dropdown/form_field.dart';
 export 'dropdown/gender_filter.dart';

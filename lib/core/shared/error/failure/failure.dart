@@ -15,6 +15,7 @@ part 'login.dart';
 part 'authentication.dart';
 part 'listing.dart';
 part 'dashboard.dart';
+part 'whats_new.dart';
 
 abstract class Failure {
   final String message;

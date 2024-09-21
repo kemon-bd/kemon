@@ -13,6 +13,22 @@ extension StringExtension on String {
     return null;
   }
 
+  WhatsNewType get toWhatsNewType {
+    if (like(text: WhatsNewType.bug.key)) {
+      return WhatsNewType.bug;
+    } else if (like(text: WhatsNewType.feature.key)) {
+      return WhatsNewType.feature;
+    } else if (like(text: WhatsNewType.ui.key)) {
+      return WhatsNewType.ui;
+    } else if (like(text: WhatsNewType.security.key)) {
+      return WhatsNewType.security;
+    } else if (like(text: WhatsNewType.performance.key)) {
+      return WhatsNewType.performance;
+    } else {
+      return WhatsNewType.ux;
+    }
+  }
+
   String get url {
     if (startsWith("http")) return this;
     return "${RemoteEndpoints.domain}$this";

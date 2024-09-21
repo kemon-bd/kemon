@@ -28,9 +28,7 @@ class PublicProfilePage extends StatelessWidget {
               onPressed: context.pop,
             ),
             title: ProfileUsernameWidget(
-              style:
-                  TextStyles.title(context: context, color: theme.textPrimary)
-                      .copyWith(
+              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                 fontWeight: FontWeight.bold,
                 height: 1,
               ),

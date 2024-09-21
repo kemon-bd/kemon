@@ -59,3 +59,56 @@ extension SortByExtension on SortBy? {
     }
   }
 }
+
+extension WhatsNewTypeExtension on WhatsNewType {
+  String get key {
+    switch (this) {
+      case WhatsNewType.bug:
+        return 'bug';
+      case WhatsNewType.feature:
+        return 'feature';
+      case WhatsNewType.ui:
+        return 'ui';
+      case WhatsNewType.security:
+        return 'security';
+      case WhatsNewType.performance:
+        return 'performance';
+      default:
+        return '';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case WhatsNewType.bug:
+        return Icons.bug_report_rounded;
+      case WhatsNewType.feature:
+        return Icons.fiber_new_rounded;
+      case WhatsNewType.ui:
+        return Icons.brush_rounded;
+      case WhatsNewType.security:
+        return Icons.security_rounded;
+      case WhatsNewType.performance:
+        return Icons.speed_rounded;
+      default:
+        return Icons.auto_fix_high_rounded;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case WhatsNewType.bug:
+        return Colors.red;
+      case WhatsNewType.feature:
+        return Colors.teal;
+      case WhatsNewType.ui:
+        return Colors.blue;
+      case WhatsNewType.security:
+        return Colors.deepPurple;
+      case WhatsNewType.performance:
+        return Colors.indigoAccent;
+      default:
+        return Colors.brown;
+    }
+  }
+}
