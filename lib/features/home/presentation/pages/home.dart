@@ -49,16 +49,21 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
-            leading: Image.asset(
-              'images/logo/full.png',
-              width: Dimension.size.horizontal.twentyFour,
-              height: Dimension.size.vertical.twentyFour,
-              fit: BoxFit.cover,
+            titleSpacing: Dimension.size.horizontal.sixteen,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'images/logo/full.png',
+                  width: Dimension.size.horizontal.tweenty,
+                  height: Dimension.size.vertical.tweenty,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(width: Dimension.size.horizontal.eight),
+                const Text('KEMON'),
+              ],
             ),
-            title: const Text('KEMON'),
-            titleTextStyle:
-                TextStyles.headline(context: context, color: theme.white)
-                    .copyWith(
+            titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
               fontWeight: FontWeight.bold,
             ),
             centerTitle: false,
