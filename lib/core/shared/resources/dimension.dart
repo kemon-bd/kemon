@@ -85,7 +85,7 @@ class _VerticalSize {
   final double sixteen = 16.0.h;
   final double tweenty = 20.0.h;
   final double twentyFour = 24.0.h;
-  final double carousel = 112.0.h;
+  final double carousel = 128.0.h;
   final double min = 0.0.h;
 } //? ------------------- Size -------------------
 

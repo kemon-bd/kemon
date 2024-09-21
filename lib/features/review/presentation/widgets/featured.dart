@@ -27,8 +27,7 @@ class FeaturedReviewsWidget extends StatelessWidget {
                 children: [
                   Text(
                     "Recent reviews",
-                    style: TextStyles.title(
-                        context: context, color: theme.textPrimary),
+                    style: TextStyles.title(context: context, color: theme.textPrimary),
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
                   if (reviews.isNotEmpty)
@@ -39,11 +38,9 @@ class FeaturedReviewsWidget extends StatelessWidget {
                         shrinkExtent: context.width * .5,
                         itemSnapping: true,
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(Dimension.radius.twelve),
+                          borderRadius: BorderRadius.circular(Dimension.radius.twelve),
                         ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.small),
+                        padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.small),
                         onTap: (index) {
                           final review = reviews.elementAt(index);
                           context.pushNamed(
@@ -53,8 +50,7 @@ class FeaturedReviewsWidget extends StatelessWidget {
                         },
                         children: reviews
                             .map(
-                              (review) =>
-                                  FeaturedReviewItemWidget(review: review),
+                              (review) => FeaturedReviewItemWidget(review: review),
                             )
                             .toList(),
                       ),
