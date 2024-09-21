@@ -64,8 +64,8 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Allow KEMON to access your photo library to express, share your experience while publishing review.</string>
 		<key>UIStatusBarHidden</key>
-		<false/>
-		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<true/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
 	</dict>
 </plist>

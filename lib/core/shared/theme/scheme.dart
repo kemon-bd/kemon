@@ -11,7 +11,7 @@ class ThemeScheme {
   final Color positiveBackground;
   final Color positiveBackgroundSecondary;
   final Color positiveBackgroundTertiary;
-  final Color primary;
+  final Color primary = const Color(0xFF); // base: 2BB673
   final Color negative;
   final Color warning;
   final Color shimmer;
@@ -26,7 +26,6 @@ class ThemeScheme {
     required this.backgroundTertiary,
     required this.textPrimary,
     required this.textSecondary,
-    required this.primary,
     required this.link,
     required this.positive,
     required this.positiveBackground,
@@ -44,7 +43,6 @@ class ThemeScheme {
       backgroundTertiary: const Color(0xFFdaddd8),
       textPrimary: const Color(0xFF1c1c1c),
       textSecondary: const Color(0xFF66666e),
-      primary: const Color(0xFF2BB673),
       positive: const Color(0xFF058c42),
       link: Colors.lightBlueAccent.shade700,
       positiveBackground: const Color(0xFFeefbf5),
@@ -65,7 +63,6 @@ class ThemeScheme {
       backgroundTertiary: const Color(0xFF1F1F1F),
       textPrimary: const Color(0xFFe9ecef),
       textSecondary: const Color(0xFFc2c2c2),
-      primary: const Color(0xFF2BB673),
       link: Colors.cyanAccent.shade400,
       positive: const Color(0xFF058c42),
       positiveBackground: const Color(0xFF04110a),
