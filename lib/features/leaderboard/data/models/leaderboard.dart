@@ -3,7 +3,7 @@ import '../../leaderboard.dart';
 
 class LeaderboardModel extends LeaderboardEntity {
   // TODO: implement model properties
-  LeaderboardModel({
+  const LeaderboardModel({
     required super.guid,
   });
 
