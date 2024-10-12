@@ -2,7 +2,6 @@ import 'package:kemon/features/profile/profile.dart';
 
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
-import '../../../location/location.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
 import '../../../whats_new/whats_new.dart';
@@ -116,7 +115,7 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 DashboardSearchSectionWidget(),
                 DashboardFeaturedCategoriesSectionWidget(),
-                DashboardFeaturedLocationsSectionWidget(),
+                // DashboardFeaturedLocationsSectionWidget(),
                 FeaturedReviewsWidget(),
               ],
             ),
