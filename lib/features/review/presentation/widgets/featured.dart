@@ -58,10 +58,6 @@ class FeaturedReviewsWidget extends StatelessWidget {
                   if (reviews.isEmpty) const Text('No reviews yet'),
                 ],
               );
-            } else if (state is RecentReviewsError) {
-              return Center(
-                child: Text(state.failure.message),
-              );
             } else {
               return const SizedBox();
             }

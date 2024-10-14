@@ -51,16 +51,12 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
         final defaultPinTheme = PinTheme(
           width: context.width * 0.125,
           height: context.width * 0.125,
-          textStyle:
-              TextStyles.body(context: context, color: theme.textPrimary),
-          decoration: BoxDecoration(
-              color: theme.backgroundSecondary,
-              borderRadius: BorderRadius.circular(8)),
+          textStyle: TextStyles.body(context: context, color: theme.textPrimary),
+          decoration: BoxDecoration(color: theme.backgroundSecondary, borderRadius: BorderRadius.circular(8)),
         );
 
         final focusedPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle(context: context, color: theme.textPrimary),
+          textStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -68,8 +64,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.primary)
-              .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -80,9 +75,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
         );
 
         final errorPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle(context: context, color: theme.negative)
-                  .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.negative).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -107,8 +100,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                     child: Container(
                       width: double.maxFinite,
                       alignment: Alignment.bottomLeft,
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, bottom: 16),
+                      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
                       decoration: BoxDecoration(
                         color: theme.primary,
                         image: const DecorationImage(
@@ -127,10 +119,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                 children: [
                                   Text(
                                     'Verify OTP',
-                                    style: TextStyles.headline(
-                                            context: context,
-                                            color: theme.white)
-                                        .copyWith(
+                                    style: TextStyles.headline(context: context, color: theme.white).copyWith(
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 2,
                                     ),
@@ -138,10 +127,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                   const SizedBox(height: 4),
                                   Text(
                                     'A ${widget.otp.length} digit verification code has been sent to your phone / email address',
-                                    style: TextStyles.body(
-                                            context: context,
-                                            color: theme.semiWhite)
-                                        .copyWith(
+                                    style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
                                       height: 1,
                                     ),
                                   ),
@@ -158,8 +144,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                       child: ListView(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16)
-                            .copyWith(bottom: 16 + context.bottomInset),
+                        padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           const SizedBox(height: 42),
                           Pinput(
@@ -173,15 +158,12 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                             focusedPinTheme: focusedPinTheme,
                             submittedPinTheme: submittedPinTheme,
                             errorPinTheme: errorPinTheme,
-                            pinputAutovalidateMode:
-                                PinputAutovalidateMode.onSubmit,
-                            validator: (value) =>
-                                ((value ?? "") == code) ? null : "",
+                            pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                            validator: (value) => ((value ?? "") == code) ? null : "",
                           ),
                           const SizedBox(height: 20),
                           Center(
-                            child: BlocConsumer<DeactivateAccountBloc,
-                                DeactivateAccountState>(
+                            child: BlocConsumer<DeactivateAccountBloc, DeactivateAccountState>(
                               listener: (context, state) {
                                 if (state is DeactivateAccountOtp) {
                                   endTime = DateTime.now().add(_duration);
@@ -192,30 +174,22 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                 if (state is DeactivateAccountLoading) {
                                   return Text(
                                     'Please wait...',
-                                    style: TextStyles.body(
-                                        context: context,
-                                        color: theme.textSecondary),
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
                                   );
                                 }
                                 return endTime != null
                                     ? TimerCountdown(
-                                        format:
-                                            CountDownTimerFormat.minutesSeconds,
+                                        format: CountDownTimerFormat.minutesSeconds,
                                         onEnd: () {
                                           setState(() {
                                             endTime = null;
                                           });
                                         },
                                         spacerWidth: 4,
-                                        endTime: endTime ??
-                                            DateTime.now().add(_duration),
+                                        endTime: endTime ?? DateTime.now().add(_duration),
                                         enableDescriptions: false,
-                                        timeTextStyle: TextStyles.body(
-                                            context: context,
-                                            color: theme.textPrimary),
-                                        colonsTextStyle: TextStyles.body(
-                                            context: context,
-                                            color: theme.textPrimary),
+                                        timeTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                        colonsTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
                                       )
                                     : Text.rich(
                                         TextSpan(
@@ -223,16 +197,11 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                           children: [
                                             TextSpan(
                                               text: "Didn't receive the OTP? ",
-                                              style: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textSecondary),
+                                              style: TextStyles.body(context: context, color: theme.textSecondary),
                                             ),
                                             TextSpan(
                                               text: "Resend OTP",
-                                              style: TextStyles.body(
-                                                      context: context,
-                                                      color: theme.primary)
-                                                  .copyWith(
+                                              style: TextStyles.body(context: context, color: theme.primary).copyWith(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               recognizer: TapGestureRecognizer()
@@ -253,41 +222,29 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                           const SizedBox(height: 20),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: BlocConsumer<DeactivateAccountBloc,
-                                DeactivateAccountState>(
+                            child: BlocConsumer<DeactivateAccountBloc, DeactivateAccountState>(
                               listener: (context, state) {
                                 if (state is DeactivateAccountDone) {
-                                  context.auth
-                                      .add(const AuthenticationLogout());
+                                  context.auth.add(const AuthenticationLogout());
                                 }
                               },
                               builder: (context, state) {
                                 if (state is DeactivateAccountLoading) {
                                   return ElevatedButton(
                                     onPressed: () {},
-                                    child: NetworkingIndicator(
-                                        dimension: 28, color: theme.white),
+                                    child: NetworkingIndicator(dimension: 28, color: theme.white),
                                   );
                                 }
                                 return ElevatedButton(
                                   onPressed: () {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    if (formKey.currentState?.validate() ??
-                                        false) {
-                                      context.read<DeactivateAccountBloc>().add(
-                                          DeactivateAccount(
-                                              otp: otpController.text));
+                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    if (formKey.currentState?.validate() ?? false) {
+                                      context.read<DeactivateAccountBloc>().add(DeactivateAccount(otp: otpController.text));
                                     }
                                   },
                                   child: Text(
                                     "Verify".toUpperCase(),
-                                    style: TextStyles.miniHeadline(
-                                      context: context,
-                                      color: theme.white,
-                                    ).copyWith(
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                                    style: TextStyles.button(context: context),
                                   ),
                                 );
                               },

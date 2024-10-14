@@ -84,9 +84,7 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                   onPressed: context.pop,
                   child: Text(
                     'Continue',
-                    style: TextStyles.miniHeadline(context: context, color: theme.white).copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: TextStyles.button(context: context),
                   ),
                 ),
               ),

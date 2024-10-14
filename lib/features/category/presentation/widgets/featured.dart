@@ -102,6 +102,21 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                   ),
                 ],
               );
+            } else if (state is FeaturedCategoriesError) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
+                    size: Dimension.size.horizontal.seventyTwo,
+                    color: theme.textSecondary,
+                  ),
+                  Text(
+                    state.failure.message,
+                    style: TextStyles.subHeadline(context: context, color: theme.textSecondary),
+                  ),
+                ],
+              );
             } else {
               return const SizedBox();
             }

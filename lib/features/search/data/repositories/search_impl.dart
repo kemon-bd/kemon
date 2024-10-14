@@ -55,15 +55,19 @@ class SearchRepositoryImpl extends SearchRepository {
       final result = await local.findSuggestion(query: query);
       return Right(result);
     } on SearchSuggestionsNotFoundInLocalCacheFailure catch (_) {
-      if (await network.online) {
-        final suggestions = await remote.suggestion(query: query);
-        await local.addSuggestion(query: query, suggestions: suggestions);
-        await industry.addAll(industries: suggestions.industries);
-        await category.addAll(categories: suggestions.categories);
-        await subCategory.addAll(subCategories: suggestions.subCategories);
-        return Right(suggestions);
-      } else {
-        return Left(NoInternetFailure());
+      try {
+        if (await network.online) {
+          final suggestions = await remote.suggestion(query: query);
+          await local.addSuggestion(query: query, suggestions: suggestions);
+          await industry.addAll(industries: suggestions.industries);
+          await category.addAll(categories: suggestions.categories);
+          await subCategory.addAll(subCategories: suggestions.subCategories);
+          return Right(suggestions);
+        } else {
+          return Left(NoInternetFailure());
+        }
+      } on Failure catch (e) {
+        return Left(e);
       }
     } on Failure catch (e) {
       return Left(e);

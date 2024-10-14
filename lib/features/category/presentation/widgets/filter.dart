@@ -57,8 +57,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 children: [
                   Text(
                     "Filter",
-                    style: TextStyles.headline(
-                        context: context, color: theme.textPrimary),
+                    style: TextStyles.headline(context: context, color: theme.textPrimary),
                   ),
                   IconButton(
                     onPressed: () {
@@ -79,31 +78,26 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 decoration: BoxDecoration(
                   color: theme.backgroundSecondary,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: theme.backgroundTertiary, width: .25),
+                  border: Border.all(color: theme.backgroundTertiary, width: .25),
                 ),
                 child: DropdownWidget(
                   label: 'Sort by',
-                  labelStyle: TextStyles.subTitle(
-                      context: context, color: theme.textSecondary),
+                  labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   text: sort.text,
-                  textStyle: TextStyles.title(
-                      context: context, color: theme.textPrimary),
+                  textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
               ),
               const Divider(height: 42),
               Text(
                 'Location',
-                style: TextStyles.subTitle(
-                    context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
                   color: theme.backgroundSecondary,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: theme.backgroundTertiary, width: .25),
+                  border: Border.all(color: theme.backgroundTertiary, width: .25),
                 ),
                 child: ListView(
                   shrinkWrap: true,
@@ -112,29 +106,23 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                   children: [
                     DropdownWidget(
                       label: 'Division',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                       text: division?.name.full ?? 'Select one',
-                      textStyle: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     const Divider(),
                     DropdownWidget(
                       label: 'District',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                       text: district?.name.full ?? 'Select one',
-                      textStyle: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     const Divider(),
                     DropdownWidget(
                       label: 'Thana',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                       text: thana?.name.full ?? 'Select one',
-                      textStyle: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                   ],
                 ),
@@ -144,59 +132,48 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 decoration: BoxDecoration(
                   color: theme.backgroundSecondary,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: theme.backgroundTertiary, width: .25),
+                  border: Border.all(color: theme.backgroundTertiary, width: .25),
                 ),
                 child: DropdownWidget(
                   label: 'Category',
-                  labelStyle: TextStyles.subTitle(
-                      context: context, color: theme.textSecondary),
+                  labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   text: subCategory?.name.full ?? 'Select one',
-                  textStyle: TextStyles.title(
-                      context: context, color: theme.textPrimary),
+                  textStyle: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
               ),
               const Divider(height: 42),
               Text(
                 'Rating',
-                style: TextStyles.subTitle(
-                    context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
                   color: theme.backgroundSecondary,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: theme.backgroundTertiary, width: .25),
+                  border: Border.all(color: theme.backgroundTertiary, width: .25),
                 ),
                 child: ListView.separated(
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 5,
-                  separatorBuilder: (context, index) =>
-                      const Divider(height: 8),
+                  separatorBuilder: (context, index) => const Divider(height: 8),
                   itemBuilder: (context, index) {
                     final rating = index + 1;
                     final selected = ratings.contains(rating);
                     return ListTile(
                       dense: true,
                       horizontalTitleGap: 24,
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 16),
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                       leading: Container(
                         width: 24,
                         height: 24,
                         decoration: BoxDecoration(
-                          color: selected
-                              ? theme.primary
-                              : theme.backgroundTertiary,
+                          color: selected ? theme.primary : theme.backgroundTertiary,
                           borderRadius: BorderRadius.circular(8),
-                          border:
-                              Border.all(color: theme.textPrimary, width: 1),
+                          border: Border.all(color: theme.textPrimary, width: 1),
                         ),
                         child: selected
                             ? Icon(
@@ -209,8 +186,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                             : null,
                       ),
                       title: RatingBarIndicator(
-                        itemBuilder: (_, index) =>
-                            Icon(Icons.star_rounded, color: theme.primary),
+                        itemBuilder: (_, index) => Icon(Icons.star_rounded, color: theme.primary),
                         itemSize: 24,
                         itemCount: rating,
                         unratedColor: theme.textSecondary,
@@ -228,8 +204,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                   },
                 ),
               ),
-              BlocBuilder<FindBusinessesByCategoryBloc,
-                  FindBusinessesByCategoryState>(
+              BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
                 builder: (context, state) {
                   if (state is FindBusinessesByCategoryDone) {
                     return Visibility(
@@ -242,16 +217,14 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                           const Divider(height: 42),
                           Text(
                             'Related',
-                            style: TextStyles.subTitle(
-                                context: context, color: theme.textPrimary),
+                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                           ),
                           const SizedBox(height: 8),
                           Container(
                             decoration: BoxDecoration(
                               color: theme.backgroundSecondary,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                  color: theme.backgroundTertiary, width: .25),
+                              border: Border.all(color: theme.backgroundTertiary, width: .25),
                             ),
                             padding: const EdgeInsets.all(8),
                             child: Wrap(
@@ -265,33 +238,23 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                               children: state.related
                                   .map(
                                     (category) => ActionChip(
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       backgroundColor: theme.backgroundPrimary,
                                       padding: const EdgeInsets.all(12),
-                                      side: BorderSide(
-                                          color: theme.backgroundTertiary,
-                                          width: 1),
-                                      visualDensity: const VisualDensity(
-                                          horizontal: -4, vertical: -4),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16)),
+                                      side: BorderSide(color: theme.backgroundTertiary, width: 1),
+                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                                       label: Text(
                                         category.name.full,
-                                        style: TextStyles.body(
-                                                context: context,
-                                                color: theme.textPrimary)
-                                            .copyWith(
+                                        style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                       onPressed: () {
                                         context.pop();
-                                        context.pushNamed(SubCategoryPage.name,
-                                            pathParameters: {
-                                              'urlSlug': category.urlSlug,
-                                            });
+                                        context.pushNamed(SubCategoryPage.name, pathParameters: {
+                                          'urlSlug': category.urlSlug,
+                                        });
                                       },
                                     ),
                                   )
@@ -320,11 +283,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 },
                 child: Text(
                   'Apply'.toUpperCase(),
-                  style: TextStyles.miniHeadline(
-                          context: context, color: theme.white)
-                      .copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
+                  style: TextStyles.button(context: context),
                 ),
               ),
             ],

@@ -55,6 +55,25 @@ class TextStyles {
     );
   }
 
+  static TextStyle button({
+    required BuildContext context,
+  }) {
+    final theme = context.theme.scheme;
+    return GoogleFonts.solway(
+      color: theme.white,
+      shadows: [
+        BoxShadow(
+          color: theme.black.withAlpha(15),
+          offset: const Offset(4, 4),
+          blurRadius: 4,
+          spreadRadius: 4,
+        )
+      ],
+      fontWeight: FontWeight.w900,
+      textStyle: Theme.of(context).textTheme.titleLarge,
+    );
+  }
+
   static TextStyle subHeadline({
     required BuildContext context,
     required Color color,

@@ -90,54 +90,58 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
   Future<AutoCompleteSuggestions> suggestion({
     required String query,
   }) async {
-    final Map<String, String> headers = {
-      'Searchtext': query,
-    };
+    try {
+      final Map<String, String> headers = {
+        'Searchtext': query,
+      };
 
-    final response = await client.get(
-      RemoteEndpoints.searchSuggestion,
-      headers: headers,
-    );
-
-    final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(
-      response: response,
-    );
-
-    if (result.success) {
-      final List<dynamic> businessesMap = result.result!['listing'];
-      final List<dynamic> industriesMap = result.result!['industry'];
-      final List<dynamic> categoriesMap = result.result!['category'];
-      final List<dynamic> subCategoriesMap = result.result!['subcategory'];
-
-      final List<String> businesses = businessesMap
-          .map<String>(
-            (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
-          )
-          .toList();
-      final List<IndustryModel> industries = industriesMap
-          .map(
-            (map) => IndustryModel.parse(map: map),
-          )
-          .toList();
-      final List<CategoryModel> categories = categoriesMap
-          .map(
-            (map) => CategoryModel.parse(map: map),
-          )
-          .toList();
-      final List<SubCategoryModel> subCategories = subCategoriesMap
-          .map(
-            (map) => SubCategoryModel.parse(map: map),
-          )
-          .toList();
-
-      return (
-        businesses: businesses,
-        industries: industries,
-        categories: categories,
-        subCategories: subCategories,
+      final response = await client.get(
+        RemoteEndpoints.searchSuggestion,
+        headers: headers,
       );
-    } else {
-      throw RemoteFailure(message: result.error!);
+
+      final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(
+        response: response,
+      );
+
+      if (result.success) {
+        final List<dynamic> businessesMap = result.result!['listing'];
+        final List<dynamic> industriesMap = result.result!['industry'];
+        final List<dynamic> categoriesMap = result.result!['category'];
+        final List<dynamic> subCategoriesMap = result.result!['subcategory'];
+
+        final List<String> businesses = businessesMap
+            .map<String>(
+              (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
+            )
+            .toList();
+        final List<IndustryModel> industries = industriesMap
+            .map(
+              (map) => IndustryModel.parse(map: map),
+            )
+            .toList();
+        final List<CategoryModel> categories = categoriesMap
+            .map(
+              (map) => CategoryModel.parse(map: map),
+            )
+            .toList();
+        final List<SubCategoryModel> subCategories = subCategoriesMap
+            .map(
+              (map) => SubCategoryModel.parse(map: map),
+            )
+            .toList();
+
+        return (
+          businesses: businesses,
+          industries: industries,
+          categories: categories,
+          subCategories: subCategories,
+        );
+      } else {
+        throw RemoteFailure(message: result.error!);
+      }
+    } on SocketException {
+      throw NoInternetFailure();
     }
   }
 }

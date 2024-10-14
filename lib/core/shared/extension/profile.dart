@@ -1,7 +1,30 @@
 import '../../../features/profile/profile.dart';
 import '../shared.dart';
 
-extension ProfileEntityExtension on ProfileEntity {}
+extension ProfileEntityExtension on ProfileEntity {
+  int get progress {
+    int p = 0;
+    if (name.full.isNotEmpty) {
+      p += 30;
+    }
+    if ((contact.email ?? '').isNotEmpty) {
+      p += 20;
+    }
+    if ((contact.phone ?? '').isNotEmpty) {
+      p += 20;
+    }
+    if (gender != null) {
+      p += 10;
+    }
+    if (dob != null) {
+      p += 10;
+    }
+    if ((profilePicture ?? '').isNotEmpty) {
+      p += 10;
+    }
+    return p;
+  }
+}
 
 extension ProfileModelExtension on ProfileModel {
   Map<String, dynamic> get toMap {

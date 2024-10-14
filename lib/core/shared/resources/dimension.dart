@@ -41,6 +41,7 @@ class _HorizontalPadding {
   final double medium = 8.0.w;
   final double small = 4.0.w;
   final double verySmall = 2.0.w;
+  final double min = 1.0.w;
 }
 
 class _VerticalPadding {
@@ -49,6 +50,7 @@ class _VerticalPadding {
   final double medium = 8.0.h;
   final double small = 4.0.h;
   final double verySmall = 2.0.h;
+  final double min = 1.0.h;
 } //? ------------------- Padding -------------------
 
 //! ################################################

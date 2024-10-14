@@ -35,3 +35,4 @@ export 'presentation/widgets/info.dart';
 export 'presentation/widgets/features.dart';
 export 'presentation/widgets/preference.dart';
 export 'presentation/widgets/danger.dart';
+export 'presentation/widgets/progress.dart';

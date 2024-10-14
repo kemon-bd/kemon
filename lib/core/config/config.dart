@@ -54,8 +54,7 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme =
-        mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme = mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
       canvasColor: theme.backgroundPrimary,
       scaffoldBackgroundColor: theme.backgroundPrimary,
@@ -71,8 +70,7 @@ class AppConfig {
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle:
-            TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: TextStyle(height: Dimension.size.vertical.min),
         helperStyle: TextStyle(height: Dimension.size.vertical.min),
         border: OutlineInputBorder(
@@ -114,9 +112,9 @@ class AppConfig {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
             side: BorderSide(
-              color: theme.primary.withAlpha(150),
-              width: Dimension.size.horizontal.four,
-              strokeAlign: BorderSide.strokeAlignOutside,
+              color: theme.textSecondary.withAlpha(150),
+              width: Dimension.padding.horizontal.min,
+              strokeAlign: BorderSide.strokeAlignCenter,
             ),
           ),
           padding: EdgeInsets.symmetric(
@@ -136,10 +134,8 @@ class AppConfig {
           ),
         ),
       ),
-      textSelectionTheme:
-          TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(
-          color: theme.textPrimary, size: Dimension.radius.tweenty),
+      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
+      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.tweenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(
         space: Dimension.divider.normal,
@@ -154,10 +150,7 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: (mode != ThemeMode.dark
-                ? SystemUiOverlayStyle.dark
-                : SystemUiOverlayStyle.light)
-            .copyWith(
+        systemOverlayStyle: (mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
         ),
