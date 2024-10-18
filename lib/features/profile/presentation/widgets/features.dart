@@ -1,5 +1,4 @@
 import '../../../../../core/shared/shared.dart';
-import '../../../leaderboard/leaderboard.dart';
 import '../../../review/review.dart';
 import '../../profile.dart';
 
@@ -80,9 +79,9 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     trailing: ProfilePointWidget(style: TextStyles.title(context: context, color: theme.positive)),
-                    onTap: () {
-                      context.pushNamed(LeaderboardPage.name);
-                    },
+                    // onTap: () {
+                    //   context.pushNamed(LeaderboardPage.name);
+                    // },
                   ),
                 ],
               ),
