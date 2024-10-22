@@ -45,6 +45,7 @@ final router = GoRouter(
         ],
         child: LoginPage(
           username: state.uri.queryParameters['username']!,
+          redirectTo: state.uri.queryParameters['redirectTo'],
         ),
       ),
       redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
@@ -56,7 +57,9 @@ final router = GoRouter(
         providers: [
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
         ],
-        child: const CheckProfilePage(),
+        child: CheckProfilePage(
+          redirectTo: state.uri.queryParameters['redirectTo'],
+        ),
       ),
     ),
     GoRoute(
@@ -67,6 +70,7 @@ final router = GoRouter(
         child: VerifyOTPPage(
           otp: state.uri.queryParameters['otp']!,
           username: state.uri.queryParameters['username']!,
+          redirectTo: state.uri.queryParameters['redirectTo'],
         ),
       ),
     ),
@@ -81,6 +85,7 @@ final router = GoRouter(
         ],
         child: RegistrationPage(
           username: state.uri.queryParameters['username']!,
+          fallback: bool.tryParse(state.uri.queryParameters['fallback'] ?? '') ?? false,
         ),
       ),
     ),

@@ -5,7 +5,11 @@ import '../../profile.dart';
 class CheckProfilePage extends StatefulWidget {
   static const String path = '/check-profile';
   static const String name = 'CheckProfilePage';
-  const CheckProfilePage({super.key});
+  final String? redirectTo;
+  const CheckProfilePage({
+    super.key,
+    this.redirectTo,
+  });
 
   @override
   State<CheckProfilePage> createState() => _CheckProfilePageState();
@@ -129,6 +133,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   queryParameters: {
                                     'guid': state.profile.identity.guid,
                                     'username': usernameController.text,
+                                    'redirectTo': widget.redirectTo,
                                   },
                                 );
                               } else if (state is CheckProfileNewUser) {
@@ -137,6 +142,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   queryParameters: {
                                     'username': usernameController.text,
                                     'otp': state.otp,
+                                    'redirectTo': widget.redirectTo,
                                   },
                                 );
                               }

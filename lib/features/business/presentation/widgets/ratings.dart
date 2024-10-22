@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../profile/profile.dart';
 import '../../../review/review.dart';
 
 class BusinessRatingsWidget extends StatelessWidget {
@@ -45,6 +46,18 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 final ratingBloc = context.read<FindRatingBloc>();
                                 final reviewBloc = context.read<FindListingReviewsBloc>();
                                 final business = context.business;
+                                if (context.auth.profile == null) {
+                                  final bool? loggedIn = await context.pushNamed(
+                                    CheckProfilePage.name,
+                                    queryParameters: {
+                                      'redirectTo':
+                                          "${NewReviewPage.path.replaceAll(':urlSlug', business.urlSlug)}?rating=$value",
+                                    },
+                                  );
+                                  if (!(loggedIn ?? false)) {
+                                    return;
+                                  }
+                                }
                                 final bool? added = await context.pushNamed(
                                   NewReviewPage.name,
                                   pathParameters: {

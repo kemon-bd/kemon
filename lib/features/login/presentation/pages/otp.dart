@@ -5,6 +5,7 @@ class VerifyOTPPage extends StatefulWidget {
   static const String path = '/verify-otp';
   static const String name = 'VerifyOTPPage';
 
+  final String? redirectTo;
   final String otp;
   final String username;
 
@@ -12,6 +13,7 @@ class VerifyOTPPage extends StatefulWidget {
     super.key,
     required this.otp,
     required this.username,
+    this.redirectTo,
   });
 
   @override
@@ -216,13 +218,14 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (formKey.currentState?.validate() ?? false) {
                                 context.pushReplacementNamed(
                                   RegistrationPage.name,
                                   queryParameters: {
                                     'username': widget.username,
+                                    'redirectTo': widget.redirectTo.toString(),
                                   },
                                 );
                               }

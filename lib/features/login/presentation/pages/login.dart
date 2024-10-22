@@ -6,12 +6,13 @@ import '../../login.dart';
 class LoginPage extends StatefulWidget {
   static const String path = '/login';
   static const String name = 'LoginPage';
-
+  final String? redirectTo;
   final String username;
 
   const LoginPage({
     super.key,
     required this.username,
+    this.redirectTo,
   });
 
   @override
@@ -53,7 +54,11 @@ class _LoginPageState extends State<LoginPage> {
         return BlocListener<AuthenticationBloc, AuthenticationState?>(
           listener: (context, state) {
             if (state != null) {
-              context.pushReplacementNamed(ProfilePage.name);
+              if (widget.redirectTo!= null) {
+                context.pushReplacement(widget.redirectTo!);
+              } else {
+                context.pushReplacementNamed(ProfilePage.name);
+              }
             }
           },
           child: KeyboardDismissOnTap(
