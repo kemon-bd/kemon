@@ -4,7 +4,8 @@ Future<void> get businessDependencies async {
   //! ----------------- Bloc -----------------
   sl.registerFactory(
     () => FindBusinessBloc(
-      useCase: sl(),
+      find: sl(),
+      refresh: sl(),
     ),
   );
   sl.registerFactory(
@@ -16,6 +17,11 @@ Future<void> get businessDependencies async {
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindBusinessUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshBusinessUseCase(
       repository: sl(),
     ),
   );

@@ -1,9 +1,9 @@
 {
-    "hash": "a1b2c3d4e5f60123456789abcdef1",
+    "hash": "a1b2c3d4e5f60123456789abcdef2",
     "changes": [
         {
-            "type": "ui",
-            "title": "Broken features fixed."
+            "type": "ux",
+            "title": "Login redirection enforced for unauthorized review."
         }
     ]
 }

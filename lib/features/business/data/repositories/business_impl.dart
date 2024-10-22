@@ -37,6 +37,23 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
+  FutureOr<Either<Failure, BusinessEntity>> refresh({
+    required String urlSlug,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await remote.find(urlSlug: urlSlug);
+        await local.add(business: result);
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
     required String category,

@@ -8,6 +8,7 @@ export 'data/models/business.dart';
 export 'domain/entities/business.dart';
 export 'domain/repositories/business.dart';
 export 'domain/usecases/find.dart';
+export 'domain/usecases/refresh.dart';
 export 'domain/usecases/category.dart';
 
 export 'presentation/bloc/find_bloc.dart';

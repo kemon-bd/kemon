@@ -65,13 +65,18 @@ class BusinessPage extends StatelessWidget {
               ),
             ],
           ),
-          body: ListView(
-            padding: EdgeInsets.zero,
-            children: const [
-              BusinessInformationWidget(),
-              BusinessRatingsWidget(),
-              BusinessReviewsWidget(),
-            ],
+          body: RefreshIndicator(
+            onRefresh: () async {
+              context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: urlSlug));
+            },
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: const [
+                BusinessInformationWidget(),
+                BusinessRatingsWidget(),
+                BusinessReviewsWidget(),
+              ],
+            ),
           ),
         );
       },

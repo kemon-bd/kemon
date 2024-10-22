@@ -16,3 +16,13 @@ class FindBusiness extends FindBusinessEvent {
   @override
   List<Object> get props => [urlSlug];
 }
+
+class RefreshBusiness extends FindBusinessEvent {
+  final String urlSlug;
+
+  const RefreshBusiness({
+    required this.urlSlug,
+  });
+  @override
+  List<Object> get props => [urlSlug];
+}

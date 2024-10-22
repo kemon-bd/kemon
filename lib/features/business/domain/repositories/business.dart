@@ -14,6 +14,10 @@ abstract class BusinessRepository {
     required String urlSlug,
   });
 
+  FutureOr<Either<Failure, BusinessEntity>> refresh({
+    required String urlSlug,
+  });
+
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
     required String category,
