@@ -4,6 +4,10 @@
         {
             "type": "ux",
             "title": "Login redirection enforced for unauthorized review."
+        },
+        {
+            "type": "ux",
+            "title": "Pull-down-to-refresh added in business page."
         }
     ]
 }
