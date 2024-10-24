@@ -1,5 +1,3 @@
-library shared;
-
 //! ----------------- Native -----------------
 export 'enums.dart';
 export 'router.dart';
