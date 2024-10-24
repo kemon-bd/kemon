@@ -23,8 +23,8 @@ class BusinessPage extends StatelessWidget {
           appBar: AppBar(
             elevation: 0,
             scrolledUnderElevation: 0,
-            backgroundColor: theme.backgroundTertiary,
-            surfaceTintColor: theme.backgroundTertiary,
+            backgroundColor: theme.backgroundSecondary,
+            surfaceTintColor: theme.backgroundSecondary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
               onPressed: context.pop,
@@ -49,7 +49,6 @@ class BusinessPage extends StatelessWidget {
             centerTitle: false,
             actions: [
               IconButton(
-                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                 onPressed: () {
                   showCupertinoModalPopup(
                     context: context,
@@ -61,13 +60,16 @@ class BusinessPage extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.info_outline_rounded, color: theme.primary),
+                icon: Icon(Icons.info_outline_rounded, color: theme.primary, size: 24),
+                iconSize: 24,
               ),
             ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
               context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: urlSlug));
+              context.read<FindRatingBloc>().add(RefreshRating(urlSlug: urlSlug));
+              context.read<FindListingReviewsBloc>().add(RefreshListingReviews(urlSlug: urlSlug));
             },
             child: ListView(
               padding: EdgeInsets.zero,

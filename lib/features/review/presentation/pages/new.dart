@@ -334,7 +334,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         if (state is CreateReviewLoading) {
                           return ElevatedButton(
                             onPressed: () {},
-                            child: NetworkingIndicator(dimension: 28, color: theme.backgroundPrimary),
+                            child: NetworkingIndicator(dimension: 28, color: theme.white),
                           );
                         }
                         return BlocBuilder<FindBusinessBloc, FindBusinessState>(

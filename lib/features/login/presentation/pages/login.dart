@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         return BlocListener<AuthenticationBloc, AuthenticationState?>(
           listener: (context, state) {
             if (state != null) {
-              if (widget.redirectTo!= null) {
+              if ((widget.redirectTo ?? '').isNotEmpty) {
                 context.pushReplacement(widget.redirectTo!);
               } else {
                 context.pushReplacementNamed(ProfilePage.name);
@@ -145,27 +145,38 @@ class _LoginPageState extends State<LoginPage> {
                             shimmerAlignment: Alignment.center,
                           ),
                           const SizedBox(height: 32),
-                          TextFormField(
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
-                            controller: passwordController,
-                            keyboardType: TextInputType.text,
-                            autocorrect: false,
-                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                            decoration: InputDecoration(
-                              hintText: "password",
-                              suffixIcon: IconButton(
-                                padding: EdgeInsets.zero,
-                                highlightColor: Colors.transparent,
-                                splashColor: Colors.transparent,
-                                icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off, color: theme.textPrimary),
-                                onPressed: () {
-                                  setState(() {
-                                    isObscured = !isObscured;
-                                  });
-                                },
+                          Semantics(
+                            label: 'Password',
+                            child: TextFormField(
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                              controller: passwordController,
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
+                              validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                              decoration: InputDecoration(
+                                hintText: "required",
+                                helperText: '',
+                                helperStyle: TextStyle(fontSize: 0),
+                                errorStyle: TextStyle(fontSize: 0),
+                                label: Text(
+                                  'Password',
+                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                ),
+                                alignLabelWithHint: true,
+                                suffixIcon: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off, color: theme.textPrimary),
+                                  onPressed: () {
+                                    setState(() {
+                                      isObscured = !isObscured;
+                                    });
+                                  },
+                                ),
                               ),
+                              obscureText: isObscured,
                             ),
-                            obscureText: isObscured,
                           ),
                           const SizedBox(height: 12),
                           Row(
@@ -206,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       FocusScope.of(context).requestFocus(FocusNode());
                                     },
-                                    child: NetworkingIndicator(dimension: 28, color: theme.backgroundPrimary),
+                                    child: NetworkingIndicator(dimension: 28, color: theme.white),
                                   );
                                 }
                                 return ElevatedButton(

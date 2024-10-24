@@ -24,7 +24,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.backgroundPrimary),
+        style: TextStyles.body(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.positive,
     );
@@ -40,7 +40,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.backgroundPrimary),
+        style: TextStyles.body(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.negative,
     );
@@ -57,7 +57,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.backgroundPrimary),
+        style: TextStyles.body(context: this, color: scheme.black),
       ),
       backgroundColor: scheme.warning,
     );
@@ -67,8 +67,7 @@ extension BuildContextExtension on BuildContext {
   }
 
   Color get barrierColor {
-    return theme.scheme.textPrimary
-        .withOpacity(theme.mode == ThemeMode.dark ? .1 : .5);
+    return theme.scheme.textPrimary.withOpacity(theme.mode == ThemeMode.dark ? .1 : .5);
   }
 
   ThemeState get theme => this.read<ThemeBloc>().state;

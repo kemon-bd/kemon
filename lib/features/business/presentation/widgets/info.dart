@@ -12,7 +12,7 @@ class BusinessInformationWidget extends StatelessWidget {
         final theme = state.scheme;
         final gradient = LinearGradient(
           colors: [
-            theme.backgroundTertiary,
+            theme.backgroundSecondary,
             theme.backgroundPrimary,
           ],
           begin: Alignment.topCenter,
@@ -52,9 +52,9 @@ class BusinessInformationWidget extends StatelessWidget {
                             height: 64,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
-                              gradient: gradient,
+                              color: theme.shimmer,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: theme.semiWhite, width: .75),
+                              border: Border.all(color: theme.backgroundTertiary, width: .75),
                             ),
                             child: business.logo.isNotEmpty
                                 ? CachedNetworkImage(
@@ -80,18 +80,26 @@ class BusinessInformationWidget extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    RatingBarIndicator(
-                                      itemBuilder: (context, index) => Icon(Icons.star, color: theme.primary),
-                                      itemSize: 16,
-                                      rating: rating.average,
-                                      unratedColor: theme.textSecondary.withAlpha(50),
-                                    ),
+                                    rating.average == 0
+                                        ? RatingBarIndicator(
+                                            itemBuilder: (context, index) =>
+                                                Icon(Icons.star_border_rounded, color: theme.primary),
+                                            itemSize: 16,
+                                            rating: rating.average,
+                                            unratedColor: theme.primary,
+                                          )
+                                        : RatingBarIndicator(
+                                            itemBuilder: (context, index) => Icon(Icons.star, color: theme.primary),
+                                            itemSize: 16,
+                                            rating: rating.average,
+                                            unratedColor: theme.textSecondary.withAlpha(50),
+                                          ),
                                     const SizedBox(height: 4),
                                     Text(
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? 's' : ''}  •  ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                      style: TextStyles.caption(context: context, color: theme.textPrimary),
                                     ),
                                     const SizedBox(height: 4),
                                     Row(
@@ -104,8 +112,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.primary.withAlpha(15),
-                                            side: BorderSide(color: theme.primary, width: 1),
+                                            backgroundColor: theme.backgroundPrimary,
+                                            side: BorderSide(color: theme.primary, width: .5),
                                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                             label: Icon(
@@ -123,8 +131,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.primary.withAlpha(15),
-                                            side: BorderSide(color: theme.primary, width: 1),
+                                            backgroundColor: theme.backgroundPrimary,
+                                            side: BorderSide(color: theme.primary, width: .5),
                                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                             label: Icon(
@@ -142,8 +150,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.primary.withAlpha(15),
-                                            side: BorderSide(color: theme.primary, width: 1),
+                                            backgroundColor: theme.backgroundPrimary,
+                                            side: BorderSide(color: theme.primary, width: .5),
                                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                             label: Icon(
@@ -162,8 +170,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                               launchUrl(uri);
                                             },
                                             padding: EdgeInsets.zero,
-                                            backgroundColor: theme.primary.withAlpha(15),
-                                            side: BorderSide(color: theme.primary, width: 1),
+                                            backgroundColor: theme.backgroundPrimary,
+                                            side: BorderSide(color: theme.primary, width: .5),
                                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                             label: Icon(
@@ -176,8 +184,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                         ],
                                         ActionChip(
                                           padding: EdgeInsets.zero,
-                                          backgroundColor: theme.primary.withAlpha(15),
-                                          side: BorderSide(color: theme.primary, width: 1),
+                                          backgroundColor: theme.backgroundPrimary,
+                                          side: BorderSide(color: theme.primary, width: .5),
                                           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                           onPressed: () {
@@ -200,8 +208,8 @@ class BusinessInformationWidget extends StatelessWidget {
                                         const SizedBox(width: 8),
                                         ActionChip(
                                           padding: EdgeInsets.zero,
-                                          backgroundColor: theme.primary.withAlpha(15),
-                                          side: BorderSide(color: theme.primary, width: 1),
+                                          backgroundColor: theme.backgroundPrimary,
+                                          side: BorderSide(color: theme.primary, width: .5),
                                           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                                           onPressed: () {

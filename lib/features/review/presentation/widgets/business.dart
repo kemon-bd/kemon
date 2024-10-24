@@ -23,8 +23,7 @@ class BusinessReviewsWidget extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             physics: const NeverScrollableScrollPhysics(),
             itemCount: reviews.length,
-            padding: const EdgeInsets.all(16.0)
-                .copyWith(bottom: 16 + context.bottomInset),
+            padding: const EdgeInsets.all(16.0).copyWith(bottom: 16 + context.bottomInset),
             shrinkWrap: true,
           );
         }

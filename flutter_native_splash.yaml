@@ -1,8 +1,8 @@
 flutter_native_splash:
   # dart run flutter_native_splash:create
   # dart run flutter_native_splash:remove
-  color: "#D49A6A"
-  color_dark: "#D49A6A"
+  color: "#0DA574"
+  color_dark: "#0DA574"
   image: images/logo/full.png
   ios: true
   android_12:

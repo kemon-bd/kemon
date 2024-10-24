@@ -40,7 +40,7 @@ class BusinessLogoWidget extends StatelessWidget {
                     height: size,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: backgroundColor ?? theme.primary,
+                        color: backgroundColor ?? theme.backgroundSecondary,
                         borderRadius: BorderRadius.circular(radius),
                         border: Border.all(
                           color: borderColor ?? Colors.transparent,
@@ -61,7 +61,7 @@ class BusinessLogoWidget extends StatelessWidget {
                           errorWidget: (_, __, ___) => Center(
                             child: Text(
                               state.business.name.symbol,
-                              style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                              style: TextStyles.body(context: context, color: placeholderColor ?? theme.textPrimary).copyWith(
                                 fontSize: size / 2,
                               ),
                             ),

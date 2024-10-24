@@ -51,6 +51,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                             style: TextStyles.title(context: context, color: theme.textPrimary),
                           ),
                           trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
                           onTap: () {
                             context.pushNamed(
                               UserReviewsPage.name,

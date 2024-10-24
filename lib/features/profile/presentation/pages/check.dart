@@ -112,13 +112,26 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                       padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                       children: [
                         const SizedBox(height: 42),
-                        TextFormField(
-                          style: TextStyles.body(context: context, color: theme.textPrimary),
-                          controller: usernameController,
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                          decoration: const InputDecoration(hintText: "Email / Phone"),
+                        Semantics(
+                          label: 'Email/Phone',
+                          child: TextFormField(
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            controller: usernameController,
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                            decoration: InputDecoration(
+                              hintText: "required",
+                              helperText: '',
+                              helperStyle: TextStyle(fontSize: 0),
+                              errorStyle: TextStyle(fontSize: 0),
+                              label: Text(
+                                'Email/Phone',
+                                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                              ),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
@@ -153,7 +166,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   onPressed: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
                                   },
-                                  child: NetworkingIndicator(dimension: 28, color: theme.backgroundPrimary),
+                                  child: NetworkingIndicator(dimension: 28, color: theme.white),
                                 );
                               }
                               return ElevatedButton(

@@ -11,7 +11,7 @@ class ThemeScheme {
   final Color positiveBackground;
   final Color positiveBackgroundSecondary;
   final Color positiveBackgroundTertiary;
-  final Color primary = const Color(0xFFD49A6A); // base: 2BB673
+  final Color primary = const Color(0xFF0DA574); // base: 2BB673
   final Color negative;
   final Color warning;
   final Color shimmer;

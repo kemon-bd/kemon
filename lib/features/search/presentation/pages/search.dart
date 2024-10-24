@@ -57,16 +57,17 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             actions: [
-              IconButton(
-                icon: Icon(Icons.clear_rounded, color: theme.textPrimary),
-                onPressed: () {
-                  setState(() {
-                    controller.clear();
-                  });
+              if (controller.text.isNotEmpty)
+                IconButton(
+                  icon: Icon(Icons.clear_rounded, color: theme.textPrimary),
+                  onPressed: () {
+                    setState(() {
+                      controller.clear();
+                    });
 
-                  context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
-                },
-              ),
+                    context.read<SearchSuggestionBloc>().add(const ResetSuggestion());
+                  },
+                ),
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -150,7 +151,7 @@ class _SearchPageState extends State<SearchPage> {
                 final industries = state.industries;
                 final categories = state.categories;
                 final subCategories = state.subCategories;
-  
+
                 return ListView(
                   shrinkWrap: true,
                   padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + Dimension.padding.vertical.max),

@@ -56,7 +56,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileNameWidget(
-                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                            style: TextStyles.title(context: context, color: theme.primary),
                             onTap: () {
                               context.pushNamed(
                                 PublicProfilePage.name,
@@ -64,7 +64,6 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(height: Dimension.padding.vertical.verySmall),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -100,7 +99,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(height: Dimension.size.vertical.tweenty),
+              Divider(height: Dimension.size.vertical.sixteen),
               BlocProvider(
                 create: (context) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: review.listing)),
                 child: BusinessNameWidget(

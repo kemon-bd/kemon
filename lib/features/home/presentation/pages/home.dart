@@ -8,7 +8,7 @@ import '../../../whats_new/whats_new.dart';
 import '../../home.dart';
 
 class HomePage extends StatefulWidget {
-  static const String path = '/home';
+  static const String path = '/';
   static const String name = 'HomePage';
   const HomePage({super.key});
 
@@ -64,7 +64,13 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: theme.primary,
               surfaceTintColor: theme.primary,
               titleSpacing: Dimension.size.horizontal.sixteen,
-              title: Row(
+              title: /* InkWell(
+                onTap: () {
+                  context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
+                  context.read<RecentReviewsBloc>().add(const RecentReviews());
+                },
+                child:  */
+                  Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
@@ -76,6 +82,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: Dimension.size.horizontal.eight),
                   const Text('KEMON'),
                 ],
+                /* ), */
               ),
               titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
                 fontWeight: FontWeight.bold,
@@ -115,7 +122,6 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 DashboardSearchSectionWidget(),
                 DashboardFeaturedCategoriesSectionWidget(),
-                // DashboardFeaturedLocationsSectionWidget(),
                 FeaturedReviewsWidget(),
               ],
             ),

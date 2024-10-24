@@ -1,4 +1,4 @@
-package com.zenixity.rate.review.decide
+package com.zenixity.kemon
 
 import io.flutter.embedding.android.FlutterActivity
 

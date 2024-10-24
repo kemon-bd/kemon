@@ -24,7 +24,14 @@ class BusinessRatingsWidget extends StatelessWidget {
                     final userGuid = context.auth.guid ?? '';
                     final List<ReviewEntity> reviews = state.reviews;
                     final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
-                    final ratingWidget = Icon(Icons.star, color: theme.backgroundTertiary);
+                    final ratingWidget = Icon(Icons.star, color: theme.primary);
+                    final emptyRatingWidget = Icon(
+                      Icons.star_border_rounded,
+                      color: theme.primary,
+                      fill: 0 ,
+                      grade: -25,
+                      weight: 100,
+                    );
                     return ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -40,7 +47,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                               ratingWidget: RatingWidget(
                                 full: ratingWidget,
                                 half: ratingWidget,
-                                empty: ratingWidget,
+                                empty: emptyRatingWidget,
                               ),
                               onRatingUpdate: (value) async {
                                 final ratingBloc = context.read<FindRatingBloc>();
@@ -74,7 +81,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                               },
                               itemCount: 5,
                               glow: false,
-                              unratedColor: theme.backgroundTertiary,
+                              unratedColor: theme.primary,
                               itemSize: MediaQuery.of(context).size.width / 6,
                             ),
                           ),
