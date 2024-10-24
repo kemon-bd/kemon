@@ -12,21 +12,6 @@ Future<void> get loginDependencies async {
       useCase: sl(),
     ),
   );
-  sl.registerFactory(
-    () => SignInWithAppleBloc(
-      useCase: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => SignInWithFacebookBloc(
-      useCase: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => SignInWithGoogleBloc(
-      useCase: sl(),
-    ),
-  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -36,21 +21,6 @@ Future<void> get loginDependencies async {
   );
   sl.registerFactory(
     () => ForgotPasswordUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => AppleSignInUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => FacebookSignInUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => GoogleSignInUseCase(
       repository: sl(),
     ),
   );
@@ -68,8 +38,6 @@ Future<void> get loginDependencies async {
   sl.registerLazySingleton<LoginRemoteDataSource>(
     () => LoginRemoteDataSourceImpl(
       client: sl(),
-      facebookSdk: sl(),
-      googleSdk: sl(),
     ),
   );
 }
