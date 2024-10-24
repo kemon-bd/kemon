@@ -13,10 +13,4 @@ abstract class LoginRemoteDataSource {
   FutureOr<void> forgot({
     required String username,
   });
-
-  Future<String> google();
-
-  Future<String> facebook();
-
-  Future<String> apple();
 }
