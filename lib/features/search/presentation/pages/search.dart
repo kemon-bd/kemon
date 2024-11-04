@@ -265,7 +265,7 @@ class _SearchPageState extends State<SearchPage> {
                             },
                           );
                         },
-                      ).toList(),
+                      ),
                     ],
                     if (categories.isNotEmpty) ...[
                       const SizedBox(height: 16),
@@ -305,7 +305,7 @@ class _SearchPageState extends State<SearchPage> {
                             },
                           );
                         },
-                      ).toList(),
+                      ),
                     ],
                     if (subCategories.isNotEmpty) ...[
                       const SizedBox(height: 16),
@@ -345,7 +345,7 @@ class _SearchPageState extends State<SearchPage> {
                             },
                           );
                         },
-                      ).toList(),
+                      ),
                     ],
                   ],
                 );
