@@ -1,4 +1,4 @@
-package com.zenixity.kemon
+package bd.com.kemon
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -7,7 +7,7 @@
         tools:node="remove" />
 
     <application
-        android:label="কেমন"
+        android:label="Kemon"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
