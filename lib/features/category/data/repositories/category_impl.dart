@@ -23,6 +23,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
       } else {
         return Left(NoInternetFailure());
       }
+    } on SocketException {
+      return Left(NoInternetFailure());
     } on Failure catch (failure) {
       return Left(failure);
     }
