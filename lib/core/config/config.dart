@@ -71,8 +71,8 @@ class AppConfig {
           vertical: Dimension.padding.vertical.max,
         ),
         hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-        errorStyle: TextStyle(height: Dimension.size.vertical.min),
-        helperStyle: TextStyle(height: Dimension.size.vertical.min),
+        errorStyle: TextStyle(height: 0, fontSize: 0),
+        helperStyle: TextStyle(height: 0, fontSize: 0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
           borderSide: BorderSide.none,

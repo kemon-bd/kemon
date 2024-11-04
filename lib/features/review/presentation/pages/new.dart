@@ -32,6 +32,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
   void initState() {
     super.initState();
     rating = widget.rating;
+    dateController.text = DateTime.now().dMMMMyyyy;
   }
 
   @override
@@ -52,7 +53,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                 onPressed: context.pop,
               ),
               title: Text(
-                "${rating.toInt()} star review",
+                rating.toInt() == 0 ? "Please rate your experience" : "${rating.toInt()} star review",
                 style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -98,6 +99,31 @@ class _NewReviewPageState extends State<NewReviewPage> {
                   if (rating > 0) ...[
                     const SizedBox(height: 42),
                     Text(
+                      "Review *",
+                      style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                    ),
+                    const SizedBox(height: 4),
+                    TextFormField(
+                      controller: descriptionController,
+                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                      minLines: 4,
+                      maxLines: 20,
+                      validator: (value) => value?.isNotEmpty ?? false ? null : '',
+                      decoration: const InputDecoration(
+                        hintText: "share your experience...",
+                        helperText: '',
+                      ),
+                      onChanged: (review) {
+                        final String firstSentence = review.split('.').first.trim();;
+                        if (titleController.text.isEmpty || firstSentence.toLowerCase().trim().startsWith(titleController.text.toLowerCase().trim())) {
+                          setState(() {
+                            titleController.text = firstSentence;
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
                       "Title *",
                       style: TextStyles.subTitle(context: context, color: theme.textSecondary),
                     ),
@@ -106,24 +132,14 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       controller: titleController,
                       style: TextStyles.body(context: context, color: theme.textPrimary),
                       validator: (value) => value?.isNotEmpty ?? false ? null : '',
-                      decoration: const InputDecoration(hintText: "required"),
+                      decoration: const InputDecoration(
+                        hintText: "required",
+                        helperText: '',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Description",
-                      style: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                    ),
-                    const SizedBox(height: 4),
-                    TextField(
-                      controller: descriptionController,
-                      style: TextStyles.body(context: context, color: theme.textPrimary),
-                      minLines: 4,
-                      maxLines: 20,
-                      decoration: const InputDecoration(hintText: "optional"),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      "Date of experience (MM/dd/yyyy)",
+                      "Date of experience",
                       style: TextStyles.subTitle(context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
@@ -157,7 +173,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Attachment",
+                      "Photos",
                       style: TextStyles.subTitle(context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
@@ -262,7 +278,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                               color: theme.textPrimary,
                             ),
                             title: Text(
-                              "Add image",
+                              "Add a photo",
                               style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                                 color: theme.textPrimary,
                                 fontWeight: FontWeight.bold,
