@@ -56,10 +56,7 @@ class ProfilePictureWidget extends StatelessWidget {
                         errorWidget: (_, __, ___) => Center(
                           child: Text(
                             state.profile.name.symbol,
-                            style: TextStyles.body(
-                                    context: context,
-                                    color: placeholderColor ?? theme.white)
-                                .copyWith(
+                            style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                               fontSize: size / 2,
                             ),
                           ),
@@ -105,20 +102,20 @@ class MyProfilePictureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        final profile = state.profile;
-        final theme = context.theme.scheme;
-        if (profile != null) {
-          final url = profile.profilePicture?.url ?? '';
-          final symbol = profile.name.symbol;
-          return Center(
-            child: SizedBox(
-              width: size,
-              height: size,
-              child: InkWell(
-                onTap: onTap,
-                borderRadius: BorderRadius.circular(size),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(size),
+      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          final profile = state.profile;
+          final theme = context.theme.scheme;
+          if (profile != null) {
+            final url = profile.profilePicture?.url ?? '';
+            final symbol = profile.name.symbol;
+            return Center(
+              child: SizedBox(
+                width: size,
+                height: size,
                 child: Container(
                   decoration: BoxDecoration(
                     color: backgroundColor ?? theme.primary,
@@ -139,10 +136,7 @@ class MyProfilePictureWidget extends StatelessWidget {
                     errorWidget: (_, __, ___) => Center(
                       child: Text(
                         symbol,
-                        style: TextStyles.body(
-                                context: context,
-                                color: placeholderColor ?? theme.white)
-                            .copyWith(
+                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                           fontSize: size / 2,
                         ),
                       ),
@@ -150,17 +144,20 @@ class MyProfilePictureWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          );
-        } else if (showWhenUnAuthorized) {
-          return Icon(
-            Icons.account_circle_outlined,
-            size: size,
-            color: theme.textPrimary,
-          );
-        }
-        return Container();
-      },
+            );
+          } else if (showWhenUnAuthorized) {
+            return CircleAvatar(
+              backgroundColor: theme.semiWhite,
+              child: Icon(
+                Icons.account_circle_outlined,
+                size: size,
+                color: theme.black,
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

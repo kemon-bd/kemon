@@ -64,25 +64,25 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: theme.primary,
               surfaceTintColor: theme.primary,
               titleSpacing: Dimension.size.horizontal.sixteen,
-              title: /* InkWell(
+              title: InkWell(
                 onTap: () {
                   context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
                   context.read<RecentReviewsBloc>().add(const RecentReviews());
                 },
-                child:  */
-                  Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'images/logo/full.png',
-                    width: Dimension.size.horizontal.tweenty,
-                    height: Dimension.size.vertical.tweenty,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(width: Dimension.size.horizontal.eight),
-                  const Text('KEMON'),
-                ],
-                /* ), */
+                borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'images/logo/full.png',
+                      width: Dimension.size.horizontal.tweenty,
+                      height: Dimension.size.vertical.tweenty,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(width: Dimension.size.horizontal.eight),
+                    const Text('KEMON'),
+                  ],
+                ),
               ),
               titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
                 fontWeight: FontWeight.bold,
@@ -93,8 +93,16 @@ class _HomePageState extends State<HomePage> {
                   size: Dimension.radius.twentyFour,
                   border: Dimension.divider.normal,
                   borderColor: theme.white,
-                  onTap: () {
-                    context.pushNamed(ProfilePage.name);
+                  showWhenUnAuthorized: true,
+                  onTap: () async {
+                    if (context.auth.authenticated) {
+                      context.pushNamed(ProfilePage.name);
+                    } else {
+                      final bool? loggedIn = await context.pushNamed(CheckProfilePage.name) as bool?;
+                      if (loggedIn == true && context.mounted) {
+                        context.pushNamed(ProfilePage.name);
+                      }
+                    }
                   },
                 ),
                 IconButton(

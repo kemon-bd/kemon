@@ -2,7 +2,6 @@ import '../../../../core/shared/shared.dart';
 import '../../leaderboard.dart';
 
 class LeaderboardModel extends LeaderboardEntity {
-  // TODO: implement model properties
   const LeaderboardModel({
     required super.guid,
   });
@@ -11,7 +10,6 @@ class LeaderboardModel extends LeaderboardEntity {
     required Map<String, dynamic> map,
   }) {
     try {
-      // TODO: implement parse
       throw UnimplementedError();
     } catch (e, stackTrace) {
       throw LeaderboardModelParseFailure(

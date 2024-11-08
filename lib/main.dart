@@ -34,8 +34,8 @@ class MainApp extends StatelessWidget {
           themeMode: state.mode,
           routerConfig: router,
           debugShowCheckedModeBanner: false,
-          theme: AppConfig.themeData(context: _, mode: state.mode),
-          darkTheme: AppConfig.themeData(context: _, mode: state.mode),
+          theme: AppConfig.themeData(context: context, mode: state.mode),
+          darkTheme: AppConfig.themeData(context: context, mode: state.mode),
         );
       },
     );

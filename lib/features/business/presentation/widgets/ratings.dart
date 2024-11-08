@@ -28,7 +28,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                     final emptyRatingWidget = Icon(
                       Icons.star_border_rounded,
                       color: theme.primary,
-                      fill: 0 ,
+                      fill: 0,
                       grade: -25,
                       weight: 100,
                     );
@@ -65,6 +65,9 @@ class BusinessRatingsWidget extends StatelessWidget {
                                     return;
                                   }
                                 }
+                                
+                                if (!context.mounted) return;
+
                                 final bool? added = await context.pushNamed(
                                   NewReviewPage.name,
                                   pathParameters: {

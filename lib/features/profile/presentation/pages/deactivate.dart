@@ -206,8 +206,9 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
-                                                  // TODO:
-                                                  // context.read<DeactivateAccountBloc>().add(ResendDeactivateAccount(username: widget.username));
+                                                  context
+                                                      .read<DeactivateAccountBloc>()
+                                                      .add(GenerateOtpForAccountDeactivation());
 
                                                   otpController.clear();
                                                 },

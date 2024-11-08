@@ -114,7 +114,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         helperText: '',
                       ),
                       onChanged: (review) {
-                        final String firstSentence = review.split('.').first.trim();;
+                        final String firstSentence = review.split('.').first.trim();
                         if (titleController.text.isEmpty || firstSentence.toLowerCase().trim().startsWith(titleController.text.toLowerCase().trim())) {
                           setState(() {
                             titleController.text = firstSentence;

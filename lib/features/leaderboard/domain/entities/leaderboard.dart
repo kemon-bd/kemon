@@ -1,7 +1,6 @@
 import '../../../../core/shared/shared.dart';
 
 class LeaderboardEntity extends Equatable {
-  // TODO: implement entity properties
   final String guid;
 
   const LeaderboardEntity({
@@ -14,7 +13,6 @@ class LeaderboardEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        // TODO: add entity properties
         guid,
       ];
 }
