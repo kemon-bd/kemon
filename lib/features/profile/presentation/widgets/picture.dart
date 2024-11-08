@@ -150,7 +150,7 @@ class MyProfilePictureWidget extends StatelessWidget {
               backgroundColor: theme.white,
               child: Icon(
                 Icons.account_circle_outlined,
-                size: size,
+                size: size/1.25,
                 color: theme.primary,
               ),
             );

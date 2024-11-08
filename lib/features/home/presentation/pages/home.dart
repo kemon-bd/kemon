@@ -107,7 +107,6 @@ class _HomePageState extends State<HomePage> {
                   size: Dimension.radius.thirty,
                   border: Dimension.divider.veryLarge,
                   borderColor: theme.white,
-                
                   showWhenUnAuthorized: true,
                   onTap: () async {
                     if (context.auth.authenticated) {
