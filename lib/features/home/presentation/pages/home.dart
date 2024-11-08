@@ -5,6 +5,7 @@ import '../../../category/category.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
 import '../../../whats_new/whats_new.dart';
+import '../../home.dart';
 
 class HomePage extends StatefulWidget {
   static const String path = '/';
@@ -129,6 +130,7 @@ class _HomePageState extends State<HomePage> {
               ),
               children: const [
                 DashboardSearchWidget(),
+                DashboardForYouWidget(),
                 DashboardFeaturedCategoriesSectionWidget(),
                 FeaturedReviewsWidget(),
               ],

@@ -51,14 +51,12 @@ class DashboardSearchWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: Dimension.padding.vertical.max,
+                height: Dimension.padding.vertical.ultraMax,
                 width: Dimension.size.horizontal.max,
                 decoration: BoxDecoration(
                   color: theme.backgroundPrimary,
                   borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(
-                      Dimension.radius.max,
-                    ),
+                    top: Radius.circular(Dimension.radius.max),
                   ),
                 ),
               ),
