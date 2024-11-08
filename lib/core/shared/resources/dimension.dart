@@ -15,6 +15,7 @@ class _Radius {
   final double fortyEight = 48.0.r;
   final double fortyTwo = 42.0.r;
   final double thirtyTwo = 32.0.r;
+  final double thirty = 30.0.r;
   final double twentyFour = 24.0.r;
   final double tweenty = 20.0.r;
   final double sixteen = 16.0.r;
@@ -45,6 +46,7 @@ class _HorizontalPadding {
 }
 
 class _VerticalPadding {
+  final double ultraMax = 24.0.h;
   final double max = 16.0.h;
   final double large = 12.0.h;
   final double medium = 8.0.h;

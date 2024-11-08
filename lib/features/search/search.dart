@@ -12,4 +12,4 @@ export 'presentation/bloc/result_bloc.dart';
 export 'presentation/bloc/suggestion_bloc.dart';
 export 'presentation/pages/search.dart';
 export 'presentation/pages/result.dart';
-export 'presentation/widgets/dashboard/section.dart';
+export 'presentation/widgets/dashboard.dart';

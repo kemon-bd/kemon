@@ -147,11 +147,11 @@ class MyProfilePictureWidget extends StatelessWidget {
             );
           } else if (showWhenUnAuthorized) {
             return CircleAvatar(
-              backgroundColor: theme.semiWhite,
+              backgroundColor: theme.white,
               child: Icon(
                 Icons.account_circle_outlined,
                 size: size,
-                color: theme.black,
+                color: theme.primary,
               ),
             );
           }

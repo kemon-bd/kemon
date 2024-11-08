@@ -5,7 +5,6 @@ import '../../../category/category.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
 import '../../../whats_new/whats_new.dart';
-import '../../home.dart';
 
 class HomePage extends StatefulWidget {
   static const String path = '/';
@@ -45,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final themeMode = state.mode;
         return MultiBlocListener(
           listeners: [
             BlocListener<WhatsNewBloc, WhatsNewState>(
@@ -89,10 +89,25 @@ class _HomePageState extends State<HomePage> {
               ),
               centerTitle: false,
               actions: [
+                IconButton(
+                  onPressed: () {
+                    context.read<ThemeBloc>().add(const ToggleTheme());
+                  },
+                  icon: CircleAvatar(
+                    radius: Dimension.radius.sixteen,
+                    backgroundColor: themeMode == ThemeMode.dark ? theme.black : theme.white,
+                    child: Icon(
+                      themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                      color: theme.primary,
+                      size: Dimension.radius.sixteen,
+                    ),
+                  ),
+                ),
                 MyProfilePictureWidget(
-                  size: Dimension.radius.twentyFour,
-                  border: Dimension.divider.normal,
+                  size: Dimension.radius.thirty,
+                  border: Dimension.divider.veryLarge,
                   borderColor: theme.white,
+                
                   showWhenUnAuthorized: true,
                   onTap: () async {
                     if (context.auth.authenticated) {
@@ -105,21 +120,7 @@ class _HomePageState extends State<HomePage> {
                     }
                   },
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.menu_rounded,
-                    color: theme.white,
-                    size: Dimension.size.horizontal.twentyFour,
-                  ),
-                  onPressed: () {
-                    showCupertinoModalPopup(
-                      context: context,
-                      barrierColor: context.barrierColor,
-                      barrierDismissible: true,
-                      builder: (_) => const DashboardMenuWidget(),
-                    );
-                  },
-                ),
+                const SizedBox(width: 16),
               ],
             ),
             body: ListView(
@@ -128,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                 bottom: context.bottomInset + Dimension.padding.vertical.max,
               ),
               children: const [
-                DashboardSearchSectionWidget(),
+                DashboardSearchWidget(),
                 DashboardFeaturedCategoriesSectionWidget(),
                 FeaturedReviewsWidget(),
               ],
