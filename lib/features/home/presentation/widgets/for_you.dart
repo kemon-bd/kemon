@@ -27,8 +27,8 @@ class DashboardForYouWidget extends StatelessWidget {
                 if (state.profile == null) {
                   return Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: Dimension.padding.horizontal.max,
-                      vertical: Dimension.padding.vertical.max,
+                      horizontal: Dimension.padding.horizontal.large,
+                      vertical: Dimension.padding.vertical.large,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(color: theme.backgroundTertiary),
@@ -45,8 +45,8 @@ class DashboardForYouWidget extends StatelessWidget {
                                   angle: (pi / 12) * (index.isOdd ? -1 : 1),
                                   child: Image.asset(
                                     'images/logo/full.png',
-                                    width: Dimension.radius.thirtyTwo,
-                                    height: Dimension.radius.thirtyTwo,
+                                    width: Dimension.radius.thirty,
+                                    height: Dimension.radius.thirty,
                                     color: theme.primary,
                                     fit: BoxFit.contain,
                                   ),
@@ -54,13 +54,13 @@ class DashboardForYouWidget extends StatelessWidget {
                               )
                               .toList(),
                         ),
-                        SizedBox(height: Dimension.padding.vertical.max),
+                        SizedBox(height: Dimension.padding.vertical.large),
                         Text(
                           "Join for free and explore all of KEMON.",
-                          style: TextStyles.miniHeadline(context: context, color: theme.textPrimary),
+                          style: TextStyles.body(context: context, color: theme.textPrimary),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: Dimension.padding.vertical.max),
+                        SizedBox(height: Dimension.padding.vertical.large),
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.all(Dimension.radius.twelve),
@@ -71,8 +71,8 @@ class DashboardForYouWidget extends StatelessWidget {
                           alignment: Alignment.center,
                           child: Text(
                             "Login or Sign up",
-                            style: TextStyles.subHeadline(context: context, color: theme.primary).copyWith(
-                              fontWeight: FontWeight.bold,
+                            style: TextStyles.miniHeadline(context: context, color: theme.primary).copyWith(
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
@@ -99,10 +99,11 @@ class DashboardForYouWidget extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: Dimension.padding.horizontal.max,
-                        vertical: Dimension.padding.vertical.max,
+                        vertical: Dimension.padding.vertical.large,
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Bought something recently?',
@@ -113,7 +114,7 @@ class DashboardForYouWidget extends StatelessWidget {
                           Container(
                             width: double.infinity,
                             padding: EdgeInsets.all(Dimension.radius.eight),
-                            margin: EdgeInsets.only(top: Dimension.padding.vertical.max),
+                            margin: EdgeInsets.only(top: Dimension.padding.vertical.large),
                             decoration: BoxDecoration(
                               color: theme.white,
                               borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
