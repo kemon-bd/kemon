@@ -1,5 +1,5 @@
 import '../../../../core/shared/shared.dart';
-import '../../../location/location.dart';
+import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -7,9 +7,9 @@ typedef CategoryKey = ({
   int page,
   String category,
   SortBy? sort,
-  LocationEntity? division,
-  LocationEntity? district,
-  LocationEntity? thana,
+  LookupEntity? division,
+  LookupEntity? district,
+  LookupEntity? thana,
   SubCategoryEntity? sub,
   List<int> ratings,
 });
@@ -44,9 +44,9 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
@@ -98,9 +98,9 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? sub,
     required List<int> ratings,
     required BusinessesByCategoryPaginatedResponse response,
@@ -124,9 +124,9 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) {

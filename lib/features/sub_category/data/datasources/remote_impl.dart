@@ -22,20 +22,17 @@ class SubCategoryRemoteDataSourceImpl extends SubCategoryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
         final List<dynamic> data = networkResponse.result!["subCategories"];
 
         return data.map((e) => SubCategoryModel.parse(map: e)).toList();
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 }

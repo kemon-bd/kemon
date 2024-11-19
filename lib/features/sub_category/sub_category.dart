@@ -9,7 +9,9 @@ export 'domain/entities/sub_category.dart';
 export 'domain/repositories/sub_category.dart';
 export 'domain/usecases/find.dart';
 export 'domain/usecases/category.dart';
+export 'domain/usecases/search.dart';
 
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/category_bloc.dart';
 export 'presentation/pages/sub_category.dart';
+export 'presentation/widgets/filter.dart';

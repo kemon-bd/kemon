@@ -22,8 +22,29 @@ class LookupRepositoryImpl extends LookupRepository {
     } on LookupNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find(key: key);
-        await local.cache(key: key, items: result);
+        await local.cache(key: key, items: result..sort((a,b)=> a.order.compareTo(b.order)));
         return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<LookupEntity>>> search({
+    required LookupKey key,
+    required String query,
+  }) async {
+    try {
+      final result = await local.find(key: key);
+      return Right(result.where((lookup) => lookup.text.match(like: query)).toList());
+    } on LookupNotFoundInLocalCacheFailure catch (_) {
+      if (await network.online) {
+        final result = await remote.find(key: key);
+        await local.cache(key: key, items: result);
+        return Right(result.where((lookup) => lookup.text.match(like: query)).toList());
       } else {
         return Left(NoInternetFailure());
       }

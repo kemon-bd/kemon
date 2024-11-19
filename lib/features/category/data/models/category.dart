@@ -3,6 +3,7 @@ import '../../category.dart';
 
 class CategoryModel extends CategoryEntity {
   const CategoryModel({
+    required super.identity,
     required super.name,
     required super.icon,
     required super.urlSlug,
@@ -12,6 +13,12 @@ class CategoryModel extends CategoryEntity {
     required Map<String, dynamic> map,
   }) {
     try {
+      assert(
+        map['guid'] is String?,
+        'CategoryModel.parse: "guid" is not a String.',
+      );
+      final String guid = map['guid'] ?? '';
+
       assert(
         map.containsKey('name'),
         'CategoryModel.parse: "name" not found.',
@@ -43,6 +50,7 @@ class CategoryModel extends CategoryEntity {
       final String urlSlug = map['urlslug'] as String;
 
       return CategoryModel(
+        identity: Identity.guid(guid: guid),
         name: Name.full(name: name),
         icon: icon,
         urlSlug: urlSlug,

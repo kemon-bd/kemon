@@ -3,8 +3,12 @@ import '../shared.dart';
 extension LookupsExtension on Lookups {
   String get dataKey {
     switch (this) {
-      case Lookups.none:
-        return '';
+      case Lookups.division:
+        return 'division';
+      case Lookups.district:
+        return 'district';
+      case Lookups.thana:
+        return 'thana';
       default:
         return '';
     }
@@ -34,7 +38,7 @@ extension SortByExtension on SortBy? {
     switch (this) {
       case SortBy.recommended:
         return 'Recommended';
-      case SortBy.mostReviewd:
+      case SortBy.mostReviewed:
         return 'MostReviewed';
       case SortBy.highestRated:
         return 'HighestRated';
@@ -50,7 +54,7 @@ extension SortByExtension on SortBy? {
     switch (this) {
       case SortBy.recommended:
         return 'Recommended';
-      case SortBy.mostReviewd:
+      case SortBy.mostReviewed:
         return 'Most Reviewed';
       case SortBy.highestRated:
         return 'Highest Rated';

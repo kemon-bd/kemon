@@ -1,5 +1,5 @@
 import '../../../../core/shared/shared.dart';
-import '../../../location/location.dart';
+import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -14,9 +14,9 @@ class BusinessesByCategoryUseCase {
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   }) async =>

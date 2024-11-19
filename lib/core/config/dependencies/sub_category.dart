@@ -9,7 +9,8 @@ Future<void> get subCategoryDependencies async {
   );
   sl.registerFactory(
     () => SubCategoriesByCategoryBloc(
-      useCase: sl(),
+      find: sl(),
+      search: sl(),
     ),
   );
 
@@ -21,6 +22,11 @@ Future<void> get subCategoryDependencies async {
   );
   sl.registerFactory(
     () => SubCategoriesByCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => SearchSubCategoriesByCategoryUseCase(
       repository: sl(),
     ),
   );

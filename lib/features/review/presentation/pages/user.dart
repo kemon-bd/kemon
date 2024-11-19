@@ -29,7 +29,7 @@ class UserReviewsPage extends StatelessWidget {
                   final identity = state.profile.identity;
                   final name = state.profile.name.first;
                   return Text(
-                    '${identity.guid.like(text: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
+                    '${identity.guid.like(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
                     style: TextStyles.title(
                         context: context, color: theme.textPrimary),
                   );

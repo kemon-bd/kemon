@@ -3,6 +3,7 @@ import '../../sub_category.dart';
 
 class SubCategoryModel extends SubCategoryEntity {
   const SubCategoryModel({
+    required super.identity,
     required super.name,
     required super.icon,
     required super.urlSlug,
@@ -43,6 +44,7 @@ class SubCategoryModel extends SubCategoryEntity {
       final String urlSlug = map['urlslug'] as String;
 
       return SubCategoryModel(
+        identity: Identity.guid(guid: ''),
         name: Name.full(name: name),
         icon: icon,
         urlSlug: urlSlug,

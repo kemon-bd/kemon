@@ -25,7 +25,7 @@ extension PasswordTextEditingControllerExtension on ({
   bool get valid {
     if (password.validPassword &&
         confirmPassword.validPassword &&
-        password.text.like(text: confirmPassword.text)) {
+        password.text.like(as: confirmPassword.text)) {
       return true;
     }
     return false;

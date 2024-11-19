@@ -9,9 +9,9 @@ abstract class FindBusinessesByCategoryEvent extends Equatable {
 
 class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
   final SortBy? sort;
-  final LocationEntity? division;
-  final LocationEntity? district;
-  final LocationEntity? thana;
+  final LookupEntity? division;
+  final LookupEntity? district;
+  final LookupEntity? thana;
   final SubCategoryEntity? subCategory;
   final List<int> ratings;
   final String category;
@@ -31,9 +31,9 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
 
 class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
   final SortBy? sort;
-  final LocationEntity? division;
-  final LocationEntity? district;
-  final LocationEntity? thana;
+  final LookupEntity? division;
+  final LookupEntity? district;
+  final LookupEntity? thana;
   final SubCategoryEntity? subCategory;
   final List<int> ratings;
   final int page;

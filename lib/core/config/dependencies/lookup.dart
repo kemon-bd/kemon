@@ -4,13 +4,19 @@ Future<void> get lookupDependencies async {
   //! ----------------- Bloc -----------------
   sl.registerFactory(
     () => FindLookupBloc(
-      useCase: sl(),
+      find: sl(),
+      search: sl(),
     ),
   );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindLookupUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => SearchLookupUseCase(
       repository: sl(),
     ),
   );

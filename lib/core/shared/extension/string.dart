@@ -14,15 +14,15 @@ extension StringExtension on String {
   }
 
   WhatsNewType get toWhatsNewType {
-    if (like(text: WhatsNewType.bug.key)) {
+    if (like(as: WhatsNewType.bug.key)) {
       return WhatsNewType.bug;
-    } else if (like(text: WhatsNewType.feature.key)) {
+    } else if (like(as: WhatsNewType.feature.key)) {
       return WhatsNewType.feature;
-    } else if (like(text: WhatsNewType.ui.key)) {
+    } else if (like(as: WhatsNewType.ui.key)) {
       return WhatsNewType.ui;
-    } else if (like(text: WhatsNewType.security.key)) {
+    } else if (like(as: WhatsNewType.security.key)) {
       return WhatsNewType.security;
-    } else if (like(text: WhatsNewType.performance.key)) {
+    } else if (like(as: WhatsNewType.performance.key)) {
       return WhatsNewType.performance;
     } else {
       return WhatsNewType.ux;
@@ -35,28 +35,28 @@ extension StringExtension on String {
   }
 
   bool get zero {
-    if (like(text: '0') ||
-        like(text: '00') ||
-        like(text: '0.0') ||
-        like(text: '0.00')) return true;
+    if (like(as: '0') ||
+        like(as: '00') ||
+        like(as: '0.0') ||
+        like(as: '0.00')) return true;
     return false;
   }
 }
 
 extension NullableStringExtension on String? {
   bool like({
-    required String? text,
+    required String? as,
   }) {
     if (this == null) return false;
-    return this!.toLowerCase().trim() == text?.toLowerCase().trim();
+    return this!.toLowerCase().trim() == as?.toLowerCase().trim();
   }
 
-  bool has({
-    required String? text,
+  bool match({
+    required String? like,
   }) {
     if (this == null) return false;
-    if (text == null) return false;
-    return this!.toLowerCase().trim().contains(text.toLowerCase().trim());
+    if (like == null) return false;
+    return this!.toLowerCase().trim().contains(like.toLowerCase().trim());
   }
 
   String join({

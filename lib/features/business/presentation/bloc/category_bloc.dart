@@ -1,6 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
-import '../../../location/location.dart';
+import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 

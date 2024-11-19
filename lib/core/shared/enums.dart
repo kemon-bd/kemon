@@ -2,9 +2,9 @@ enum Gender { male, female, other }
 
 enum ListingType { business, product }
 
-enum Lookups { none }
+enum Lookups { division, district, thana, none }
 
-enum SortBy { recommended, highestRated, mostReviewd }
+enum SortBy { recommended, highestRated, mostReviewed }
 
 enum LeaderboardFilter { monthly, yearly, allTime }
 

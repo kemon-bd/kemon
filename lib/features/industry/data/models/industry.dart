@@ -3,6 +3,7 @@ import '../../industry.dart';
 
 class IndustryModel extends IndustryEntity {
   const IndustryModel({
+    required super.identity,
     required super.name,
     required super.icon,
     required super.urlSlug,
@@ -43,6 +44,7 @@ class IndustryModel extends IndustryEntity {
       final String urlSlug = map['urlslug'] as String;
 
       return IndustryModel(
+        identity: Identity.guid(guid: ''),
         name: Name.full(name: name),
         icon: icon,
         urlSlug: urlSlug,

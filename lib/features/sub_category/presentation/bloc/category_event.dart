@@ -16,3 +16,15 @@ class SubCategoriesByCategory extends SubCategoriesByCategoryEvent {
   @override
   List<Object> get props => [category];
 }
+
+class SearchSubCategoriesByCategory extends SubCategoriesByCategoryEvent {
+  final String category;
+  final String query;
+
+  const SearchSubCategoriesByCategory({
+    required this.category,
+    required this.query,
+  });
+  @override
+  List<Object> get props => [category, query];
+}

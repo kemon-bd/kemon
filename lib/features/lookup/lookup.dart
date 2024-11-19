@@ -8,5 +8,6 @@ export 'data/models/lookup.dart';
 export 'domain/entities/lookup.dart';
 export 'domain/repositories/lookup.dart';
 export 'domain/usecases/find.dart';
+export 'domain/usecases/search.dart';
 
 export 'presentation/bloc/find_bloc.dart';

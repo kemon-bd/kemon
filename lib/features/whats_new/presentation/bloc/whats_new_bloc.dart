@@ -11,7 +11,7 @@ class WhatsNewBloc extends HydratedBloc<WhatsNewEvent, WhatsNewState> {
       final Map<String, dynamic> map = json.decode(payload);
 
       final newState = WhatsNewState.parse(map: map);
-      if (state.hash.like(text: newState.hash)) {
+      if (state.hash.like(as: newState.hash)) {
         emit(UpdateToDate(hash: newState.hash));
       } else {
         final List<WhatsNewEntity> updates = List<dynamic>.from(map['changes'])

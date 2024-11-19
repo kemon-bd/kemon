@@ -1,7 +1,10 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../location/location.dart';
+import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
+import '../../category.dart';
 
 class FilterMenuWidget extends StatefulWidget {
   final String urlSlug;
@@ -15,9 +18,9 @@ class FilterMenuWidget extends StatefulWidget {
 }
 
 class _FilterMenuWidgetState extends State<FilterMenuWidget> {
-  LocationEntity? division;
-  LocationEntity? district;
-  LocationEntity? thana;
+  LookupEntity? division;
+  LookupEntity? district;
+  LookupEntity? thana;
   SubCategoryEntity? subCategory;
 
   final List<int> ratings = [];
@@ -68,7 +71,45 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
+            Container(
+              decoration: BoxDecoration(
+                color: theme.backgroundSecondary,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: theme.backgroundTertiary, width: .25),
+              ),
+              child: BlocBuilder<FindCategoryBloc, FindCategoryState>(
+                builder: (context, state) {
+                  if (state is FindCategoryDone) {
+                    return DropdownWidget<SubCategoryEntity>(
+                      label: 'Sub-category',
+                      labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                      text: subCategory?.name.full ?? 'Select one',
+                      textStyle: TextStyles.title(context: context, color: theme.textPrimary),
+                      popup: BlocProvider(
+                        create: (_) => sl<SubCategoriesByCategoryBloc>()
+                          ..add(
+                            SubCategoriesByCategory(category: state.category.identity.guid),
+                          ),
+                        child: SubCategoryFilterWidget(subCategory: subCategory, category: state.category.identity.guid),
+                      ),
+                      onSelect: (selection) {
+                        setState(() {
+                          subCategory = selection;
+                        });
+                      },
+                    );
+                  } else if (state is FindCategoryLoading) {
+                    return DropdownLoadingWidget(
+                      label: 'Sub-category',
+                      labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
+            const Divider(height: 24),
             Text(
               'Location',
               style: TextStyles.subTitle(context: context, color: theme.textPrimary),
@@ -85,41 +126,66 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  DropdownWidget(
+                  DropdownWidget<LookupEntity>(
                     label: 'Division',
                     labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                    text: division?.name.full ?? 'Select one',
+                    text: division?.text ?? 'Select one',
                     textStyle: TextStyles.title(context: context, color: theme.textPrimary),
+                    popup: BlocProvider(
+                      create: (_) => sl<FindLookupBloc>()..add(const FindLookup(lookup: Lookups.division)),
+                      child: DivisionFilterWidget(division: division),
+                    ),
+                    onSelect: (selection) {
+                      setState(() {
+                        division = selection;
+                      });
+                    },
                   ),
                   const Divider(),
-                  DropdownWidget(
+                  DropdownWidget<LookupEntity>(
                     label: 'District',
                     labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                    text: district?.name.full ?? 'Select one',
+                    text: district?.text ?? 'Select one',
                     textStyle: TextStyles.title(context: context, color: theme.textPrimary),
+                    popup: BlocProvider(
+                      create: (_) => sl<FindLookupBloc>()
+                        ..add(
+                          FindLookupWithParent(lookup: Lookups.district, parent: division?.value ?? ''),
+                        ),
+                      child: DistrictFilterWidget(
+                        district: district,
+                        division: division?.value ?? '',
+                      ),
+                    ),
+                    onSelect: (selection) {
+                      setState(() {
+                        district = selection;
+                      });
+                    },
                   ),
                   const Divider(),
-                  DropdownWidget(
+                  DropdownWidget<LookupEntity>(
                     label: 'Thana',
                     labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                    text: thana?.name.full ?? 'Select one',
+                    text: thana?.text ?? 'Select one',
                     textStyle: TextStyles.title(context: context, color: theme.textPrimary),
+                    popup: BlocProvider(
+                      create: (_) => sl<FindLookupBloc>()
+                        ..add(
+                          FindLookupWithParent(lookup: Lookups.thana, parent: district?.value ?? ''),
+                        ),
+                      child: ThanaFilterWidget(
+                        thana: thana,
+                        district: district?.value ?? '',
+                      ),
+                    ),
+                    onSelect: (selection) {
+                      setState(() {
+                        thana = selection;
+                      });
+                    },
                   ),
                 ],
-              ),
-            ),
-            const Divider(height: 42),
-            Container(
-              decoration: BoxDecoration(
-                color: theme.backgroundSecondary,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: theme.backgroundTertiary, width: .25),
-              ),
-              child: DropdownWidget(
-                label: 'Category',
-                labelStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                text: subCategory?.name.full ?? 'Select one',
-                textStyle: TextStyles.title(context: context, color: theme.textPrimary),
               ),
             ),
             const Divider(height: 42),
@@ -141,7 +207,7 @@ class _FilterMenuWidgetState extends State<FilterMenuWidget> {
                 itemCount: 5,
                 separatorBuilder: (context, index) => const Divider(height: 8),
                 itemBuilder: (context, index) {
-                  final rating = index + 1;
+                  final rating = 5 - index;
                   final selected = ratings.contains(rating);
                   return ListTile(
                     dense: true,

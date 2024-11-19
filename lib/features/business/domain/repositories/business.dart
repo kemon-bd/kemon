@@ -1,5 +1,5 @@
 import '../../../../core/shared/shared.dart';
-import '../../../location/location.dart';
+import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -22,20 +22,19 @@ abstract class BusinessRepository {
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
-      refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required int page,
     required String category,
     required SortBy? sort,
-    required LocationEntity? division,
-    required LocationEntity? district,
-    required LocationEntity? thana,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });

@@ -2,9 +2,9 @@ part of 'category_bloc.dart';
 
 abstract class FindBusinessesByCategoryState extends Equatable {
   final SortBy? sortBy;
-  final LocationEntity? division;
-  final LocationEntity? district;
-  final LocationEntity? thana;
+  final LookupEntity? division;
+  final LookupEntity? district;
+  final LookupEntity? thana;
   final SubCategoryEntity? subCategory;
   final List<int> ratings;
 

@@ -8,7 +8,7 @@ extension ReviewListExtension on List<ReviewEntity> {
   bool hasMyReview({
     required String userGuid,
   }) {
-    return any((review) => review.user.guid.like(text: userGuid));
+    return any((review) => review.user.guid.like(as: userGuid));
   }
 }
 

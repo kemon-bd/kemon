@@ -166,10 +166,14 @@ class FilterButton extends StatelessWidget {
       onTap: () {
         showModalBottomSheet(
           context: context,
-          backgroundColor: context.barrierColor,
+          backgroundColor: theme.backgroundPrimary,
+          barrierColor: context.barrierColor,
           isScrollControlled: true,
-          builder: (_) => BlocProvider.value(
-            value: context.read<FindBusinessesByCategoryBloc>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
+              BlocProvider.value(value: context.read<FindCategoryBloc>()),
+            ],
             child: FilterMenuWidget(urlSlug: urlSlug),
           ),
         );
@@ -347,17 +351,16 @@ class ListingsWidget extends StatelessWidget {
                   itemBuilder: (_, index) {
                     if (index == businesses.length) {
                       if (state is! FindBusinessesByCategoryPaginating) {
-                        final filter = context.read<FilterBloc>().state;
                         context.read<FindBusinessesByCategoryBloc>().add(
                               PaginateBusinessesByCategory(
                                 page: state.page + 1,
                                 category: urlSlug,
-                                sort: filter.sortBy,
-                                ratings: filter.ratings,
-                                division: filter.division,
-                                district: filter.district,
-                                thana: filter.thana,
-                                subCategory: filter.subCategory,
+                                sort: state.sortBy,
+                                ratings: state.ratings,
+                                division: state.division,
+                                district: state.district,
+                                thana: state.thana,
+                                subCategory: state.subCategory,
                               ),
                             );
                       }

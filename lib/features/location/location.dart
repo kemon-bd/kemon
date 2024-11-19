@@ -13,3 +13,6 @@ export 'presentation/bloc/featured_bloc.dart';
 export 'presentation/pages/location.dart';
 export 'presentation/widgets/dashboard/featured.dart';
 export 'presentation/widgets/dashboard/featured_shimmer.dart';
+export 'presentation/widgets/division.dart';
+export 'presentation/widgets/district.dart';
+export 'presentation/widgets/thana.dart';

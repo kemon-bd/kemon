@@ -47,7 +47,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                             ),
                           ),
                           title: Text(
-                            '${identity.guid.like(text: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
+                            '${identity.guid.like(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
                             style: TextStyles.title(context: context, color: theme.textPrimary),
                           ),
                           trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),

@@ -9,4 +9,9 @@ abstract class SubCategoryRepository {
   FutureOr<Either<Failure, List<SubCategoryEntity>>> category({
     required String category,
   });
+  
+  FutureOr<Either<Failure, List<SubCategoryEntity>>> search({
+    required String category,
+    required String query,
+  });
 }

@@ -54,7 +54,7 @@ class LookupModel extends LookupEntity {
         map['isActive'] is bool,
         'LookupModel.parse: "isActive" is not a bool.',
       );
-      final bool active = map['dataValue'] as bool;
+      final bool active = map['isActive'] as bool;
 
       return LookupModel(
         text: text,

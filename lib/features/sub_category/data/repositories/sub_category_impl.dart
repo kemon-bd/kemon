@@ -24,8 +24,7 @@ class SubCategoryRepositoryImpl extends SubCategoryRepository {
       if (await network.online) {
         final subCategories = await remote.category(category: category);
 
-        await local.addAllByCategory(
-            category: category, subCategories: subCategories);
+        await local.addAllByCategory(category: category, subCategories: subCategories);
         return Right(subCategories);
       } else {
         return Left(NoInternetFailure());
@@ -43,6 +42,41 @@ class SubCategoryRepositoryImpl extends SubCategoryRepository {
       final subCategory = await local.find(urlSlug: urlSlug);
 
       return Right(subCategory);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<SubCategoryEntity>>> search({
+    required String category,
+    required String query,
+  }) async {
+    try {
+      final subCategories = await local.findByCategory(category: category);
+
+      return Right(
+        subCategories
+            .where(
+              (sub) => sub.name.full.match(like: query),
+            )
+            .toList(),
+      );
+    } on CategoryNotFoundInLocalCacheFailure {
+      if (await network.online) {
+        final subCategories = await remote.category(category: category);
+
+        await local.addAllByCategory(category: category, subCategories: subCategories);
+        return Right(
+          subCategories
+              .where(
+                (sub) => sub.name.full.match(like: query),
+              )
+              .toList(),
+        );
+      } else {
+        return Left(NoInternetFailure());
+      }
     } on Failure catch (failure) {
       return Left(failure);
     }

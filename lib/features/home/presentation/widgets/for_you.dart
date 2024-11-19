@@ -1,6 +1,5 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
-import '../../../category/category.dart';
 import '../../../profile/profile.dart';
 
 class DashboardForYouWidget extends StatelessWidget {
@@ -123,14 +122,7 @@ class DashboardForYouWidget extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () async {
-                              context.pushNamed(
-                                CategoryPage.name,
-                                pathParameters: {
-                                  'urlSlug': 'dummy',
-                                },
-                              );
-                            },
+                            onTap: () async {},
                             borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
                             child: Container(
                               width: double.infinity,

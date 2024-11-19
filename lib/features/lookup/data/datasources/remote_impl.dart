@@ -11,13 +11,12 @@ class LookupRemoteDataSourceImpl extends LookupRemoteDataSource {
   @override
   FutureOr<List<LookupModel>> find({
     required LookupKey key,
-    String? parent,
   }) async {
     final Map<String, String> headers = {
       'datakey': key.key.dataKey,
     };
-    if (parent != null) {
-      headers['parentkey'] = parent;
+    if (key.parent != null) {
+      headers['parentkey'] = key.parent!;
     }
 
     final Response response = await client.get(
