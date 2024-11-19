@@ -1,5 +1,7 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
+import '../../../category/category.dart';
+import '../../../profile/profile.dart';
 
 class DashboardForYouWidget extends StatelessWidget {
   const DashboardForYouWidget({super.key});
@@ -61,18 +63,27 @@ class DashboardForYouWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: Dimension.padding.vertical.large),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(Dimension.radius.twelve),
-                          decoration: BoxDecoration(
-                            color: theme.primary.withAlpha(50),
-                            borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Login or Sign up",
-                            style: TextStyles.miniHeadline(context: context, color: theme.primary).copyWith(
-                              fontWeight: FontWeight.w900,
+                        InkWell(
+                          onTap: () async {
+                            final bool? loggedIn = await context.pushNamed<bool>(CheckProfilePage.name);
+                            if (loggedIn == true && context.mounted) {
+                              context.pushNamed(ProfilePage.name);
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(Dimension.radius.twelve),
+                            decoration: BoxDecoration(
+                              color: theme.primary.withAlpha(50),
+                              borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Login or Sign up",
+                              style: TextStyles.miniHeadline(context: context, color: theme.primary).copyWith(
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
                           ),
                         ),
@@ -111,19 +122,30 @@ class DashboardForYouWidget extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(Dimension.radius.eight),
-                            margin: EdgeInsets.only(top: Dimension.padding.vertical.large),
-                            decoration: BoxDecoration(
-                              color: theme.white,
-                              borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Write a review",
-                              style: TextStyles.miniHeadline(context: context, color: theme.black).copyWith(
-                                fontWeight: FontWeight.w900,
+                          InkWell(
+                            onTap: () async {
+                              context.pushNamed(
+                                CategoryPage.name,
+                                pathParameters: {
+                                  'urlSlug': 'dummy',
+                                },
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(Dimension.radius.eight),
+                              margin: EdgeInsets.only(top: Dimension.padding.vertical.large),
+                              decoration: BoxDecoration(
+                                color: theme.white,
+                                borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Write a review",
+                                style: TextStyles.miniHeadline(context: context, color: theme.black).copyWith(
+                                  fontWeight: FontWeight.w900,
+                                ),
                               ),
                             ),
                           ),
