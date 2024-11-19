@@ -17,7 +17,7 @@ class _Radius {
   final double thirtyTwo = 32.0.r;
   final double thirty = 30.0.r;
   final double twentyFour = 24.0.r;
-  final double tweenty = 20.0.r;
+  final double twenty = 20.0.r;
   final double sixteen = 16.0.r;
   final double twelve = 12.0.r;
   final double ten = 10.0.r;
@@ -37,6 +37,7 @@ class _Padding {
 }
 
 class _HorizontalPadding {
+  final double ultraMax = 20.0.w;
   final double max = 16.0.w;
   final double large = 12.0.w;
   final double medium = 8.0.w;
@@ -87,8 +88,16 @@ class _VerticalSize {
   final double ten = 10.0.h;
   final double twelve = 12.0.h;
   final double sixteen = 16.0.h;
-  final double tweenty = 20.0.h;
+  final double twenty = 20.0.h;
   final double twentyFour = 24.0.h;
+  final double thirtyTwo = 32.0.h;
+  final double fortyEight = 48.0.h;
+  final double sixtyFour = 64.0.h;
+  final double seventyTwo = 72.0.h;
+  final double hundred = 100.0.h;
+  final double oneTwelve = 112.0.h;
+  final double oneTwentyEight = 128.0.h;
+  final double oneFortyFour = 144.0.h;
   final double carousel = 128.0.h;
   final double min = 0.0.h;
 } //? ------------------- Size -------------------

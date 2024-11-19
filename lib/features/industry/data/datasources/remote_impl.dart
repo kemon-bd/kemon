@@ -24,12 +24,12 @@ class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkReponse =
+      final RemoteResponse<Map<String, dynamic>> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         final List<dynamic> data =
-            networkReponse.result!["categoryModelCombinedList"];
+            networkResponse.result!["categoryModelCombinedList"];
 
         return data.map(
           (i) {
@@ -45,7 +45,7 @@ class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
         ).toList();
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load categories');
+            message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
       throw RemoteFailure(

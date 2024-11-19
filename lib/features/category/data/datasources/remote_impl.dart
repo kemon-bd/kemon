@@ -17,14 +17,14 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkReponse = RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
-        final List<dynamic> data = networkReponse.result!["featuredCategories"];
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result!["featuredCategories"];
 
         return data.map((e) => CategoryModel.parse(map: e)).toList();
       } else {
-        throw RemoteFailure(message: networkReponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');

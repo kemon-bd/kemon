@@ -38,7 +38,10 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
             ),
           ),
           padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
-          child: Column(
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(0),
             children: [
               const SizedBox(height: 8),
               Text(
@@ -46,36 +49,34 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                 style: TextStyles.bigHeadline(context: context, color: theme.primary),
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (_, index) {
-                    final update = widget.updates[index];
-                    return ListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      visualDensity: VisualDensity.compact,
-                      leading: CircleAvatar(
-                        backgroundColor: update.type.color.withAlpha(25),
-                        child: Icon(update.type.icon, color: update.type.color),
-                      ),
-                      title: Text(
-                        update.title,
-                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                      ),
-                      subtitle: update.description != null
-                          ? Text(
-                              update.description!,
-                              style: TextStyles.caption(context: context, color: theme.textSecondary),
-                            )
-                          : null,
-                    );
-                  },
-                  separatorBuilder: (_, __) => Divider(height: Dimension.padding.horizontal.max),
-                  itemCount: widget.updates.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const ScrollPhysics(),
-                ),
+              ListView.separated(
+                itemBuilder: (_, index) {
+                  final update = widget.updates[index];
+                  return ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    visualDensity: VisualDensity.compact,
+                    leading: CircleAvatar(
+                      backgroundColor: update.type.color.withAlpha(25),
+                      child: Icon(update.type.icon, color: update.type.color),
+                    ),
+                    title: Text(
+                      update.title,
+                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    ),
+                    subtitle: update.description != null
+                        ? Text(
+                            update.description!,
+                            style: TextStyles.caption(context: context, color: theme.textSecondary),
+                          )
+                        : null,
+                  );
+                },
+                separatorBuilder: (_, __) => Divider(height: Dimension.padding.horizontal.max),
+                itemCount: widget.updates.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const ScrollPhysics(),
               ),
               const SizedBox(height: 24),
               SizedBox(

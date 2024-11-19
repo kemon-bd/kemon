@@ -38,15 +38,15 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkReponse =
+      final RemoteResponse<Map<String, dynamic>> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         final List<dynamic> businesses =
-            List<dynamic>.from(networkReponse.result!["listingDatas"]);
+            List<dynamic>.from(networkResponse.result!["listingDatas"]);
         final List<dynamic> relatedCategories =
-            List<dynamic>.from(networkReponse.result!["relatedDatas"]);
-        final int total = networkReponse.result!["totalCount"];
+            List<dynamic>.from(networkResponse.result!["relatedDatas"]);
+        final int total = networkResponse.result!["totalCount"];
 
         return (
           businesses:
@@ -58,7 +58,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
         );
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load categories');
+            message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
       throw RemoteFailure(
@@ -80,17 +80,17 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse =
+      final RemoteResponse<dynamic> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         final Map<String, dynamic> data =
-            networkReponse.result as Map<String, dynamic>;
+            networkResponse.result as Map<String, dynamic>;
 
         return BusinessModel.parse(map: data);
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load business');
+            message: networkResponse.error ?? 'Failed to load business');
       }
     } else {
       throw RemoteFailure(

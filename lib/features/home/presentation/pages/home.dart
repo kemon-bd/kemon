@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                 if (state is NewUpdate) {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) => WhatsNewAlert(updates: state.updates, hash: state.hash),
                   );
                 }
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                     Image.asset(
                       'images/logo/full.png',
                       width: Dimension.size.horizontal.tweenty,
-                      height: Dimension.size.vertical.tweenty,
+                      height: Dimension.size.vertical.twenty,
                       fit: BoxFit.contain,
                     ),
                     SizedBox(width: Dimension.size.horizontal.eight),
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 DashboardSearchWidget(),
                 DashboardForYouWidget(),
-                DashboardFeaturedCategoriesSectionWidget(),
+                FeaturedCategoriesWidget(),
                 FeaturedReviewsWidget(),
               ],
             ),

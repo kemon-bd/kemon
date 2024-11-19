@@ -7,13 +7,18 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc
-    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase find;
-  FindBusinessesByCategoryBloc({required this.find})
-      : super(const FindBusinessesByCategoryInitial()) {
+  FindBusinessesByCategoryBloc({required this.find}) : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
-      emit(const FindBusinessesByCategoryLoading());
+      emit(FindBusinessesByCategoryLoading(
+        sortBy: event.sort,
+        ratings: event.ratings,
+        division: event.division,
+        district: event.district,
+        thana: event.thana,
+        subCategory: event.subCategory,
+      ));
       final result = await find(
         category: event.category,
         page: 1,
@@ -25,13 +30,27 @@ class FindBusinessesByCategoryBloc
         ratings: event.ratings,
       );
       result.fold(
-        (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+        (failure) => emit(FindBusinessesByCategoryError(
+          failure: failure,
+          sortBy: event.sort,
+          ratings: event.ratings,
+          division: event.division,
+          district: event.district,
+          thana: event.thana,
+          subCategory: event.subCategory,
+        )),
         (response) => emit(
           FindBusinessesByCategoryDone(
             page: 1,
             total: response.total,
             businesses: response.businesses,
             related: response.related,
+            sortBy: event.sort,
+            ratings: event.ratings,
+            division: event.division,
+            district: event.district,
+            thana: event.thana,
+            subCategory: event.subCategory,
           ),
         ),
       );
@@ -45,6 +64,12 @@ class FindBusinessesByCategoryBloc
           page: event.page,
           businesses: oldState.businesses,
           related: oldState.related,
+          sortBy: event.sort,
+          ratings: event.ratings,
+          division: event.division,
+          district: event.district,
+          thana: event.thana,
+          subCategory: event.subCategory,
         ));
         final result = await find(
           category: event.category,
@@ -57,13 +82,27 @@ class FindBusinessesByCategoryBloc
           ratings: event.ratings,
         );
         result.fold(
-          (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+          (failure) => emit(FindBusinessesByCategoryError(
+            failure: failure,
+            sortBy: event.sort,
+            ratings: event.ratings,
+            division: event.division,
+            district: event.district,
+            thana: event.thana,
+            subCategory: event.subCategory,
+          )),
           (response) => emit(
             FindBusinessesByCategoryDone(
               page: event.page,
               total: response.total,
               businesses: response.businesses,
               related: response.related,
+              sortBy: event.sort,
+              ratings: event.ratings,
+              division: event.division,
+              district: event.district,
+              thana: event.thana,
+              subCategory: event.subCategory,
             ),
           ),
         );

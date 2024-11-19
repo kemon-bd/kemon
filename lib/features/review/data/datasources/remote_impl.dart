@@ -59,14 +59,14 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<void> networkReponse =
+      final RemoteResponse<void> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         return;
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to delete review');
+            message: networkResponse.error ?? 'Failed to delete review');
       }
     } else {
       throw RemoteFailure(
@@ -88,17 +88,17 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse =
+      final RemoteResponse<dynamic> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         final Map<String, dynamic> data =
-            networkReponse.result as Map<String, dynamic>;
+            networkResponse.result as Map<String, dynamic>;
 
         return ReviewDetailsModel.parse(map: data);
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load review details');
+            message: networkResponse.error ?? 'Failed to load review details');
       }
     } else {
       throw RemoteFailure(
@@ -120,16 +120,16 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkReponse =
+      final RemoteResponse<List<dynamic>> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
-        final List<dynamic> data = networkReponse.result as List<dynamic>;
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result as List<dynamic>;
 
         return data.map((e) => ReviewModel.parse(map: e)).toList();
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load business');
+            message: networkResponse.error ?? 'Failed to load business');
       }
     } else {
       throw RemoteFailure(
@@ -157,14 +157,14 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<void> networkReponse =
+      final RemoteResponse<void> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         return;
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to add review');
+            message: networkResponse.error ?? 'Failed to add review');
       }
     } else {
       throw RemoteFailure(
@@ -182,16 +182,16 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkReponse =
+      final RemoteResponse<List<dynamic>> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
-        final List<dynamic> data = networkReponse.result as List<dynamic>;
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result as List<dynamic>;
 
         return data.map((e) => ReviewModel.parse(map: e)).toList();
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load business');
+            message: networkResponse.error ?? 'Failed to load business');
       }
     } else {
       throw RemoteFailure(

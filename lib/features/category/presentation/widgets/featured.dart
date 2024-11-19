@@ -1,8 +1,8 @@
 import '../../../../core/shared/shared.dart';
 import '../../category.dart';
 
-class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
-  const DashboardFeaturedCategoriesSectionWidget({super.key});
+class FeaturedCategoriesWidget extends StatelessWidget {
+  const FeaturedCategoriesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,33 +29,26 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Featured categories",
+                        "Categories",
                         style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
-                      // TODO
-                      /* FilterChip(
+                      ActionChip(
                         label: Text(
                           "See all",
-                          style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.w900,
                           ),
                         ),
-                        deleteIcon: Icon(Icons.open_in_new_rounded, color: theme.primary, size: 14),
-                        onDeleted: () {},
-                        backgroundColor: theme.backgroundPrimary,
+                        backgroundColor: theme.backgroundSecondary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                           side: const BorderSide(width: 0, color: Colors.transparent),
                         ),
-                        padding: EdgeInsets.zero,
-                        labelPadding: const EdgeInsets.only(left: 12),
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                        selected: false,
-                        onSelected: (_) {
-                          
-                          // context.pushNamed(CategoriesPage.tag);
+                        onPressed: () {
+                          context.pushNamed(CategoriesPage.name);
                         },
-                      ), */
+                      ),
                     ],
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
@@ -63,7 +56,7 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                     height: 400.h,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
-                      mainAxisSpacing: Dimension.padding.horizontal.medium,
+                      mainAxisSpacing: Dimension.padding.horizontal.max,
                       crossAxisSpacing: Dimension.padding.vertical.small,
                       padding: EdgeInsets.zero,
                       itemCount: categories.length,
@@ -72,14 +65,9 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (_, index) {
                         final category = categories.elementAt(index);
-                        return ActionChip(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimension.radius.max),
-                            side: BorderSide(width: Dimension.divider.large, color: theme.primary),
-                          ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor: theme.primary.withAlpha(15),
-                          onPressed: () {
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(Dimension.radius.max),
+                          onTap: () {
                             context.pushNamed(
                               CategoryPage.name,
                               pathParameters: {
@@ -87,15 +75,29 @@ class DashboardFeaturedCategoriesSectionWidget extends StatelessWidget {
                               },
                             );
                           },
-                          avatar: CachedNetworkImage(
-                            imageUrl: category.icon.url,
-                            width: Dimension.radius.tweenty,
-                            height: Dimension.radius.tweenty,
-                            placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.tweenty),
-                            errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.primary),
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimension.radius.four),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: theme.textPrimary,
+                                  radius: Dimension.radius.twelve,
+                                  child: CachedNetworkImage(
+                                    imageUrl: category.icon.url,
+                                    width: Dimension.radius.twelve,
+                                    height: Dimension.radius.twelve,
+                                    placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.twenty),
+                                    errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                  ),
+                                ),
+                                SizedBox(width: Dimension.padding.horizontal.small),
+                                Text(
+                                  category.name.full,
+                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                ),
+                              ],
+                            ),
                           ),
-                          label: Text(category.name.full),
-                          labelStyle: TextStyles.subTitle(context: context, color: theme.primary),
                         );
                       },
                     ),

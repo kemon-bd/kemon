@@ -16,8 +16,7 @@ class BusinessItemWidget extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return BlocProvider(
-          create: (_) =>
-              sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+          create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
           child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
             builder: (_, state) {
               if (state is FindBusinessDone) {
@@ -28,20 +27,18 @@ class BusinessItemWidget extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (business.contact.phone?.isNotEmpty ??
-                                false) ...[
+                            if (business.contact.phone?.isNotEmpty ?? false) ...[
                               Icon(
                                 Icons.phone_outlined,
-                                color: theme.textSecondary,
+                                color: theme.primary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
                             ],
-                            if (business.contact.email?.isNotEmpty ??
-                                false) ...[
+                            if (business.contact.email?.isNotEmpty ?? false) ...[
                               Icon(
                                 Icons.email_outlined,
-                                color: theme.textSecondary,
+                                color: theme.primary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
@@ -49,16 +46,15 @@ class BusinessItemWidget extends StatelessWidget {
                             if (business.address.formatted.isNotEmpty) ...[
                               Icon(
                                 Icons.place_outlined,
-                                color: theme.textSecondary,
+                                color: theme.primary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
                             ],
-                            if (business.contact.website?.isNotEmpty ??
-                                false) ...[
+                            if (business.contact.website?.isNotEmpty ?? false) ...[
                               Icon(
                                 Icons.language_rounded,
-                                color: theme.textSecondary,
+                                color: theme.primary,
                                 size: Dimension.radius.sixteen,
                               ),
                               SizedBox(width: Dimension.size.horizontal.eight),
@@ -72,14 +68,11 @@ class BusinessItemWidget extends StatelessWidget {
                               children: [
                                 Text(
                                   "Latest reviews",
-                                  style: TextStyles.subTitle(
-                                      context: context, color: theme.primary),
+                                  style: TextStyles.subTitle(context: context, color: theme.primary),
                                 ),
                                 const SizedBox(width: 4),
                                 Icon(
-                                  expanded
-                                      ? Icons.keyboard_arrow_up_rounded
-                                      : Icons.keyboard_arrow_down_rounded,
+                                  expanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
                                   color: theme.primary,
                                   size: 16,
                                 ),
@@ -100,16 +93,14 @@ class BusinessItemWidget extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: Dimension.padding.horizontal.max),
+                    margin: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
                     padding: EdgeInsets.symmetric(
                       horizontal: Dimension.padding.horizontal.large,
                       vertical: Dimension.padding.vertical.large,
                     ),
                     decoration: BoxDecoration(
                       color: theme.backgroundSecondary,
-                      borderRadius:
-                          BorderRadius.circular(Dimension.radius.sixteen),
+                      borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                     ),
                     clipBehavior: Clip.none,
                     child: Column(
@@ -132,70 +123,46 @@ class BusinessItemWidget extends StatelessWidget {
                                 children: [
                                   Text(
                                     business.name.full,
-                                    style: TextStyles.subTitle(
-                                        context: context,
-                                        color: theme.textPrimary),
+                                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                   ),
-                                  if (business
-                                      .address.formatted.isNotEmpty) ...[
-                                    SizedBox(
-                                        height: Dimension
-                                            .padding.vertical.verySmall),
+                                  if (business.address.formatted.isNotEmpty) ...[
+                                    SizedBox(height: Dimension.padding.vertical.verySmall),
                                     Text(
                                       business.address.formatted,
-                                      style: TextStyles.caption(
-                                          context: context,
-                                          color: theme.textSecondary),
+                                      style: TextStyles.caption(context: context, color: theme.textSecondary),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
-                                  SizedBox(
-                                      height:
-                                          Dimension.padding.vertical.verySmall),
+                                  SizedBox(height: Dimension.padding.vertical.verySmall),
                                   BlocProvider(
-                                    create: (context) => sl<FindRatingBloc>()
-                                      ..add(FindRating(urlSlug: urlSlug)),
-                                    child: BlocBuilder<FindRatingBloc,
-                                        FindRatingState>(
+                                    create: (context) => sl<FindRatingBloc>()..add(FindRating(urlSlug: urlSlug)),
+                                    child: BlocBuilder<FindRatingBloc, FindRatingState>(
                                       builder: (context, state) {
                                         if (state is FindRatingDone) {
                                           final rating = state.rating;
                                           return Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               if (rating.average > 0) ...[
                                                 Icon(
                                                   Icons.star_rounded,
                                                   color: theme.primary,
-                                                  size: Dimension
-                                                      .size.vertical.twelve,
+                                                  size: Dimension.size.vertical.twelve,
                                                 ),
-                                                SizedBox(
-                                                    width: Dimension.padding
-                                                        .horizontal.verySmall),
+                                                SizedBox(width: Dimension.padding.horizontal.verySmall),
                                                 Text(
-                                                  rating.average
-                                                      .toStringAsFixed(1),
-                                                  style: TextStyles.caption(
-                                                      context: context,
-                                                      color: theme.primary),
+                                                  rating.average.toStringAsFixed(1),
+                                                  style: TextStyles.caption(context: context, color: theme.primary),
                                                 ),
-                                                SizedBox(
-                                                    width: Dimension.padding
-                                                        .horizontal.medium),
+                                                SizedBox(width: Dimension.padding.horizontal.medium),
                                                 Icon(
                                                   Icons.circle,
-                                                  size: Dimension
-                                                      .padding.horizontal.small,
-                                                  color:
-                                                      theme.backgroundTertiary,
+                                                  size: Dimension.padding.horizontal.small,
+                                                  color: theme.backgroundTertiary,
                                                 ),
-                                                SizedBox(
-                                                    width: Dimension.padding
-                                                        .horizontal.medium),
+                                                SizedBox(width: Dimension.padding.horizontal.medium),
                                               ],
                                               Text(
                                                 rating.total > 0
@@ -203,10 +170,7 @@ class BusinessItemWidget extends StatelessWidget {
                                                     : 'No review yet',
                                                 style: TextStyles.caption(
                                                   context: context,
-                                                  color: rating.total > 0
-                                                      ? theme.primary
-                                                      : theme.textSecondary
-                                                          .withAlpha(100),
+                                                  color: rating.total > 0 ? theme.primary : theme.textSecondary.withAlpha(100),
                                                 ),
                                               ),
                                             ],
@@ -222,61 +186,43 @@ class BusinessItemWidget extends StatelessWidget {
                           ],
                         ),
                         BlocProvider(
-                          create: (context) => sl<FindListingReviewsBloc>()
-                            ..add(FindListingReviews(urlSlug: urlSlug)),
-                          child: BlocBuilder<FindListingReviewsBloc,
-                              FindListingReviewsState>(
+                          create: (context) => sl<FindListingReviewsBloc>()..add(FindListingReviews(urlSlug: urlSlug)),
+                          child: BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
                             builder: (context, state) {
                               if (state is FindListingReviewsDone) {
                                 final reviews = state.reviews;
                                 return Padding(
                                   padding: EdgeInsets.only(
-                                      top: ((business.contact.phone ?? '')
-                                                  .isEmpty &&
-                                              (business.contact.email ?? '')
-                                                  .isEmpty &&
-                                              business
-                                                  .address.formatted.isEmpty &&
-                                              (business.contact.website ?? '')
-                                                  .isEmpty &&
+                                      top: ((business.contact.phone ?? '').isEmpty &&
+                                              (business.contact.email ?? '').isEmpty &&
+                                              business.address.formatted.isEmpty &&
+                                              (business.contact.website ?? '').isEmpty &&
                                               reviews.isEmpty)
                                           ? 0
                                           : Dimension.padding.vertical.medium),
                                   child: ExpandableNotifier(
                                     child: Expandable(
-                                      collapsed:
-                                          expandWidget(false, reviews.length),
+                                      collapsed: expandWidget(false, reviews.length),
                                       expanded: ListView(
                                         shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         clipBehavior: Clip.none,
                                         children: [
                                           expandWidget(true, reviews.length),
+                                          SizedBox(height: Dimension.padding.vertical.medium),
                                           SizedBox(
-                                              height: Dimension
-                                                  .padding.vertical.medium),
-                                          SizedBox(
-                                            height: Dimension
-                                                .size.vertical.carousel,
+                                            height: Dimension.size.vertical.carousel,
                                             child: CarouselView(
                                               itemExtent: context.width * .75,
                                               itemSnapping: true,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Dimension
-                                                            .radius.twelve),
+                                                borderRadius: BorderRadius.circular(Dimension.radius.twelve),
                                               ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: Dimension.padding
-                                                      .horizontal.small),
+                                              padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.small),
                                               children: reviews
                                                   .map(
-                                                    (review) =>
-                                                        FeaturedReviewItemWidget(
-                                                            review: review),
+                                                    (review) => FeaturedReviewItemWidget(review: review),
                                                   )
                                                   .toList(),
                                             ),

@@ -74,17 +74,17 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkReponse =
+      final RemoteResponse<dynamic> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
+      if (networkResponse.success) {
         final Map<String, dynamic> data =
-            networkReponse.result as Map<String, dynamic>;
+            networkResponse.result as Map<String, dynamic>;
 
         return ProfileModel.parse(map: data['profile']);
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load profile');
+            message: networkResponse.error ?? 'Failed to load profile');
       }
     } else {
       throw RemoteFailure(
@@ -117,12 +117,12 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     final response = await Response.fromStream(streamedResponse);
 
     if (response.statusCode == HttpStatus.ok) {
-      final networkReponse = RemoteResponse.parse(response: response);
-      if (networkReponse.success) {
+      final networkResponse = RemoteResponse.parse(response: response);
+      if (networkResponse.success) {
         return;
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ??
+            message: networkResponse.error ??
                 response.reasonPhrase ??
                 "Someting went wrong.");
       }

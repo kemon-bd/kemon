@@ -16,16 +16,16 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
         await client.get(RemoteEndpoints.featuredLocations, headers: headers);
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkReponse =
+      final RemoteResponse<List<dynamic>> networkResponse =
           RemoteResponse.parse(response: response);
 
-      if (networkReponse.success) {
-        final List<dynamic> data = networkReponse.result!;
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result!;
 
         return data.map((e) => LocationModel.parse(map: e)).toList();
       } else {
         throw RemoteFailure(
-            message: networkReponse.error ?? 'Failed to load locations');
+            message: networkResponse.error ?? 'Failed to load locations');
       }
     } else {
       throw RemoteFailure(

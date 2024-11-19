@@ -135,7 +135,7 @@ class AppConfig {
         ),
       ),
       textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.tweenty),
+      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.twenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(
         space: Dimension.divider.normal,

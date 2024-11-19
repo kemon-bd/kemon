@@ -109,7 +109,7 @@ class FeaturedReviewsShimmerWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Divider(height: Dimension.size.vertical.tweenty),
+                            Divider(height: Dimension.size.vertical.twenty),
                             ShimmerLabel(
                               width: Dimension.size.horizontal.oneTwentyEight,
                               height: Dimension.size.vertical.twelve,
