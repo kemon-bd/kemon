@@ -77,9 +77,32 @@ class _CategoryPageState extends State<CategoryPage> {
                               fontSize: Dimension.radius.twenty,
                             ).animate().fade(),
                       actions: [
-                        IconButton(
-                          icon: const Icon(Icons.share),
-                          onPressed: () {},
+                        BlocBuilder<FindCategoryBloc, FindCategoryState>(
+                          builder: (context, state) {
+                            if (state is FindCategoryDone) {
+                              final category = state.category;
+                              return IconButton(
+                                icon: const Icon(Icons.share),
+                                onPressed: () async {
+                                  final result = await Share.share(
+                                    """🌟 Discover the Best, Rated by the Rest! 🌟
+🚀 Explore authentic reviews and ratings on Kemon!
+💬 Real People. Real Reviews. Make smarter decisions today.
+👀 Check out ${category.name.full}(https://kemon.com.bd/category/${category.urlSlug}) now and share your experience with the community!
+
+📲 Join the conversation on Kemon – Bangladesh's Premier Review Platform!
+
+#KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
+                                  );
+
+                                  if (result.status == ShareResultStatus.success) {
+                                    print('Thank you for sharing my website!');
+                                  }
+                                },
+                              );
+                            }
+                            return const SizedBox();
+                          },
                         ),
                       ],
                       bottom: PreferredSize(

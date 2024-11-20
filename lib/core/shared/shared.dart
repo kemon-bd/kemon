@@ -96,3 +96,4 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:readmore/readmore.dart';
 export 'package:dots_indicator/dots_indicator.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:share_plus/share_plus.dart';
