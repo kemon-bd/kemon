@@ -6,18 +6,18 @@ import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../category.dart';
 
-class FilterMenuWidget extends StatefulWidget {
+class FilterBusinessesByCategoryWidget extends StatefulWidget {
   final String urlSlug;
-  const FilterMenuWidget({
+  const FilterBusinessesByCategoryWidget({
     super.key,
     required this.urlSlug,
   });
 
   @override
-  State<FilterMenuWidget> createState() => _FilterMenuWidgetState();
+  State<FilterBusinessesByCategoryWidget> createState() => _FilterBusinessesByCategoryWidgetState();
 }
 
-class _FilterMenuWidgetState extends State<FilterMenuWidget> {
+class _FilterBusinessesByCategoryWidgetState extends State<FilterBusinessesByCategoryWidget> {
   LookupEntity? division;
   LookupEntity? district;
   LookupEntity? thana;
