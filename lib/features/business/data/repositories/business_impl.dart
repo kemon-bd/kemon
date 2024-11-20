@@ -135,8 +135,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
-      refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required int page,
     required String category,
     required SortBy? sort,

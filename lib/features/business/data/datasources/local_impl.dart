@@ -50,23 +50,23 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
-    final key = (
-      page: page,
-      category: category,
-      sort: sort,
-      division: division,
-      district: district,
-      thana: thana,
-      sub: sub,
-      ratings: ratings,
-    );
-    if (!_category.containsKey(key)) {
-      throw BusinessNotFoundByCategoryInLocalCacheFailure();
-    }
     int total = 0;
     List<BusinessEntity> businesses = [];
     List<SubCategoryEntity> related = [];
     for (int p = 1; p <= page; p++) {
+      final key = (
+        page: p,
+        category: category,
+        sort: sort,
+        division: division,
+        district: district,
+        thana: thana,
+        sub: sub,
+        ratings: ratings,
+      );
+      if (!_category.containsKey(key)) {
+        throw BusinessNotFoundByCategoryInLocalCacheFailure();
+      }
       final item = _category[key];
       if (item != null) {
         total = item.total;

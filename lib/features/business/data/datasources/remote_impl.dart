@@ -38,31 +38,23 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final List<dynamic> businesses =
-            List<dynamic>.from(networkResponse.result!["listingDatas"]);
-        final List<dynamic> relatedCategories =
-            List<dynamic>.from(networkResponse.result!["relatedDatas"]);
+        final List<dynamic> businesses = List<dynamic>.from(networkResponse.result!["listingDatas"]);
+        final List<dynamic> relatedCategories = List<dynamic>.from(networkResponse.result!["relatedDatas"]);
         final int total = networkResponse.result!["totalCount"];
 
         return (
-          businesses:
-              businesses.map((e) => BusinessModel.parse(map: e)).toList(),
+          businesses: businesses.map((e) => BusinessModel.parse(map: e)).toList(),
           total: total,
-          related: relatedCategories
-              .map((e) => SubCategoryModel.parse(map: e))
-              .toList(),
+          related: relatedCategories.map((e) => SubCategoryModel.parse(map: e)).toList(),
         );
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 
@@ -80,21 +72,17 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<dynamic> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final Map<String, dynamic> data =
-            networkResponse.result as Map<String, dynamic>;
+        final Map<String, dynamic> data = networkResponse.result as Map<String, dynamic>;
 
         return BusinessModel.parse(map: data);
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load business');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load business');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load business');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
     }
   }
 }
