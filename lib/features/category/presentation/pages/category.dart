@@ -210,24 +210,42 @@ class SortButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimension.padding.horizontal.ultraMax,
-        vertical: Dimension.padding.vertical.medium,
-      ),
-      decoration: BoxDecoration(
-        color: theme.link.withAlpha(50),
-        borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
-          Text(
-            'Sort',
-            style: TextStyles.caption(context: context, color: theme.link),
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: theme.backgroundPrimary,
+          barrierColor: context.barrierColor,
+          isScrollControlled: true,
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
+              BlocProvider.value(value: context.read<FindCategoryBloc>()),
+            ],
+            child: const SortBusinessesByCategoryWidget(),
           ),
-        ],
+        );
+      },
+      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimension.padding.horizontal.ultraMax,
+          vertical: Dimension.padding.vertical.medium,
+        ),
+        decoration: BoxDecoration(
+          color: theme.link.withAlpha(50),
+          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
+            Text(
+              'Sort',
+              style: TextStyles.caption(context: context, color: theme.link),
+            ),
+          ],
+        ),
       ),
     );
   }

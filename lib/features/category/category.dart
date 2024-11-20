@@ -19,3 +19,4 @@ export 'presentation/pages/category.dart';
 export 'presentation/widgets/featured.dart';
 export 'presentation/widgets/featured_shimmer.dart';
 export 'presentation/widgets/filter.dart';
+export 'presentation/widgets/sort.dart';

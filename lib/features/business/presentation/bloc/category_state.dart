@@ -24,7 +24,7 @@ abstract class FindBusinessesByCategoryState extends Equatable {
 class FindBusinessesByCategoryInitial extends FindBusinessesByCategoryState {
   const FindBusinessesByCategoryInitial()
       : super(
-          sortBy: null,
+          sortBy: SortBy.recommended,
           ratings: const [],
           division: null,
           district: null,
