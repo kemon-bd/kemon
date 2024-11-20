@@ -175,7 +175,7 @@ class FilterButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
               BlocProvider.value(value: context.read<FindCategoryBloc>()),
             ],
-            child: FilterBusinessesByCategoryWidget(urlSlug: urlSlug),
+            child: const FilterBusinessesByCategoryWidget(),
           ),
         );
       },

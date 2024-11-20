@@ -7,11 +7,7 @@ import '../../../sub_category/sub_category.dart';
 import '../../category.dart';
 
 class FilterBusinessesByCategoryWidget extends StatefulWidget {
-  final String urlSlug;
-  const FilterBusinessesByCategoryWidget({
-    super.key,
-    required this.urlSlug,
-  });
+  const FilterBusinessesByCategoryWidget({super.key});
 
   @override
   State<FilterBusinessesByCategoryWidget> createState() => _FilterBusinessesByCategoryWidgetState();
@@ -316,24 +312,31 @@ class _FilterBusinessesByCategoryWidgetState extends State<FilterBusinessesByCat
               },
             ),
             const Divider(height: 42),
-            ElevatedButton(
-              onPressed: () {
-                context.read<FindBusinessesByCategoryBloc>().add(
-                      FindBusinessesByCategory(
-                        division: division,
-                        district: district,
-                        thana: thana,
-                        subCategory: subCategory,
-                        ratings: ratings,
-                        category: widget.urlSlug,
-                      ),
-                    );
-                context.pop();
+            BlocBuilder<FindCategoryBloc, FindCategoryState>(
+              builder: (context, state) {
+                if (state is FindCategoryDone) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      context.read<FindBusinessesByCategoryBloc>().add(
+                            FindBusinessesByCategory(
+                              division: division,
+                              district: district,
+                              thana: thana,
+                              subCategory: subCategory,
+                              ratings: ratings,
+                              category: state.category.urlSlug,
+                            ),
+                          );
+                      context.pop();
+                    },
+                    child: Text(
+                      'Apply'.toUpperCase(),
+                      style: TextStyles.button(context: context),
+                    ),
+                  );
+                }
+                return Container();
               },
-              child: Text(
-                'Apply'.toUpperCase(),
-                style: TextStyles.button(context: context),
-              ),
             ),
           ],
         );
