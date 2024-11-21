@@ -1,38 +1,73 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
+def get_local_property(variable_name)
+  local_properties_content = File.read("../local.properties")
+  variable_match = local_properties_content.match(/^#{variable_name}=(.*)$/)
+  
+  if variable_match
+    return variable_match[1]
+  else
+    UI.user_error!("Could not find #{variable_name} in local.properties")
+  end
+end
+
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+  desc "Submit a new draft Build to Google Play Internal test"
+  lane :internal do
+    Dir.chdir "../.." do sh("flutter", "clean") end
+    Dir.chdir "../.." do sh("flutter", "pub", "get") end
+    
+    Dir.chdir "../.." do sh("flutter", "build", "appbundle", "--release","--obfuscate","--split-debug-info=build/app/outputs/symbols", "--shrink") end
+    
+    version_name = get_local_property('flutter.versionName')
+    version_code = get_local_property('flutter.versionCode')
+
+    upload_to_play_store(
+      track: 'internal',
+      skip_upload_images: true,
+      version_code: version_code,
+      version_name: version_name,
+      skip_upload_screenshots: true,
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+    )
+  end
+  desc "Submit a new draft Build to Google Play production test"
+  lane :production do
+    Dir.chdir "../.." do sh("flutter", "clean") end
+    Dir.chdir "../.." do sh("flutter", "pub", "get") end
+    
+    Dir.chdir "../.." do sh("flutter", "build", "appbundle", "--release","--obfuscate","--split-debug-info=build/app/outputs/symbols", "--shrink") end
+    
+    version_name = get_local_property('flutter.versionName')
+    version_code = get_local_property('flutter.versionCode')
+
+    upload_to_play_store(
+      track: 'production',
+      skip_upload_images: true,
+      version_code: version_code,
+      version_name: version_name,
+      skip_upload_screenshots: true,
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+    )
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    upload_to_play_store(
+      track: 'internal', 
+      track_promote_to: 'beta',
+      version_code: get_local_property('flutter.versionCode'),
+      version_name: get_local_property('flutter.versionName'),
+    )
   end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+    upload_to_play_store(
+      track: 'beta', 
+      track_promote_to: 'production',
+      version_code: get_local_property('flutter.versionCode'),
+      version_name: get_local_property('flutter.versionName'),
+    )
   end
 end
