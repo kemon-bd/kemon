@@ -95,8 +95,9 @@ class _CategoryPageState extends State<CategoryPage> {
 #KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
                                   );
 
-                                  if (result.status == ShareResultStatus.success) {
-                                    print('Thank you for sharing my website!');
+                                  if (result.status == ShareResultStatus.success && context.mounted) {
+                                    result.raw;
+                                    context.successNotification(message: 'Thank you for sharing ${category.name.full}');
                                   }
                                 },
                               );

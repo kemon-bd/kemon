@@ -83,7 +83,7 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      selected ? Icons.circle : Icons.circle_outlined,
+                                      selected ? Icons.check_circle_rounded : Icons.circle_outlined,
                                       size: Dimension.radius.twenty,
                                       color: selected ? theme.primary : theme.textPrimary,
                                     ),
