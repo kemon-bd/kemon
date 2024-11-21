@@ -12,6 +12,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
   FindBusinessesByCategoryBloc({required this.find}) : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
       emit(FindBusinessesByCategoryLoading(
+        query: event.query ?? '',
         sortBy: event.sort ?? SortBy.recommended,
         ratings: event.ratings,
         division: event.division,
@@ -22,6 +23,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
       final result = await find(
         category: event.category,
         page: 1,
+        query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         division: event.division,
         district: event.district,
@@ -32,6 +34,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
       result.fold(
         (failure) => emit(FindBusinessesByCategoryError(
           failure: failure,
+          query: event.query ?? '',
           sortBy: event.sort ?? SortBy.recommended,
           ratings: event.ratings,
           division: event.division,
@@ -45,6 +48,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
             total: response.total,
             businesses: response.businesses,
             related: response.related,
+            query: event.query ?? '',
             sortBy: event.sort ?? SortBy.recommended,
             ratings: event.ratings,
             division: event.division,
@@ -64,6 +68,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
           page: event.page,
           businesses: oldState.businesses,
           related: oldState.related,
+          query: event.query ?? '',
           sortBy: event.sort ?? SortBy.recommended,
           ratings: event.ratings,
           division: event.division,
@@ -74,6 +79,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
         final result = await find(
           category: event.category,
           page: event.page,
+          query: event.query ?? '',
           sort: event.sort ?? SortBy.recommended,
           division: event.division,
           district: event.district,
@@ -84,6 +90,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
         result.fold(
           (failure) => emit(FindBusinessesByCategoryError(
             failure: failure,
+            query: event.query ?? '',
             sortBy: event.sort ?? SortBy.recommended,
             ratings: event.ratings,
             division: event.division,
@@ -97,6 +104,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
               total: response.total,
               businesses: response.businesses,
               related: response.related,
+              query: event.query ?? '',
               sortBy: event.sort ?? SortBy.recommended,
               ratings: event.ratings,
               division: event.division,

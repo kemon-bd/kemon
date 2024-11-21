@@ -6,6 +6,7 @@ import '../../business.dart';
 typedef CategoryKey = ({
   int page,
   String category,
+  String? query,
   SortBy? sort,
   LookupEntity? division,
   LookupEntity? district,
@@ -43,6 +44,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   FutureOr<BusinessesByCategoryPaginatedResponse> findCategory({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -57,6 +59,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
       final key = (
         page: p,
         category: category,
+        query: query,
         sort: sort,
         division: division,
         district: district,
@@ -97,6 +100,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   FutureOr<void> addCategory({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -108,6 +112,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     final key = (
       page: page,
       category: category,
+      query: query,
       sort: sort,
       division: division,
       district: district,
@@ -117,30 +122,5 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     );
     _category[key] = response;
     addAll(businesses: response.businesses);
-  }
-
-  @override
-  FutureOr<void> removeCategory({
-    required int page,
-    required String category,
-    required SortBy? sort,
-    required LookupEntity? division,
-    required LookupEntity? district,
-    required LookupEntity? thana,
-    required SubCategoryEntity? sub,
-    required List<int> ratings,
-  }) {
-    final key = (
-      page: page,
-      category: category,
-      sort: sort,
-      division: division,
-      district: district,
-      thana: thana,
-      sub: sub,
-      ratings: ratings,
-    );
-
-    _category.remove(key);
   }
 }

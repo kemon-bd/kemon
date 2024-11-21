@@ -8,6 +8,7 @@ abstract class FindBusinessesByCategoryEvent extends Equatable {
 }
 
 class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
+  final String? query;
   final SortBy? sort;
   final LookupEntity? division;
   final LookupEntity? district;
@@ -18,6 +19,7 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
 
   const FindBusinessesByCategory({
     required this.category,
+    this.query,
     this.sort,
     this.division,
     this.district,
@@ -26,10 +28,11 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object?> get props => [category, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props => [category, query, sort, division, district, thana, subCategory, ratings];
 }
 
 class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
+  final String? query;
   final SortBy? sort;
   final LookupEntity? division;
   final LookupEntity? district;
@@ -42,6 +45,7 @@ class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
   const PaginateBusinessesByCategory({
     required this.page,
     required this.category,
+    this.query,
     this.sort,
     this.division,
     this.district,
@@ -50,5 +54,5 @@ class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object> get props => [category, page];
+  List<Object?> get props => [category, query, sort, division, district, thana, subCategory, ratings];
 }

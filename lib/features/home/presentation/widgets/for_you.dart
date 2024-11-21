@@ -1,6 +1,7 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../../profile/profile.dart';
+import '../../../search/search.dart';
 
 class DashboardForYouWidget extends StatelessWidget {
   const DashboardForYouWidget({super.key});
@@ -122,7 +123,9 @@ class DashboardForYouWidget extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () async {},
+                            onTap: () async {
+                              context.pushNamed(SearchPage.name);
+                            },
                             borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
                             child: Container(
                               width: double.infinity,

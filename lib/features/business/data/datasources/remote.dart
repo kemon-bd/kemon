@@ -11,6 +11,7 @@ abstract class BusinessRemoteDataSource {
   FutureOr<BusinessesByCategoryPaginatedResponse> category({
     required int page,
     required String urlSlug,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,

@@ -21,6 +21,7 @@ abstract class BusinessRepository {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -31,6 +32,7 @@ abstract class BusinessRepository {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,

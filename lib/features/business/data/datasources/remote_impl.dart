@@ -14,6 +14,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   FutureOr<BusinessesByCategoryPaginatedResponse> category({
     required int page,
     required String urlSlug,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -23,6 +24,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlSlug': urlSlug,
+      'query': query ?? '',
       'pageno': '$page',
       'division': division?.value ?? '',
       'district': district?.value ?? '',

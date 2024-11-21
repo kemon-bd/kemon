@@ -11,6 +11,7 @@ abstract class BusinessLocalDataSource {
   FutureOr<void> addCategory({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -33,17 +34,7 @@ abstract class BusinessLocalDataSource {
   FutureOr<BusinessesByCategoryPaginatedResponse> findCategory({
     required int page,
     required String category,
-    required SortBy? sort,
-    required LookupEntity? division,
-    required LookupEntity? district,
-    required LookupEntity? thana,
-    required SubCategoryEntity? sub,
-    required List<int> ratings,
-  });
-
-  FutureOr<void> removeCategory({
-    required int page,
-    required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,

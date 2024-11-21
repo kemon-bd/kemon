@@ -18,27 +18,28 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final _scrollController = ScrollController();
-  final _isAppBarExpanded = ValueNotifier<bool>(true);
+  final TextEditingController search = TextEditingController();
+
+  final controller = ScrollController();
+  final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = _scrollController.offset <= 200 - kToolbarHeight;
-    if (isExpanded != _isAppBarExpanded.value) {
-      _isAppBarExpanded.value = isExpanded;
+    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    if (isExpanded != expanded.value) {
+      expanded.value = isExpanded;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    controller.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
+    controller.removeListener(_scrollListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -50,11 +51,11 @@ class _CategoryPageState extends State<CategoryPage> {
         return KeyboardDismissOnTap(
           child: Scaffold(
             body: ValueListenableBuilder<bool>(
-              valueListenable: _isAppBarExpanded,
+              valueListenable: expanded,
               builder: (context, isExpanded, _) {
                 return CustomScrollView(
                   cacheExtent: 0,
-                  controller: _scrollController,
+                  controller: controller,
                   slivers: [
                     SliverAppBar(
                       pinned: true,
@@ -114,7 +115,23 @@ class _CategoryPageState extends State<CategoryPage> {
                             vertical: Dimension.padding.vertical.large,
                           ).copyWith(top: 0),
                           child: TextField(
+                            controller: search,
                             style: TextStyles.body(context: context, color: theme.textPrimary),
+                            onChanged: (query) {
+                              final bloc = context.read<FindBusinessesByCategoryBloc>();
+                              final filter = bloc.state;
+
+                              bloc.add(FindBusinessesByCategory(
+                                category: widget.urlSlug,
+                                query: query,
+                                sort: filter.sortBy,
+                                ratings: filter.ratings,
+                                division: filter.division,
+                                district: filter.district,
+                                thana: filter.thana,
+                                subCategory: filter.subCategory,
+                              ));
+                            },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.search_rounded,
@@ -165,7 +182,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             )
                           : null,
                     ),
-                    const SliverToBoxAdapter(child: ListingsWidget()),
+                    SliverToBoxAdapter(child: ListingsWidget(search: search)),
                   ],
                 );
               },
@@ -363,7 +380,12 @@ class TotalCount extends StatelessWidget {
 }
 
 class ListingsWidget extends StatelessWidget {
-  const ListingsWidget({super.key});
+  final TextEditingController search;
+
+  const ListingsWidget({
+    super.key,
+    required this.search,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -398,6 +420,7 @@ class ListingsWidget extends StatelessWidget {
                               context.read<FindBusinessesByCategoryBloc>().add(
                                     PaginateBusinessesByCategory(
                                       page: state.page + 1,
+                                      query: search.text,
                                       category: urlSlug,
                                       sort: state.sortBy,
                                       ratings: state.ratings,

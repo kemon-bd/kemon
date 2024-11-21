@@ -57,6 +57,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -68,6 +69,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
       final result = await local.findCategory(
         category: category,
         page: page,
+        query: query,
         sort: sort,
         division: division,
         district: district,
@@ -81,6 +83,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         final result = await remote.category(
           page: page,
           urlSlug: category,
+          query: query,
           sort: sort,
           division: division,
           district: district,
@@ -92,6 +95,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         await local.addCategory(
           category: category,
           page: page,
+          query: query,
           sort: sort,
           division: division,
           district: district,
@@ -110,6 +114,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
               )
             : await local.findCategory(
                 category: category,
+                query: query,
                 sort: sort,
                 division: division,
                 district: district,
@@ -138,6 +143,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -151,6 +157,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         final result = await remote.category(
           page: page,
           urlSlug: category,
+          query: query,
           sort: sort,
           division: division,
           district: district,
@@ -162,6 +169,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         await local.addCategory(
           category: category,
           page: page,
+          query: query,
           sort: sort,
           division: division,
           district: district,
@@ -181,6 +189,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
             : await local.findCategory(
                 category: category,
                 page: page - 1,
+                query: query,
                 sort: sort,
                 division: division,
                 district: district,

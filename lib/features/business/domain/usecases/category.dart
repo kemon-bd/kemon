@@ -13,6 +13,7 @@ class BusinessesByCategoryUseCase {
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> call({
     required int page,
     required String category,
+    required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
@@ -23,6 +24,7 @@ class BusinessesByCategoryUseCase {
       await repository.category(
         category: category,
         page: page,
+        query: query,
         sort: sort,
         division: division,
         district: district,
