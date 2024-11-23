@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:label="Kemon"
@@ -35,8 +36,70 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="kemon.com.bd" />
+                <data android:scheme="https" />
+            </intent-filter>
         </activity>
 
         <meta-data android:name="flutterEmbedding" android:value="2" />
     </application>
+
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW"/>
+            <data
+                android:scheme="sms"/>
+        </intent>
+        <!-- If your app checks for EMAIL support -->
+        <intent>
+            <action
+                android:name="android.intent.action.SENDTO"/>
+            <data
+                android:scheme="mailto"/>
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW"/>
+            <data
+                android:scheme="tel"/>
+        </intent>
+        <!-- If your app checks for web support -->
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW"/>
+            <category
+                android:name="android.intent.category.BROWSABLE"/>
+            <data
+                android:scheme="https"/>
+        </intent>
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW"/>
+            <category
+                android:name="android.intent.category.BROWSABLE"/>
+            <data
+                android:scheme="www"/>
+        </intent>
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW"/>
+            <category
+                android:name="android.intent.category.BROWSABLE"/>
+            <data
+                android:scheme="http"/>
+        </intent>
+        <intent>
+            <action
+                android:name="android.support.customtabs.action.CustomTabsService"/>
+        </intent>
+    </queries>
 </manifest>

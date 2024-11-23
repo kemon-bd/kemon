@@ -62,13 +62,13 @@ class _CategoryPageState extends State<CategoryPage> {
                       collapsedHeight: context.topInset +
                           kToolbarHeight +
                           Dimension.padding.vertical.min -
-                          (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
+                          /* (Platform.isIOS ?  */ Dimension.size.vertical.twenty /*  : 0) */,
                       expandedHeight: context.topInset +
                           kToolbarHeight +
-                          (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
+                          /* (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) + */
                           Dimension.size.vertical.oneTwelve,
                       leading: IconButton(
-                        icon: const Icon(Icons.arrow_back),
+                        icon: Icon(Icons.arrow_back, color: theme.primary),
                         onPressed: context.pop,
                       ),
                       title: isExpanded
@@ -155,7 +155,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             )
                           : null,
                     ),
-                    SliverToBoxAdapter(child: ListingsWidget(search: search)),
+                    SliverToBoxAdapter(child: ListingsWidget(search: search, urlSlug: widget.urlSlug)),
                   ],
                 );
               },
@@ -390,86 +390,85 @@ class TotalCount extends StatelessWidget {
 }
 
 class ListingsWidget extends StatelessWidget {
+  final String urlSlug;
   final TextEditingController search;
 
   const ListingsWidget({
     super.key,
+    required this.urlSlug,
     required this.search,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return BlocBuilder<FindCategoryBloc, FindCategoryState>(
+    return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
       builder: (context, state) {
-        if (state is FindCategoryDone) {
-          final urlSlug = state.category.urlSlug;
-          return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
-            builder: (context, state) {
-              if (state is FindBusinessesByCategoryLoading) {
-                return ListView.separated(
+        if (state is FindBusinessesByCategoryLoading) {
+          return ListView.separated(
+            itemBuilder: (_, index) {
+              return const BusinessItemShimmerWidget();
+            },
+            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+            itemCount: 10,
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+          );
+        } else if (state is FindBusinessesByCategoryDone) {
+          final businesses = state.businesses;
+          final hasMore = state.total > businesses.length;
+
+          return businesses.isNotEmpty
+              ? ListView.separated(
+                  cacheExtent: 0,
                   itemBuilder: (_, index) {
-                    return const BusinessItemShimmerWidget();
+                    if (index == businesses.length && hasMore) {
+                      if (state is! FindBusinessesByCategoryPaginating) {
+                        context.read<FindBusinessesByCategoryBloc>().add(
+                              PaginateBusinessesByCategory(
+                                page: state.page + 1,
+                                query: search.text,
+                                category: urlSlug,
+                                sort: state.sortBy,
+                                ratings: state.ratings,
+                                division: state.division,
+                                district: state.district,
+                                thana: state.thana,
+                                subCategory: state.subCategory,
+                              ),
+                            );
+                      }
+                      return const BusinessItemShimmerWidget();
+                    }
+                    final business = businesses[index];
+                    return BusinessItemWidget(urlSlug: business.urlSlug);
                   },
                   separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: 10,
+                  itemCount: businesses.length + (hasMore ? 1 : 0),
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+                  padding: EdgeInsets.zero.copyWith(
+                    bottom: Dimension.padding.vertical.max + context.bottomInset,
+                  ),
+                )
+              : Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                    child: Text(
+                      "No listing found :(",
+                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                    ),
+                  ),
                 );
-              } else if (state is FindBusinessesByCategoryDone) {
-                final businesses = state.businesses;
-                final hasMore = state.total > businesses.length;
-
-                return businesses.isNotEmpty
-                    ? ListView.separated(
-                        cacheExtent: 0,
-                        itemBuilder: (_, index) {
-                          if (index == businesses.length && hasMore) {
-                            if (state is! FindBusinessesByCategoryPaginating) {
-                              context.read<FindBusinessesByCategoryBloc>().add(
-                                    PaginateBusinessesByCategory(
-                                      page: state.page + 1,
-                                      query: search.text,
-                                      category: urlSlug,
-                                      sort: state.sortBy,
-                                      ratings: state.ratings,
-                                      division: state.division,
-                                      district: state.district,
-                                      thana: state.thana,
-                                      subCategory: state.subCategory,
-                                    ),
-                                  );
-                            }
-                            return const BusinessItemShimmerWidget();
-                          }
-                          final business = businesses[index];
-                          return BusinessItemWidget(urlSlug: business.urlSlug);
-                        },
-                        separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                        itemCount: businesses.length + (hasMore ? 1 : 0),
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        padding: EdgeInsets.zero.copyWith(
-                          bottom: Dimension.padding.vertical.max + context.bottomInset,
-                        ),
-                      )
-                    : Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: context.height * .25),
-                          child: Text(
-                            "No listing found :(",
-                            style: TextStyles.title(context: context, color: theme.backgroundTertiary),
-                          ),
-                        ),
-                      );
-              } else {
-                return const SizedBox();
-              }
-            },
+        } else if (state is FindBusinessesByCategoryError) {
+          return Text(
+            state.failure.message,
+            style: TextStyles.body(context: context, color: theme.negative),
           );
+        } else {
+          return const SizedBox();
         }
-        return Container();
       },
     );
   }

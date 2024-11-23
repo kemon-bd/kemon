@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<WhatsNewBloc>().add(const CheckForUpdate());
+    FirebaseMessaging.onMessage.listen(firebaseHandler);
 
     if (kReleaseMode) {
       InAppUpdate.checkForUpdate().then(

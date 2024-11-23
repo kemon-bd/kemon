@@ -1,4 +1,6 @@
 //! ----------------- Native -----------------
+export '../../firebase_options.dart';
+
 export 'enums.dart';
 export 'router.dart';
 export 'loading_indicator.dart';
@@ -29,6 +31,7 @@ export 'extension/string.dart';
 export 'extension/text_editing_controller.dart';
 export 'extension/theme.dart';
 export 'extension/token.dart';
+export 'notification/firebase.dart';
 export 'remote/endpoints.dart';
 export 'remote/network_info.dart';
 export 'remote/response.dart';
@@ -97,3 +100,6 @@ export 'package:readmore/readmore.dart';
 export 'package:dots_indicator/dots_indicator.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:share_plus/share_plus.dart';
+export 'package:flutter_web_plugins/url_strategy.dart';
+export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:firebase_core/firebase_core.dart';

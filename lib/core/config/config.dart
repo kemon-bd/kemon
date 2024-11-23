@@ -1,3 +1,4 @@
+
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
 import '../../features/leaderboard/leaderboard.dart';
@@ -37,12 +38,32 @@ class AppConfig {
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+    usePathUrlStrategy();
+
     // Bypass the SSL certificate verification
     HttpOverrides.global = MyHttpOverrides();
 
     HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationCacheDirectory(),
     );
+
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    final FirebaseMessaging messaging = FirebaseMessaging.instance;
+    final NotificationSettings settings = await messaging.getNotificationSettings();
+    FirebaseMessaging.onBackgroundMessage(firebaseHandler);
+    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+      await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+    }
+    final String? token = await messaging.getToken();
+    print(token);
 
     // Initialize the configurations
     await _setupDependencies();

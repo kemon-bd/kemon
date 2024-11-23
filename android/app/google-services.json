@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "974762887289",
+    "project_id": "kemon-public",
+    "storage_bucket": "kemon-public.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974762887289:android:5b5c116c3676d31014eca8",
+        "android_client_info": {
+          "package_name": "bd.com.kemon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqubdSur5tsfI73deWH8ZuBJ5pc-1QgGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-7128703901241959~5428520335"
+    }
+  ],
+  "configuration_version": "1"
+}
