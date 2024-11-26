@@ -10,32 +10,23 @@ class ProfilePointWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 112,
-      height: 18,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (_, state) {
-            final theme = state.scheme;
-            return BlocBuilder<FindProfileBloc, FindProfileState>(
-              builder: (context, state) {
-                if (state is FindProfileDone) {
-                  return Text(
-                    state.profile.kemonIdentity.point.toString(),
-                    style: style ??
-                        TextStyles.subTitle(
-                            context: context, color: theme.textPrimary),
-                  );
-                } else if (state is FindProfileLoading) {
-                  return const ShimmerLabel(width: 112, height: 12, radius: 12);
-                }
-                return Container();
-              },
-            );
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (_, state) {
+        final theme = state.scheme;
+        return BlocBuilder<FindProfileBloc, FindProfileState>(
+          builder: (context, state) {
+            if (state is FindProfileDone) {
+              return Text(
+                state.profile.kemonIdentity.point.toString(),
+                style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
+              );
+            } else if (state is FindProfileLoading) {
+              return const ShimmerLabel(width: 112, height: 12, radius: 12);
+            }
+            return Container();
           },
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -51,8 +42,7 @@ class MyProfilePointWidget extends StatelessWidget {
         final profile = state.profile;
         if (profile != null) {
           return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()
-              ..add(FindProfile(identity: profile.identity)),
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
             child: ProfilePointWidget(style: style),
           );
         }

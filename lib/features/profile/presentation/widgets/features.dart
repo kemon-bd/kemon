@@ -24,12 +24,12 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: theme.backgroundSecondary,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                 border: Border.all(color: theme.backgroundTertiary, width: .25),
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.medium),
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   BlocBuilder<FindProfileBloc, FindProfileState>(
@@ -38,21 +38,27 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                         final identity = state.profile.identity;
                         final name = state.profile.name.first;
                         return ListTile(
-                          leading: const CircleAvatar(
-                            radius: 16,
+                          leading: CircleAvatar(
+                            radius: Dimension.radius.sixteen,
                             backgroundColor: Colors.blue,
                             child: Icon(
                               Icons.reviews_rounded,
-                              color: Colors.white,
-                              size: 16,
+                              color: theme.white,
+                              size: Dimension.radius.sixteen,
                             ),
                           ),
                           title: Text(
                             '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
                             style: TextStyles.title(context: context, color: theme.textPrimary),
                           ),
-                          trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+                          trailing: Icon(
+                            Icons.open_in_new_rounded,
+                            color: theme.backgroundTertiary,
+                            size: Dimension.radius.sixteen,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(Dimension.radius.sixteen)),
+                          ),
                           onTap: () {
                             context.pushNamed(
                               UserReviewsPage.name,
@@ -65,25 +71,62 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       }
                     },
                   ),
-                  const Divider(height: .1, thickness: .1),
+                  const Divider(height: .25, thickness: .25),
                   ListTile(
-                    leading: const CircleAvatar(
-                      radius: 16,
+                    leading: CircleAvatar(
+                      radius: Dimension.radius.sixteen,
                       backgroundColor: Colors.deepOrangeAccent,
                       child: Icon(
                         Icons.emoji_events_rounded,
-                        color: Colors.white,
-                        size: 16,
+                        color: theme.white,
+                        size: Dimension.radius.sixteen,
                       ),
                     ),
-                    title: Text(
+                    subtitle: Text(
                       'Points',
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: TextStyles.body(context: context, color: theme.textSecondary),
                     ),
-                    trailing: ProfilePointWidget(style: TextStyles.title(context: context, color: theme.positive)),
+                    title: ProfilePointWidget(
+                      style: TextStyles.title(context: context, color: theme.positive).copyWith(
+                        fontSize: Dimension.radius.sixteen,
+                        height: 1,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.open_in_new_rounded,
+                      color: theme.backgroundTertiary,
+                      size: Dimension.radius.sixteen,
+                    ),
                     onTap: () {
                       context.pushNamed(LeaderboardPage.name);
                     },
+                  ),
+                  const Divider(height: .25, thickness: .25),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: Dimension.radius.sixteen,
+                      backgroundColor: Colors.deepPurpleAccent,
+                      child: Icon(
+                        Icons.lock_rounded,
+                        color: theme.white,
+                        size: Dimension.radius.sixteen,
+                      ),
+                    ),
+                    title: Text(
+                      "Change password",
+                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                    ),
+                    trailing: Icon(
+                      Icons.open_in_new_rounded,
+                      color: theme.backgroundTertiary,
+                      size: Dimension.radius.sixteen,
+                    ),
+                    onTap: () {
+                      context.pushNamed(LeaderboardPage.name);
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(Dimension.radius.sixteen)),
+                    ),
                   ),
                 ],
               ),
