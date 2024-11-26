@@ -13,14 +13,14 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
         final theme = state.scheme;
         return ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(Dimension.radius.sixteen),
           physics: const NeverScrollableScrollPhysics(),
           children: [
             Text(
               'Account',
               style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Container(
               decoration: BoxDecoration(
                 color: theme.backgroundSecondary,
@@ -29,7 +29,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.medium),
+                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.small),
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   BlocBuilder<FindProfileBloc, FindProfileState>(
@@ -71,7 +71,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       }
                     },
                   ),
-                  const Divider(height: .25, thickness: .25),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .25, color: theme.backgroundTertiary),
                   ListTile(
                     leading: CircleAvatar(
                       radius: Dimension.radius.sixteen,
@@ -101,7 +101,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       context.pushNamed(LeaderboardPage.name);
                     },
                   ),
-                  const Divider(height: .25, thickness: .25),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .25, color: theme.backgroundTertiary),
                   ListTile(
                     leading: CircleAvatar(
                       radius: Dimension.radius.sixteen,

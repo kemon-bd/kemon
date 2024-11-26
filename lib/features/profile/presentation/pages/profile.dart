@@ -53,8 +53,8 @@ class ProfilePage extends StatelessWidget {
               ),
               children: const [
                 ProfileInformationWidget(edit: true),
-                ProfileFeatureOptionsWidget(),
                 ProfileProgressWidget(),
+                ProfileFeatureOptionsWidget(),
                 ProfilePreferenceWidget(),
                 ProfileDangerZoneWidget(),
               ],

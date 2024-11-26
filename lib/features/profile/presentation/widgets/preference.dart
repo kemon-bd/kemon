@@ -11,102 +11,81 @@ class ProfilePreferenceWidget extends StatelessWidget {
         final themeMode = state.mode;
         return ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(Dimension.radius.sixteen),
           physics: const NeverScrollableScrollPhysics(),
           children: [
             Text(
               'Preferences',
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Container(
               decoration: BoxDecoration(
                 color: theme.backgroundSecondary,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                 border: Border.all(color: theme.backgroundTertiary, width: .25),
               ),
               clipBehavior: Clip.antiAlias,
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.small),
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.antiAlias,
                 children: [
                   ListTile(
                     leading: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: themeMode == ThemeMode.dark
-                          ? Colors.indigoAccent
-                          : Colors.lightBlue,
+                      radius: Dimension.radius.sixteen,
+                      backgroundColor: themeMode == ThemeMode.dark ? Colors.indigoAccent : Colors.lightBlue,
                       child: Icon(
-                        themeMode == ThemeMode.dark
-                            ? Icons.dark_mode_rounded
-                            : Icons.light_mode_rounded,
+                        themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                         color: theme.white,
-                        size: 16,
+                        size: Dimension.radius.sixteen,
                       ),
                     ),
                     title: Text(
                       'Theme',
-                      style: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded,
-                        size: 12, color: theme.backgroundTertiary),
+                    trailing:
+                        Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.sixteen, color: theme.backgroundTertiary),
                     onTap: () {
                       context.read<ThemeBloc>().add(const ToggleTheme());
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
                   ),
-                  Divider(
-                      height: .15,
-                      thickness: .15,
-                      color: theme.backgroundTertiary),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .5, color: theme.backgroundTertiary),
                   ListTile(
-                    leading: const CircleAvatar(
-                      radius: 16,
+                    leading: CircleAvatar(
+                      radius: Dimension.radius.sixteen,
                       backgroundColor: Colors.pinkAccent,
-                      child: Icon(Icons.privacy_tip_rounded,
-                          color: Colors.white, size: 16),
+                      child: Icon(Icons.privacy_tip_rounded, color: Colors.white, size: Dimension.radius.sixteen),
                     ),
                     title: Text(
                       'Privacy policy',
-                      style: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.open_in_new_rounded,
-                        color: theme.backgroundTertiary, size: 16),
+                    trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: Dimension.radius.sixteen),
                     onTap: () {
                       launchUrlString(ExternalLinks.privacyPolicy);
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  Divider(
-                      height: .15,
-                      thickness: .15,
-                      color: theme.backgroundTertiary),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .5, color: theme.backgroundTertiary),
                   ListTile(
-                    leading: const CircleAvatar(
-                      radius: 16,
+                    leading: CircleAvatar(
+                      radius: Dimension.radius.sixteen,
                       backgroundColor: Colors.indigoAccent,
-                      child: Icon(Icons.policy_rounded,
-                          color: Colors.white, size: 16),
+                      child: Icon(Icons.policy_rounded, color: theme.white, size: Dimension.radius.sixteen),
                     ),
                     title: Text(
                       'Terms and conditions',
-                      style: TextStyles.title(
-                          context: context, color: theme.textPrimary),
+                      style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
-                    trailing: Icon(Icons.open_in_new_rounded,
-                        color: theme.backgroundTertiary, size: 16),
+                    trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: Dimension.radius.sixteen),
                     onTap: () {
                       launchUrlString(ExternalLinks.termsAndConditions);
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
                   ),
                 ],
               ),

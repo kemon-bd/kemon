@@ -13,14 +13,14 @@ class ProfileDangerZoneWidget extends StatelessWidget {
         final theme = state.scheme;
         return ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(Dimension.radius.sixteen),
           physics: const NeverScrollableScrollPhysics(),
           children: [
             Text(
               'Danger Zone',
               style: TextStyles.subTitle(context: context, color: theme.negative),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Container(
               decoration: BoxDecoration(
                 color: theme.negative.withAlpha(15),
@@ -30,7 +30,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.small),
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.antiAlias,
                 children: [
@@ -49,38 +49,38 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                       },
                       builder: (deactivateContext, state) {
                         return ListTile(
-                          leading: const CircleAvatar(
-                            radius: 16,
+                          leading: CircleAvatar(
+                            radius: Dimension.radius.sixteen,
                             backgroundColor: Colors.deepPurple,
-                            child: Icon(Icons.block_rounded, color: Colors.white, size: 16),
+                            child: Icon(Icons.block_rounded, color: theme.white, size: Dimension.radius.sixteen),
                           ),
                           title: Text(
                             'Deactivate account',
                             style: TextStyles.title(context: context, color: Colors.deepPurple),
                           ),
                           trailing: state is DeactivateAccountLoading
-                              ? const NetworkingIndicator(dimension: 16, color: Colors.deepPurple)
-                              : const Icon(Icons.open_in_new_rounded, color: Colors.deepPurple, size: 16),
+                              ? NetworkingIndicator(dimension: Dimension.radius.sixteen, color: Colors.deepPurple)
+                              : Icon(Icons.open_in_new_rounded, color: Colors.deepPurple, size: Dimension.radius.sixteen),
                           onTap: () {
                             deactivateContext.read<DeactivateAccountBloc>().add(GenerateOtpForAccountDeactivation());
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
                         );
                       },
                     ),
                   ),
-                  Divider(height: .25, thickness: .25, color: theme.negative),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .5, color: theme.negative),
                   ListTile(
                     leading: CircleAvatar(
-                      radius: 16,
+                      radius: Dimension.radius.sixteen,
                       backgroundColor: theme.negative,
-                      child: Icon(Icons.logout_rounded, color: theme.white, size: 16),
+                      child: Icon(Icons.logout_rounded, color: theme.white, size: Dimension.radius.sixteen),
                     ),
                     title: Text(
                       'Logout',
                       style: TextStyles.title(context: context, color: theme.negative),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: theme.negative),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                     onTap: () {
                       context.read<AuthenticationBloc>().add(const AuthenticationLogout());
                     },
