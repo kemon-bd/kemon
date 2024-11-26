@@ -1,33 +1,21 @@
 import '../../../../core/shared/shared.dart';
 import '../../leaderboard.dart';
 
-typedef LeaderboardEntityPaginatedResponse = ({
-  List<LeaderboardEntity> items,
+typedef LeaderboardResponse = ({
+  List<LeaderEntity> leaders,
   int total,
+  DateTime deadline,
 });
-
 abstract class LeaderboardRepository {
-  FutureOr<Either<Failure, void>> create({
-    required LeaderboardEntity leaderboard,
-  });
-
-  FutureOr<Either<Failure, void>> delete({
-    required String guid,
-  });
-
-  FutureOr<Either<Failure, LeaderboardEntity>> find({
-    required String guid,
-  });
-
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> read();
-
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> refresh();
-
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> search({
+  FutureOr<Either<Failure, LeaderboardResponse>> find({
+    required int page,
     required String query,
+    required DateTime from,
+    required DateTime to,
   });
 
-  FutureOr<Either<Failure, void>> update({
-    required LeaderboardEntity leaderboard,
+  FutureOr<Either<Failure, LeaderboardResponse>> refresh({
+    required DateTime from,
+    required DateTime to,
   });
 }

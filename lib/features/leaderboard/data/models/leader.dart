@@ -1,16 +1,20 @@
 import '../../../../core/shared/shared.dart';
 import '../../leaderboard.dart';
 
-class LeaderboardModel extends LeaderboardEntity {
-  const LeaderboardModel({
-    required super.guid,
+class LeaderModel extends LeaderEntity {
+  const LeaderModel({
+    required super.identity,
+    required super.point,
   });
 
-  factory LeaderboardModel.parse({
+  factory LeaderModel.parse({
     required Map<String, dynamic> map,
   }) {
     try {
-      throw UnimplementedError();
+      return LeaderModel(
+        identity: Identity.guid(guid: map['userId']),
+        point: map['point'],
+      );
     } catch (e, stackTrace) {
       throw LeaderboardModelParseFailure(
         message: e.toString(),

@@ -125,8 +125,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(
-            token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);
@@ -174,6 +173,46 @@ class ReviewRepositoryImpl extends ReviewRepository {
     try {
       if (await network.online) {
         final reviews = await remote.recent();
+
+        return Right(reviews);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
+    required Identity review,
+  }) async {
+    try {
+      if (await network.online) {
+        final reviews = await remote.reactions(review: review);
+
+        return Right(reviews);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, void>> react({
+    required Identity review,
+    required Reaction reaction,
+  }) async {
+    try {
+      if (await network.online) {
+        final reviews = await remote.react(
+          token: auth.token!,
+          user: auth.identity!,
+          review: review,
+          reaction: reaction,
+        );
 
         return Right(reviews);
       } else {

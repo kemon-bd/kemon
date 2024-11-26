@@ -4,7 +4,6 @@ import '../../leaderboard.dart';
 class LeaderboardRepositoryImpl extends LeaderboardRepository {
   final NetworkInfo network;
   final LeaderboardLocalDataSource local;
-
   final LeaderboardRemoteDataSource remote;
 
   LeaderboardRepositoryImpl({
@@ -14,62 +13,35 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   });
 
   @override
-  FutureOr<Either<Failure, void>> create({
-    required LeaderboardEntity leaderboard,
-  }) async {
-    try {
-      if (await network.online) {
-        final result = await remote.create(leaderboard: leaderboard);
-
-        await local.add(leaderboard: leaderboard);
-
-        return Right(result);
-      } else {
-        return Left(NoInternetFailure());
-      }
-    } on Failure catch (e) {
-      return Left(e);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, void>> delete({
-    required String guid,
-  }) async {
-    try {
-      if (await network.online) {
-        await remote.delete(
-          guid: guid,
-        );
-
-        await local.remove(
-          guid: guid,
-        );
-
-        return const Right(null);
-      } else {
-        return Left(NoInternetFailure());
-      }
-    } on Failure catch (e) {
-      return Left(e);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, LeaderboardEntity>> find({
-    required String guid,
+  FutureOr<Either<Failure, LeaderboardResponse>> find({
+    required int page,
+    required String query,
+    required DateTime from,
+    required DateTime to,
   }) async {
     try {
       final result = await local.find(
-        guid: guid,
+        page: page,
+        query: query,
+        from: from,
+        to: to,
       );
       return Right(result);
     } on LeaderboardNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find(
-          guid: guid,
+          page: page,
+          query: query,
+          from: from,
+          to: to,
         );
-        await local.add(leaderboard: result);
+        await local.add(
+          page: page,
+          query: query,
+          from: from,
+          to: to,
+          leaderboard: result,
+        );
         return Right(result);
       } else {
         return Left(NoInternetFailure());
@@ -80,71 +52,22 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   }
 
   @override
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> read() async {
-    try {
-      if (await network.online) {
-        final result = await remote.read();
-
-        await local.addAll(items: result);
-
-        return Right(result);
-      } else {
-        return Left(NoInternetFailure());
-      }
-    } on Failure catch (e) {
-      return Left(e);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> refresh() async {
+  FutureOr<Either<Failure, LeaderboardResponse>> refresh({
+    required DateTime from,
+    required DateTime to,
+  }) async {
     try {
       if (await network.online) {
         await local.removeAll();
 
-        final result = await remote.refresh();
-
-        await local.addAll(items: result);
-
-        return Right(result);
-      } else {
-        return Left(NoInternetFailure());
-      }
-    } on Failure catch (e) {
-      return Left(e);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> search({
-    required String query,
-  }) async {
-    try {
-      if (await network.online) {
-        final result = await remote.search(
-          query: query,
+        final result = await remote.find(
+          page: 1,
+          query: '',
+          from: from,
+          to: to,
         );
 
-        await local.addAll(items: result);
-
-        return Right(result);
-      } else {
-        return Left(NoInternetFailure());
-      }
-    } on Failure catch (e) {
-      return Left(e);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, void>> update({
-    required LeaderboardEntity leaderboard,
-  }) async {
-    try {
-      if (await network.online) {
-        final result = await remote.update(leaderboard: leaderboard);
-
-        await local.update(leaderboard: leaderboard);
+        await local.add(page: 1, query: '', from: from, to: to, leaderboard: result);
 
         return Right(result);
       } else {

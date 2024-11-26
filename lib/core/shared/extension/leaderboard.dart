@@ -1,5 +1,5 @@
 import '../../../features/leaderboard/leaderboard.dart';
 
-extension LeaderboardEntityExtension on LeaderboardEntity {}
+extension LeaderboardEntityExtension on LeaderEntity {}
 
-extension LeaderboardModelExtension on LeaderboardModel {}
+extension LeaderboardModelExtension on LeaderModel {}

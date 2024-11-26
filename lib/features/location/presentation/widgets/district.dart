@@ -118,7 +118,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.lookups[index];
-                                        final bool selected = place.value.like(as: widget.district?.value);
+                                        final bool selected = place.value.same(as: widget.district?.value);
 
                                         return InkWell(
                                           onTap: () {

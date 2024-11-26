@@ -8,7 +8,10 @@ class RefreshLeaderboardUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, List<LeaderboardEntity>>> call() async {
-    return await repository.refresh();
+  FutureOr<Either<Failure, LeaderboardResponse>> call({
+    required DateTime from,
+    required DateTime to,
+  }) async {
+    return await repository.refresh(from: from, to: to);
   }
 }

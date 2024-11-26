@@ -1,4 +1,7 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../profile/profile.dart';
+import '../../leaderboard.dart';
 
 class LeaderboardPage extends StatefulWidget {
   static const String path = '/leaderboard';
@@ -10,191 +13,147 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
+  final TextEditingController search = TextEditingController();
   LeaderboardFilter filter = LeaderboardFilter.monthly;
+
+  final controller = ScrollController();
+  final expanded = ValueNotifier<bool>(true);
+
+  void _scrollListener() {
+    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    if (isExpanded != expanded.value) {
+      expanded.value = isExpanded;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_scrollListener);
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         final theme = state.scheme;
-        return Scaffold(
-          backgroundColor: theme.primary,
-          appBar: AppBar(
-            backgroundColor: theme.primary,
-            leading: IconButton(
-              onPressed: context.pop,
-              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
-            ),
-            title: Text(
-              'Leaderboard',
-              style: TextStyles.title(context: context, color: theme.white),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: FaIcon(FontAwesomeIcons.gift, color: theme.white, size: 20),
-              ),
-              const SizedBox(width: 16),
-            ],
-          ),
-          body: Column(
-            children: [
-              Container(
-                width: context.width,
-                margin: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: theme.positiveBackgroundSecondary,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: CupertinoSlidingSegmentedControl<LeaderboardFilter>(
-                  groupValue: filter,
-                  backgroundColor: theme.positiveBackgroundTertiary,
-                  thumbColor: theme.primary,
-                  padding: const EdgeInsets.all(8),
-                  children: {
-                    LeaderboardFilter.monthly: filterBuilder(
-                      label: 'Monthly',
-                      selected: filter == LeaderboardFilter.monthly,
-                      theme: theme,
-                    ),
-                    LeaderboardFilter.yearly: filterBuilder(
-                      label: 'Yearly',
-                      selected: filter == LeaderboardFilter.yearly,
-                      theme: theme,
-                    ),
-                    LeaderboardFilter.allTime: filterBuilder(
-                      label: 'All Time',
-                      selected: filter == LeaderboardFilter.allTime,
-                      theme: theme,
-                    ),
-                  },
-                  onValueChanged: (selection) {
-                    if (selection != null) {
-                      setState(() {
-                        filter = selection;
-                      });
-                    }
-                  },
-                ),
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: ListView(
-                        padding: const EdgeInsets.all(16).copyWith(top: 0),
-                        clipBehavior: Clip.antiAlias,
-                        children: [
-                          SizedBox(
-                            width: context.width,
-                            height: 113 + 148,
-                            child: Row(
-                              children: [
-                                Expanded(flex: 1, child: secondPlace()),
-                                Expanded(flex: 1, child: firstPlace()),
-                                Expanded(flex: 1, child: thirdPlace()),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(0).copyWith(bottom: 64 + context.bottomInset),
-                            physics: const NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) => const Divider(height: 16, thickness: .1),
-                            itemBuilder: (_, index) {
-                              final rank = index + 4;
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 42,
-                                      child: Text(
-                                        '#$rank',
-                                        style: TextStyles.title(context: context, color: theme.white),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Ranked user $rank',
-                                            style: TextStyles.title(context: context, color: theme.white),
-                                          ),
-                                          Text(
-                                            '@user$rank',
-                                            style: TextStyles.caption(context: context, color: theme.semiWhite),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                      NumberFormat('###,###,###,###').format(99999 - index),
-                                      style: TextStyles.subTitle(context: context, color: theme.white),
-                                    ),
-                                  ],
+        return KeyboardDismissOnTap(
+          child: Scaffold(
+            body: ValueListenableBuilder<bool>(
+              valueListenable: expanded,
+              builder: (context, isExpanded, _) {
+                return CustomScrollView(
+                  cacheExtent: 0,
+                  controller: controller,
+                  slivers: [
+                    SliverAppBar(
+                      pinned: true,
+                      collapsedHeight: context.topInset +
+                          kToolbarHeight +
+                          Dimension.padding.vertical.min -
+                          /* (Platform.isIOS ?  */ Dimension.size.vertical.twenty /*  : 0) */,
+                      expandedHeight: context.topInset +
+                          kToolbarHeight +
+                          /* (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) + */
+                          Dimension.size.vertical.oneTwelve,
+                      leading: IconButton(
+                        icon: Icon(Icons.arrow_back, color: theme.primary),
+                        onPressed: context.pop,
+                      ),
+                      title: isExpanded
+                          ? null
+                          : Text(
+                              "Leaderboard",
+                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
+                                  .copyWith(fontSize: Dimension.radius.twenty),
+                            ).animate().fade(),
+                      actions: [
+                        const ShareButton(),
+                      ],
+                      bottom: PreferredSize(
+                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimension.padding.horizontal.max,
+                            vertical: Dimension.padding.vertical.large,
+                          ).copyWith(top: 0),
+                          child: TextField(
+                            controller: search,
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            onChanged: (query) {
+                              final bloc = context.read<FindLeaderboardBloc>();
+                              final filter = bloc.state;
+
+                              bloc.add(
+                                FindLeaderboard(
+                                  query: query,
+                                  from: filter.from,
+                                  to: filter.to,
                                 ),
                               );
                             },
-                            itemCount: 47,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.search_rounded,
+                                size: Dimension.radius.sixteen,
+                                color: theme.textSecondary,
+                              ),
+                              hintText: 'Find company or products...',
+                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: Dimension.padding.horizontal.max,
+                                vertical: Dimension.padding.vertical.large,
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 8 + context.bottomInset,
-                      left: 16,
-                      right: 16,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.positiveBackgroundTertiary,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 54,
-                              child: Text(
-                                '#624',
-                                style: TextStyles.title(context: context, color: theme.black),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'YOU',
-                                    style: TextStyles.title(context: context, color: theme.black),
-                                  ),
-                                  Text(
-                                    '@username',
-                                    style: TextStyles.caption(context: context, color: theme.semiBlack),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              NumberFormat('###,###,###,###').format(6224),
-                              style: TextStyles.subTitle(context: context, color: theme.black),
-                            ),
-                          ],
                         ),
                       ),
+                      flexibleSpace: isExpanded
+                          ? FlexibleSpaceBar(
+                              background: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: Dimension.padding.horizontal.max,
+                                ).copyWith(top: context.topInset + kToolbarHeight),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Leaderboard",
+                                          style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
+                                              .copyWith(fontSize: Dimension.radius.twentyFour),
+                                        ).animate().fade(),
+                                        IconWidget(),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        SortButton(),
+                                        const SizedBox(width: 16),
+                                        const Spacer(),
+                                        TotalCount(),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : null,
                     ),
+                    SliverToBoxAdapter(child: ListingsWidget(search: search)),
                   ],
-                ),
-              ),
-            ],
+                );
+              },
+            ),
           ),
         );
       },
@@ -512,6 +471,252 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  const ShareButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return IconButton(
+      icon: Icon(Icons.share, color: theme.primary),
+      onPressed: () async {
+        final result = await Share.share(
+          """🌟 Discover the Best, Rated by the Rest! 🌟
+🚀 Explore authentic reviews and ratings on Kemon!
+💬 Real People. Real Reviews. Make smarter decisions today.
+👀 Check out Leaderboard(https://kemon.com.bd/leaderboard) now and share your experience with the community!
+
+📲 Join the conversation on Kemon – Bangladesh's Premier Review Platform!
+
+#KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
+        );
+
+        if (result.status == ShareResultStatus.success && context.mounted) {
+          result.raw;
+          context.successNotification(message: 'Thank you for sharing Leaderboard');
+        }
+      },
+    );
+  }
+}
+class SortButton extends StatelessWidget {
+  const SortButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return InkWell(
+      onTap: () {
+        /* showModalBottomSheet(
+          context: context,
+          backgroundColor: theme.backgroundPrimary,
+          barrierColor: context.barrierColor,
+          isScrollControlled: true,
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<FindLeaderboardBloc>()),
+              BlocProvider.value(value: context.read<FindCategoryBloc>()),
+            ],
+            child: const SortBusinessesByCategoryWidget(),
+          ),
+        ); */
+      },
+      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimension.padding.horizontal.ultraMax,
+          vertical: Dimension.padding.vertical.medium,
+        ),
+        decoration: BoxDecoration(
+          color: theme.link.withAlpha(50),
+          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
+            Text(
+              'Sort',
+              style: TextStyles.caption(context: context, color: theme.link),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class IconWidget extends StatelessWidget {
+  const IconWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return Container(
+      padding: EdgeInsets.all(Dimension.radius.eight),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: theme.backgroundTertiary),
+        borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+      ),
+      child: Icon(
+        Icons.local_activity,
+        size: Dimension.radius.twenty,
+        color: theme.backgroundTertiary,
+      ),
+    );
+  }
+}
+
+class TotalCount extends StatelessWidget {
+  const TotalCount({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return BlocBuilder<FindLeaderboardBloc, FindLeaderboardState>(
+      builder: (context, state) {
+        if (state is FindLeaderboardDone) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                state.total.toString(),
+                style: TextStyles.title(context: context, color: theme.textPrimary),
+              ),
+              Text(
+                "Participients",
+                style: TextStyles.body(context: context, color: theme.textSecondary),
+              ),
+            ],
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
+class ListingsWidget extends StatelessWidget {
+  final TextEditingController search;
+
+  const ListingsWidget({
+    super.key,
+    required this.search,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return BlocBuilder<FindLeaderboardBloc, FindLeaderboardState>(
+      builder: (context, state) {
+        if (state is FindLeaderboardLoading) {
+          return ListView.separated(
+            itemBuilder: (_, index) {
+              return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
+            },
+            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+            itemCount: 10,
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+          );
+        } else if (state is FindLeaderboardDone) {
+          final participients = state.leaders;
+          final hasMore = state.total > participients.length;
+
+          return participients.isNotEmpty
+              ? ListView.separated(
+                  cacheExtent: 0,
+                  itemBuilder: (_, index) {
+                    if (index == participients.length && hasMore) {
+                      if (state is! FindLeaderboardPaginating) {
+                        context.read<FindLeaderboardBloc>().add(
+                              PaginateLeaderboard(
+                                page: state.page + 1,
+                                query: search.text,
+                                from: DateTime.now(),
+                                to: DateTime.now(),
+                              ),
+                            );
+                      }
+                      return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
+                    }
+                    final leader = participients[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: theme.positiveBackgroundTertiary,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 54,
+                            child: Text(
+                              '#${index + 1}',
+                              style: TextStyles.title(context: context, color: theme.black),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: BlocProvider(
+                              create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: leader.identity)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ProfileNameWidget(
+                                    style: TextStyles.title(context: context, color: theme.black),
+                                  ),
+                                  ProfileUsernameWidget(
+                                    style: TextStyles.caption(context: context, color: theme.semiBlack),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Text(
+                            NumberFormat('###,###,###,###').format(leader.point),
+                            style: TextStyles.subTitle(context: context, color: theme.black),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                  itemCount: participients.length + (hasMore ? 1 : 0),
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  padding: EdgeInsets.zero.copyWith(
+                    bottom: Dimension.padding.vertical.max + context.bottomInset,
+                  ),
+                )
+              : Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                    child: Text(
+                      "No leaders found :(",
+                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                    ),
+                  ),
+                );
+        } else if (state is FindLeaderboardError) {
+          return Text(
+            state.failure.message,
+            style: TextStyles.body(context: context, color: theme.negative),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }

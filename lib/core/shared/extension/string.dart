@@ -14,15 +14,15 @@ extension StringExtension on String {
   }
 
   WhatsNewType get toWhatsNewType {
-    if (like(as: WhatsNewType.bug.key)) {
+    if (same(as: WhatsNewType.bug.key)) {
       return WhatsNewType.bug;
-    } else if (like(as: WhatsNewType.feature.key)) {
+    } else if (same(as: WhatsNewType.feature.key)) {
       return WhatsNewType.feature;
-    } else if (like(as: WhatsNewType.ui.key)) {
+    } else if (same(as: WhatsNewType.ui.key)) {
       return WhatsNewType.ui;
-    } else if (like(as: WhatsNewType.security.key)) {
+    } else if (same(as: WhatsNewType.security.key)) {
       return WhatsNewType.security;
-    } else if (like(as: WhatsNewType.performance.key)) {
+    } else if (same(as: WhatsNewType.performance.key)) {
       return WhatsNewType.performance;
     } else {
       return WhatsNewType.ux;
@@ -35,16 +35,16 @@ extension StringExtension on String {
   }
 
   bool get zero {
-    if (like(as: '0') ||
-        like(as: '00') ||
-        like(as: '0.0') ||
-        like(as: '0.00')) return true;
+    if (same(as: '0') ||
+        same(as: '00') ||
+        same(as: '0.0') ||
+        same(as: '0.00')) return true;
     return false;
   }
 }
 
 extension NullableStringExtension on String? {
-  bool like({
+  bool same({
     required String? as,
   }) {
     if (this == null) return false;

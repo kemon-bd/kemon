@@ -9,3 +9,5 @@ enum SortBy { recommended, highestRated, mostReviewed }
 enum LeaderboardFilter { monthly, yearly, allTime }
 
 enum WhatsNewType { bug, feature, ui, ux, performance, security }
+
+enum Reaction { dislike, like }

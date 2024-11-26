@@ -9,13 +9,13 @@ class RegistrationPage extends StatefulWidget {
   static const String path = '/registration';
   static const String name = 'RegistrationPage';
 
-  final bool fallback;
+  final bool authorize;
   final String username;
 
   const RegistrationPage({
     super.key,
     required this.username,
-    this.fallback = false,
+    this.authorize = false,
   });
 
   @override
@@ -43,8 +43,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
             body: BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (_, state) {
                 if (state.profile != null) {
-                  if (widget.fallback) {
-                    context.pop(true);
+                  if (widget.authorize) {
+                    context.pop(state.profile);
                   } else {
                     context.goNamed(HomePage.name);
                     context.pushNamed(ProfilePage.name);

@@ -29,23 +29,6 @@ class BusinessPage extends StatelessWidget {
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
               onPressed: context.pop,
             ),
-            title: BlocBuilder<FindBusinessBloc, FindBusinessState>(
-              builder: (context, state) {
-                if (state is FindBusinessDone) {
-                  final business = state.business;
-                  return Text(
-                    business.name.full,
-                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                      fontWeight: FontWeight.bold,
-                      height: 1.1,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  );
-                }
-                return Container();
-              },
-            ),
             centerTitle: false,
             actions: [
               IconButton(
@@ -69,7 +52,8 @@ class BusinessPage extends StatelessWidget {
             onRefresh: () async {
               context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: urlSlug));
               context.read<FindRatingBloc>().add(RefreshRating(urlSlug: urlSlug));
-              context.read<FindListingReviewsBloc>().add(RefreshListingReviews(urlSlug: urlSlug));
+              final reviewBloc = context.read<FindListingReviewsBloc>();
+              reviewBloc.add(RefreshListingReviews(urlSlug: urlSlug, filter: reviewBloc.state.filter));
             },
             child: ListView(
               padding: EdgeInsets.zero,

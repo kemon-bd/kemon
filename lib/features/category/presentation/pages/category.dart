@@ -75,8 +75,10 @@ class _CategoryPageState extends State<CategoryPage> {
                           ? null
                           : NameWidget(
                               urlSlug: widget.urlSlug,
-                              fontSize: Dimension.radius.twenty,
+                              fontSize: Dimension.radius.sixteen,
+                              maxLines: 2,
                             ).animate().fade(),
+                            centerTitle: false,
                       actions: [
                         const ShareButton(),
                       ],
@@ -132,9 +134,11 @@ class _CategoryPageState extends State<CategoryPage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
-                                            .animate()
-                                            .fade(),
+                                        Expanded(
+                                          child: NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
+                                              .animate()
+                                              .fade(),
+                                        ),
                                         IconWidget(urlSlug: widget.urlSlug),
                                       ],
                                     ),
@@ -305,10 +309,12 @@ class SortButton extends StatelessWidget {
 class NameWidget extends StatelessWidget {
   final String urlSlug;
   final double? fontSize;
+  final int? maxLines;
   const NameWidget({
     super.key,
     required this.urlSlug,
     this.fontSize,
+    this.maxLines,
   });
 
   @override
@@ -324,7 +330,7 @@ class NameWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: fontSize ?? Dimension.radius.twelve,
             ),
-            maxLines: 2,
+            maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
           );
         }

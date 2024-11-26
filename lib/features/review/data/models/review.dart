@@ -99,7 +99,7 @@ class ReviewModel extends ReviewEntity {
       final int likes = map['likes'] as int;
 
       return ReviewModel(
-        identity: Identity.guid(guid: guid),
+        identity: Identity(id: map['id'] ?? -1, guid: guid),
         user: Identity.guid(guid: userGuid),
         listing: urlSlug,
         rating: rating,

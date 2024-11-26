@@ -105,7 +105,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.lookups[index];
-                                        final bool selected = place.value.like(as: widget.division?.value);
+                                        final bool selected = place.value.same(as: widget.division?.value);
         
                                         return InkWell(
                                           onTap: () {

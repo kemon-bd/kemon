@@ -1,4 +1,3 @@
-
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
 import '../../features/leaderboard/leaderboard.dart';
@@ -62,8 +61,6 @@ class AppConfig {
         sound: true,
       );
     }
-    final String? token = await messaging.getToken();
-    print(token);
 
     // Initialize the configurations
     await _setupDependencies();

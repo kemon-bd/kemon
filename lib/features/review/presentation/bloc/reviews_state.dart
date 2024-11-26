@@ -1,18 +1,29 @@
 part of 'reviews_bloc.dart';
 
 abstract class FindListingReviewsState extends Equatable {
-  const FindListingReviewsState();
+  final List<int> filter;
+  const FindListingReviewsState({
+    this.filter = const [],
+  });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [filter];
 }
 
 class FindListingReviewsInitial extends FindListingReviewsState {
-  const FindListingReviewsInitial();
+  const FindListingReviewsInitial() : super(filter: const []);
+
+  @override
+  List<Object> get props => [filter];
 }
 
 class FindListingReviewsLoading extends FindListingReviewsState {
-  const FindListingReviewsLoading();
+  const FindListingReviewsLoading({
+    required super.filter,
+  });
+
+  @override
+  List<Object> get props => [filter];
 }
 
 class FindListingReviewsError extends FindListingReviewsState {
@@ -20,17 +31,21 @@ class FindListingReviewsError extends FindListingReviewsState {
 
   const FindListingReviewsError({
     required this.failure,
+    required super.filter,
   });
 
   @override
-  List<Object> get props => [failure];
+  List<Object> get props => [failure, filter];
 }
 
 class FindListingReviewsDone extends FindListingReviewsState {
   final List<ReviewEntity> reviews;
 
-  const FindListingReviewsDone({required this.reviews});
+  const FindListingReviewsDone({
+    required this.reviews,
+    required super.filter,
+  });
 
   @override
-  List<Object> get props => [reviews];
+  List<Object> get props => [reviews, filter];
 }

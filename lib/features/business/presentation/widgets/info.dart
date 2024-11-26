@@ -34,6 +34,16 @@ class BusinessInformationWidget extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   children: [
+                    BusinessNameWidget(
+                      style: TextStyles.bigHeadline(
+                        context: context,
+                        color: theme.textPrimary,
+                      ).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                    ),
+                    SizedBox(height: Dimension.padding.vertical.medium),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

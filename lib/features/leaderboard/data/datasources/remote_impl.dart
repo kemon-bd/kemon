@@ -9,47 +9,42 @@ class LeaderboardRemoteDataSourceImpl extends LeaderboardRemoteDataSource {
   });
 
   @override
-  FutureOr<void> create({
-    required LeaderboardEntity leaderboard,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<void> delete({
-    required String guid,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<LeaderboardModel> find({
-    required String guid,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<List<LeaderboardModel>> read() async {
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<List<LeaderboardModel>> refresh() async {
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<List<LeaderboardModel>> search({
+  FutureOr<LeaderboardResponse> find({
+    required int page,
     required String query,
+    required DateTime from,
+    required DateTime to,
   }) async {
-    throw UnimplementedError();
-  }
+    /// ! Real API
+    /// final Map<String, String> headers = {
+    ///   "page": page.toString(),
+    ///   "query": query,
+    ///   "from": from.toIso8601String(),
+    ///   "to": to.toIso8601String(),
+    /// };
+    /// final response = await client.get(RemoteEndpoints.leaderboard, headers: headers);
+    ///
+    /// ? MOCKED VERSION
+    final content = await rootBundle.loadString('api/leaderboard.json');
+    final response = Response(content, HttpStatus.ok);
 
-  @override
-  FutureOr<void> update({
-    required LeaderboardEntity leaderboard,
-  }) async {
-    throw UnimplementedError();
+    final RemoteResponse<Map<String, dynamic>> remote = RemoteResponse.parse(response: response);
+
+    if (remote.success) {
+      final int total = remote.result!['total'];
+      final DateTime deadline = DateTime.parse(remote.result!['deadline']);
+      final List<LeaderEntity> leaders = List<dynamic>.from(remote.result!['leaders'])
+          .map(
+            (e) => LeaderModel.parse(map: e),
+          )
+          .toList();
+      return (
+        total: total,
+        deadline: deadline,
+        leaders: leaders,
+      );
+    } else {
+      throw RemoteFailure(message: remote.error ?? response.body);
+    }
   }
 }

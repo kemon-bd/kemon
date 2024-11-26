@@ -5,14 +5,19 @@ Future<void> get leaderboardDependencies async {
 
   sl.registerFactory(
     () => FindLeaderboardBloc(
-      useCase: sl(),
+      find: sl(),
+      refresh: sl(),
     ),
   );
 
   //! ----------------- UseCase -----------------
-
   sl.registerFactory(
     () => FindLeaderboardUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshLeaderboardUseCase(
       repository: sl(),
     ),
   );

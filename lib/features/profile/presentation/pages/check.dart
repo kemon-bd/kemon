@@ -5,10 +5,10 @@ import '../../profile.dart';
 class CheckProfilePage extends StatefulWidget {
   static const String path = '/check-profile';
   static const String name = 'CheckProfilePage';
-  final String? redirectTo;
+  final bool authorize;
   const CheckProfilePage({
     super.key,
-    this.redirectTo,
+    this.authorize = false,
   });
 
   @override
@@ -137,27 +137,31 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: BlocConsumer<CheckProfileBloc, CheckProfileState>(
-                            listener: (context, state) {
+                            listener: (context, state) async {
                               if (state is CheckProfileError) {
                                 context.errorNotification(message: state.failure.message);
                               } else if (state is CheckProfileExistingUser) {
-                                context.pushReplacementNamed(
+                                final ProfileModel? profile = await context.pushNamed(
                                   LoginPage.name,
                                   queryParameters: {
                                     'guid': state.profile.identity.guid,
                                     'username': usernameController.text,
-                                    'redirectTo': widget.redirectTo,
+                                    'authorize': widget.authorize.toString(),
                                   },
                                 );
+                                if (!context.mounted) return;
+                                context.pop(profile);
                               } else if (state is CheckProfileNewUser) {
-                                context.pushReplacementNamed(
+                                final ProfileModel? profile = await context.pushNamed(
                                   VerifyOTPPage.name,
                                   queryParameters: {
                                     'username': usernameController.text,
                                     'otp': state.otp,
-                                    'redirectTo': widget.redirectTo,
+                                    'authorize': widget.authorize.toString(),
                                   },
                                 );
+                                if (!context.mounted) return;
+                                context.pop(profile);
                               }
                             },
                             builder: (context, state) {

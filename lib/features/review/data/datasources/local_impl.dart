@@ -65,7 +65,7 @@ class ReviewLocalDataSourceImpl extends ReviewLocalDataSource {
     required ReviewEntity review,
   }) {
     final index = _cache[key]?.indexWhere(
-          (r) => r.identity.guid.like(as: review.identity.guid),
+          (r) => r.identity.guid.same(as: review.identity.guid),
         ) ??
         -1;
     if (!index.isNegative) {

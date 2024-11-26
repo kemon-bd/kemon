@@ -37,6 +37,16 @@ Future<void> get reviewDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => ReactionBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ReactOnReviewBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -71,6 +81,16 @@ Future<void> get reviewDependencies async {
   );
   sl.registerFactory(
     () => RecentReviewsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindReviewReactionsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ReactOnReviewUseCase(
       repository: sl(),
     ),
   );

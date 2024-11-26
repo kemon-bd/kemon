@@ -13,7 +13,7 @@ class BusinessReviewsWidget extends StatelessWidget {
         } else if (state is FindListingReviewsError) {
           return Center(child: Text(state.failure.message));
         } else if (state is FindListingReviewsDone) {
-          final List<ReviewEntity> reviews = state.reviews;
+          final List<ReviewEntity> reviews = state.reviews.filter(options: state.filter);
 
           return ListView.separated(
             itemBuilder: (_, index) {

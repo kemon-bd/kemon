@@ -118,7 +118,7 @@ class _ThanaFilterWidgetState extends State<ThanaFilterWidget> {
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.lookups[index];
-                                        final bool selected = place.value.like(as: widget.thana?.value);
+                                        final bool selected = place.value.same(as: widget.thana?.value);
 
                                         return InkWell(
                                           onTap: () {

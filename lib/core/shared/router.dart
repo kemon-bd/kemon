@@ -43,7 +43,7 @@ final router = GoRouter(
         ],
         child: LoginPage(
           username: state.uri.queryParameters['username']!,
-          redirectTo: state.uri.queryParameters['redirectTo'],
+          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? ''),
         ),
       ),
       redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
@@ -56,7 +56,7 @@ final router = GoRouter(
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
         ],
         child: CheckProfilePage(
-          redirectTo: state.uri.queryParameters['redirectTo'],
+          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
         ),
       ),
     ),
@@ -68,7 +68,7 @@ final router = GoRouter(
         child: VerifyOTPPage(
           otp: state.uri.queryParameters['otp']!,
           username: state.uri.queryParameters['username']!,
-          redirectTo: state.uri.queryParameters['redirectTo'],
+          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
         ),
       ),
     ),
@@ -83,7 +83,7 @@ final router = GoRouter(
         ],
         child: RegistrationPage(
           username: state.uri.queryParameters['username']!,
-          fallback: bool.tryParse(state.uri.queryParameters['fallback'] ?? '') ?? false,
+          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
         ),
       ),
     ),
@@ -219,7 +219,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindListingReviewsBloc>()
               ..add(
-                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!),
+                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!, filter: []),
               ),
           ),
         ],
@@ -329,7 +329,15 @@ final router = GoRouter(
     GoRoute(
       path: LeaderboardPage.path,
       name: LeaderboardPage.name,
-      builder: (context, state) => const LeaderboardPage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<FindLeaderboardBloc>()
+          ..add(FindLeaderboard(
+            query: '',
+            from: DateTime.now().startOfThisYear,
+            to: DateTime.now().endOfThisYear,
+          )),
+        child: const LeaderboardPage(),
+      ),
     ),
   ],
 );

@@ -1,11 +1,12 @@
 import '../../../../core/shared/shared.dart';
+import '../../../profile/profile.dart';
 import '../../../registration/registration.dart';
 
 class VerifyOTPPage extends StatefulWidget {
   static const String path = '/verify-otp';
   static const String name = 'VerifyOTPPage';
 
-  final String? redirectTo;
+  final bool authorize;
   final String otp;
   final String username;
 
@@ -13,7 +14,7 @@ class VerifyOTPPage extends StatefulWidget {
     super.key,
     required this.otp,
     required this.username,
-    this.redirectTo,
+    this.authorize = false,
   });
 
   @override
@@ -221,13 +222,15 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                             onPressed: () async {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (formKey.currentState?.validate() ?? false) {
-                                context.pushReplacementNamed(
+                                final ProfileModel? profile = await context.pushNamed(
                                   RegistrationPage.name,
                                   queryParameters: {
                                     'username': widget.username,
-                                    'redirectTo': widget.redirectTo.toString(),
+                                    'authorize': widget.authorize.toString(),
                                   },
                                 );
+                                if (!context.mounted) return;
+                                context.pop(profile);
                               }
                             },
                             child: Text(

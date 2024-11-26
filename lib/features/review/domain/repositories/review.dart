@@ -34,4 +34,13 @@ abstract class ReviewRepository {
   FutureOr<Either<Failure, void>> update({
     required ReviewEntity review,
   });
+
+  FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
+    required Identity review,
+  });
+
+  FutureOr<Either<Failure, void>> react({
+    required Identity review,
+    required Reaction reaction,
+  });
 }

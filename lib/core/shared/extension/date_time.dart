@@ -50,14 +50,12 @@ extension DateTimeExtension on DateTime {
         second: 0,
       );
 
+  DateTime get startOfThisYear => DateTime(DateTime.now().year - 1, 1, 1, 1).startOfTheDay;
   DateTime get endOfThisYear => DateTime(DateTime.now().year + 1, 1, 1)
       .subtract(
         const Duration(days: 1),
       )
-      .copyWith(
-        hour: 23,
-        minute: 59,
-        second: 59,
-      );
+      .endOfTheDay;
+      
   DateTime get tomorrow => DateTime.now().add(const Duration(days: 1));
 }

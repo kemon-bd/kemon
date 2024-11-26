@@ -186,7 +186,7 @@ class BusinessItemWidget extends StatelessWidget {
                           ],
                         ),
                         BlocProvider(
-                          create: (context) => sl<FindListingReviewsBloc>()..add(FindListingReviews(urlSlug: urlSlug)),
+                          create: (context) => sl<FindListingReviewsBloc>()..add(FindListingReviews(urlSlug: urlSlug, filter: [])),
                           child: BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
                             builder: (context, state) {
                               if (state is FindListingReviewsDone) {

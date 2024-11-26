@@ -34,4 +34,15 @@ abstract class ReviewRemoteDataSource {
     required Identity user,
     required ReviewEntity review,
   });
+
+  FutureOr<List<ReactionModel>> reactions({
+    required Identity review,
+  });
+
+  FutureOr<void> react({
+    required String token,
+    required Identity review,
+    required Identity user,
+    required Reaction reaction,
+  });
 }

@@ -106,7 +106,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         );
         await subCategory.addAll(subCategories: result.related);
 
-        final oldBuinesses = page == 1
+        final oldBusinesses = page == 1
             ? (
                 total: 0,
                 businesses: [],
@@ -127,7 +127,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         return Right(
           (
             total: result.total,
-            businesses: [...oldBuinesses.businesses, ...result.businesses],
+            businesses: [...oldBusinesses.businesses, ...result.businesses],
             related: result.related,
           ),
         );
@@ -180,7 +180,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         );
         await subCategory.addAll(subCategories: result.related);
 
-        final oldBuinesses = page == 1
+        final oldBusinesses = page == 1
             ? (
                 total: 0,
                 businesses: [],
@@ -201,7 +201,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         return Right(
           (
             total: result.total,
-            businesses: [...oldBuinesses.businesses, ...result.businesses],
+            businesses: [...oldBusinesses.businesses, ...result.businesses],
             related: result.related,
           ),
         );

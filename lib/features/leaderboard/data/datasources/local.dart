@@ -3,24 +3,19 @@ import '../../leaderboard.dart';
 
 abstract class LeaderboardLocalDataSource {
   FutureOr<void> add({
-    required LeaderboardEntity leaderboard,
-  });
-
-  FutureOr<void> addAll({
-    required List<LeaderboardEntity> items,
-  });
-
-  FutureOr<void> update({
-    required LeaderboardEntity leaderboard,
-  });
-
-  FutureOr<void> remove({
-    required String guid,
+    required int page,
+    required String query,
+    required DateTime from,
+    required DateTime to,
+    required LeaderboardResponse leaderboard,
   });
 
   FutureOr<void> removeAll();
 
-  FutureOr<LeaderboardEntity> find({
-    required String guid,
+  FutureOr<LeaderboardResponse> find({
+    required int page,
+    required String query,
+    required DateTime from,
+    required DateTime to,
   });
 }

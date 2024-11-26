@@ -3,13 +3,11 @@ class RemoteEndpoints {
   static const String _baseUrl = 'https://api.kemon.com.bd';
 
   //! business
-  static Uri get listingsByCategory =>
-      Uri.parse('$_baseUrl/listing-by-category');
+  static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');
   static Uri get findListing => Uri.parse('$_baseUrl/listing-by-urlslug');
 
   //! category
-  static Uri get featuredCategories =>
-      Uri.parse('$_baseUrl/featured-categories');
+  static Uri get featuredCategories => Uri.parse('$_baseUrl/featured-categories');
 
   //! industry
   static Uri get industries => Uri.parse('$_baseUrl/categories');
@@ -38,6 +36,8 @@ class RemoteEndpoints {
   static Uri get reviewDetails => Uri.parse('$_baseUrl/review-details');
   static Uri get userReviews => Uri.parse('$_baseUrl/user-reviews');
   static Uri get recentReviews => Uri.parse('$_baseUrl/recent-reviews');
+  static Uri get reviewReactions => Uri.parse('$_baseUrl/review-reaction');
+  static Uri get reactOnReview => Uri.parse('$_baseUrl/react');
 
   //! search
   static Uri get searchSuggestion => Uri.parse('$_baseUrl/search-suggestions');
@@ -45,4 +45,7 @@ class RemoteEndpoints {
 
   //! sub-category
   static Uri get subCategories => Uri.parse('$_baseUrl/sub-categories');
+
+  //! leaderboard
+  static Uri get leaderboard => Uri.parse('$_baseUrl/leaderboard');
 }

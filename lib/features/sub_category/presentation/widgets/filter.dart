@@ -114,7 +114,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.subCategories[index];
-                                        final bool selected = place.name.full.like(as: subCategory?.name.full);
+                                        final bool selected = place.name.full.same(as: subCategory?.name.full);
 
                                         return InkWell(
                                           onTap: () {

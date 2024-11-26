@@ -2,27 +2,10 @@ import '../../../../core/shared/shared.dart';
 import '../../leaderboard.dart';
 
 abstract class LeaderboardRemoteDataSource {
-  FutureOr<void> create({
-    required LeaderboardEntity leaderboard,
-  });
-
-  FutureOr<void> delete({
-    required String guid,
-  });
-
-  FutureOr<LeaderboardModel> find({
-    required String guid,
-  });
-
-  FutureOr<List<LeaderboardModel>> read();
-
-  FutureOr<List<LeaderboardModel>> refresh();
-
-  FutureOr<List<LeaderboardModel>> search({
+  FutureOr<LeaderboardResponse> find({
+    required int page,
     required String query,
-  });
-
-  FutureOr<void> update({
-    required LeaderboardEntity leaderboard,
+    required DateTime from,
+    required DateTime to,
   });
 }
