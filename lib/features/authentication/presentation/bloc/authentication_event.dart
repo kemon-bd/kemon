@@ -37,6 +37,17 @@ class UpdateAuthorizedProfile extends AuthenticationEvent {
   List<Object> get props => [profile];
 }
 
+class UpdateAuthorizedPassword extends AuthenticationEvent {
+  final String password;
+
+  const UpdateAuthorizedPassword({
+    required this.password,
+  });
+
+  @override
+  List<Object> get props => [password];
+}
+
 class AuthenticationLogout extends AuthenticationEvent {
   const AuthenticationLogout();
 

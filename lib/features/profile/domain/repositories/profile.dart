@@ -28,4 +28,13 @@ abstract class ProfileRepository {
   FutureOr<Either<Failure, void>> deactivateAccount({
     required String otp,
   });
+
+  FutureOr<Either<Failure, String>> requestOtpForPasswordChange({
+    required String username,
+  });
+
+  FutureOr<Either<Failure, void>> resetPassword({
+    required String username,
+    required String password,
+  });
 }

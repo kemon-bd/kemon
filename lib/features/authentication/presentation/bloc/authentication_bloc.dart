@@ -30,6 +30,10 @@ class AuthenticationBloc
     on<UpdateAuthorizedProfile>((event, emit) {
       emit(state.copyWith(profile: event.profile));
     });
+    
+    on<UpdateAuthorizedPassword>((event, emit) {
+      emit(state.copyWith(password: event.password));
+    });
 
     on<AuthenticationLogout>((event, emit) async {
       emit(

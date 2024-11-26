@@ -96,6 +96,22 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: ChangePasswordPage.path,
+      name: ChangePasswordPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<RequestOtpForPasswordChangeBloc>()
+              ..add(
+                RequestOtpForPasswordChange(username: context.auth.username!),
+              ),
+          ),
+          BlocProvider(create: (context) => sl<ResetPasswordBloc>()),
+        ],
+        child: ChangePasswordPage(),
+      ),
+    ),
+    GoRoute(
       path: DeactivateAccountPage.path,
       name: DeactivateAccountPage.name,
       builder: (context, state) => BlocProvider(

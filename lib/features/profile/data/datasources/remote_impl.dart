@@ -23,15 +23,13 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<Map<String, dynamic>> result =
-            RemoteResponse.parse(response: response);
+        final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(response: response);
 
         if (result.success) {
           if (result.result!.containsKey('otp')) {
             return Left(result.result!["otp"]);
           } else {
-            final ProfileModel profile =
-                ProfileModel.parse(map: result.result!);
+            final ProfileModel profile = ProfileModel.parse(map: result.result!);
             return Right(profile);
           }
         } else {
@@ -74,21 +72,17 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<dynamic> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final Map<String, dynamic> data =
-            networkResponse.result as Map<String, dynamic>;
+        final Map<String, dynamic> data = networkResponse.result as Map<String, dynamic>;
 
         return ProfileModel.parse(map: data['profile']);
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load profile');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load profile');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load profile');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load profile');
     }
   }
 
@@ -121,14 +115,10 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       if (networkResponse.success) {
         return;
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ??
-                response.reasonPhrase ??
-                "Someting went wrong.");
+        throw RemoteFailure(message: networkResponse.error ?? response.reasonPhrase ?? "Someting went wrong.");
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
 
@@ -150,8 +140,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<String> result =
-            RemoteResponse.parse(response: response);
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
 
         if (result.success) {
           return;
@@ -188,11 +177,84 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<String> result =
-            RemoteResponse.parse(response: response);
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
 
         if (result.success) {
           return result.result!;
+        } else {
+          throw RemoteFailure(message: result.error!);
+        }
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw RemoteFailure(message: "Internal server error.");
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw RemoteFailure(message: "Bad request.");
+      } else {
+        throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<String> requestOtpForPasswordChange({
+    required String username,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        "username": username,
+      };
+
+      final Response response = await post(
+        RemoteEndpoints.changePassword,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+
+        if (result.success) {
+          return result.result!;
+        } else {
+          throw RemoteFailure(message: result.error!);
+        }
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw RemoteFailure(message: "Internal server error.");
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw RemoteFailure(message: "Bad request.");
+      } else {
+        throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<void> resetPassword({
+    required String username,
+    required String password,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        "username": username,
+        "newpassword": password,
+      };
+
+      final Response response = await post(
+        RemoteEndpoints.changePassword,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final RemoteResponse<String> result = RemoteResponse.parse(response: response);
+
+        if (result.success) {
+          return;
         } else {
           throw RemoteFailure(message: result.error!);
         }

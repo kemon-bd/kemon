@@ -14,16 +14,20 @@ export 'domain/usecases/refresh.dart';
 export 'domain/usecases/update.dart';
 export 'domain/usecases/deactivate.dart';
 export 'domain/usecases/generate_otp_for_deactivation.dart';
+export 'domain/usecases/request_otp_for_password_change.dart';
+export 'domain/usecases/reset_password.dart';
 
 export 'presentation/bloc/check_bloc.dart';
 export 'presentation/bloc/delete_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/update_bloc.dart';
 export 'presentation/bloc/deactivate_bloc.dart';
-
+export 'presentation/bloc/request_password_change_bloc.dart';
+export 'presentation/bloc/reset_password_bloc.dart';
 export 'presentation/pages/profile.dart';
 export 'presentation/pages/public.dart';
 export 'presentation/pages/check.dart';
+export 'presentation/pages/change_password.dart';
 export 'presentation/pages/edit.dart';
 export 'presentation/pages/deactivate.dart';
 export 'presentation/widgets/picture.dart';
@@ -36,3 +40,5 @@ export 'presentation/widgets/features.dart';
 export 'presentation/widgets/preference.dart';
 export 'presentation/widgets/danger.dart';
 export 'presentation/widgets/progress.dart';
+export 'presentation/widgets/change_password_otp_verification.dart';
+export 'presentation/widgets/reset_password.dart';

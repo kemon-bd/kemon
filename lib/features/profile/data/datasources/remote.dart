@@ -33,4 +33,13 @@ abstract class ProfileRemoteDataSource {
     required String username,
     required String otp,
   });
+
+  FutureOr<String> requestOtpForPasswordChange({
+    required String username,
+  });
+
+  FutureOr<void> resetPassword({
+    required String username,
+    required String password,
+  });
 }

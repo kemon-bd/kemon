@@ -331,7 +331,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     context.errorNotification(message: state.failure.message);
                                   } else if (state is RegistrationDone) {
                                     context.successNotification(
-                                      message: 'Congralutations. You have successfully registered. Have a nice one :)',
+                                      message: 'Congratulations. You have successfully registered. Have a nice one :)',
                                     );
                                   }
                                 },

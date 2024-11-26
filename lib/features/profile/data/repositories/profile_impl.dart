@@ -38,8 +38,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }) async {
     try {
       if (await network.online) {
-        final result =
-            await remote.delete(token: auth.token!, identity: identity);
+        final result = await remote.delete(token: auth.token!, identity: identity);
 
         await local.remove(identity: identity);
 
@@ -81,8 +80,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }) async {
     try {
       if (await network.online) {
-        final result = await remote.update(
-            token: auth.token!, profile: profile, avatar: avatar);
+        final result = await remote.update(token: auth.token!, profile: profile, avatar: avatar);
 
         await local.update(profile: profile);
 
@@ -144,6 +142,46 @@ class ProfileRepositoryImpl extends ProfileRepository {
         final result = await remote.generateOtpForAccountDeactivation(
           token: auth.token!,
           username: auth.username!,
+        );
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, String>> requestOtpForPasswordChange({
+    required String username,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await remote.requestOtpForPasswordChange(
+          username: username,
+        );
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, void>> resetPassword({
+    required String username,
+    required String password,
+  }) async {
+    try {
+      if (await network.online) {
+        final result = await remote.resetPassword(
+          username: username,
+          password: password,
         );
 
         return Right(result);

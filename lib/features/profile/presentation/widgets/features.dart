@@ -122,7 +122,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       size: Dimension.radius.sixteen,
                     ),
                     onTap: () {
-                      context.pushNamed(LeaderboardPage.name);
+                      context.pushNamed(ChangePasswordPage.name);
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(bottom: Radius.circular(Dimension.radius.sixteen)),

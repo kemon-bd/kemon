@@ -29,6 +29,16 @@ Future<void> get profileDependencies async {
       deactivate: sl(),
     ),
   );
+  sl.registerFactory(
+    () => RequestOtpForPasswordChangeBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ResetPasswordBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -63,6 +73,16 @@ Future<void> get profileDependencies async {
   );
   sl.registerFactory(
     () => GenerateOtpForAccountDeactivationUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RequestOtpForPasswordChangeUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ResetPasswordUseCase(
       repository: sl(),
     ),
   );
