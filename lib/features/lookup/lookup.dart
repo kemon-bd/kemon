@@ -11,3 +11,4 @@ export 'domain/usecases/find.dart';
 export 'domain/usecases/search.dart';
 
 export 'presentation/bloc/find_bloc.dart';
+export 'presentation/widgets/profile_points.dart';

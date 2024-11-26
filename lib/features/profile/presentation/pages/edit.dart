@@ -39,8 +39,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   setState(() {
                     firstNameController.text = profile.name.first;
                     lastNameController.text = profile.name.last;
-                    emailController.text = profile.contact.email ?? '';
-                    phoneController.text = profile.contact.phone ?? '';
+                    emailController.text = profile.email?.address ?? '';
+                    phoneController.text = profile.phone?.number ?? '';
                     dob = profile.dob;
                     gender = profile.gender;
                   });

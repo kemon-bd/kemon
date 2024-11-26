@@ -1,28 +1,69 @@
-import '../../../features/profile/profile.dart';
 import '../shared.dart';
+import '../../../features/lookup/lookup.dart';
+import '../../../features/profile/profile.dart';
 
 extension ProfileEntityExtension on ProfileEntity {
-  int get progress {
+  int progress({
+    required List<LookupEntity> checks,
+  }) {
     int p = 0;
     if (name.full.isNotEmpty) {
-      p += 30;
+      p += checks.firstWhereOrNull((c) => c.name)?.point ?? 0;
     }
-    if ((contact.email ?? '').isNotEmpty) {
-      p += 20;
+    if ((email?.address ?? '').isNotEmpty) {
+      p += checks.firstWhereOrNull((c) => c.email)?.point ?? 0;
     }
-    if ((contact.phone ?? '').isNotEmpty) {
-      p += 20;
+    if (email?.verified ?? false) {
+      p += checks.firstWhereOrNull((c) => c.emailVerified)?.point ?? 0;
+    }
+    if ((phone?.number ?? '').isNotEmpty) {
+      p += checks.firstWhereOrNull((c) => c.phone)?.point ?? 0;
+    }
+    if (phone?.verified ?? false) {
+      p += checks.firstWhereOrNull((c) => c.phoneVerified)?.point ?? 0;
     }
     if (gender != null) {
-      p += 10;
+      p += checks.firstWhereOrNull((c) => c.gender)?.point ?? 0;
     }
     if (dob != null) {
-      p += 10;
+      p += checks.firstWhereOrNull((c) => c.dob)?.point ?? 0;
     }
     if ((profilePicture ?? '').isNotEmpty) {
-      p += 10;
+      p += checks.firstWhereOrNull((c) => c.profilePicture)?.point ?? 0;
     }
     return p;
+  }
+
+  List<LookupEntity> missing({
+    required List<LookupEntity> checks,
+  }) {
+    final List<LookupEntity> missing = [...checks].toList();
+
+    if (name.full.isNotEmpty) {
+      missing.removeWhere((c) => c.name);
+    }
+    if ((email?.address ?? '').isNotEmpty) {
+      missing.removeWhere((c) => c.email);
+    }
+    if (email?.verified ?? false) {
+      missing.removeWhere((c) => c.emailVerified);
+    }
+    if ((phone?.number ?? '').isNotEmpty) {
+      missing.removeWhere((c) => c.phone);
+    }
+    if (phone?.verified ?? false) {
+      missing.removeWhere((c) => c.phoneVerified);
+    }
+    if (gender != null) {
+      missing.removeWhere((c) => c.gender);
+    }
+    if (dob != null) {
+      missing.removeWhere((c) => c.dob);
+    }
+    if ((profilePicture ?? '').isNotEmpty) {
+      missing.removeWhere((c) => c.profilePicture);
+    }
+    return missing;
   }
 }
 
@@ -33,8 +74,8 @@ extension ProfileModelExtension on ProfileModel {
       "firstName": name.first,
       "lastName": name.last,
       "kemonID": kemonIdentity.username,
-      "email": contact.email,
-      "phone": contact.phone,
+      "email": email?.address,
+      "phone": phone?.number,
       "profilePicture": profilePicture,
       "joinDate": memberSince.toIso8601String(),
       "dob": dob?.toIso8601String(),
@@ -58,9 +99,13 @@ extension ProfileModelExtension on ProfileModel {
         first: firstName ?? name.first,
         last: lastName ?? name.last,
       ),
-      contact: Contact(
-        email: email ?? contact.email,
-        phone: phone ?? contact.phone,
+      phone: Phone(
+        number: phone ?? this.phone?.number ?? '',
+        verified: this.phone?.verified ?? false,
+      ),
+      email: Email(
+        address: email ?? this.email?.address ?? '',
+        verified: this.email?.verified ?? false,
       ),
       dob: dob ?? this.dob,
       gender: gender ?? this.gender,

@@ -3,7 +3,8 @@ import '../../../../core/shared/shared.dart';
 class ProfileEntity extends Equatable {
   final Identity identity;
   final Name name;
-  final Contact contact;
+  final Phone? phone;
+  final Email? email;
   final DateTime? dob;
   final DateTime memberSince;
   final String? profilePicture;
@@ -13,7 +14,8 @@ class ProfileEntity extends Equatable {
   const ProfileEntity({
     required this.identity,
     required this.name,
-    required this.contact,
+    required this.phone,
+    required this.email,
     required this.dob,
     required this.memberSince,
     required this.gender,
@@ -25,7 +27,8 @@ class ProfileEntity extends Equatable {
   List<Object?> get props => [
         identity,
         name,
-        contact,
+        phone,
+        email,
         dob,
         profilePicture,
         gender,

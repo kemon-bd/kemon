@@ -5,7 +5,8 @@ class ProfileModel extends ProfileEntity {
   const ProfileModel({
     required super.identity,
     required super.name,
-    required super.contact,
+    required super.phone,
+    required super.email,
     required super.dob,
     required super.memberSince,
     required super.gender,
@@ -116,8 +117,7 @@ class ProfileModel extends ProfileEntity {
         'ProfileModel.parse: "gender" is not a int?.',
       );
       final int genderIndex = (map['gender'] as int?) ?? 0;
-      final Gender? gender =
-          genderIndex.isNegative ? null : Gender.values.elementAt(genderIndex);
+      final Gender? gender = genderIndex.isNegative ? null : Gender.values.elementAt(genderIndex);
 
       // assert(
       //   map.containsKey('point'),
@@ -143,7 +143,18 @@ class ProfileModel extends ProfileEntity {
         identity: Identity.guid(guid: guid),
         name: Name(first: firstName, last: lastName),
         memberSince: since,
-        contact: Contact(email: email, phone: phone),
+        phone: phone.isEmpty
+            ? null
+            : Phone(
+                number: phone,
+                verified: map['phoneVerified'] ?? false,
+              ),
+        email: email.isEmpty
+            ? null
+            : Email(
+                address: email,
+                verified: map['emailVerified'] ?? false,
+              ),
         profilePicture: profilePicture,
         kemonIdentity: KemonIdentity(
           username: username,
@@ -154,8 +165,7 @@ class ProfileModel extends ProfileEntity {
         dob: dob,
       );
     } catch (e, stackTrace) {
-      throw ProfileModelParseFailure(
-          message: e.toString(), stackTrace: stackTrace);
+      throw ProfileModelParseFailure(message: e.toString(), stackTrace: stackTrace);
     }
   }
 
@@ -163,7 +173,11 @@ class ProfileModel extends ProfileEntity {
   List<Object?> get props => [
         identity,
         name,
-        contact,
+        phone,
+        email,
+        dob,
+        memberSince,
+        gender,
         profilePicture,
       ];
 }

@@ -9,6 +9,8 @@ extension LookupsExtension on Lookups {
         return 'district';
       case Lookups.thana:
         return 'thana';
+      case Lookups.profilePoints:
+        return 'profilePoint';
       default:
         return '';
     }
