@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../search.dart';
@@ -33,8 +34,7 @@ class _ResultPageState extends State<ResultPage> {
               onPressed: context.pop,
             ),
             title: Text(widget.query),
-            titleTextStyle:
-                TextStyles.subTitle(context: context, color: theme.textPrimary),
+            titleTextStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
             centerTitle: false,
             actions: const [
               /* IconButton(
@@ -72,14 +72,16 @@ class _ResultPageState extends State<ResultPage> {
                   cacheExtent: double.maxFinite,
                   itemBuilder: (_, index) {
                     final urlSlug = businesses[index];
-                    return BusinessItemWidget(urlSlug: urlSlug);
+                    return BlocProvider(
+                      create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: urlSlug)),
+                      child: const BusinessItemWidget(),
+                    );
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemCount: businesses.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero
-                      .copyWith(bottom: context.bottomInset + 16),
+                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + 16),
                 );
               } else if (state is SearchResultError) {
                 return Center(

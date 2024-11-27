@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../category.dart';
@@ -423,7 +424,6 @@ class _ListingsWidget extends StatelessWidget {
 
           return businesses.isNotEmpty
               ? ListView.separated(
-                  cacheExtent: 0,
                   itemBuilder: (_, index) {
                     if (index == businesses.length && hasMore) {
                       if (state is! FindBusinessesByCategoryPaginating) {
@@ -444,7 +444,10 @@ class _ListingsWidget extends StatelessWidget {
                       return const BusinessItemShimmerWidget();
                     }
                     final business = businesses[index];
-                    return BusinessItemWidget(urlSlug: business.urlSlug);
+                    return BlocProvider(
+                      create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: business.urlSlug)),
+                      child: const BusinessItemWidget(),
+                    );
                   },
                   separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: businesses.length + (hasMore ? 1 : 0),

@@ -53,8 +53,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required List<int> ratings,
   }) async {
     int total = 0;
-    List<BusinessEntity> businesses = [];
-    List<SubCategoryEntity> related = [];
+    Set<BusinessEntity> businesses = {};
+    Set<SubCategoryEntity> related = {};
     for (int p = 1; p <= page; p++) {
       final key = (
         page: p,
@@ -80,8 +80,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
 
     return (
       total: total,
-      businesses: businesses,
-      related: related,
+      businesses: businesses.toList(),
+      related: related.toList(),
     );
   }
 

@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../sub_category.dart';
@@ -96,7 +97,10 @@ class SubCategoryPage extends StatelessWidget {
                             return const BusinessItemShimmerWidget();
                           }
                           final business = businesses[index];
-                          return BusinessItemWidget(urlSlug: business.urlSlug);
+                          return BlocProvider(
+                            create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: business.urlSlug)),
+                            child: const BusinessItemWidget(),
+                          );
                         },
                         separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                         itemCount: businesses.length + (hasMore ? 1 : 0),

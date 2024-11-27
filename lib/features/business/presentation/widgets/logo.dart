@@ -34,6 +34,14 @@ class BusinessLogoWidget extends StatelessWidget {
             builder: (context, state) {
               if (state is FindBusinessDone) {
                 final url = state.business.logo.url;
+                final fallback = Center(
+                  child: Text(
+                    state.business.name.symbol,
+                    style: TextStyles.body(context: context, color: placeholderColor ?? theme.textPrimary).copyWith(
+                      fontSize: size / 2,
+                    ),
+                  ),
+                );
                 return Center(
                   child: SizedBox(
                     width: size,
@@ -52,21 +60,16 @@ class BusinessLogoWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(radius),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(
-                          imageUrl: url,
-                          width: size,
-                          height: size,
-                          fit: BoxFit.contain,
-                          placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
-                          errorWidget: (_, __, ___) => Center(
-                            child: Text(
-                              state.business.name.symbol,
-                              style: TextStyles.body(context: context, color: placeholderColor ?? theme.textPrimary).copyWith(
-                                fontSize: size / 2,
+                        child: url.isEmpty
+                            ? fallback
+                            : CachedNetworkImage(
+                                imageUrl: url,
+                                width: size,
+                                height: size,
+                                fit: BoxFit.contain,
+                                placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
+                                errorWidget: (_, __, ___) => fallback,
                               ),
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ),

@@ -7,8 +7,10 @@ part 'find_state.dart';
 class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
   final FindBusinessUseCase find;
   final RefreshBusinessUseCase refresh;
-  FindBusinessBloc({required this.find, required this.refresh,})
-      : super(const FindBusinessInitial()) {
+  FindBusinessBloc({
+    required this.find,
+    required this.refresh,
+  }) : super(const FindBusinessInitial()) {
     on<FindBusiness>((event, emit) async {
       emit(const FindBusinessLoading());
       final result = await find(urlSlug: event.urlSlug);

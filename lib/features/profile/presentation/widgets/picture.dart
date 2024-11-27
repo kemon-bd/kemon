@@ -32,6 +32,14 @@ class ProfilePictureWidget extends StatelessWidget {
             builder: (context, state) {
               if (state is FindProfileDone) {
                 final url = state.profile.profilePicture?.url ?? '';
+                final fallback = Center(
+                  child: Text(
+                    state.profile.name.symbol,
+                    style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                      fontSize: size / 2,
+                    ),
+                  ),
+                );
                 return Center(
                   child: SizedBox(
                     width: size,
@@ -47,21 +55,16 @@ class ProfilePictureWidget extends StatelessWidget {
                         ),
                       ),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: CachedNetworkImage(
-                        imageUrl: url,
-                        width: size,
-                        height: size,
-                        fit: BoxFit.cover,
-                        placeholder: (_, __) => ShimmerIcon(radius: size),
-                        errorWidget: (_, __, ___) => Center(
-                          child: Text(
-                            state.profile.name.symbol,
-                            style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
-                              fontSize: size / 2,
+                      child: url.isEmpty
+                          ? fallback
+                          : CachedNetworkImage(
+                              imageUrl: url,
+                              width: size,
+                              height: size,
+                              fit: BoxFit.cover,
+                              placeholder: (_, __) => ShimmerIcon(radius: size),
+                              errorWidget: (_, __, ___) => fallback,
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 );
@@ -150,7 +153,7 @@ class MyProfilePictureWidget extends StatelessWidget {
               backgroundColor: theme.white,
               child: Icon(
                 Icons.account_circle_outlined,
-                size: size/1.25,
+                size: size / 1.25,
                 color: theme.primary,
               ),
             );
