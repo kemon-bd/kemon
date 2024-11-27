@@ -355,21 +355,95 @@ class _CategoriesWidget extends StatelessWidget {
                     final row = state.results.elementAt(index);
                     final industry = row.industry;
                     final categories = row.categories;
+                    final icon = Padding(
+                      padding: EdgeInsets.all(Dimension.radius.eight),
+                      child: Icon(
+                        Icons.label_rounded,
+                        size: Dimension.radius.sixteen,
+                        color: theme.backgroundTertiary,
+                      ),
+                    );
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          industry.name.full,
-                          style: TextStyles.bigHeadline(context: context, color: theme.textPrimary),
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1, color: theme.backgroundTertiary),
+                                borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                              ),
+                              child: industry.icon.isNotEmpty
+                                  ? CachedNetworkImage(
+                                      imageUrl: industry.icon.url,
+                                      fit: BoxFit.cover,
+                                        width: Dimension.radius.thirtyTwo,
+                                        height: Dimension.radius.thirtyTwo,
+                                      placeholder: (_, __) => ShimmerLabel(
+                                        width: Dimension.radius.thirtyTwo,
+                                        height: Dimension.radius.thirtyTwo,
+                                      ),
+                                      errorWidget: (_, __, ___) => icon,
+                                    )
+                                  : icon,
+                            ),
+                            SizedBox(width: Dimension.padding.horizontal.large),
+                            Expanded(
+                              child: Text(
+                                industry.name.full,
+                                style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Dimension.radius.sixteen,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
                         ListView.separated(
                           cacheExtent: 0,
                           itemBuilder: (_, index) {
                             final category = categories.elementAt(index);
-                            final child = Text(
-                              category.name.full,
-                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                            final icon = Padding(
+                              padding: EdgeInsets.all(Dimension.radius.four),
+                              child: Icon(
+                                Icons.label_rounded,
+                                size: Dimension.radius.sixteen,
+                                color: theme.backgroundTertiary,
+                              ),
+                            );
+                            final child = Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 1, color: theme.backgroundTertiary),
+                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: category.icon.isNotEmpty
+                                      ? CachedNetworkImage(
+                                          imageUrl: category.icon.url,
+                                          width: Dimension.radius.twentyFour,
+                                          height: Dimension.radius.twentyFour,
+                                          fit: BoxFit.cover,
+                                          placeholder: (_, __) => ShimmerLabel(
+                                            width: Dimension.radius.twentyFour,
+                                            height: Dimension.radius.twentyFour,
+                                          ),
+                                          errorWidget: (_, __, ___) => icon,
+                                        )
+                                      : icon,
+                                ),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
+                                Expanded(
+                                  child: Text(
+                                    category.name.full,
+                                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  ),
+                                ),
+                              ],
                             );
                             if (state.results.lastItem(category: category) && hasMore) {
                               if (state is! FindAllCategoriesPaginating) {
@@ -394,13 +468,13 @@ class _CategoriesWidget extends StatelessWidget {
                             }
                             return child;
                           },
-                          separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                          separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
                           itemCount: categories.length,
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          padding: EdgeInsets.zero.copyWith(
+                          padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
                             left: Dimension.padding.horizontal.ultraMax,
-                            bottom: Dimension.padding.vertical.max + context.bottomInset,
+                            top: Dimension.padding.vertical.medium,
                           ),
                         ),
                       ],
@@ -410,8 +484,8 @@ class _CategoriesWidget extends StatelessWidget {
                   itemCount: state.results.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom: Dimension.padding.vertical.max + context.bottomInset,
+                  padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                    bottom: Dimension.radius.sixteen + context.bottomInset,
                   ),
                 )
               : Center(

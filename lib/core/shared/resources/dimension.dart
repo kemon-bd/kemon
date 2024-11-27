@@ -14,6 +14,7 @@ class _Radius {
   final double max = 100.0.r;
   final double fortyEight = 48.0.r;
   final double fortyTwo = 42.0.r;
+  final double forty = 40.0.r;
   final double thirtyTwo = 32.0.r;
   final double thirty = 30.0.r;
   final double twentyFour = 24.0.r;
