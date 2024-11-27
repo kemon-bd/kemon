@@ -1,5 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../authentication/authentication.dart';
 import '../../../profile/profile.dart';
 
 class ResetPasswordWidget extends StatefulWidget {
