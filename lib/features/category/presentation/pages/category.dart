@@ -73,14 +73,14 @@ class _CategoryPageState extends State<CategoryPage> {
                       ),
                       title: isExpanded
                           ? null
-                          : NameWidget(
+                          : _NameWidget(
                               urlSlug: widget.urlSlug,
                               fontSize: Dimension.radius.sixteen,
                               maxLines: 2,
                             ).animate().fade(),
-                            centerTitle: false,
+                      centerTitle: false,
                       actions: [
-                        const ShareButton(),
+                        const _ShareButton(),
                       ],
                       bottom: PreferredSize(
                         preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
@@ -135,22 +135,22 @@ class _CategoryPageState extends State<CategoryPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
-                                          child: NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
+                                          child: _NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
                                               .animate()
                                               .fade(),
                                         ),
-                                        IconWidget(urlSlug: widget.urlSlug),
+                                        _IconWidget(urlSlug: widget.urlSlug),
                                       ],
                                     ),
                                     const SizedBox(height: 16),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        FilterButton(urlSlug: widget.urlSlug),
+                                        _FilterButton(urlSlug: widget.urlSlug),
                                         const SizedBox(width: 16),
-                                        SortButton(),
+                                        _SortButton(),
                                         const Spacer(),
-                                        TotalCount(),
+                                        _TotalCount(),
                                       ],
                                     ),
                                   ],
@@ -159,7 +159,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             )
                           : null,
                     ),
-                    SliverToBoxAdapter(child: ListingsWidget(search: search, urlSlug: widget.urlSlug)),
+                    SliverToBoxAdapter(child: _ListingsWidget(search: search, urlSlug: widget.urlSlug)),
                   ],
                 );
               },
@@ -171,8 +171,8 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 }
 
-class ShareButton extends StatelessWidget {
-  const ShareButton({super.key});
+class _ShareButton extends StatelessWidget {
+  const _ShareButton();
 
   @override
   Widget build(BuildContext context) {
@@ -208,10 +208,9 @@ class ShareButton extends StatelessWidget {
   }
 }
 
-class FilterButton extends StatelessWidget {
+class _FilterButton extends StatelessWidget {
   final String urlSlug;
-  const FilterButton({
-    super.key,
+  const _FilterButton({
     required this.urlSlug,
   });
 
@@ -259,8 +258,8 @@ class FilterButton extends StatelessWidget {
   }
 }
 
-class SortButton extends StatelessWidget {
-  const SortButton({super.key});
+class _SortButton extends StatelessWidget {
+  const _SortButton();
 
   @override
   Widget build(BuildContext context) {
@@ -306,12 +305,11 @@ class SortButton extends StatelessWidget {
   }
 }
 
-class NameWidget extends StatelessWidget {
+class _NameWidget extends StatelessWidget {
   final String urlSlug;
   final double? fontSize;
   final int? maxLines;
-  const NameWidget({
-    super.key,
+  const _NameWidget({
     required this.urlSlug,
     this.fontSize,
     this.maxLines,
@@ -340,10 +338,9 @@ class NameWidget extends StatelessWidget {
   }
 }
 
-class IconWidget extends StatelessWidget {
+class _IconWidget extends StatelessWidget {
   final String urlSlug;
-  const IconWidget({
-    super.key,
+  const _IconWidget({
     required this.urlSlug,
   });
 
@@ -365,8 +362,8 @@ class IconWidget extends StatelessWidget {
   }
 }
 
-class TotalCount extends StatelessWidget {
-  const TotalCount({super.key});
+class _TotalCount extends StatelessWidget {
+  const _TotalCount();
 
   @override
   Widget build(BuildContext context) {
@@ -395,12 +392,11 @@ class TotalCount extends StatelessWidget {
   }
 }
 
-class ListingsWidget extends StatelessWidget {
+class _ListingsWidget extends StatelessWidget {
   final String urlSlug;
   final TextEditingController search;
 
-  const ListingsWidget({
-    super.key,
+  const _ListingsWidget({
     required this.urlSlug,
     required this.search,
   });

@@ -27,12 +27,6 @@ class IndustryRepositoryImpl extends IndustryRepository {
         final result = await remote.find();
         final industries = result.map((item) => item.industry).toList();
         await local.addAll(industries: industries);
-        for (final item in result) {
-          await category.addAllByIndustry(
-            industry: item.industry.urlSlug,
-            categories: item.categories,
-          );
-        }
         final item = await local.find(urlSlug: urlSlug);
         return Right(item);
       } else {
@@ -53,12 +47,6 @@ class IndustryRepositoryImpl extends IndustryRepository {
         final result = await remote.find();
         final industries = result.map((item) => item.industry).toList();
         await local.addAll(industries: industries);
-        for (final item in result) {
-          await category.addAllByIndustry(
-            industry: item.industry.urlSlug,
-            categories: item.categories,
-          );
-        }
         return Right(industries);
       } else {
         return Left(NoInternetFailure());

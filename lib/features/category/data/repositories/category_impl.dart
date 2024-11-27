@@ -18,7 +18,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
       if (await network.online) {
         final categories = await remote.featured();
 
-        await local.addAll(categories: categories);
+        await local.featured(categories: categories);
         return Right(categories);
       } else {
         return Left(NoInternetFailure());
@@ -43,12 +43,56 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  FutureOr<Either<Failure, List<CategoryEntity>>> industry({
-    required String industry,
+  FutureOr<Either<Failure, CategoryPaginatedResponse>> all({
+    required int page,
+    required String? industry,
+    required String? query,
   }) async {
+    final key = (page: page, query: query, industry: industry);
     try {
-      final result = await local.findByIndustry(industry: industry);
+      final result = await local.findPagination(key: key);
       return Right(result);
+    } on CategoriesNotFoundInLocalCacheFailure catch (_) {
+      try {
+        if (await network.online) {
+          final result = await remote.all(page: page, query: query, industry: industry);
+          await local.cachePagination(key: key, result: result);
+
+          final oldResult = page == 1
+              ? (
+                  total: 0,
+                  results: <IndustryBasedCategories>[],
+                )
+              : await local.findPagination(key: key);
+          final totalResults = oldResult.results.stitch(result.results);
+          return Right((total: result.total, results: totalResults));
+        } else {
+          return Left(NoInternetFailure());
+        }
+      } on SocketException {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, CategoryPaginatedResponse>> refreshAll({
+    required int page,
+    required String? industry,
+    required String? query,
+  }) async {
+    final key = (page: page, query: query, industry: industry);
+    try {
+      await local.removeAll();
+      if (await network.online) {
+        final result = await remote.all(page: page, query: query, industry: industry);
+        await local.cachePagination(key: key, result: result);
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
     } on Failure catch (failure) {
       return Left(failure);
     }

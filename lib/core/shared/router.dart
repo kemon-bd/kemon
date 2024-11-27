@@ -308,6 +308,21 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: CategoriesPage.path,
+      name: CategoriesPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindAllCategoriesBloc>()
+              ..add(
+                FindAllCategories(industry: null, query: null),
+              ),
+          ),
+        ],
+        child: CategoriesPage(),
+      ),
+    ),
+    GoRoute(
       path: CategoryPage.path,
       name: CategoryPage.name,
       builder: (context, state) => MultiBlocProvider(

@@ -44,7 +44,7 @@ class IndustryModel extends IndustryEntity {
       final String urlSlug = map['urlslug'] as String;
 
       return IndustryModel(
-        identity: Identity.guid(guid: ''),
+        identity: Identity.guid(guid: map['guid'] ?? ''),
         name: Name.full(name: name),
         icon: icon,
         urlSlug: urlSlug,

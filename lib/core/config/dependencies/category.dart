@@ -13,8 +13,9 @@ Future<void> get categoryDependencies async {
     ),
   );
   sl.registerFactory(
-    () => CategoriesByIndustryBloc(
-      useCase: sl(),
+    () => FindAllCategoriesBloc(
+      find: sl(),
+      refresh: sl(),
     ),
   );
 
@@ -30,7 +31,12 @@ Future<void> get categoryDependencies async {
     ),
   );
   sl.registerFactory(
-    () => CategoriesByIndustryUseCase(
+    () => FindAllCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshAllCategoryUseCase(
       repository: sl(),
     ),
   );

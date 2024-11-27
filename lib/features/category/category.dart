@@ -9,11 +9,12 @@ export 'domain/entities/category.dart';
 export 'domain/repositories/category.dart';
 export 'domain/usecases/featured.dart';
 export 'domain/usecases/find.dart';
-export 'domain/usecases/industry.dart';
+export 'domain/usecases/all.dart';
+export 'domain/usecases/refresh_all.dart';
 
 export 'presentation/bloc/featured_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
-export 'presentation/bloc/industry_bloc.dart';
+export 'presentation/bloc/find_all_bloc.dart';
 export 'presentation/pages/categories.dart';
 export 'presentation/pages/category.dart';
 export 'presentation/widgets/featured.dart';

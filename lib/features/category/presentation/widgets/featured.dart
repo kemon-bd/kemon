@@ -87,7 +87,8 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                                     width: Dimension.radius.twelve,
                                     height: Dimension.radius.twelve,
                                     placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.twenty),
-                                    errorWidget: (context, url, error) => Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
                                   ),
                                 ),
                                 SizedBox(width: Dimension.padding.horizontal.small),

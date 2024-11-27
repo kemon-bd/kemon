@@ -7,6 +7,13 @@ class CategoryModelParseFailure extends Failure {
   });
 }
 
+class CategoriesNotFoundInLocalCacheFailure extends Failure {
+  CategoriesNotFoundInLocalCacheFailure()
+      : super(
+          message: 'Categories not found in local cache.',
+        );
+}
+
 class CategoryNotFoundInLocalCacheFailure extends Failure {
   CategoryNotFoundInLocalCacheFailure()
       : super(
