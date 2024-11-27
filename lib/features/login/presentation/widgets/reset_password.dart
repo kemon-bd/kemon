@@ -1,18 +1,19 @@
-
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
-import '../../profile.dart';
+import '../../../profile/profile.dart';
 
-class ResetMyPasswordWidget extends StatefulWidget {
-  const ResetMyPasswordWidget({
+class ResetPasswordWidget extends StatefulWidget {
+  final String username;
+  const ResetPasswordWidget({
     super.key,
+    required this.username,
   });
 
   @override
-  State<ResetMyPasswordWidget> createState() => _ResetMyPasswordWidgetState();
+  State<ResetPasswordWidget> createState() => _ResetPasswordWidgetState();
 }
 
-class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
+class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
   final TextEditingController oldController = TextEditingController();
   final TextEditingController newController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
@@ -54,35 +55,6 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                   ),
                 ),
                 SizedBox(height: Dimension.size.vertical.seventyTwo),
-                TextFormField(
-                  controller: oldController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: oldObscured,
-                  textInputAction: TextInputAction.next,
-                  autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
-                  validator: (value) =>
-                      oldController.validPassword && oldController.text.same(as: context.auth.password) ? null : "",
-                  decoration: InputDecoration(
-                    labelText: 'Old Password',
-                    labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
-                    suffixIcon: IconButton(
-                      padding: EdgeInsets.zero,
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      icon: Icon(
-                        oldObscured ? Icons.visibility : Icons.visibility_off,
-                        color: oldController.validPassword ? theme.textPrimary : theme.negative,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          oldObscured = !oldObscured;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: Dimension.padding.vertical.large),
                 TextFormField(
                   controller: newController,
                   keyboardType: TextInputType.visiblePassword,
@@ -145,11 +117,8 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                   child: BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
                     listener: (context, state) async {
                       if (state is ResetPasswordDone) {
-                        context.auth.add(UpdateAuthorizedPassword(password: newController.text));
-                        context.successNotification(message: 'Password changed successfully!!!');
-                        await Future.delayed(Durations.medium1);
-                        if (!context.mounted) return;
                         context.pop(true);
+                        context.successNotification(message: 'Password changed successfully!!!');
                       } else if (state is ResetPasswordError) {
                         context.errorNotification(message: state.failure.message);
                       }
@@ -167,7 +136,7 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                           if (formKey.currentState?.validate() ?? false) {
                             context.read<ResetPasswordBloc>().add(
                                   ResetPassword(
-                                    username: context.auth.username!,
+                                    username: widget.username,
                                     password: newController.text,
                                   ),
                                 );

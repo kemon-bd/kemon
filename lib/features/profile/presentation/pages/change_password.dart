@@ -13,7 +13,7 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool verified = false;
   late final VerifyOtpForChangePasswordWidget verification;
-  final ResetPasswordWidget reset = ResetPasswordWidget();
+  final ResetMyPasswordWidget reset = ResetMyPasswordWidget();
 
   @override
   void initState() {

@@ -12,3 +12,7 @@ export 'presentation/bloc/login_bloc.dart';
 export 'presentation/bloc/forgot_bloc.dart';
 export 'presentation/pages/login.dart';
 export 'presentation/pages/otp.dart';
+export 'presentation/pages/forgot_password.dart';
+export 'presentation/widgets/forgot_password_otp_verification.dart';
+export 'presentation/widgets/pick_username.dart';
+export 'presentation/widgets/reset_password.dart';

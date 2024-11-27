@@ -189,6 +189,22 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                           ),
                         ),
                         const SizedBox(height: 42),
+                        KeyboardVisibilityBuilder(
+                          builder: (_, visible) => visible
+                              ? Container()
+                              : Align(
+                                  alignment: Alignment.centerRight,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await context.pushNamed(ForgotPasswordPage.name);
+                                    },
+                                    child: Text(
+                                      'Forgot Password',
+                                      style: TextStyles.title(context: context, color: theme.link),
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ],
                     ),
                   ),
