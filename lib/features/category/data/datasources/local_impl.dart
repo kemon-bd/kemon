@@ -45,32 +45,41 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
 
   @override
   FutureOr<CategoryPaginatedResponse> findPagination({
-  required CategoriesPaginationKey key,
-}) async {
-  int total = 0;
-  List<IndustryBasedCategories> results = [];
+    required CategoriesPaginationKey key,
+  }) async {
+    int total = 0;
+    List<IndustryBasedCategories> results = [];
 
-  for (int p = 1; p <= key.page; p++) {
-    final tempKey = (
-      page: p,
-      query: key.query,
-      industry: key.industry,
+    for (int p = 1; p <= key.page; p++) {
+      final tempKey = (
+        page: p,
+        query: key.query,
+        industry: key.industry,
+      );
+
+      if (!_all.containsKey(tempKey)) {
+        throw CategoriesNotFoundInLocalCacheFailure();
+      }
+
+      final item = _all[tempKey]; // Use tempKey here
+      if (item != null) {
+        total = item.total;
+        results = results.stitch(item.results);
+      }
+    }
+
+    return (
+      total: total,
+      results: results,
     );
-
-    if (!_all.containsKey(tempKey)) {
-      throw CategoriesNotFoundInLocalCacheFailure();
-    }
-
-    final item = _all[tempKey]; // Use tempKey here
-    if (item != null) {
-      total = item.total;
-      results = results.stitch(item.results);
-    }
   }
 
-  return (
-    total: total,
-    results: results,
-  );
-}
+  @override
+  FutureOr<void> add({
+    required String urlSlug,
+    required CategoryEntity category,
+  }) async {
+    _cache[urlSlug] = category;
+    return Future.value();
+  }
 }

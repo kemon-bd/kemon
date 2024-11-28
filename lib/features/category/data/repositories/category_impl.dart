@@ -37,6 +37,10 @@ class CategoryRepositoryImpl extends CategoryRepository {
     try {
       final result = await local.find(urlSlug: urlSlug);
       return Right(result);
+    } on CategoryNotFoundInLocalCacheFailure {
+      final result = await remote.find(urlSlug: urlSlug);
+      await local.add(category: result, urlSlug: urlSlug);
+      return Right(result);
     } on Failure catch (failure) {
       return Left(failure);
     }

@@ -71,4 +71,31 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
+
+  @override
+  FutureOr<CategoryModel> find({
+    required String urlSlug,
+  }) async {
+    final Map<String, String> headers = {
+      'urlSlug': urlSlug,
+    };
+    final Response response = await client.get(
+      RemoteEndpoints.findCategory,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result!["categoryModelCombinedList"];
+
+        return CategoryModel.parse(map: List<dynamic>.from(data.first['categories']).first);
+      } else {
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
+      }
+    } else {
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+    }
+  }
 }

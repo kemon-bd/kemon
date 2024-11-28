@@ -8,6 +8,10 @@ typedef CategoriesPaginationKey = ({
 });
 
 abstract class CategoryLocalDataSource {
+  FutureOr<void> add({
+    required String urlSlug,
+    required CategoryEntity category,
+  });
   FutureOr<void> featured({
     required List<CategoryEntity> categories,
   });
