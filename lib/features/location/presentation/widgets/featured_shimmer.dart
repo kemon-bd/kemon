@@ -1,7 +1,7 @@
-import '../../../../../core/shared/shared.dart';
+import '../../../../core/shared/shared.dart';
 
-class DashboardFeaturedLocationsSectionShimmerWidget extends StatelessWidget {
-  const DashboardFeaturedLocationsSectionShimmerWidget({super.key});
+class FeaturedLocationsShimmerWidget extends StatelessWidget {
+  const FeaturedLocationsShimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

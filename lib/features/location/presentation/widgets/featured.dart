@@ -1,8 +1,8 @@
-import '../../../../../core/shared/shared.dart';
-import '../../../location.dart';
+import '../../../../core/shared/shared.dart';
+import '../../location.dart';
 
-class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
-  const DashboardFeaturedLocationsSectionWidget({super.key});
+class FeaturedLocationsWidget extends StatelessWidget {
+  const FeaturedLocationsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
         return BlocBuilder<FeaturedLocationsBloc, FeaturedLocationsState>(
           builder: (_, state) {
             if (state is FeaturedLocationsLoading) {
-              return const DashboardFeaturedLocationsSectionShimmerWidget();
+              return const FeaturedLocationsShimmerWidget();
             } else if (state is FeaturedLocationsDone) {
               final locations = state.locations;
               return ListView(
@@ -26,34 +26,29 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Featured locations",
+                        "Locations",
                         style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
-                      // TODO
-                      /* FilterChip(
+                      ActionChip(
                         label: Text(
                           "See all",
-                          style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.w900,
                           ),
                         ),
-                        deleteIcon: Icon(Icons.open_in_new_rounded, color: theme.primary, size: 14),
-                        onDeleted: () {},
-                        backgroundColor: theme.backgroundPrimary,
+                        backgroundColor: theme.backgroundSecondary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                           side: const BorderSide(width: 0, color: Colors.transparent),
                         ),
-                        padding: EdgeInsets.zero,
-                        labelPadding: const EdgeInsets.only(left: 12),
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                        selected: false,
-                        onSelected: (_) {
-                          // context.pushNamed(LocationsPage.tag);
+                        onPressed: () {
+                          // context.pushNamed(CategoriesPage.name);
                         },
-                      ), */
+                      ),
                     ],
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
@@ -61,7 +56,7 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                     height: 400.h,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
-                      mainAxisSpacing: Dimension.padding.horizontal.medium,
+                      mainAxisSpacing: Dimension.padding.horizontal.max,
                       crossAxisSpacing: Dimension.padding.vertical.small,
                       padding: EdgeInsets.zero,
                       itemCount: locations.length,
@@ -69,27 +64,33 @@ class DashboardFeaturedLocationsSectionWidget extends StatelessWidget {
                       clipBehavior: Clip.none,
                       shrinkWrap: true,
                       itemBuilder: (_, index) {
-                        final category = locations.elementAt(index);
-                        return ActionChip(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimension.radius.max),
-                            side: BorderSide(width: Dimension.divider.large, color: theme.primary),
-                          ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor: theme.primary.withAlpha(15),
-                          onPressed: () {
-                            // TODO
+                        final location = locations.elementAt(index);
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(Dimension.radius.max),
+                          onTap: () {
                             /* context.pushNamed(
-                              CategoryPage.tag,
+                              CategoryPage.name,
                               pathParameters: {
-                                'id': category.urlSlug,
+                                'urlSlug': category.urlSlug,
                               },
                             ); */
                           },
-                          avatar: Icon(Icons.place_rounded, color: theme.primary),
-                          label: Text(
-                            category.name.full,
-                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimension.radius.four),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: theme.textPrimary,
+                                  radius: Dimension.radius.twelve,
+                                  child: Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                ),
+                                SizedBox(width: Dimension.padding.horizontal.small),
+                                Text(
+                                  location.name.full,
+                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
