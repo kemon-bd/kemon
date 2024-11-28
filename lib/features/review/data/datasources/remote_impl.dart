@@ -186,15 +186,17 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   FutureOr<List<ReactionModel>> reactions({
     required Identity review,
   }) async {
-    /* final Map<String, String> headers = {};
+    final Map<String, String> headers = {
+      'reviewGuid': review.guid,
+    };
 
     final Response response = await client.get(
       RemoteEndpoints.reviewReactions,
       headers: headers,
-    ); */
-    final content = await rootBundle.loadString('api/review_reaction.json');
+    );
+    /* final content = await rootBundle.loadString('api/review_reaction.json');
     await Future.delayed(Durations.extralong4);
-    final response = Response(content, HttpStatus.ok);
+    final response = Response(content, HttpStatus.ok); */
 
     if (response.statusCode == HttpStatus.ok) {
       final RemoteResponse<List<dynamic>> networkResponse = RemoteResponse.parse(response: response);
@@ -218,7 +220,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required Identity user,
     required Reaction reaction,
   }) async {
-    /* final Map<String, String> headers = {
+    final Map<String, String> headers = {
       HttpHeaders.authorizationHeader: token,
       'userGuid': user.guid,
       'reviewGuid': review.guid,
@@ -228,10 +230,10 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     final Response response = await client.post(
       RemoteEndpoints.reactOnReview,
       headers: headers,
-    ); */
-    final content = await rootBundle.loadString('api/success.json');
+    );
+    /* final content = await rootBundle.loadString('api/success.json');
     await Future.delayed(Durations.extralong4);
-    final response = Response(content, HttpStatus.ok);
+    final response = Response(content, HttpStatus.ok); */
 
     if (response.statusCode == HttpStatus.ok) {
       final RemoteResponse<void> networkResponse = RemoteResponse.parse(response: response);
