@@ -147,13 +147,13 @@ class ProfileModel extends ProfileEntity {
             ? null
             : Phone(
                 number: phone,
-                verified: map['phoneVerified'] ?? false,
+                verified: map['isPhoneVerified'] ?? false,
               ),
         email: email.isEmpty
             ? null
             : Email(
                 address: email,
-                verified: map['emailVerified'] ?? false,
+                verified: map['isEmailVerified'] ?? false,
               ),
         profilePicture: profilePicture,
         kemonIdentity: KemonIdentity(
