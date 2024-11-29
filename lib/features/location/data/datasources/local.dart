@@ -3,6 +3,7 @@ import '../../location.dart';
 
 abstract class LocationLocalDataSource {
   FutureOr<void> add({
+    required String urlSlug,
     required LocationEntity location,
   });
 

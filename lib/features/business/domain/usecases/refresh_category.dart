@@ -11,7 +11,6 @@ class RefreshBusinessesByCategoryUseCase {
   });
 
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> call({
-    required int page,
     required String category,
     required String? query,
     required SortBy? sort,
@@ -21,9 +20,8 @@ class RefreshBusinessesByCategoryUseCase {
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   }) async =>
-      await repository.category(
+      await repository.refreshCategory(
         category: category,
-        page: page,
         query: query,
         sort: sort,
         division: division,

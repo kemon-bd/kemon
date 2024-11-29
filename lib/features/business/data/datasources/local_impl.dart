@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
@@ -15,9 +16,18 @@ typedef CategoryKey = ({
   List<int> ratings,
 });
 
+typedef LocationKey = ({
+  int page,
+  String location,
+  String? query,
+  SortBy? sort,
+  List<int> ratings,
+});
+
 class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   final Map<String, BusinessEntity> _cache = {};
   final Map<CategoryKey, BusinessesByCategoryPaginatedResponse> _category = {};
+  final Map<LocationKey, BusinessesByLocationPaginatedResponse> _location = {};
 
   @override
   FutureOr<void> add({
@@ -122,5 +132,62 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     );
     _category[key] = response;
     addAll(businesses: response.businesses);
+  }
+
+  @override
+  FutureOr<void> addLocation({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+    required BusinessesByLocationPaginatedResponse response,
+  }) async {
+    final key = (
+      page: page,
+      location: location,
+      query: query,
+      sort: sort,
+      ratings: ratings,
+    );
+    _location[key] = response;
+    addAll(businesses: response.businesses);
+  }
+
+  @override
+  FutureOr<BusinessesByLocationPaginatedResponse> findLocation({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+  }) async {
+    int total = 0;
+    Set<BusinessEntity> businesses = {};
+    Set<LocationEntity> related = {};
+    for (int p = 1; p <= page; p++) {
+      final key = (
+        page: p,
+        location: location,
+        query: query,
+        sort: sort,
+        ratings: ratings,
+      );
+      if (!_location.containsKey(key)) {
+        throw BusinessNotFoundByCategoryInLocalCacheFailure();
+      }
+      final item = _location[key];
+      if (item != null) {
+        total = item.total;
+        businesses.addAll(item.businesses);
+        related.addAll(item.related);
+      }
+    }
+
+    return (
+      total: total,
+      businesses: businesses.toList(),
+      related: related.toList(),
+    );
   }
 }

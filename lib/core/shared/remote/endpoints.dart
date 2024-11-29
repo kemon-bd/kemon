@@ -15,6 +15,8 @@ class RemoteEndpoints {
 
   //! location
   static Uri get featuredLocations => Uri.parse('$_baseUrl/featured-locations');
+  static Uri get listingsByLocation => Uri.parse('$_baseUrl/listing-by-location');
+  static Uri get findLocation => Uri.parse('$_baseUrl/find-category');
 
   //! login
   static Uri get login => Uri.parse('$_baseUrl/token');

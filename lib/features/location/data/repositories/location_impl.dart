@@ -26,4 +26,34 @@ class LocationRepositoryImpl extends LocationRepository {
       return Left(e);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, LocationEntity>> find({
+    required String urlSlug,
+  }) async {
+    try {
+      final result = await local.find(urlSlug: urlSlug);
+      return Right(result);
+    } on CategoryNotFoundInLocalCacheFailure {
+      final result = await remote.find(urlSlug: urlSlug);
+      await local.add(location: result, urlSlug: urlSlug);
+      return Right(result);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, LocationEntity>> refresh({
+    required String urlSlug,
+  }) async {
+    try {
+      await local.removeAll();
+      final result = await remote.find(urlSlug: urlSlug);
+      await local.add(location: result, urlSlug: urlSlug);
+      return Right(result);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
 }

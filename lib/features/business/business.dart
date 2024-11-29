@@ -10,9 +10,13 @@ export 'domain/repositories/business.dart';
 export 'domain/usecases/find.dart';
 export 'domain/usecases/refresh.dart';
 export 'domain/usecases/category.dart';
+export 'domain/usecases/refresh_category.dart';
+export 'domain/usecases/location.dart';
+export 'domain/usecases/refresh_location.dart';
 
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/category_bloc.dart';
+export 'presentation/bloc/location_bloc.dart';
 export 'presentation/pages/business.dart';
 export 'presentation/widgets/item.dart';
 export 'presentation/widgets/item_shimmer.dart';

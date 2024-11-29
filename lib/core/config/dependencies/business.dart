@@ -11,6 +11,13 @@ Future<void> get businessDependencies async {
   sl.registerFactory(
     () => FindBusinessesByCategoryBloc(
       find: sl(),
+      refresh: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindBusinessesByLocationBloc(
+      find: sl(),
+      refresh: sl(),
     ),
   );
 
@@ -27,6 +34,21 @@ Future<void> get businessDependencies async {
   );
   sl.registerFactory(
     () => BusinessesByCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshBusinessesByCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => BusinessesByLocationUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshBusinessesByLocationUseCase(
       repository: sl(),
     ),
   );

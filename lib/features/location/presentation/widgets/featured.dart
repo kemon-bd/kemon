@@ -68,12 +68,12 @@ class FeaturedLocationsWidget extends StatelessWidget {
                         return InkWell(
                           borderRadius: BorderRadius.circular(Dimension.radius.max),
                           onTap: () {
-                            /* context.pushNamed(
-                              CategoryPage.name,
+                            context.pushNamed(
+                              LocationPage.name,
                               pathParameters: {
-                                'urlSlug': category.urlSlug,
+                                'urlSlug': location.urlSlug,
                               },
-                            ); */
+                            );
                           },
                           child: Padding(
                             padding: EdgeInsets.all(Dimension.radius.four),

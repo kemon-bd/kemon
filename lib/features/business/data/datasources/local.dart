@@ -21,6 +21,15 @@ abstract class BusinessLocalDataSource {
     required BusinessesByCategoryPaginatedResponse response,
   });
 
+  FutureOr<void> addLocation({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+    required BusinessesByLocationPaginatedResponse response,
+  });
+
   FutureOr<void> addAll({
     required List<BusinessEntity> businesses,
   });
@@ -40,6 +49,13 @@ abstract class BusinessLocalDataSource {
     required LookupEntity? district,
     required LookupEntity? thana,
     required SubCategoryEntity? sub,
+    required List<int> ratings,
+  });
+  FutureOr<BusinessesByLocationPaginatedResponse> findLocation({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
     required List<int> ratings,
   });
 }

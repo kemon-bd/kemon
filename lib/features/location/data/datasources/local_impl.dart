@@ -6,9 +6,10 @@ class LocationLocalDataSourceImpl extends LocationLocalDataSource {
 
   @override
   FutureOr<void> add({
+    required String urlSlug,
     required LocationEntity location,
   }) {
-    _cache[location.urlSlug] = location;
+    _cache[urlSlug] = location;
   }
 
   @override

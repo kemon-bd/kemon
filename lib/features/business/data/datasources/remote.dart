@@ -19,4 +19,12 @@ abstract class BusinessRemoteDataSource {
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   });
+
+  FutureOr<BusinessesByLocationPaginatedResponse> location({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+  });
 }

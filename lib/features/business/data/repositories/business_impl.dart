@@ -141,7 +141,6 @@ class BusinessRepositoryImpl extends BusinessRepository {
 
   @override
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
-    required int page,
     required String category,
     required String? query,
     required SortBy? sort,
@@ -155,7 +154,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
       await local.removeAll();
       if (await network.online) {
         final result = await remote.category(
-          page: page,
+          page: 1,
           urlSlug: category,
           query: query,
           sort: sort,
@@ -168,7 +167,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
 
         await local.addCategory(
           category: category,
-          page: page,
+          page: 1,
           query: query,
           sort: sort,
           division: division,
@@ -180,28 +179,117 @@ class BusinessRepositoryImpl extends BusinessRepository {
         );
         await subCategory.addAll(subCategories: result.related);
 
+        return Right(
+          (
+            total: result.total,
+            businesses: result.businesses,
+            related: result.related,
+          ),
+        );
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> location({
+    required int page,
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+  }) async {
+    try {
+      final result = await local.findLocation(
+        location: location,
+        page: page,
+        query: query,
+        sort: sort,
+        ratings: ratings,
+      );
+      return Right(result);
+    } on BusinessNotFoundByCategoryInLocalCacheFailure catch (_) {
+      if (await network.online) {
+        final result = await remote.location(
+          page: page,
+          location: location,
+          query: query,
+          sort: sort,
+          ratings: ratings,
+        );
+
+        await local.addLocation(
+          location: location,
+          page: page,
+          query: query,
+          sort: sort,
+          ratings: ratings,
+          response: result,
+        );
+
         final oldBusinesses = page == 1
             ? (
                 total: 0,
                 businesses: [],
                 related: [],
               )
-            : await local.findCategory(
-                category: category,
-                page: page - 1,
+            : await local.findLocation(
+                location: location,
                 query: query,
                 sort: sort,
-                division: division,
-                district: district,
-                thana: thana,
-                sub: sub,
                 ratings: ratings,
+                page: page - 1,
               );
 
         return Right(
           (
             total: result.total,
             businesses: [...oldBusinesses.businesses, ...result.businesses],
+            related: result.related,
+          ),
+        );
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
+    required String location,
+    required String? query,
+    required SortBy? sort,
+    required List<int> ratings,
+  }) async {
+    try {
+      await local.removeAll();
+      if (await network.online) {
+        final result = await remote.location(
+          page: 1,
+          location: location,
+          query: query,
+          sort: sort,
+          ratings: ratings,
+        );
+
+        await local.addLocation(
+          location: location,
+          page: 1,
+          query: query,
+          sort: sort,
+          ratings: ratings,
+          response: result,
+        );
+
+        return Right(
+          (
+            total: result.total,
+            businesses: result.businesses,
             related: result.related,
           ),
         );
