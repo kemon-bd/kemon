@@ -2,17 +2,49 @@
     "success": true,
     "error": null,
     "result": {
-        "total": 2,
+        "total": 10,
         "deadline": "2024-12-31T23:59:59",
         "leaders": [
             {
-                "userId": "7f9fa806-1321-49a2-98fd-055660626a1f",
-                "point": 26
+              "point": 28.0,
+              "userId": "7f9fa806-1321-49a2-98fd-055660626a1f"
             },
             {
-                "userId": "dd5247a5-7ac0-4f1d-8307-2ac355f97580",
-                "point": 4
+              "point": 13.0,
+              "userId": "e9103d34-8183-46a9-b7da-26e43c0bb985"
+            },
+            {
+              "point": 5.0,
+              "userId": "7857783d-5bf3-413a-8d83-a9555e5df5b6"
+            },
+            {
+              "point": 5.0,
+              "userId": "ae00b7ed-8fc0-4b42-89e2-cb98284e3ab1"
+            },
+            {
+              "point": 4.0,
+              "userId": "2d8a44cc-781f-45eb-86aa-d546d56df845"
+            },
+            {
+              "point": 4.0,
+              "userId": "5cdec287-450f-4858-82e2-ad3229a05a74"
+            },
+            {
+              "point": 4.0,
+              "userId": "dd5247a5-7ac0-4f1d-8307-2ac355f97580"
+            },
+            {
+              "point": 4.0,
+              "userId": "fdd59216-7faa-4840-bca6-83feaff434cd"
+            },
+            {
+              "point": 4.0,
+              "userId": "b27f47c2-2860-4fee-93fe-f40e6b7f3c4f"
+            },
+            {
+              "point": 3.0,
+              "userId": "f69d42bf-8d06-4668-a6db-d998bb5f083f"
             }
-        ]
+          ]
     }
 }

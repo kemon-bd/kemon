@@ -58,11 +58,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       collapsedHeight: context.topInset +
                           kToolbarHeight +
                           Dimension.padding.vertical.min -
-                          /* (Platform.isIOS ?  */ Dimension
-                              .size.vertical.twenty /*  : 0) */,
+                          (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
                       expandedHeight: context.topInset +
                           kToolbarHeight +
-                          /* (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) + */
+                          (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
                           Dimension.size.vertical.oneTwelve,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
@@ -72,17 +71,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           ? null
                           : Text(
                               "Leaderboard",
-                              style: TextStyles.bigHeadline(
-                                      context: context,
-                                      color: theme.textPrimary)
+                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
                                   .copyWith(fontSize: Dimension.radius.twenty),
                             ).animate().fade(),
                       actions: [
                         const ShareButton(),
                       ],
                       bottom: PreferredSize(
-                        preferredSize:
-                            Size.fromHeight(Dimension.size.vertical.twenty),
+                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: Dimension.padding.horizontal.max,
@@ -90,8 +86,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(
-                                context: context, color: theme.textPrimary),
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
                               final bloc = context.read<FindLeaderboardBloc>();
                               final filter = bloc.state;
@@ -111,8 +106,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(
-                                  context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -126,22 +120,16 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                               background: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(
-                                    top: context.topInset + kToolbarHeight),
+                                ).copyWith(top: context.topInset + kToolbarHeight),
                                 child: Column(
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           "Leaderboard",
-                                          style: TextStyles.bigHeadline(
-                                                  context: context,
-                                                  color: theme.textPrimary)
-                                              .copyWith(
-                                                  fontSize: Dimension
-                                                      .radius.twentyFour),
+                                          style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
+                                              .copyWith(fontSize: Dimension.radius.twentyFour),
                                         ).animate().fade(),
                                         IconWidget(),
                                       ],
@@ -189,314 +177,6 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           ),
         ),
       );
-
-  Widget firstPlace() {
-    final theme = context.read<ThemeBloc>().state.scheme;
-    const goldColor = Color(0xFFFFD700);
-    final key = GlobalKey();
-    return Stack(
-      children: [
-        Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                key: key,
-                width: context.width,
-                height: 159,
-                padding: const EdgeInsets.all(0).copyWith(top: 39, bottom: 12),
-                decoration: BoxDecoration(
-                  color: theme.positiveBackgroundTertiary,
-                  borderRadius: BorderRadius.circular(32).copyWith(
-                    bottomLeft: Radius.zero,
-                    bottomRight: Radius.zero,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.semiBlack,
-                      offset: const Offset(0, 4),
-                      blurRadius: 16,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Omar',
-                      style: TextStyles.body(
-                              context: context, color: theme.textPrimary)
-                          .copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '1893',
-                      style:
-                          TextStyles.title(context: context, color: theme.link),
-                    ),
-                    Text(
-                      '@omar',
-                      style: TextStyles.caption(
-                          context: context, color: theme.textSecondary),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 159 - 32,
-              child: Center(
-                child: Container(
-                  width: 68,
-                  height: 68,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                      color: goldColor,
-                      width: 3,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: goldColor,
-                        offset: Offset(0, 4),
-                        blurRadius: 16,
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-                    fit: BoxFit.cover,
-                    width: 68,
-                    height: 68,
-                  ),
-                ),
-              ),
-            ),
-            const Positioned(
-              left: 0,
-              right: 0,
-              bottom: 159 + 42,
-              child: Center(
-                child:
-                    FaIcon(FontAwesomeIcons.crown, color: goldColor, size: 32),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget secondPlace() {
-    final theme = context.read<ThemeBloc>().state.scheme;
-    const silverColor = Color(0xFFD9DADB);
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            width: context.width,
-            height: 113,
-            padding: const EdgeInsets.all(0).copyWith(top: 32, bottom: 8),
-            decoration: BoxDecoration(
-              color: theme.positiveBackgroundTertiary,
-              borderRadius: BorderRadius.circular(16).copyWith(
-                topRight: Radius.zero,
-                bottomRight: Radius.zero,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.semiBlack,
-                  offset: const Offset(0, 4),
-                  blurRadius: 16,
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Omar',
-                  style: TextStyles.body(
-                      context: context, color: theme.textPrimary),
-                ),
-                Text(
-                  '1893',
-                  style: TextStyles.title(context: context, color: theme.link),
-                ),
-                Text(
-                  '@omar',
-                  style: TextStyles.caption(
-                      context: context, color: theme.textSecondary),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 113 - 28,
-          child: Center(
-            child: Container(
-              width: 68,
-              height: 68,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: silverColor,
-                  width: 3,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: silverColor,
-                    offset: Offset(0, 4),
-                    blurRadius: 16,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-                fit: BoxFit.cover,
-                width: 68,
-                height: 68,
-              ),
-            ),
-          ),
-        ),
-        const Positioned(
-          left: 0,
-          right: 0,
-          bottom: 113 + 39 + 9,
-          child: Center(
-            child: FaIcon(FontAwesomeIcons.crown, color: silverColor, size: 24),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget thirdPlace() {
-    final theme = context.read<ThemeBloc>().state.scheme;
-    const bronzeColor = Color(0xFFCD7F32);
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            width: context.width,
-            height: 113,
-            padding: const EdgeInsets.all(0).copyWith(top: 32, bottom: 8),
-            decoration: BoxDecoration(
-              color: theme.positiveBackgroundTertiary,
-              borderRadius: BorderRadius.circular(12).copyWith(
-                topLeft: Radius.zero,
-                bottomLeft: Radius.zero,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.semiBlack,
-                  offset: const Offset(0, 4),
-                  blurRadius: 16,
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Omar',
-                  style: TextStyles.body(
-                      context: context, color: theme.textPrimary),
-                ),
-                Text(
-                  '1893',
-                  style: TextStyles.title(context: context, color: theme.link),
-                ),
-                Text(
-                  '@omar',
-                  style: TextStyles.caption(
-                      context: context, color: theme.textSecondary),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 113 - 28,
-          child: Center(
-            child: Container(
-              width: 68,
-              height: 68,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: bronzeColor,
-                  width: 3,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: bronzeColor,
-                    offset: Offset(0, 4),
-                    blurRadius: 16,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-                fit: BoxFit.cover,
-                width: 68,
-                height: 68,
-              ),
-            ),
-          ),
-        ),
-        const Positioned(
-          left: 0,
-          right: 0,
-          bottom: 113 + 39 + 9,
-          child: Center(
-            child: FaIcon(FontAwesomeIcons.crown, color: bronzeColor, size: 24),
-          ),
-        ),
-      ],
-    );
-  }
 }
 
 class ShareButton extends StatelessWidget {
@@ -521,8 +201,7 @@ class ShareButton extends StatelessWidget {
 
         if (result.status == ShareResultStatus.success && context.mounted) {
           result.raw;
-          context.successNotification(
-              message: 'Thank you for sharing Leaderboard');
+          context.successNotification(message: 'Thank you for sharing Leaderboard');
         }
       },
     );
@@ -564,8 +243,7 @@ class SortButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.swap_vert_rounded,
-                size: Dimension.radius.twenty, color: theme.link),
+            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
               style: TextStyles.caption(context: context, color: theme.link),
@@ -592,7 +270,7 @@ class IconWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimension.radius.twelve),
       ),
       child: Icon(
-        Icons.local_activity,
+        Icons.workspace_premium_rounded,
         size: Dimension.radius.twenty,
         color: theme.backgroundTertiary,
       ),
@@ -614,13 +292,11 @@ class TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(
-                    context: context, color: theme.textPrimary),
+                style: TextStyles.title(context: context, color: theme.textPrimary),
               ),
               Text(
-                "Participients",
-                style: TextStyles.body(
-                    context: context, color: theme.textSecondary),
+                "Participants",
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -648,26 +324,23 @@ class ListingsWidget extends StatelessWidget {
         if (state is FindLeaderboardLoading) {
           return ListView.separated(
             itemBuilder: (_, index) {
-              return NetworkingIndicator(
-                  dimension: Dimension.radius.twentyFour, color: theme.primary);
+              return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
             },
-            separatorBuilder: (_, __) =>
-                SizedBox(height: Dimension.padding.vertical.medium),
+            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
             itemCount: 10,
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            padding: EdgeInsets.zero.copyWith(
-                bottom: Dimension.padding.vertical.max + context.bottomInset),
+            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
           );
         } else if (state is FindLeaderboardDone) {
-          final participients = state.leaders;
-          final hasMore = state.total > participients.length;
+          final participants = state.leaders;
+          final hasMore = state.total > participants.length;
 
-          return participients.isNotEmpty
+          return participants.isNotEmpty
               ? ListView.separated(
                   cacheExtent: 0,
                   itemBuilder: (_, index) {
-                    if (index == participients.length && hasMore) {
+                    if (index == participants.length && hasMore) {
                       if (state is! FindLeaderboardPaginating) {
                         context.read<FindLeaderboardBloc>().add(
                               PaginateLeaderboard(
@@ -678,78 +351,68 @@ class ListingsWidget extends StatelessWidget {
                               ),
                             );
                       }
-                      return NetworkingIndicator(
-                          dimension: Dimension.radius.twentyFour,
-                          color: theme.primary);
+                      return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
                     }
-                    final leader = participients[index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: theme.positiveBackgroundTertiary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 54,
-                            child: Text(
-                              '#${index + 1}',
-                              style: TextStyles.title(
-                                  context: context, color: theme.black),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: BlocProvider(
-                              create: (context) => sl<FindProfileBloc>()
-                                ..add(FindProfile(identity: leader.identity)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ProfileNameWidget(
-                                    style: TextStyles.title(
-                                        context: context, color: theme.black),
-                                  ),
-                                  ProfileUsernameWidget(
-                                    style: TextStyles.caption(
-                                        context: context,
-                                        color: theme.semiBlack),
-                                  ),
-                                ],
+                    final leader = participants[index];
+                    return BlocProvider(
+                      create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: leader.identity)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: theme.backgroundSecondary,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimension.padding.horizontal.max,
+                          vertical: Dimension.padding.vertical.medium,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (index < 3)
+                              SvgPicture.asset(
+                                'images/medal/${index == 0 ? 'gold' : index == 1 ? 'silver' : 'bronze'}.svg',
+                                width: Dimension.radius.twentyFour,
+                                height: Dimension.radius.twentyFour,
+                                fit: BoxFit.cover,
+                              ),
+                            if (index >= 3)
+                              Text(
+                                '#${index + 1}',
+                                style: TextStyles.title(context: context, color: theme.black),
+                                textAlign: TextAlign.start,
+                              ),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            ProfilePictureWidget(size: Dimension.radius.twentyFour),
+                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            Expanded(
+                              child: ProfileNameWidget(
+                                style: TextStyles.title(context: context, color: theme.black),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            NumberFormat('###,###,###,###')
-                                .format(leader.point),
-                            style: TextStyles.subTitle(
-                                context: context, color: theme.black),
-                          ),
-                        ],
+                            const SizedBox(width: 16),
+                            Text(
+                              NumberFormat('###,###,###,###').format(leader.point),
+                              style: TextStyles.title(context: context, color: theme.black),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
-                  separatorBuilder: (_, __) =>
-                      SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: participients.length + (hasMore ? 1 : 0),
+                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                  itemCount: participants.length + (hasMore ? 1 : 0),
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom:
-                        Dimension.padding.vertical.max + context.bottomInset,
+                  padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                    bottom: Dimension.padding.vertical.max + context.bottomInset,
                   ),
                 )
               : Center(
                   child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: context.height * .25),
+                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No leaders found :(",
-                      style: TextStyles.title(
-                          context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );
