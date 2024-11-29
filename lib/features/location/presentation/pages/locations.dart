@@ -361,13 +361,13 @@ class _DivisionItem extends StatelessWidget {
                           final district = districts.elementAt(index);
                           return _DistrictItem(district: district);
                         },
-                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.small),
                         itemCount: districts.length,
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
                         padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
                           left: Dimension.padding.horizontal.small,
-                          top: Dimension.padding.vertical.small,
+                          top: 0,
                           right: 0,
                         ),
                       );
@@ -395,7 +395,7 @@ class _DistrictItem extends StatelessWidget {
     final theme = context.theme.scheme;
     return ExpansionTile(
       visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-      tilePadding: EdgeInsets.all(0).copyWith(top: Dimension.padding.vertical.medium),
+      tilePadding: EdgeInsets.all(0),
       childrenPadding: EdgeInsets.all(0),
       leading: Container(
         decoration: BoxDecoration(
