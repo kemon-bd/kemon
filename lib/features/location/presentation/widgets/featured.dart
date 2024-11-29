@@ -46,7 +46,7 @@ class FeaturedLocationsWidget extends StatelessWidget {
                         ),
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                         onPressed: () {
-                          // context.pushNamed(CategoriesPage.name);
+                          context.pushNamed(LocationsPage.name);
                         },
                       ),
                     ],

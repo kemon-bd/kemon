@@ -371,6 +371,11 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: LocationsPage.path,
+      name: LocationsPage.name,
+      builder: (context, state) => LocationsPage(),
+    ),
+    GoRoute(
       path: SubCategoryPage.path,
       name: SubCategoryPage.name,
       builder: (context, state) => MultiBlocProvider(

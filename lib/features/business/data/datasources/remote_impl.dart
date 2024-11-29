@@ -70,7 +70,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required List<int> ratings,
   }) async {
     final Map<String, String> headers = {
-      'urlSlug': location,
+      'urlSlug': location.toLowerCase().trim(),
       'query': query ?? '',
       'pageno': '$page',
       'sortby': sort.value,
@@ -86,8 +86,8 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final List<dynamic> businesses = List<dynamic>.from(networkResponse.result!["listingDatas"]);
-        final List<dynamic> relatedCategories = List<dynamic>.from(networkResponse.result!["relatedDatas"]);
+        final List<dynamic> businesses = List<dynamic>.from(networkResponse.result!["listingDatas"] ?? []);
+        final List<dynamic> relatedCategories = List<dynamic>.from(networkResponse.result!["relatedDatas"] ?? []);
         final int total = networkResponse.result!["totalCount"];
 
         return (
