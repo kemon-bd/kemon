@@ -378,8 +378,8 @@ class _CategoriesWidget extends StatelessWidget {
                                   ? CachedNetworkImage(
                                       imageUrl: industry.icon.url,
                                       fit: BoxFit.cover,
-                                        width: Dimension.radius.thirtyTwo,
-                                        height: Dimension.radius.thirtyTwo,
+                                      width: Dimension.radius.thirtyTwo,
+                                      height: Dimension.radius.thirtyTwo,
                                       placeholder: (_, __) => ShimmerLabel(
                                         width: Dimension.radius.thirtyTwo,
                                         height: Dimension.radius.thirtyTwo,
@@ -402,80 +402,118 @@ class _CategoriesWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        ListView.separated(
-                          cacheExtent: 0,
-                          itemBuilder: (_, index) {
-                            final category = categories.elementAt(index);
-                            final icon = Padding(
-                              padding: EdgeInsets.all(Dimension.radius.four),
-                              child: Icon(
-                                Icons.label_rounded,
-                                size: Dimension.radius.sixteen,
-                                color: theme.backgroundTertiary,
-                              ),
-                            );
-                            final child = Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: category.icon.isNotEmpty
-                                      ? CachedNetworkImage(
-                                          imageUrl: category.icon.url,
-                                          width: Dimension.radius.twentyFour,
-                                          height: Dimension.radius.twentyFour,
-                                          fit: BoxFit.cover,
-                                          placeholder: (_, __) => ShimmerLabel(
-                                            width: Dimension.radius.twentyFour,
-                                            height: Dimension.radius.twentyFour,
-                                          ),
-                                          errorWidget: (_, __, ___) => icon,
-                                        )
-                                      : icon,
-                                ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
-                                Expanded(
-                                  child: Text(
-                                    category.name.full,
-                                    style: TextStyles.body(context: context, color: theme.textPrimary),
-                                  ),
-                                ),
-                              ],
-                            );
-                            if (state.results.lastItem(category: category) && hasMore) {
-                              if (state is! FindAllCategoriesPaginating) {
-                                final bloc = context.read<FindAllCategoriesBloc>();
-                                final filter = bloc.state;
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(width: Dimension.padding.horizontal.large),
+                            Icon(
+                              Icons.subdirectory_arrow_right_rounded,
+                              size: Dimension.radius.thirtyTwo,
+                              color: theme.backgroundSecondary,
+                            ),
+                            Expanded(
+                              child: ListView.separated(
+                                cacheExtent: 0,
+                                itemBuilder: (_, index) {
+                                  final category = categories.elementAt(index);
+                                  final icon = Padding(
+                                    padding: EdgeInsets.all(Dimension.radius.four),
+                                    child: Icon(
+                                      Icons.category_rounded,
+                                      size: Dimension.radius.sixteen,
+                                      color: theme.backgroundTertiary,
+                                    ),
+                                  );
+                                  final child = InkWell(
+                                    onTap: () {
+                                      FocusScope.of(context).requestFocus(FocusNode());
 
-                                bloc.add(
-                                  PaginateAllCategories(
-                                    page: state.page + 1,
-                                    query: filter.query,
-                                    industry: filter.industry,
-                                  ),
-                                );
-                              }
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  child,
-                                  const LinearProgressIndicator(),
-                                ],
-                              );
-                            }
-                            return child;
-                          },
-                          separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
-                          itemCount: categories.length,
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                            left: Dimension.padding.horizontal.ultraMax,
-                            top: Dimension.padding.vertical.medium,
-                          ),
+                                      context.pushNamed(
+                                        CategoryPage.name,
+                                        pathParameters: {
+                                          'urlSlug': category.urlSlug,
+                                        },
+                                      );
+                                    },
+                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                    overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: theme.backgroundSecondary,
+                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
+                                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                          ),
+                                          clipBehavior: Clip.hardEdge,
+                                          child: category.icon.isNotEmpty
+                                              ? CachedNetworkImage(
+                                                  imageUrl: category.icon.url,
+                                                  width: Dimension.radius.twentyFour,
+                                                  height: Dimension.radius.twentyFour,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (_, __) => ShimmerLabel(
+                                                    width: Dimension.radius.twentyFour,
+                                                    height: Dimension.radius.twentyFour,
+                                                  ),
+                                                  errorWidget: (_, __, ___) => icon,
+                                                )
+                                              : icon,
+                                        ),
+                                        SizedBox(width: Dimension.padding.horizontal.medium),
+                                        Expanded(
+                                          child: Text(
+                                            category.name.full,
+                                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                                          ),
+                                        ),
+                                        SizedBox(width: Dimension.padding.horizontal.medium),
+                                        Padding(
+                                          padding: EdgeInsets.all(Dimension.radius.four).copyWith(right: 0),
+                                          child: Icon(
+                                            Icons.open_in_new_rounded,
+                                            size: Dimension.radius.sixteen,
+                                            color: theme.backgroundTertiary,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                  if (state.results.lastItem(category: category) && hasMore) {
+                                    if (state is! FindAllCategoriesPaginating) {
+                                      final bloc = context.read<FindAllCategoriesBloc>();
+                                      final filter = bloc.state;
+
+                                      bloc.add(
+                                        PaginateAllCategories(
+                                          page: state.page + 1,
+                                          query: filter.query,
+                                          industry: filter.industry,
+                                        ),
+                                      );
+                                    }
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        child,
+                                        const LinearProgressIndicator(),
+                                      ],
+                                    );
+                                  }
+                                  return child;
+                                },
+                                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                                itemCount: categories.length,
+                                shrinkWrap: true,
+                                physics: const ScrollPhysics(),
+                                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                                  left: Dimension.padding.horizontal.small,
+                                  top: Dimension.padding.vertical.medium,
+                                  right: 0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     );
