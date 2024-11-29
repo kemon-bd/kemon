@@ -15,7 +15,7 @@ abstract class CategoryLocalDataSource {
   FutureOr<void> featured({
     required List<CategoryEntity> categories,
   });
-  
+
   FutureOr<CategoryEntity> find({
     required String urlSlug,
   });

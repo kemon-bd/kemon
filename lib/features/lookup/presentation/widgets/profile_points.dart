@@ -12,7 +12,8 @@ class ProfilePointsBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.profilePoints)),
+      create: (context) =>
+          sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.profilePoints)),
       child: BlocBuilder<FindLookupBloc, FindLookupState>(
         builder: (context, state) {
           if (state is FindLookupDone) {

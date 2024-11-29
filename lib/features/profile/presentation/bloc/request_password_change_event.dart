@@ -7,7 +7,8 @@ sealed class RequestOtpForPasswordChangeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class RequestOtpForPasswordChange extends RequestOtpForPasswordChangeEvent {
+final class RequestOtpForPasswordChange
+    extends RequestOtpForPasswordChangeEvent {
   final String username;
 
   const RequestOtpForPasswordChange({

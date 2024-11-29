@@ -13,6 +13,7 @@ class RefreshAllCategoryUseCase {
     required String? industry,
     required String? query,
   }) async {
-    return await repository.refreshAll(page: page, industry: industry, query: query);
+    return await repository.refreshAll(
+        page: page, industry: industry, query: query);
   }
 }

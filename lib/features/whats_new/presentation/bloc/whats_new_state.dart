@@ -19,7 +19,6 @@ class WhatsNewState extends Equatable {
     };
   }
 
-
   @override
   List<Object> get props => [hash];
 }

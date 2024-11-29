@@ -24,7 +24,8 @@ class SubCategoryRepositoryImpl extends SubCategoryRepository {
       if (await network.online) {
         final subCategories = await remote.category(category: category);
 
-        await local.addAllByCategory(category: category, subCategories: subCategories);
+        await local.addAllByCategory(
+            category: category, subCategories: subCategories);
         return Right(subCategories);
       } else {
         return Left(NoInternetFailure());
@@ -66,7 +67,8 @@ class SubCategoryRepositoryImpl extends SubCategoryRepository {
       if (await network.online) {
         final subCategories = await remote.category(category: category);
 
-        await local.addAllByCategory(category: category, subCategories: subCategories);
+        await local.addAllByCategory(
+            category: category, subCategories: subCategories);
         return Right(
           subCategories
               .where(

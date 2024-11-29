@@ -1,5 +1,6 @@
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
+import '../../features/analytics/analytics.dart';
 import '../../features/leaderboard/leaderboard.dart';
 import '../../features/registration/registration.dart';
 import '../../features/search/search.dart';
@@ -17,6 +18,7 @@ import '../../features/authentication/authentication.dart';
 part 'dependencies.dart';
 part 'network_certificates.dart';
 //! mason:linking-dependencies - DO NOT REMOVE THIS COMMENT ---------------------->
+part 'dependencies/analytics.dart';
 part 'dependencies/leaderboard.dart';
 part 'dependencies/registration.dart';
 part 'dependencies/search.dart';
@@ -46,9 +48,11 @@ class AppConfig {
       storageDirectory: await getApplicationCacheDirectory(),
     );
 
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
     final FirebaseMessaging messaging = FirebaseMessaging.instance;
-    final NotificationSettings settings = await messaging.getNotificationSettings();
+    final NotificationSettings settings =
+        await messaging.getNotificationSettings();
     FirebaseMessaging.onBackgroundMessage(firebaseHandler);
     if (settings.authorizationStatus != AuthorizationStatus.authorized) {
       await messaging.requestPermission(
@@ -72,7 +76,8 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme = mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme =
+        mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
       canvasColor: theme.backgroundPrimary,
       scaffoldBackgroundColor: theme.backgroundPrimary,
@@ -88,7 +93,8 @@ class AppConfig {
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle:
+            TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: TextStyle(height: 0, fontSize: 0),
         helperStyle: TextStyle(height: 0, fontSize: 0),
         border: OutlineInputBorder(
@@ -152,8 +158,10 @@ class AppConfig {
           ),
         ),
       ),
-      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.twenty),
+      textSelectionTheme:
+          TextSelectionThemeData(cursorColor: theme.textPrimary),
+      iconTheme: IconThemeData(
+          color: theme.textPrimary, size: Dimension.radius.twenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(
         space: Dimension.divider.normal,
@@ -168,7 +176,10 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: (mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
+        systemOverlayStyle: (mode != ThemeMode.dark
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light)
+            .copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
         ),

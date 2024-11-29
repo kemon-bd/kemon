@@ -140,7 +140,8 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
+      refreshCategory({
     required String category,
     required String? query,
     required SortBy? sort,
@@ -260,7 +261,8 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
+  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>>
+      refreshLocation({
     required String location,
     required String? query,
     required SortBy? sort,

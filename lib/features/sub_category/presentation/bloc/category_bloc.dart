@@ -4,7 +4,8 @@ import '../../sub_category.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class SubCategoriesByCategoryBloc extends Bloc<SubCategoriesByCategoryEvent, SubCategoriesByCategoryState> {
+class SubCategoriesByCategoryBloc
+    extends Bloc<SubCategoriesByCategoryEvent, SubCategoriesByCategoryState> {
   final SubCategoriesByCategoryUseCase find;
   final SearchSubCategoriesByCategoryUseCase search;
   SubCategoriesByCategoryBloc({
@@ -16,7 +17,8 @@ class SubCategoriesByCategoryBloc extends Bloc<SubCategoriesByCategoryEvent, Sub
       final result = await find(category: event.category);
       result.fold(
         (failure) => emit(SubCategoriesByCategoryError(failure: failure)),
-        (subCategories) => emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
+        (subCategories) =>
+            emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
       );
     });
     on<SearchSubCategoriesByCategory>((event, emit) async {
@@ -24,7 +26,8 @@ class SubCategoriesByCategoryBloc extends Bloc<SubCategoriesByCategoryEvent, Sub
       final result = await search(category: event.category, query: event.query);
       result.fold(
         (failure) => emit(SubCategoriesByCategoryError(failure: failure)),
-        (subCategories) => emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
+        (subCategories) =>
+            emit(SubCategoriesByCategoryDone(subCategories: subCategories)),
       );
     });
   }

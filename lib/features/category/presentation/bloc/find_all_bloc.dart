@@ -4,7 +4,8 @@ import '../../category.dart';
 part 'find_all_event.dart';
 part 'find_all_state.dart';
 
-class FindAllCategoriesBloc extends Bloc<FindAllCategoriesEvent, FindAllCategoriesState> {
+class FindAllCategoriesBloc
+    extends Bloc<FindAllCategoriesEvent, FindAllCategoriesState> {
   final FindAllCategoryUseCase find;
   final FindAllCategoryUseCase refresh;
 
@@ -13,10 +14,13 @@ class FindAllCategoriesBloc extends Bloc<FindAllCategoriesEvent, FindAllCategori
     required this.refresh,
   }) : super(FindAllCategoriesInitial()) {
     on<FindAllCategories>((event, emit) async {
-      emit(FindAllCategoriesLoading(industry: event.industry, query: event.query));
-      final result = await find(page: 1, industry: event.industry, query: event.query);
+      emit(FindAllCategoriesLoading(
+          industry: event.industry, query: event.query));
+      final result =
+          await find(page: 1, industry: event.industry, query: event.query);
       result.fold(
-        (failure) => emit(FindAllCategoriesError(failure: failure, industry: event.industry, query: event.query)),
+        (failure) => emit(FindAllCategoriesError(
+            failure: failure, industry: event.industry, query: event.query)),
         (response) => emit(FindAllCategoriesDone(
           page: 1,
           results: response.results,
@@ -37,9 +41,11 @@ class FindAllCategoriesBloc extends Bloc<FindAllCategoriesEvent, FindAllCategori
           industry: oldState.industry,
           query: oldState.query,
         ));
-        final result = await find(page: event.page, industry: event.industry, query: event.query);
+        final result = await find(
+            page: event.page, industry: event.industry, query: event.query);
         result.fold(
-          (failure) => emit(FindAllCategoriesError(failure: failure, industry: event.industry, query: event.query)),
+          (failure) => emit(FindAllCategoriesError(
+              failure: failure, industry: event.industry, query: event.query)),
           (response) => emit(FindAllCategoriesDone(
             page: event.page,
             results: response.results,
@@ -52,10 +58,13 @@ class FindAllCategoriesBloc extends Bloc<FindAllCategoriesEvent, FindAllCategori
     });
 
     on<RefreshAllCategories>((event, emit) async {
-      emit(FindAllCategoriesLoading(industry: event.industry, query: event.query));
-      final result = await refresh(page: 1, industry: event.industry, query: event.query);
+      emit(FindAllCategoriesLoading(
+          industry: event.industry, query: event.query));
+      final result =
+          await refresh(page: 1, industry: event.industry, query: event.query);
       result.fold(
-        (failure) => emit(FindAllCategoriesError(failure: failure, industry: event.industry, query: event.query)),
+        (failure) => emit(FindAllCategoriesError(
+            failure: failure, industry: event.industry, query: event.query)),
         (response) => emit(FindAllCategoriesDone(
           page: 1,
           results: response.results,

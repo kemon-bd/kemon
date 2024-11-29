@@ -16,7 +16,8 @@ class LocationsPage extends StatefulWidget {
 }
 
 class _LocationsPageState extends State<LocationsPage> {
-  final divisionBloc = sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.division));
+  final divisionBloc = sl<FindLookupBloc>()
+    ..add(FindLookup(lookup: Lookups.division));
 
   final controller = ScrollController();
   final expanded = ValueNotifier<bool>(true);
@@ -51,8 +52,11 @@ class _LocationsPageState extends State<LocationsPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
-                final double expandedHeight = context.topInset + kToolbarHeight + Dimension.size.vertical.fortyEight;
+                final double collapsedHeight =
+                    kToolbarHeight + Dimension.padding.vertical.medium;
+                final double expandedHeight = context.topInset +
+                    kToolbarHeight +
+                    Dimension.size.vertical.fortyEight;
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,
@@ -71,7 +75,10 @@ class _LocationsPageState extends State<LocationsPage> {
                           ? null
                           : Text(
                               'Locations',
-                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.bigHeadline(
+                                      context: context,
+                                      color: theme.textPrimary)
+                                  .copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Dimension.radius.sixteen,
                               ),
@@ -85,26 +92,37 @@ class _LocationsPageState extends State<LocationsPage> {
                               background: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
+                                ).copyWith(
+                                    top: context.topInset + kToolbarHeight),
                                 child: Column(
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Locations',
-                                            style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                                            style: TextStyles.bigHeadline(
+                                                    context: context,
+                                                    color: theme.textPrimary)
+                                                .copyWith(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: Dimension.radius.twentyFour,
+                                              fontSize:
+                                                  Dimension.radius.twentyFour,
                                             ),
                                           ).animate().fade(),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.all(Dimension.radius.eight),
+                                          padding: EdgeInsets.all(
+                                              Dimension.radius.eight),
                                           decoration: BoxDecoration(
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+                                            border: Border.all(
+                                                width: 1,
+                                                color:
+                                                    theme.backgroundTertiary),
+                                            borderRadius: BorderRadius.circular(
+                                                Dimension.radius.twelve),
                                           ),
                                           child: Icon(
                                             Icons.push_pin_rounded,
@@ -116,7 +134,8 @@ class _LocationsPageState extends State<LocationsPage> {
                                     ),
                                     const SizedBox(height: 16),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const _FilterButton(),
                                         const SizedBox(width: 16),
@@ -142,23 +161,33 @@ class _LocationsPageState extends State<LocationsPage> {
                                   ? ListView.separated(
                                       cacheExtent: 0,
                                       itemBuilder: (_, index) {
-                                        final division = divisions.elementAt(index);
-                                        return _DivisionItem(division: division);
+                                        final division =
+                                            divisions.elementAt(index);
+                                        return _DivisionItem(
+                                            division: division);
                                       },
-                                      separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                                      separatorBuilder: (_, __) => SizedBox(
+                                          height: Dimension
+                                              .padding.vertical.medium),
                                       itemCount: divisions.length,
                                       shrinkWrap: true,
                                       physics: const ScrollPhysics(),
-                                      padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                                        bottom: Dimension.radius.sixteen + context.bottomInset,
+                                      padding: EdgeInsets.all(
+                                              Dimension.radius.sixteen)
+                                          .copyWith(
+                                        bottom: Dimension.radius.sixteen +
+                                            context.bottomInset,
                                       ),
                                     )
                                   : Center(
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: context.height * .25),
                                         child: Text(
                                           "No category found :(",
-                                          style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                                          style: TextStyles.title(
+                                              context: context,
+                                              color: theme.backgroundTertiary),
                                         ),
                                       ),
                                     );
@@ -201,7 +230,8 @@ class _ShareButton extends StatelessWidget {
 
         if (result.status == ShareResultStatus.success && context.mounted) {
           result.raw;
-          context.successNotification(message: 'Thank you for sharing Locations.');
+          context.successNotification(
+              message: 'Thank you for sharing Locations.');
         }
       },
     );
@@ -242,7 +272,8 @@ class _FilterButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Icon(Icons.filter_alt_outlined,
+                size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
               style: TextStyles.caption(context: context, color: theme.white),
@@ -288,7 +319,8 @@ class _SortButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
+            Icon(Icons.swap_vert_rounded,
+                size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
               style: TextStyles.caption(context: context, color: theme.link),
@@ -328,7 +360,8 @@ class _DivisionItem extends StatelessWidget {
       ),
       title: Text(
         division.text,
-        style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
+        style: TextStyles.headline(context: context, color: theme.textPrimary)
+            .copyWith(
           fontWeight: FontWeight.bold,
           fontSize: Dimension.radius.sixteen,
         ),
@@ -349,7 +382,8 @@ class _DivisionItem extends StatelessWidget {
               child: BlocProvider(
                 create: (_) => sl<FindLookupBloc>()
                   ..add(
-                    FindLookupWithParent(lookup: Lookups.district, parent: division.value),
+                    FindLookupWithParent(
+                        lookup: Lookups.district, parent: division.value),
                   ),
                 child: BlocBuilder<FindLookupBloc, FindLookupState>(
                   builder: (context, state) {
@@ -361,11 +395,13 @@ class _DivisionItem extends StatelessWidget {
                           final district = districts.elementAt(index);
                           return _DistrictItem(district: district);
                         },
-                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.small),
+                        separatorBuilder: (_, __) =>
+                            Divider(height: Dimension.padding.vertical.small),
                         itemCount: districts.length,
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                        padding:
+                            EdgeInsets.all(Dimension.radius.sixteen).copyWith(
                           left: Dimension.padding.horizontal.small,
                           top: 0,
                           right: 0,
@@ -413,7 +449,8 @@ class _DistrictItem extends StatelessWidget {
       ),
       title: Text(
         district.text,
-        style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
+        style: TextStyles.headline(context: context, color: theme.textPrimary)
+            .copyWith(
           fontWeight: FontWeight.bold,
           fontSize: Dimension.radius.fourteen,
         ),
@@ -434,7 +471,8 @@ class _DistrictItem extends StatelessWidget {
               child: BlocProvider(
                 create: (_) => sl<FindLookupBloc>()
                   ..add(
-                    FindLookupWithParent(lookup: Lookups.thana, parent: district.value),
+                    FindLookupWithParent(
+                        lookup: Lookups.thana, parent: district.value),
                   ),
                 child: BlocBuilder<FindLookupBloc, FindLookupState>(
                   builder: (context, state) {
@@ -455,19 +493,25 @@ class _DistrictItem extends StatelessWidget {
                                 },
                               );
                             },
-                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                            overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
+                            borderRadius:
+                                BorderRadius.circular(Dimension.radius.eight),
+                            overlayColor: WidgetStatePropertyAll(
+                                theme.backgroundSecondary),
                             child: Row(
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
                                     color: theme.backgroundSecondary,
-                                    border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                    border: Border.all(
+                                        width: 1,
+                                        color: theme.backgroundTertiary),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimension.radius.eight),
                                   ),
                                   clipBehavior: Clip.hardEdge,
                                   child: Padding(
-                                    padding: EdgeInsets.all(Dimension.radius.four),
+                                    padding:
+                                        EdgeInsets.all(Dimension.radius.four),
                                     child: Icon(
                                       Icons.near_me_rounded,
                                       size: Dimension.radius.sixteen,
@@ -475,16 +519,21 @@ class _DistrictItem extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
+                                SizedBox(
+                                    width: Dimension.padding.horizontal.medium),
                                 Expanded(
                                   child: Text(
                                     thana.text,
-                                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                                    style: TextStyles.body(
+                                        context: context,
+                                        color: theme.textPrimary),
                                   ),
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
+                                SizedBox(
+                                    width: Dimension.padding.horizontal.medium),
                                 Padding(
-                                  padding: EdgeInsets.all(Dimension.radius.four).copyWith(right: 0),
+                                  padding: EdgeInsets.all(Dimension.radius.four)
+                                      .copyWith(right: 0),
                                   child: Icon(
                                     Icons.open_in_new_rounded,
                                     size: Dimension.radius.sixteen,
@@ -496,11 +545,13 @@ class _DistrictItem extends StatelessWidget {
                           );
                           return child;
                         },
-                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                        separatorBuilder: (_, __) =>
+                            Divider(height: Dimension.padding.vertical.large),
                         itemCount: thanas.length,
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                        padding:
+                            EdgeInsets.all(Dimension.radius.sixteen).copyWith(
                           left: Dimension.padding.horizontal.small,
                           top: Dimension.padding.vertical.medium,
                           right: 0,

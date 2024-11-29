@@ -18,7 +18,8 @@ class ProfileDangerZoneWidget extends StatelessWidget {
           children: [
             Text(
               'Danger Zone',
-              style: TextStyles.subTitle(context: context, color: theme.negative),
+              style:
+                  TextStyles.subTitle(context: context, color: theme.negative),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -30,13 +31,15 @@ class ProfileDangerZoneWidget extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.small),
+                padding: EdgeInsets.symmetric(
+                    vertical: Dimension.padding.vertical.small),
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.antiAlias,
                 children: [
                   BlocProvider(
                     create: (context) => sl<DeactivateAccountBloc>(),
-                    child: BlocConsumer<DeactivateAccountBloc, DeactivateAccountState>(
+                    child: BlocConsumer<DeactivateAccountBloc,
+                        DeactivateAccountState>(
                       listener: (context, state) {
                         if (state is DeactivateAccountOtp) {
                           context.pushNamed(
@@ -52,37 +55,56 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                           leading: CircleAvatar(
                             radius: Dimension.radius.sixteen,
                             backgroundColor: Colors.deepPurple,
-                            child: Icon(Icons.block_rounded, color: theme.white, size: Dimension.radius.sixteen),
+                            child: Icon(Icons.block_rounded,
+                                color: theme.white,
+                                size: Dimension.radius.sixteen),
                           ),
                           title: Text(
                             'Deactivate account',
-                            style: TextStyles.title(context: context, color: Colors.deepPurple),
+                            style: TextStyles.title(
+                                context: context, color: Colors.deepPurple),
                           ),
                           trailing: state is DeactivateAccountLoading
-                              ? NetworkingIndicator(dimension: Dimension.radius.sixteen, color: Colors.deepPurple)
-                              : Icon(Icons.open_in_new_rounded, color: Colors.deepPurple, size: Dimension.radius.sixteen),
+                              ? NetworkingIndicator(
+                                  dimension: Dimension.radius.sixteen,
+                                  color: Colors.deepPurple)
+                              : Icon(Icons.open_in_new_rounded,
+                                  color: Colors.deepPurple,
+                                  size: Dimension.radius.sixteen),
                           onTap: () {
-                            deactivateContext.read<DeactivateAccountBloc>().add(GenerateOtpForAccountDeactivation());
+                            deactivateContext
+                                .read<DeactivateAccountBloc>()
+                                .add(GenerateOtpForAccountDeactivation());
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  Dimension.radius.sixteen)),
                         );
                       },
                     ),
                   ),
-                  Divider(height: Dimension.padding.vertical.small, thickness: .5, color: theme.negative),
+                  Divider(
+                      height: Dimension.padding.vertical.small,
+                      thickness: .5,
+                      color: theme.negative),
                   ListTile(
                     leading: CircleAvatar(
                       radius: Dimension.radius.sixteen,
                       backgroundColor: theme.negative,
-                      child: Icon(Icons.logout_rounded, color: theme.white, size: Dimension.radius.sixteen),
+                      child: Icon(Icons.logout_rounded,
+                          color: theme.white, size: Dimension.radius.sixteen),
                     ),
                     title: Text(
                       'Logout',
-                      style: TextStyles.title(context: context, color: theme.negative),
+                      style: TextStyles.title(
+                          context: context, color: theme.negative),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.sixteen, color: theme.negative),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded,
+                        size: Dimension.radius.sixteen, color: theme.negative),
                     onTap: () {
-                      context.read<AuthenticationBloc>().add(const AuthenticationLogout());
+                      context
+                          .read<AuthenticationBloc>()
+                          .add(const AuthenticationLogout());
                     },
                   ),
                 ],

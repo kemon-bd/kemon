@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../analytics/analytics.dart';
 import '../../../review/review.dart';
 import '../../business.dart';
 
@@ -116,78 +117,105 @@ class BusinessInformationWidget extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         if ((business.contact.phone ?? '').isNotEmpty) ...[
-                                          ActionChip(
-                                            onPressed: () {
-                                              final uri = Uri(scheme: 'tel', path: business.contact.phone);
-                                              launchUrl(uri);
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            backgroundColor: theme.backgroundPrimary,
-                                            side: BorderSide(color: theme.primary, width: .5),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                                            label: Icon(
-                                              Icons.phone_rounded,
-                                              color: theme.primary,
-                                              size: 16,
+                                          AnalyticsButton(
+                                            child: (bloc) => ActionChip(
+                                              onPressed: () {
+                                                bloc.add(SyncAnalytics(
+                                                  source: AnalyticSource.phone,
+                                                  referrer: business.urlSlug.url,
+                                                  listing: business.identity,
+                                                ));
+                                                final uri = Uri(scheme: 'tel', path: business.contact.phone);
+                                                launchUrl(uri);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              backgroundColor: theme.backgroundPrimary,
+                                              side: BorderSide(color: theme.primary, width: .5),
+                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                              label: Icon(
+                                                Icons.phone_rounded,
+                                                color: theme.primary,
+                                                size: 16,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                         ],
                                         if ((business.contact.email ?? '').isNotEmpty) ...[
-                                          ActionChip(
-                                            onPressed: () {
-                                              final uri = Uri(scheme: 'mailto', path: business.contact.phone);
-                                              launchUrl(uri);
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            backgroundColor: theme.backgroundPrimary,
-                                            side: BorderSide(color: theme.primary, width: .5),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                                            label: Icon(
-                                              Icons.email_rounded,
-                                              color: theme.primary,
-                                              size: 16,
+                                          AnalyticsButton(
+                                            child: (bloc) => ActionChip(
+                                              onPressed: () {
+                                                bloc.add(SyncAnalytics(
+                                                  source: AnalyticSource.email,
+                                                  referrer: business.urlSlug.url,
+                                                  listing: business.identity,
+                                                ));
+                                                final uri = Uri(scheme: 'mailto', path: business.contact.phone);
+                                                launchUrl(uri);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              backgroundColor: theme.backgroundPrimary,
+                                              side: BorderSide(color: theme.primary, width: .5),
+                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                              label: Icon(
+                                                Icons.email_rounded,
+                                                color: theme.primary,
+                                                size: 16,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                         ],
                                         if (business.address.formatted.isNotEmpty) ...[
-                                          ActionChip(
-                                            onPressed: () {
-                                              final uri = Uri(scheme: 'geo', path: business.address.formatted);
-                                              launchUrl(uri);
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            backgroundColor: theme.backgroundPrimary,
-                                            side: BorderSide(color: theme.primary, width: .5),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                                            label: Icon(
-                                              Icons.place_rounded,
-                                              color: theme.primary,
-                                              size: 16,
+                                          AnalyticsButton(
+                                            child: (bloc) => ActionChip(
+                                              onPressed: () {
+                                                bloc.add(SyncAnalytics(
+                                                  source: AnalyticSource.address,
+                                                  referrer: business.urlSlug.url,
+                                                  listing: business.identity,
+                                                ));
+                                                final uri = Uri(scheme: 'geo', path: business.address.formatted);
+                                                launchUrl(uri);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              backgroundColor: theme.backgroundPrimary,
+                                              side: BorderSide(color: theme.primary, width: .5),
+                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                              label: Icon(
+                                                Icons.place_rounded,
+                                                color: theme.primary,
+                                                size: 16,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                         ],
                                         if ((business.contact.website ?? '').isNotEmpty) ...[
-                                          ActionChip(
-                                            onPressed: () {
-                                              final uri =
-                                                  Uri(scheme: 'https', path: business.contact.website!.replaceAll('https', ''));
-                                              launchUrl(uri);
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            backgroundColor: theme.backgroundPrimary,
-                                            side: BorderSide(color: theme.primary, width: .5),
-                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                                            label: Icon(
-                                              Icons.language_rounded,
-                                              color: theme.primary,
-                                              size: 16,
+                                          AnalyticsButton(
+                                            child: (bloc) => ActionChip(
+                                              onPressed: () {
+                                                final uri = Uri.parse(business.contact.website!);
+                                                bloc.add(SyncAnalytics(
+                                                  source: AnalyticSource.website,
+                                                  referrer: uri.toString(),
+                                                  listing: business.identity,
+                                                ));
+                                                launchUrl(uri);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              backgroundColor: theme.backgroundPrimary,
+                                              side: BorderSide(color: theme.primary, width: .5),
+                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                              label: Icon(
+                                                Icons.language_rounded,
+                                                color: theme.primary,
+                                                size: 16,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),

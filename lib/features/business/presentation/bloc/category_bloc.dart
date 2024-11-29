@@ -7,7 +7,8 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc
+    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase find;
   final RefreshBusinessesByCategoryUseCase refresh;
   FindBusinessesByCategoryBloc({

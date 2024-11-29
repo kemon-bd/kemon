@@ -53,7 +53,8 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                   child: Container(
                     width: double.maxFinite,
                     alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 24, bottom: 16).copyWith(top: context.topInset + 8),
+                    padding: const EdgeInsets.only(left: 24, bottom: 16)
+                        .copyWith(top: context.topInset + 8),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -67,9 +68,11 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                       builder: (_, visible) => visible
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
-                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              visualDensity: const VisualDensity(
+                                  horizontal: -4, vertical: -4),
                               onPressed: context.pop,
-                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                              icon: Icon(Icons.arrow_back_rounded,
+                                  color: theme.white),
                             )
                           : Column(
                               mainAxisSize: MainAxisSize.min,
@@ -77,14 +80,18 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                               children: [
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
-                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   onPressed: context.pop,
-                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                  icon: Icon(Icons.arrow_back_rounded,
+                                      color: theme.white),
                                 ),
                                 const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.headline(
+                                          context: context, color: theme.white)
+                                      .copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -92,7 +99,10 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Sign in to your account to continue',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.body(
+                                          context: context,
+                                          color: theme.semiWhite)
+                                      .copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -109,17 +119,20 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                     child: ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                      padding: const EdgeInsets.all(16)
+                          .copyWith(bottom: 16 + context.bottomInset),
                       children: [
                         const SizedBox(height: 42),
                         Semantics(
                           label: 'Email/Phone',
                           child: TextFormField(
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(
+                                context: context, color: theme.textPrimary),
                             controller: usernameController,
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
-                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                            validator: (val) =>
+                                (val?.isNotEmpty ?? false) ? null : "",
                             decoration: InputDecoration(
                               hintText: "required",
                               helperText: '',
@@ -127,7 +140,8 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                               errorStyle: TextStyle(fontSize: 0),
                               label: Text(
                                 'Email/Phone',
-                                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                style: TextStyles.subTitle(
+                                    context: context, color: theme.textPrimary),
                               ),
                               alignLabelWithHint: true,
                             ),
@@ -136,12 +150,15 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                         const SizedBox(height: 20),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: BlocConsumer<CheckProfileBloc, CheckProfileState>(
+                          child:
+                              BlocConsumer<CheckProfileBloc, CheckProfileState>(
                             listener: (context, state) async {
                               if (state is CheckProfileError) {
-                                context.errorNotification(message: state.failure.message);
+                                context.errorNotification(
+                                    message: state.failure.message);
                               } else if (state is CheckProfileExistingUser) {
-                                final ProfileModel? profile = await context.pushNamed(
+                                final ProfileModel? profile =
+                                    await context.pushNamed(
                                   LoginPage.name,
                                   queryParameters: {
                                     'guid': state.profile.identity.guid,
@@ -152,7 +169,8 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 if (!context.mounted) return;
                                 context.pop(profile);
                               } else if (state is CheckProfileNewUser) {
-                                final ProfileModel? profile = await context.pushNamed(
+                                final ProfileModel? profile =
+                                    await context.pushNamed(
                                   VerifyOTPPage.name,
                                   queryParameters: {
                                     'username': usernameController.text,
@@ -168,16 +186,22 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                               if (state is CheckProfileLoading) {
                                 return ElevatedButton(
                                   onPressed: () {
-                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
                                   },
-                                  child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                  child: NetworkingIndicator(
+                                      dimension: 28, color: theme.white),
                                 );
                               }
                               return ElevatedButton(
                                 onPressed: () {
-                                  FocusScope.of(context).requestFocus(FocusNode());
-                                  if (formKey.currentState?.validate() ?? false) {
-                                    context.read<CheckProfileBloc>().add(CheckProfile(username: usernameController.text));
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  if (formKey.currentState?.validate() ??
+                                      false) {
+                                    context.read<CheckProfileBloc>().add(
+                                        CheckProfile(
+                                            username: usernameController.text));
                                   }
                                 },
                                 child: Text(
@@ -196,11 +220,13 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
                                     onTap: () async {
-                                      await context.pushNamed(ForgotPasswordPage.name);
+                                      await context
+                                          .pushNamed(ForgotPasswordPage.name);
                                     },
                                     child: Text(
                                       'Forgot Password',
-                                      style: TextStyles.title(context: context, color: theme.link),
+                                      style: TextStyles.title(
+                                          context: context, color: theme.link),
                                     ),
                                   ),
                                 ),

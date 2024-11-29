@@ -47,9 +47,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                final double collapsedHeight =
-                    context.topInset + kToolbarHeight + Dimension.padding.vertical.min - Dimension.size.vertical.twenty;
-                final double expandedHeight = context.topInset + kToolbarHeight + Dimension.size.vertical.oneTwelve;
+                final double collapsedHeight = context.topInset +
+                    kToolbarHeight +
+                    Dimension.padding.vertical.min -
+                    Dimension.size.vertical.twenty;
+                final double expandedHeight = context.topInset +
+                    kToolbarHeight +
+                    Dimension.size.vertical.oneTwelve;
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,
@@ -68,7 +72,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ? null
                           : Text(
                               'Categories',
-                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.bigHeadline(
+                                      context: context,
+                                      color: theme.textPrimary)
+                                  .copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Dimension.radius.sixteen,
                               ),
@@ -78,7 +85,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         const _ShareButton(),
                       ],
                       bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                        preferredSize:
+                            Size.fromHeight(Dimension.size.vertical.twenty),
                         child: Container(
                           decoration: BoxDecoration(
                             color: theme.backgroundPrimary.withAlpha(200),
@@ -89,9 +97,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(
+                                context: context, color: theme.textPrimary),
                             onChanged: (query) {
-                              final bloc = context.read<FindAllCategoriesBloc>();
+                              final bloc =
+                                  context.read<FindAllCategoriesBloc>();
                               final filter = bloc.state;
 
                               bloc.add(FindAllCategories(
@@ -106,7 +116,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body(
+                                  context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -120,26 +131,37 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               background: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
+                                ).copyWith(
+                                    top: context.topInset + kToolbarHeight),
                                 child: Column(
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Categories',
-                                            style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                                            style: TextStyles.bigHeadline(
+                                                    context: context,
+                                                    color: theme.textPrimary)
+                                                .copyWith(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: Dimension.radius.twentyFour,
+                                              fontSize:
+                                                  Dimension.radius.twentyFour,
                                             ),
                                           ).animate().fade(),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.all(Dimension.radius.eight),
+                                          padding: EdgeInsets.all(
+                                              Dimension.radius.eight),
                                           decoration: BoxDecoration(
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+                                            border: Border.all(
+                                                width: 1,
+                                                color:
+                                                    theme.backgroundTertiary),
+                                            borderRadius: BorderRadius.circular(
+                                                Dimension.radius.twelve),
                                           ),
                                           child: Icon(
                                             Icons.label_rounded,
@@ -151,7 +173,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                     ),
                                     const SizedBox(height: 16),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const _FilterButton(),
                                         const SizedBox(width: 16),
@@ -166,7 +189,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             )
                           : null,
                     ),
-                    SliverToBoxAdapter(child: _CategoriesWidget(search: search)),
+                    SliverToBoxAdapter(
+                        child: _CategoriesWidget(search: search)),
                   ],
                 );
               },
@@ -200,7 +224,8 @@ class _ShareButton extends StatelessWidget {
 
         if (result.status == ShareResultStatus.success && context.mounted) {
           result.raw;
-          context.successNotification(message: 'Thank you for sharing Categories.');
+          context.successNotification(
+              message: 'Thank you for sharing Categories.');
         }
       },
     );
@@ -242,7 +267,8 @@ class _FilterButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Icon(Icons.filter_alt_outlined,
+                size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
               style: TextStyles.caption(context: context, color: theme.white),
@@ -289,7 +315,8 @@ class _SortButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
+            Icon(Icons.swap_vert_rounded,
+                size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
               style: TextStyles.caption(context: context, color: theme.link),
@@ -315,11 +342,13 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(context: context, color: theme.textPrimary),
+                style: TextStyles.title(
+                    context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: TextStyles.body(
+                    context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -371,8 +400,10 @@ class _CategoriesWidget extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                border: Border.all(
+                                    width: 1, color: theme.backgroundTertiary),
+                                borderRadius: BorderRadius.circular(
+                                    Dimension.radius.eight),
                               ),
                               child: industry.icon.isNotEmpty
                                   ? CachedNetworkImage(
@@ -392,7 +423,10 @@ class _CategoriesWidget extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 industry.name.full,
-                                style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
+                                style: TextStyles.headline(
+                                        context: context,
+                                        color: theme.textPrimary)
+                                    .copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: Dimension.radius.sixteen,
                                 ),
@@ -417,7 +451,8 @@ class _CategoriesWidget extends StatelessWidget {
                                 itemBuilder: (_, index) {
                                   final category = categories.elementAt(index);
                                   final icon = Padding(
-                                    padding: EdgeInsets.all(Dimension.radius.four),
+                                    padding:
+                                        EdgeInsets.all(Dimension.radius.four),
                                     child: Icon(
                                       Icons.category_rounded,
                                       size: Dimension.radius.sixteen,
@@ -426,7 +461,8 @@ class _CategoriesWidget extends StatelessWidget {
                                   );
                                   final child = InkWell(
                                     onTap: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
 
                                       context.pushNamed(
                                         CategoryPage.name,
@@ -435,41 +471,61 @@ class _CategoriesWidget extends StatelessWidget {
                                         },
                                       );
                                     },
-                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                                    overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimension.radius.eight),
+                                    overlayColor: WidgetStatePropertyAll(
+                                        theme.backgroundSecondary),
                                     child: Row(
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
                                             color: theme.backgroundSecondary,
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                            border: Border.all(
+                                                width: 1,
+                                                color:
+                                                    theme.backgroundTertiary),
+                                            borderRadius: BorderRadius.circular(
+                                                Dimension.radius.eight),
                                           ),
                                           clipBehavior: Clip.hardEdge,
                                           child: category.icon.isNotEmpty
                                               ? CachedNetworkImage(
                                                   imageUrl: category.icon.url,
-                                                  width: Dimension.radius.twentyFour,
-                                                  height: Dimension.radius.twentyFour,
+                                                  width: Dimension
+                                                      .radius.twentyFour,
+                                                  height: Dimension
+                                                      .radius.twentyFour,
                                                   fit: BoxFit.cover,
-                                                  placeholder: (_, __) => ShimmerLabel(
-                                                    width: Dimension.radius.twentyFour,
-                                                    height: Dimension.radius.twentyFour,
+                                                  placeholder: (_, __) =>
+                                                      ShimmerLabel(
+                                                    width: Dimension
+                                                        .radius.twentyFour,
+                                                    height: Dimension
+                                                        .radius.twentyFour,
                                                   ),
-                                                  errorWidget: (_, __, ___) => icon,
+                                                  errorWidget: (_, __, ___) =>
+                                                      icon,
                                                 )
                                               : icon,
                                         ),
-                                        SizedBox(width: Dimension.padding.horizontal.medium),
+                                        SizedBox(
+                                            width: Dimension
+                                                .padding.horizontal.medium),
                                         Expanded(
                                           child: Text(
                                             category.name.full,
-                                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textPrimary),
                                           ),
                                         ),
-                                        SizedBox(width: Dimension.padding.horizontal.medium),
+                                        SizedBox(
+                                            width: Dimension
+                                                .padding.horizontal.medium),
                                         Padding(
-                                          padding: EdgeInsets.all(Dimension.radius.four).copyWith(right: 0),
+                                          padding: EdgeInsets.all(
+                                                  Dimension.radius.four)
+                                              .copyWith(right: 0),
                                           child: Icon(
                                             Icons.open_in_new_rounded,
                                             size: Dimension.radius.sixteen,
@@ -479,9 +535,12 @@ class _CategoriesWidget extends StatelessWidget {
                                       ],
                                     ),
                                   );
-                                  if (state.results.lastItem(category: category) && hasMore) {
+                                  if (state.results
+                                          .lastItem(category: category) &&
+                                      hasMore) {
                                     if (state is! FindAllCategoriesPaginating) {
-                                      final bloc = context.read<FindAllCategoriesBloc>();
+                                      final bloc =
+                                          context.read<FindAllCategoriesBloc>();
                                       final filter = bloc.state;
 
                                       bloc.add(
@@ -502,11 +561,14 @@ class _CategoriesWidget extends StatelessWidget {
                                   }
                                   return child;
                                 },
-                                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                                separatorBuilder: (_, __) => Divider(
+                                    height: Dimension.padding.vertical.large),
                                 itemCount: categories.length,
                                 shrinkWrap: true,
                                 physics: const ScrollPhysics(),
-                                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                                padding:
+                                    EdgeInsets.all(Dimension.radius.sixteen)
+                                        .copyWith(
                                   left: Dimension.padding.horizontal.small,
                                   top: Dimension.padding.vertical.medium,
                                   right: 0,
@@ -518,7 +580,8 @@ class _CategoriesWidget extends StatelessWidget {
                       ],
                     );
                   },
-                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                  separatorBuilder: (_, __) =>
+                      SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: state.results.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
@@ -528,10 +591,12 @@ class _CategoriesWidget extends StatelessWidget {
                 )
               : Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                    padding:
+                        EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No category found :(",
-                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.title(
+                          context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );

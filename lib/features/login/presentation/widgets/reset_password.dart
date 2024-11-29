@@ -41,7 +41,9 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
               children: [
                 Text(
                   'Reset Password',
-                  style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
+                  style: TextStyles.headline(
+                          context: context, color: theme.textPrimary)
+                      .copyWith(
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
@@ -49,7 +51,9 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                 SizedBox(height: Dimension.padding.vertical.small),
                 Text(
                   'Enter your new password. It must be at least 6 characters long.',
-                  style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                  style: TextStyles.body(
+                          context: context, color: theme.textSecondary)
+                      .copyWith(
                     height: 1,
                   ),
                 ),
@@ -59,19 +63,26 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: newObscured,
                   textInputAction: TextInputAction.next,
-                  autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
+                  autofillHints: const [
+                    AutofillHints.password,
+                    AutofillHints.newPassword
+                  ],
                   validator: (value) => newController.validPassword ? null : "",
                   decoration: InputDecoration(
                     labelText: 'New Password',
-                    labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                    labelStyle: TextStyles.body(
+                        context: context, color: theme.textPrimary),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                      visualDensity:
+                          const VisualDensity(horizontal: -4, vertical: -4),
                       icon: Icon(
                         newObscured ? Icons.visibility : Icons.visibility_off,
-                        color: newController.validPassword ? theme.textPrimary : theme.negative,
+                        color: newController.validPassword
+                            ? theme.textPrimary
+                            : theme.negative,
                       ),
                       onPressed: () {
                         setState(() {
@@ -87,20 +98,31 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: confirmObscured,
                   textInputAction: TextInputAction.next,
-                  autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
-                  validator: (value) =>
-                      confirmController.validPassword && newController.text.same(as: confirmController.text) ? null : "",
+                  autofillHints: const [
+                    AutofillHints.password,
+                    AutofillHints.newPassword
+                  ],
+                  validator: (value) => confirmController.validPassword &&
+                          newController.text.same(as: confirmController.text)
+                      ? null
+                      : "",
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
-                    labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                    labelStyle: TextStyles.body(
+                        context: context, color: theme.textPrimary),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                      visualDensity:
+                          const VisualDensity(horizontal: -4, vertical: -4),
                       icon: Icon(
-                        confirmObscured ? Icons.visibility : Icons.visibility_off,
-                        color: confirmController.validPassword ? theme.textPrimary : theme.negative,
+                        confirmObscured
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: confirmController.validPassword
+                            ? theme.textPrimary
+                            : theme.negative,
                       ),
                       onPressed: () {
                         setState(() {
@@ -117,16 +139,20 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                     listener: (context, state) async {
                       if (state is ResetPasswordDone) {
                         context.pop(true);
-                        context.successNotification(message: 'Password changed successfully!!!');
+                        context.successNotification(
+                            message: 'Password changed successfully!!!');
                       } else if (state is ResetPasswordError) {
-                        context.errorNotification(message: state.failure.message);
+                        context.errorNotification(
+                            message: state.failure.message);
                       }
                     },
                     builder: (context, state) {
                       if (state is ResetPasswordLoading) {
                         return ElevatedButton(
                           onPressed: () {},
-                          child: NetworkingIndicator(dimension: Dimension.radius.sixteen, color: theme.white),
+                          child: NetworkingIndicator(
+                              dimension: Dimension.radius.sixteen,
+                              color: theme.white),
                         );
                       }
                       return ElevatedButton(

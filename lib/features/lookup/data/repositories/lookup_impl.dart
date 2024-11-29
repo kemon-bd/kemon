@@ -22,7 +22,9 @@ class LookupRepositoryImpl extends LookupRepository {
     } on LookupNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find(key: key);
-        await local.cache(key: key, items: result..sort((a,b)=> a.order.compareTo(b.order)));
+        await local.cache(
+            key: key,
+            items: result..sort((a, b) => a.order.compareTo(b.order)));
         return Right(result);
       } else {
         return Left(NoInternetFailure());
@@ -39,12 +41,14 @@ class LookupRepositoryImpl extends LookupRepository {
   }) async {
     try {
       final result = await local.find(key: key);
-      return Right(result.where((lookup) => lookup.text.match(like: query)).toList());
+      return Right(
+          result.where((lookup) => lookup.text.match(like: query)).toList());
     } on LookupNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find(key: key);
         await local.cache(key: key, items: result);
-        return Right(result.where((lookup) => lookup.text.match(like: query)).toList());
+        return Right(
+            result.where((lookup) => lookup.text.match(like: query)).toList());
       } else {
         return Left(NoInternetFailure());
       }

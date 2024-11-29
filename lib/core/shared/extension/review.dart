@@ -35,7 +35,8 @@ extension RatingEntityExtension on RatingEntity {
   }
 
   double get average {
-    final int totalRating = (5 * five) + (4 * four) + (3 * three) + (2 * two) + one;
+    final int totalRating =
+        (5 * five) + (4 * four) + (3 * three) + (2 * two) + one;
     return total > 0 ? totalRating / total : 0;
   }
 }
@@ -48,7 +49,9 @@ extension ReactionEntitiesExtension on List<ReactionEntity> {
   }) =>
       identity != null
           ? any(
-              (r) => r.user.guid.same(as: identity.guid) && r.type == Reaction.like,
+              (r) =>
+                  r.user.guid.same(as: identity.guid) &&
+                  r.type == Reaction.like,
             )
           : false;
   bool iDisliked({
@@ -56,7 +59,9 @@ extension ReactionEntitiesExtension on List<ReactionEntity> {
   }) =>
       identity != null
           ? any(
-              (r) => r.user.guid.same(as: identity.guid) && r.type == Reaction.dislike,
+              (r) =>
+                  r.user.guid.same(as: identity.guid) &&
+                  r.type == Reaction.dislike,
             )
           : false;
   int get likes => where((r) => r.type == Reaction.like).length;

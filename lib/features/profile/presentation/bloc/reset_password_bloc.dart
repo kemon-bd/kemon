@@ -12,7 +12,8 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   }) : super(ResetPasswordInitial()) {
     on<ResetPassword>((event, emit) async {
       emit(ResetPasswordLoading());
-      final result = await useCase(username: event.username, password: event.password);
+      final result =
+          await useCase(username: event.username, password: event.password);
       result.fold(
         (failure) => emit(ResetPasswordError(failure: failure)),
         (r) => emit(ResetPasswordDone()),

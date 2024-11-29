@@ -106,3 +106,4 @@ export 'package:share_plus/share_plus.dart';
 export 'package:flutter_web_plugins/url_strategy.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:device_info_plus/device_info_plus.dart';

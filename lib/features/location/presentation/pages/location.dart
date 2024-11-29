@@ -62,7 +62,8 @@ class _LocationPageState extends State<LocationPage> {
                       collapsedHeight: context.topInset +
                           kToolbarHeight +
                           Dimension.padding.vertical.min -
-                          /* (Platform.isIOS ?  */ Dimension.size.vertical.twenty /*  : 0) */,
+                          /* (Platform.isIOS ?  */ Dimension
+                              .size.vertical.twenty /*  : 0) */,
                       expandedHeight: context.topInset +
                           kToolbarHeight +
                           /* (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) + */
@@ -83,7 +84,8 @@ class _LocationPageState extends State<LocationPage> {
                         const _ShareButton(),
                       ],
                       bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                        preferredSize:
+                            Size.fromHeight(Dimension.size.vertical.twenty),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: Dimension.padding.horizontal.max,
@@ -91,9 +93,11 @@ class _LocationPageState extends State<LocationPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(
+                                context: context, color: theme.textPrimary),
                             onChanged: (query) {
-                              final bloc = context.read<FindBusinessesByLocationBloc>();
+                              final bloc =
+                                  context.read<FindBusinessesByLocationBloc>();
                               final filter = bloc.state;
 
                               bloc.add(FindBusinessesByLocation(
@@ -110,7 +114,8 @@ class _LocationPageState extends State<LocationPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body(
+                                  context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -124,14 +129,19 @@ class _LocationPageState extends State<LocationPage> {
                               background: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
+                                ).copyWith(
+                                    top: context.topInset + kToolbarHeight),
                                 child: Column(
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
-                                          child: _NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
+                                          child: _NameWidget(
+                                                  urlSlug: widget.urlSlug,
+                                                  fontSize: Dimension
+                                                      .radius.twentyFour)
                                               .animate()
                                               .fade(),
                                         ),
@@ -140,7 +150,8 @@ class _LocationPageState extends State<LocationPage> {
                                     ),
                                     const SizedBox(height: 16),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         _FilterButton(urlSlug: widget.urlSlug),
                                         const SizedBox(width: 16),
@@ -155,7 +166,9 @@ class _LocationPageState extends State<LocationPage> {
                             )
                           : null,
                     ),
-                    SliverToBoxAdapter(child: _ListingsWidget(search: search, urlSlug: widget.urlSlug)),
+                    SliverToBoxAdapter(
+                        child: _ListingsWidget(
+                            search: search, urlSlug: widget.urlSlug)),
                   ],
                 );
               },
@@ -191,9 +204,11 @@ class _ShareButton extends StatelessWidget {
 #KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
               );
 
-              if (result.status == ShareResultStatus.success && context.mounted) {
+              if (result.status == ShareResultStatus.success &&
+                  context.mounted) {
                 result.raw;
-                context.successNotification(message: 'Thank you for sharing ${location.name.full}');
+                context.successNotification(
+                    message: 'Thank you for sharing ${location.name.full}');
               }
             },
           );
@@ -222,7 +237,8 @@ class _FilterButton extends StatelessWidget {
           isScrollControlled: true,
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(
+                  value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
             child: const FilterBusinessesByLocationWidget(),
@@ -242,7 +258,8 @@ class _FilterButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Icon(Icons.filter_alt_outlined,
+                size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
               style: TextStyles.caption(context: context, color: theme.white),
@@ -269,7 +286,8 @@ class _SortButton extends StatelessWidget {
           isScrollControlled: true,
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(
+                  value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
             child: const SortBusinessesByLocationWidget(),
@@ -289,7 +307,8 @@ class _SortButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
+            Icon(Icons.swap_vert_rounded,
+                size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
               style: TextStyles.caption(context: context, color: theme.link),
@@ -320,7 +339,9 @@ class _NameWidget extends StatelessWidget {
           final location = state.location;
           return Text(
             location.name.full,
-            style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+            style: TextStyles.bigHeadline(
+                    context: context, color: theme.textPrimary)
+                .copyWith(
               fontWeight: FontWeight.bold,
               fontSize: fontSize ?? Dimension.radius.twelve,
             ),
@@ -364,7 +385,8 @@ class _TotalCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
+    return BlocBuilder<FindBusinessesByLocationBloc,
+        FindBusinessesByLocationState>(
       builder: (context, state) {
         if (state is FindBusinessesByLocationDone) {
           return Column(
@@ -372,11 +394,13 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(context: context, color: theme.textPrimary),
+                style: TextStyles.title(
+                    context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: TextStyles.body(
+                    context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -400,18 +424,21 @@ class _ListingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
+    return BlocBuilder<FindBusinessesByLocationBloc,
+        FindBusinessesByLocationState>(
       builder: (context, state) {
         if (state is FindBusinessesByLocationLoading) {
           return ListView.separated(
             itemBuilder: (_, index) {
               return const BusinessItemShimmerWidget();
             },
-            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+            separatorBuilder: (_, __) =>
+                SizedBox(height: Dimension.padding.vertical.medium),
             itemCount: 10,
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
+            padding: EdgeInsets.zero.copyWith(
+                bottom: Dimension.padding.vertical.max + context.bottomInset),
           );
         } else if (state is FindBusinessesByLocationDone) {
           final businesses = state.businesses;
@@ -436,24 +463,29 @@ class _ListingsWidget extends StatelessWidget {
                     }
                     final business = businesses[index];
                     return BlocProvider(
-                      create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: business.urlSlug)),
+                      create: (_) => sl<FindBusinessBloc>()
+                        ..add(FindBusiness(urlSlug: business.urlSlug)),
                       child: const BusinessItemWidget(),
                     );
                   },
-                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                  separatorBuilder: (_, __) =>
+                      SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: businesses.length + (hasMore ? 1 : 0),
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   padding: EdgeInsets.zero.copyWith(
-                    bottom: Dimension.padding.vertical.max + context.bottomInset,
+                    bottom:
+                        Dimension.padding.vertical.max + context.bottomInset,
                   ),
                 )
               : Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                    padding:
+                        EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No listing found :(",
-                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.title(
+                          context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );

@@ -6,6 +6,7 @@ typedef LeaderboardResponse = ({
   int total,
   DateTime deadline,
 });
+
 abstract class LeaderboardRepository {
   FutureOr<Either<Failure, LeaderboardResponse>> find({
     required int page,

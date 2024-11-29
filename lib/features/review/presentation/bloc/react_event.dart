@@ -7,7 +7,6 @@ sealed class ReactOnReviewEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
 class ReactOnReview extends ReactOnReviewEvent {
   final Identity review;
   final Reaction reaction;

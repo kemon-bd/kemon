@@ -5,7 +5,8 @@ import '../../business.dart';
 part 'location_event.dart';
 part 'location_state.dart';
 
-class FindBusinessesByLocationBloc extends Bloc<FindBusinessesByLocationEvent, FindBusinessesByLocationState> {
+class FindBusinessesByLocationBloc
+    extends Bloc<FindBusinessesByLocationEvent, FindBusinessesByLocationState> {
   final BusinessesByLocationUseCase find;
   final RefreshBusinessesByLocationUseCase refresh;
   FindBusinessesByLocationBloc({

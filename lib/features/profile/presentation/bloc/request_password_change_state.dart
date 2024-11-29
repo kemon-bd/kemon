@@ -7,13 +7,15 @@ sealed class RequestOtpForPasswordChangeState extends Equatable {
   List<Object> get props => [];
 }
 
-final class RequestOtpForPasswordChangeInitial extends RequestOtpForPasswordChangeState {
+final class RequestOtpForPasswordChangeInitial
+    extends RequestOtpForPasswordChangeState {
   const RequestOtpForPasswordChangeInitial();
   @override
   List<Object> get props => [];
 }
 
-final class RequestOtpForPasswordChangeError extends RequestOtpForPasswordChangeState {
+final class RequestOtpForPasswordChangeError
+    extends RequestOtpForPasswordChangeState {
   final Failure failure;
 
   const RequestOtpForPasswordChangeError({
@@ -23,13 +25,15 @@ final class RequestOtpForPasswordChangeError extends RequestOtpForPasswordChange
   List<Object> get props => [failure];
 }
 
-final class RequestOtpForPasswordChangeLoading extends RequestOtpForPasswordChangeState {
+final class RequestOtpForPasswordChangeLoading
+    extends RequestOtpForPasswordChangeState {
   const RequestOtpForPasswordChangeLoading();
   @override
   List<Object> get props => [];
 }
 
-final class RequestOtpForPasswordChangeDone extends RequestOtpForPasswordChangeState {
+final class RequestOtpForPasswordChangeDone
+    extends RequestOtpForPasswordChangeState {
   final String otp;
 
   const RequestOtpForPasswordChangeDone({

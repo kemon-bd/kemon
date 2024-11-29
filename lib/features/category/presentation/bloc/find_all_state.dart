@@ -57,7 +57,6 @@ class FindAllCategoriesDone extends FindAllCategoriesState {
 }
 
 class FindAllCategoriesPaginating extends FindAllCategoriesDone {
-
   const FindAllCategoriesPaginating({
     required super.page,
     required super.total,

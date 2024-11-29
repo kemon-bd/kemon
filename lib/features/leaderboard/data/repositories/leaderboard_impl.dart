@@ -67,7 +67,8 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
           to: to,
         );
 
-        await local.add(page: 1, query: '', from: from, to: to, leaderboard: result);
+        await local.add(
+            page: 1, query: '', from: from, to: to, leaderboard: result);
 
         return Right(result);
       } else {

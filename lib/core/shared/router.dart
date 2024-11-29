@@ -21,9 +21,15 @@ final router = GoRouter(
       name: HomePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => sl<FeaturedCategoriesBloc>()..add(const FeaturedCategories())),
-          BlocProvider(create: (context) => sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
-          BlocProvider(create: (context) => sl<RecentReviewsBloc>()..add(const RecentReviews())),
+          BlocProvider(
+              create: (context) => sl<FeaturedCategoriesBloc>()
+                ..add(const FeaturedCategories())),
+          BlocProvider(
+              create: (context) =>
+                  sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
+          BlocProvider(
+              create: (context) =>
+                  sl<RecentReviewsBloc>()..add(const RecentReviews())),
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
@@ -38,17 +44,23 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindProfileBloc>()
               ..add(
-                FindProfile(identity: Identity.guid(guid: state.uri.queryParameters['guid']!)),
+                FindProfile(
+                    identity: Identity.guid(
+                        guid: state.uri.queryParameters['guid']!)),
               ),
           ),
           BlocProvider(create: (context) => sl<LoginBloc>()),
         ],
         child: LoginPage(
           username: state.uri.queryParameters['username']!,
-          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? ''),
+          authorize:
+              bool.tryParse(state.uri.queryParameters['authorize'] ?? ''),
         ),
       ),
-      redirect: (context, state) => state.uri.queryParameters.containsKey('guid') ? null : CheckProfilePage.path,
+      redirect: (context, state) =>
+          state.uri.queryParameters.containsKey('guid')
+              ? null
+              : CheckProfilePage.path,
     ),
     GoRoute(
       path: CheckProfilePage.path,
@@ -58,7 +70,9 @@ final router = GoRouter(
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
         ],
         child: CheckProfilePage(
-          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
+          authorize:
+              bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ??
+                  false,
         ),
       ),
     ),
@@ -70,7 +84,9 @@ final router = GoRouter(
         child: VerifyOTPPage(
           otp: state.uri.queryParameters['otp']!,
           username: state.uri.queryParameters['username']!,
-          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
+          authorize:
+              bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ??
+                  false,
         ),
       ),
     ),
@@ -85,7 +101,9 @@ final router = GoRouter(
         ],
         child: RegistrationPage(
           username: state.uri.queryParameters['username']!,
-          authorize: bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ?? false,
+          authorize:
+              bool.tryParse(state.uri.queryParameters['authorize'] ?? '') ??
+                  false,
         ),
       ),
     ),
@@ -93,7 +111,8 @@ final router = GoRouter(
       path: ProfilePage.path,
       name: ProfilePage.name,
       builder: (context, state) => BlocProvider(
-        create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
+        create: (context) => sl<FindProfileBloc>()
+          ..add(FindProfile(identity: context.auth.identity!)),
         child: const ProfilePage(),
       ),
     ),
@@ -102,7 +121,8 @@ final router = GoRouter(
       name: ForgotPasswordPage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => sl<RequestOtpForPasswordChangeBloc>()),
+          BlocProvider(
+              create: (context) => sl<RequestOtpForPasswordChangeBloc>()),
           BlocProvider(create: (context) => sl<ResetPasswordBloc>()),
         ],
         child: ForgotPasswordPage(),
@@ -155,7 +175,8 @@ final router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
+            create: (context) => sl<FindProfileBloc>()
+              ..add(FindProfile(identity: context.auth.identity!)),
           ),
           BlocProvider(create: (context) => sl<UpdateProfileBloc>()),
         ],
@@ -248,7 +269,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindListingReviewsBloc>()
               ..add(
-                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!, filter: []),
+                FindListingReviews(
+                    urlSlug: state.pathParameters['urlSlug']!, filter: []),
               ),
           ),
         ],
@@ -272,7 +294,8 @@ final router = GoRouter(
         ],
         child: NewReviewPage(
           urlSlug: state.pathParameters['urlSlug']!,
-          rating: double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
+          rating:
+              double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
         ),
       ),
     ),
@@ -338,7 +361,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                    category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -361,7 +385,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByLocationBloc>()
               ..add(
-                FindBusinessesByLocation(location: state.pathParameters['urlSlug']!),
+                FindBusinessesByLocation(
+                    location: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -389,7 +414,8 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(
+                    category: state.pathParameters['urlSlug']!),
               ),
           ),
         ],

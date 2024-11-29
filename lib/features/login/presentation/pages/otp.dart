@@ -54,12 +54,16 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         final defaultPinTheme = PinTheme(
           width: context.width * 0.125,
           height: context.width * 0.125,
-          textStyle: TextStyles.body(context: context, color: theme.textPrimary),
-          decoration: BoxDecoration(color: theme.backgroundSecondary, borderRadius: BorderRadius.circular(8)),
+          textStyle:
+              TextStyles.body(context: context, color: theme.textPrimary),
+          decoration: BoxDecoration(
+              color: theme.backgroundSecondary,
+              borderRadius: BorderRadius.circular(8)),
         );
 
         final focusedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
+          textStyle:
+              TextStyles.subTitle(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -67,7 +71,8 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.primary)
+              .copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -78,7 +83,9 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         );
 
         final errorPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.negative).copyWith(
+          textStyle:
+              TextStyles.subTitle(context: context, color: theme.negative)
+                  .copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -97,7 +104,8 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                   child: Container(
                     width: double.maxFinite,
                     alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
+                    padding:
+                        const EdgeInsets.only(left: 24, right: 24, bottom: 16),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -116,7 +124,9 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                               children: [
                                 Text(
                                   'Verify OTP',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.headline(
+                                          context: context, color: theme.white)
+                                      .copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -124,7 +134,10 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'A ${widget.otp.length} digit verification code has been sent to your phone / email address',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.body(
+                                          context: context,
+                                          color: theme.semiWhite)
+                                      .copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -141,7 +154,8 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                     child: ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                      padding: const EdgeInsets.all(16)
+                          .copyWith(bottom: 16 + context.bottomInset),
                       children: [
                         const SizedBox(height: 42),
                         Pinput(
@@ -155,8 +169,10 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                           focusedPinTheme: focusedPinTheme,
                           submittedPinTheme: submittedPinTheme,
                           errorPinTheme: errorPinTheme,
-                          pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                          validator: (value) => ((value ?? "") == code) ? null : "",
+                          pinputAutovalidateMode:
+                              PinputAutovalidateMode.onSubmit,
+                          validator: (value) =>
+                              ((value ?? "") == code) ? null : "",
                         ),
                         const SizedBox(height: 20),
                         Center(
@@ -171,22 +187,30 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                               if (state is OtpLoading) {
                                 return Text(
                                   'Please wait...',
-                                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  style: TextStyles.body(
+                                      context: context,
+                                      color: theme.textSecondary),
                                 );
                               }
                               return endTime != null
                                   ? TimerCountdown(
-                                      format: CountDownTimerFormat.minutesSeconds,
+                                      format:
+                                          CountDownTimerFormat.minutesSeconds,
                                       onEnd: () {
                                         setState(() {
                                           endTime = null;
                                         });
                                       },
                                       spacerWidth: 4,
-                                      endTime: endTime ?? DateTime.now().add(_duration),
+                                      endTime: endTime ??
+                                          DateTime.now().add(_duration),
                                       enableDescriptions: false,
-                                      timeTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
-                                      colonsTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                      timeTextStyle: TextStyles.body(
+                                          context: context,
+                                          color: theme.textPrimary),
+                                      colonsTextStyle: TextStyles.body(
+                                          context: context,
+                                          color: theme.textPrimary),
                                     )
                                   : Text.rich(
                                       TextSpan(
@@ -194,16 +218,24 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                         children: [
                                           TextSpan(
                                             text: "Didn't receive the OTP? ",
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textSecondary),
                                           ),
                                           TextSpan(
                                             text: "Resend OTP",
-                                            style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                                            style: TextStyles.body(
+                                                    context: context,
+                                                    color: theme.primary)
+                                                .copyWith(
                                               fontWeight: FontWeight.bold,
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                context.read<OtpBloc>().add(ResendOtp(username: widget.username));
+                                                context.read<OtpBloc>().add(
+                                                    ResendOtp(
+                                                        username:
+                                                            widget.username));
 
                                                 otpController.clear();
                                               },
@@ -222,7 +254,8 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                             onPressed: () async {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (formKey.currentState?.validate() ?? false) {
-                                final ProfileModel? profile = await context.pushNamed(
+                                final ProfileModel? profile =
+                                    await context.pushNamed(
                                   RegistrationPage.name,
                                   queryParameters: {
                                     'username': widget.username,

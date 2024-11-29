@@ -8,7 +8,7 @@ class ReactionEntity extends Equatable {
     required this.user,
     required this.type,
   });
-  
+
   @override
   List<Object?> get props => [user, type];
 }

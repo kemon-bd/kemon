@@ -16,6 +16,7 @@ class FindLocation extends FindLocationEvent {
   @override
   List<Object> get props => [urlSlug];
 }
+
 class RefreshLocation extends FindLocationEvent {
   final String urlSlug;
 

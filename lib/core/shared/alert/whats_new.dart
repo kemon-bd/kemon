@@ -37,7 +37,8 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               topRight: const Radius.circular(32),
             ),
           ),
-          padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+          padding: const EdgeInsets.all(16)
+              .copyWith(bottom: 16 + context.bottomInset),
           child: ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -46,7 +47,8 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               const SizedBox(height: 8),
               Text(
                 'Whats\' New',
-                style: TextStyles.bigHeadline(context: context, color: theme.primary),
+                style: TextStyles.bigHeadline(
+                    context: context, color: theme.primary),
               ),
               const SizedBox(height: 16),
               ListView.separated(
@@ -62,17 +64,20 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                     ),
                     title: Text(
                       update.title,
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: TextStyles.subTitle(
+                          context: context, color: theme.textPrimary),
                     ),
                     subtitle: update.description != null
                         ? Text(
                             update.description!,
-                            style: TextStyles.caption(context: context, color: theme.textSecondary),
+                            style: TextStyles.caption(
+                                context: context, color: theme.textSecondary),
                           )
                         : null,
                   );
                 },
-                separatorBuilder: (_, __) => Divider(height: Dimension.padding.horizontal.max),
+                separatorBuilder: (_, __) =>
+                    Divider(height: Dimension.padding.horizontal.max),
                 itemCount: widget.updates.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,

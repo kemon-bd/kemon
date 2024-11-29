@@ -53,7 +53,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Container(
                         width: double.maxFinite,
                         alignment: Alignment.bottomLeft,
-                        padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
+                        padding: EdgeInsets.only(
+                            left: 24, bottom: 16, top: context.topInset + 16),
                         decoration: BoxDecoration(
                           color: theme.primary,
                           image: const DecorationImage(
@@ -71,19 +72,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   children: [
                                     IconButton(
                                       padding: const EdgeInsets.all(0),
-                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                      visualDensity: const VisualDensity(
+                                          horizontal: -4, vertical: -4),
                                       onPressed: context.pop,
-                                      icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                      icon: Icon(Icons.arrow_back_rounded,
+                                          color: theme.white),
                                     ),
                                     const SizedBox(width: 16),
                                     Expanded(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Getting a new skin :p',
-                                            style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                            style: TextStyles.headline(
+                                                    context: context,
+                                                    color: theme.white)
+                                                .copyWith(
                                               fontWeight: FontWeight.w900,
                                               letterSpacing: 2,
                                             ),
@@ -91,7 +98,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           const SizedBox(height: 4),
                                           Text(
                                             'Let us know about you, more precisely.',
-                                            style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                            style: TextStyles.body(
+                                                    context: context,
+                                                    color: theme.semiWhite)
+                                                .copyWith(
                                               height: 1,
                                             ),
                                           ),
@@ -109,7 +119,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: ListView(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
-                            padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                            padding: const EdgeInsets.all(16)
+                                .copyWith(bottom: 16 + context.bottomInset),
                             children: [
                               const SizedBox(height: 32),
                               Container(
@@ -121,12 +132,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: theme.positiveBackgroundSecondary,
+                                        color:
+                                            theme.positiveBackgroundSecondary,
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: theme.positiveBackgroundTertiary,
+                                          color:
+                                              theme.positiveBackgroundTertiary,
                                           width: 4,
-                                          strokeAlign: BorderSide.strokeAlignOutside,
+                                          strokeAlign:
+                                              BorderSide.strokeAlignOutside,
                                         ),
                                       ),
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -138,15 +152,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               fit: BoxFit.cover,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: state.profile.profilePicture?.url ?? '',
+                                              imageUrl: state.profile
+                                                      .profilePicture?.url ??
+                                                  '',
                                               width: 112,
                                               height: 112,
                                               fit: BoxFit.cover,
-                                              placeholder: (_, __) => const ShimmerIcon(radius: 112),
-                                              errorWidget: (_, __, ___) => Center(
+                                              placeholder: (_, __) =>
+                                                  const ShimmerIcon(
+                                                      radius: 112),
+                                              errorWidget: (_, __, ___) =>
+                                                  Center(
                                                 child: Text(
                                                   state.profile.name.symbol,
-                                                  style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                                                  style: TextStyles.body(
+                                                          context: context,
+                                                          color: theme.primary)
+                                                      .copyWith(
                                                     fontSize: 64,
                                                   ),
                                                 ),
@@ -158,14 +180,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       right: -4,
                                       child: InkWell(
                                         onTap: () async {
-                                          final ImageSource? source = await showDialog(
+                                          final ImageSource? source =
+                                              await showDialog(
                                             context: context,
                                             barrierColor: context.barrierColor,
-                                            builder: (_) => const ChooseUploadMethodWidget(),
+                                            builder: (_) =>
+                                                const ChooseUploadMethodWidget(),
                                           );
 
                                           if (source != null) {
-                                            final file = await ImagePicker().pickImage(source: source);
+                                            final file = await ImagePicker()
+                                                .pickImage(source: source);
                                             if (file != null) {
                                               setState(() {
                                                 profilePicture = file;
@@ -177,7 +202,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         child: CircleAvatar(
                                           backgroundColor: theme.primary,
                                           radius: 20,
-                                          child: Icon(Icons.edit_outlined, color: theme.white),
+                                          child: Icon(Icons.edit_outlined,
+                                              color: theme.white),
                                         ),
                                       ),
                                     )
@@ -196,35 +222,47 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 child: ListView(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.zero.copyWith(top: 4, bottom: 4),
+                                  padding: EdgeInsets.zero
+                                      .copyWith(top: 4, bottom: 4),
                                   physics: const NeverScrollableScrollPhysics(),
                                   cacheExtent: double.maxFinite,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 12),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             'First name *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: TextFormField(
                                               controller: firstNameController,
                                               keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
+                                              textCapitalization:
+                                                  TextCapitalization.words,
                                               textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               autofillHints: const [
                                                 AutofillHints.givenName,
                                                 AutofillHints.name,
                                                 AutofillHints.namePrefix,
                                               ],
-                                              validator: (value) => firstNameController.validName ? null : "",
+                                              validator: (value) =>
+                                                  firstNameController.validName
+                                                      ? null
+                                                      : "",
                                               onChanged: (value) {
                                                 setState(() {});
                                               },
@@ -232,45 +270,62 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 hintText: 'required',
                                                 hintStyle: TextStyles.subTitle(
                                                   context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
+                                                  color: theme.textSecondary
+                                                      .withAlpha(150),
                                                 ),
                                                 contentPadding: EdgeInsets.zero,
                                                 border: InputBorder.none,
                                                 errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
+                                                focusedErrorBorder:
+                                                    InputBorder.none,
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                               ),
                                               style: TextStyles.title(
                                                 context: context,
-                                                color: firstNameController.validName ? theme.textPrimary : theme.negative,
+                                                color: firstNameController
+                                                        .validName
+                                                    ? theme.textPrimary
+                                                    : theme.negative,
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                    Divider(
+                                        thickness: .15,
+                                        height: .15,
+                                        color: theme.backgroundTertiary),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 12),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Last',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: TextField(
                                               controller: lastNameController,
                                               keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
+                                              textCapitalization:
+                                                  TextCapitalization.words,
                                               textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               autofillHints: const [
                                                 AutofillHints.familyName,
                                                 AutofillHints.nameSuffix,
@@ -280,43 +335,64 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(
                                                   context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
+                                                  color: theme.textSecondary
+                                                      .withAlpha(150),
                                                 ),
                                                 contentPadding: EdgeInsets.zero,
                                                 border: InputBorder.none,
                                                 errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
+                                                focusedErrorBorder:
+                                                    InputBorder.none,
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                               ),
-                                              style: TextStyles.title(context: context, color: theme.textPrimary),
+                                              style: TextStyles.title(
+                                                  context: context,
+                                                  color: theme.textPrimary),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                    Divider(
+                                        thickness: .15,
+                                        height: .15,
+                                        color: theme.backgroundTertiary),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 12),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Email *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: TextFormField(
                                               controller: emailController,
-                                              keyboardType: TextInputType.emailAddress,
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
                                               textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [AutofillHints.email],
-                                              validator: (value) => emailController.validEmail ? null : "",
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              autofillHints: const [
+                                                AutofillHints.email
+                                              ],
+                                              validator: (value) =>
+                                                  emailController.validEmail
+                                                      ? null
+                                                      : "",
                                               onChanged: (value) {
                                                 setState(() {});
                                               },
@@ -325,35 +401,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(
                                                   context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
+                                                  color: theme.textSecondary
+                                                      .withAlpha(150),
                                                 ),
                                                 contentPadding: EdgeInsets.zero,
                                                 border: InputBorder.none,
                                                 errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
+                                                focusedErrorBorder:
+                                                    InputBorder.none,
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                               ),
                                               style: TextStyles.title(
                                                 context: context,
-                                                color: emailController.validEmail ? theme.textPrimary : theme.negative,
+                                                color:
+                                                    emailController.validEmail
+                                                        ? theme.textPrimary
+                                                        : theme.negative,
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                    Divider(
+                                        thickness: .15,
+                                        height: .15,
+                                        color: theme.backgroundTertiary),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 12),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Phone *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(
+                                                context: context,
+                                                color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -361,15 +451,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               controller: phoneController,
                                               keyboardType: TextInputType.phone,
                                               textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               autofillHints: const [
                                                 AutofillHints.telephoneNumber,
-                                                AutofillHints.telephoneNumberDevice,
-                                                AutofillHints.telephoneNumberNational,
-                                                AutofillHints.telephoneNumberLocal,
+                                                AutofillHints
+                                                    .telephoneNumberDevice,
+                                                AutofillHints
+                                                    .telephoneNumberNational,
+                                                AutofillHints
+                                                    .telephoneNumberLocal,
                                               ],
-                                              validator: (value) => phoneController.validPhone ? null : "",
+                                              validator: (value) =>
+                                                  phoneController.validPhone
+                                                      ? null
+                                                      : "",
                                               onChanged: (value) {
                                                 setState(() {});
                                               },
@@ -378,38 +476,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 isDense: true,
                                                 hintStyle: TextStyles.subTitle(
                                                   context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
+                                                  color: theme.textSecondary
+                                                      .withAlpha(150),
                                                 ),
                                                 contentPadding: EdgeInsets.zero,
                                                 border: InputBorder.none,
                                                 errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
+                                                focusedErrorBorder:
+                                                    InputBorder.none,
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                               ),
                                               style: TextStyles.title(
                                                 context: context,
-                                                color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                                color:
+                                                    phoneController.validPhone
+                                                        ? theme.textPrimary
+                                                        : theme.negative,
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                    Divider(
+                                        thickness: .15,
+                                        height: .15,
+                                        color: theme.backgroundTertiary),
                                     InkWell(
                                       onTap: () async {
                                         final date = await showDatePicker(
                                           context: context,
                                           initialDate: dob ?? DateTime(2000),
                                           firstDate: DateTime(1920),
-                                          lastDate: DateTime.now().copyWith(year: DateTime.now().year - 16),
-                                          initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                          initialDatePickerMode: DatePickerMode.day,
+                                          lastDate: DateTime.now().copyWith(
+                                              year: DateTime.now().year - 16),
+                                          initialEntryMode:
+                                              DatePickerEntryMode.calendarOnly,
+                                          initialDatePickerMode:
+                                              DatePickerMode.day,
                                           builder: (_, child) => Theme(
                                             data: Theme.of(context).copyWith(
-                                              textButtonTheme: TextButtonThemeData(
+                                              textButtonTheme:
+                                                  TextButtonThemeData(
                                                 style: TextButton.styleFrom(),
                                               ),
                                             ),
@@ -424,30 +535,41 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         }
                                       },
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 12),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Text(
                                               'Date of birth',
-                                              style: TextStyles.body(context: context, color: theme.textSecondary),
+                                              style: TextStyles.body(
+                                                  context: context,
+                                                  color: theme.textSecondary),
                                             ),
                                             const SizedBox(width: 12),
                                             Expanded(
                                               child: Text(
                                                 dob?.dMMMMyyyy ?? 'Select one',
-                                                style: TextStyles.title(context: context, color: theme.textPrimary),
+                                                style: TextStyles.title(
+                                                    context: context,
+                                                    color: theme.textPrimary),
                                                 textAlign: TextAlign.end,
                                               ),
                                             ),
                                             const SizedBox(width: 4),
-                                            Icon(Icons.arrow_drop_down_rounded, color: theme.textPrimary),
+                                            Icon(Icons.arrow_drop_down_rounded,
+                                                color: theme.textPrimary),
                                           ],
                                         ),
                                       ),
                                     ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                    Divider(
+                                        thickness: .15,
+                                        height: .15,
+                                        color: theme.backgroundTertiary),
                                     DropdownWidget<Gender>(
                                       label: 'Gender',
                                       onSelect: (selection) {
@@ -456,7 +578,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         });
                                       },
                                       text: gender?.text ?? 'Select one',
-                                      popup: GenderFilterWidget(selection: gender),
+                                      popup:
+                                          GenderFilterWidget(selection: gender),
                                     ),
                                   ],
                                 ),
@@ -464,13 +587,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               const SizedBox(height: 16),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
-                                child: BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
+                                child: BlocConsumer<UpdateProfileBloc,
+                                    UpdateProfileState>(
                                   listener: (context, state) {
                                     if (state is UpdateProfileError) {
-                                      context.errorNotification(message: state.failure.message);
+                                      context.errorNotification(
+                                          message: state.failure.message);
                                     } else if (state is UpdateProfileDone) {
                                       context.successNotification(
-                                        message: 'Congralutations. Your profile has been updated :)',
+                                        message:
+                                            'Congralutations. Your profile has been updated :)',
                                       );
                                       context.pop(true);
                                     }
@@ -479,21 +605,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     if (state is UpdateProfileLoading) {
                                       return ElevatedButton(
                                         onPressed: () {
-                                          FocusScope.of(context).requestFocus(FocusNode());
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
                                         },
-                                        child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                        child: NetworkingIndicator(
+                                            dimension: 28, color: theme.white),
                                       );
                                     }
                                     return ElevatedButton(
                                       onPressed: () {
-                                        FocusScope.of(context).requestFocus(FocusNode());
-                                        if (formKey.currentState?.validate() ?? false) {
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
+                                        if (formKey.currentState?.validate() ??
+                                            false) {
                                           final profile = context.auth.profile!;
                                           context.read<UpdateProfileBloc>().add(
                                                 UpdateProfile(
                                                   profile: profile.copyWith(
-                                                    firstName: firstNameController.text,
-                                                    lastName: lastNameController.text,
+                                                    firstName:
+                                                        firstNameController
+                                                            .text,
+                                                    lastName:
+                                                        lastNameController.text,
                                                     email: emailController.text,
                                                     phone: phoneController.text,
                                                     dob: dob,
@@ -506,7 +639,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       },
                                       child: Text(
                                         "Update".toUpperCase(),
-                                        style: TextStyles.button(context: context),
+                                        style:
+                                            TextStyles.button(context: context),
                                       ),
                                     );
                                   },

@@ -59,7 +59,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
     } on CategoriesNotFoundInLocalCacheFailure catch (_) {
       try {
         if (await network.online) {
-          final result = await remote.all(page: page, query: query, industry: industry);
+          final result =
+              await remote.all(page: page, query: query, industry: industry);
           await local.cachePagination(key: key, result: result);
 
           final oldResult = page == 1
@@ -91,7 +92,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
     try {
       await local.removeAll();
       if (await network.online) {
-        final result = await remote.all(page: page, query: query, industry: industry);
+        final result =
+            await remote.all(page: page, query: query, industry: industry);
         await local.cachePagination(key: key, result: result);
         return Right(result);
       } else {

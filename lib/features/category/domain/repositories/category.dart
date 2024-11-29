@@ -2,7 +2,10 @@ import '../../../../core/shared/shared.dart';
 import '../../../industry/industry.dart';
 import '../../category.dart';
 
-typedef IndustryBasedCategories = ({IndustryEntity industry, List<CategoryEntity> categories});
+typedef IndustryBasedCategories = ({
+  IndustryEntity industry,
+  List<CategoryEntity> categories
+});
 
 typedef CategoryPaginatedResponse = ({
   int total,

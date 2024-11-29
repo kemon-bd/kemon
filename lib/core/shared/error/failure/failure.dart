@@ -1,4 +1,5 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+part 'analytics.dart';
 part 'leaderboard.dart';
 part 'registration.dart';
 part 'search.dart';

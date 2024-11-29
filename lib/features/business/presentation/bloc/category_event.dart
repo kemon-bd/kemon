@@ -28,8 +28,10 @@ class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object?> get props => [category, query, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [category, query, sort, division, district, thana, subCategory, ratings];
 }
+
 class RefreshBusinessesByCategory extends FindBusinessesByCategoryEvent {
   final String? query;
   final SortBy? sort;
@@ -51,7 +53,8 @@ class RefreshBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object?> get props => [category, query, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [category, query, sort, division, district, thana, subCategory, ratings];
 }
 
 class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
@@ -77,5 +80,6 @@ class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
     this.ratings = const [],
   });
   @override
-  List<Object?> get props => [category, query, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props =>
+      [category, query, sort, division, district, thana, subCategory, ratings];
 }

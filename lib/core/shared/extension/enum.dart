@@ -32,6 +32,23 @@ extension GenderExtension on Gender {
   }
 }
 
+extension AnalyticSourceExtension on AnalyticSource {
+  String get dataKey {
+    switch (this) {
+      case AnalyticSource.socialProfile:
+        return "SocialProfile";
+      case AnalyticSource.phone:
+        return "Phone";
+      case AnalyticSource.email:
+        return "Email";
+      case AnalyticSource.address:
+        return "Address";
+      case AnalyticSource.website:
+        return "Website";
+    }
+  }
+}
+
 extension SortByExtension on SortBy? {
   String get value {
     if (this == null) {

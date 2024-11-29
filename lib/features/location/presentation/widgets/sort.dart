@@ -24,7 +24,8 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
               children: [
                 Text(
                   "Sort By",
-                  style: TextStyles.headline(context: context, color: theme.textPrimary),
+                  style: TextStyles.headline(
+                      context: context, color: theme.textPrimary),
                 ),
                 IconButton(
                   onPressed: () {
@@ -52,7 +53,8 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                   if (state is FindLocationDone) {
                     final location = state.location.urlSlug;
 
-                    return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
+                    return BlocBuilder<FindBusinessesByLocationBloc,
+                        FindBusinessesByLocationState>(
                       builder: (context, state) {
                         return ListView.separated(
                           shrinkWrap: true,
@@ -65,7 +67,9 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
 
                             return InkWell(
                               onTap: () {
-                                context.read<FindBusinessesByLocationBloc>().add(
+                                context
+                                    .read<FindBusinessesByLocationBloc>()
+                                    .add(
                                       FindBusinessesByLocation(
                                         location: location,
                                         sort: SortBy.values[index],
@@ -75,22 +79,31 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                                 context.pop();
                               },
                               child: Padding(
-                                padding: EdgeInsets.all(Dimension.radius.sixteen),
+                                padding:
+                                    EdgeInsets.all(Dimension.radius.sixteen),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                      selected
+                                          ? Icons.check_circle_rounded
+                                          : Icons.circle_outlined,
                                       size: Dimension.radius.twenty,
-                                      color: selected ? theme.primary : theme.textPrimary,
+                                      color: selected
+                                          ? theme.primary
+                                          : theme.textPrimary,
                                     ),
-                                    SizedBox(width: Dimension.padding.horizontal.max),
+                                    SizedBox(
+                                        width:
+                                            Dimension.padding.horizontal.max),
                                     Expanded(
                                       child: Text(
                                         item.text,
                                         style: TextStyles.subTitle(
                                           context: context,
-                                          color: selected ? theme.primary : theme.textPrimary,
+                                          color: selected
+                                              ? theme.primary
+                                              : theme.textPrimary,
                                         ),
                                       ),
                                     ),

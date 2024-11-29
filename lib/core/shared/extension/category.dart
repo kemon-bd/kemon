@@ -46,6 +46,8 @@ extension IndustryBasedCategoriesExtension on List<IndustryBasedCategories> {
     }
 
     // Convert map back to List<IndustryBasedCategories>
-    return map.entries.map((entry) => (industry: entry.key, categories: entry.value.toList())).toList();
+    return map.entries
+        .map((entry) => (industry: entry.key, categories: entry.value.toList()))
+        .toList();
   }
 }

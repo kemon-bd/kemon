@@ -28,16 +28,18 @@ class LeaderboardRemoteDataSourceImpl extends LeaderboardRemoteDataSource {
     final content = await rootBundle.loadString('api/leaderboard.json');
     final response = Response(content, HttpStatus.ok);
 
-    final RemoteResponse<Map<String, dynamic>> remote = RemoteResponse.parse(response: response);
+    final RemoteResponse<Map<String, dynamic>> remote =
+        RemoteResponse.parse(response: response);
 
     if (remote.success) {
       final int total = remote.result!['total'];
       final DateTime deadline = DateTime.parse(remote.result!['deadline']);
-      final List<LeaderEntity> leaders = List<dynamic>.from(remote.result!['leaders'])
-          .map(
-            (e) => LeaderModel.parse(map: e),
-          )
-          .toList();
+      final List<LeaderEntity> leaders =
+          List<dynamic>.from(remote.result!['leaders'])
+              .map(
+                (e) => LeaderModel.parse(map: e),
+              )
+              .toList();
       return (
         total: total,
         deadline: deadline,

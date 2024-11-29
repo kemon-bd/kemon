@@ -26,7 +26,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   bool isObscured = true;
   bool isConfirmPasswordObscured = true;
@@ -36,7 +37,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
-        final validPassword = (password: passwordController, confirmPassword: confirmPasswordController).valid;
+        final validPassword = (
+          password: passwordController,
+          confirmPassword: confirmPasswordController
+        ).valid;
         return KeyboardDismissOnTap(
           child: Scaffold(
             backgroundColor: theme.backgroundPrimary,
@@ -57,7 +61,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   Container(
                     width: double.maxFinite,
                     alignment: Alignment.bottomLeft,
-                    padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
+                    padding: EdgeInsets.only(
+                        left: 24, bottom: 16, top: context.topInset + 16),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -76,7 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               children: [
                                 Text(
                                   'Create an account',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.headline(
+                                          context: context, color: theme.white)
+                                      .copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -84,7 +91,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Please fill all the required fields to create an account.',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.body(
+                                          context: context,
+                                          color: theme.semiWhite)
+                                      .copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -99,11 +109,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: ListView(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                        padding: const EdgeInsets.all(16)
+                            .copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           Text(
                             'Password',
-                            style: TextStyles.miniHeadline(context: context, color: theme.textPrimary),
+                            style: TextStyles.miniHeadline(
+                                context: context, color: theme.textPrimary),
                           ),
                           const SizedBox(height: 8),
                           Container(
@@ -117,19 +129,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                             child: ListView(
                               shrinkWrap: true,
-                              padding: EdgeInsets.zero.copyWith(top: 4, bottom: 4),
+                              padding:
+                                  EdgeInsets.zero.copyWith(top: 4, bottom: 4),
                               physics: const NeverScrollableScrollPhysics(),
                               cacheExtent: double.maxFinite,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(right: 4),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 16)
+                                          .copyWith(right: 4),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         'Password *',
-                                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                                        style: TextStyles.body(
+                                            context: context,
+                                            color: theme.textSecondary),
                                       ),
                                       const SizedBox(width: 12),
                                       Expanded(
@@ -137,10 +156,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                           controller: passwordController,
                                           keyboardType: TextInputType.text,
                                           textAlign: TextAlign.end,
-                                          textAlignVertical: TextAlignVertical.center,
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
                                           textInputAction: TextInputAction.next,
-                                          autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
-                                          validator: (value) => passwordController.validPassword ? null : "",
+                                          autofillHints: const [
+                                            AutofillHints.password,
+                                            AutofillHints.newPassword
+                                          ],
+                                          validator: (value) =>
+                                              passwordController.validPassword
+                                                  ? null
+                                                  : "",
                                           onChanged: (value) {
                                             setState(() {});
                                           },
@@ -149,24 +175,36 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             isDense: true,
                                             hintStyle: TextStyles.subTitle(
                                               context: context,
-                                              color: theme.textSecondary.withAlpha(150),
+                                              color: theme.textSecondary
+                                                  .withAlpha(150),
                                             ),
-                                            errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                            errorStyle: const TextStyle(
+                                                fontSize: 0, height: 0),
                                             contentPadding: EdgeInsets.zero,
                                             border: InputBorder.none,
                                             errorBorder: InputBorder.none,
-                                            focusedErrorBorder: InputBorder.none,
+                                            focusedErrorBorder:
+                                                InputBorder.none,
                                             enabledBorder: InputBorder.none,
                                             focusedBorder: InputBorder.none,
                                             disabledBorder: InputBorder.none,
                                             suffixIcon: IconButton(
                                               padding: EdgeInsets.zero,
-                                              highlightColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
                                               splashColor: Colors.transparent,
-                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                      horizontal: -4,
+                                                      vertical: -4),
                                               icon: Icon(
-                                                isObscured ? Icons.visibility : Icons.visibility_off,
-                                                color: passwordController.validPassword ? theme.textPrimary : theme.negative,
+                                                isObscured
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
+                                                color: passwordController
+                                                        .validPassword
+                                                    ? theme.textPrimary
+                                                    : theme.negative,
                                               ),
                                               onPressed: () {
                                                 setState(() {
@@ -178,7 +216,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                           obscureText: isObscured,
                                           style: TextStyles.title(
                                             context: context,
-                                            color: passwordController.validPassword ? theme.textPrimary : theme.negative,
+                                            color:
+                                                passwordController.validPassword
+                                                    ? theme.textPrimary
+                                                    : theme.negative,
                                           ),
                                         ),
                                       ),
@@ -186,26 +227,42 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   ),
                                 ),
                                 if (passwordController.validPassword) ...[
-                                  Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
+                                  Divider(
+                                      thickness: .15,
+                                      height: .15,
+                                      color: theme.backgroundTertiary),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(right: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                            horizontal: 16)
+                                        .copyWith(right: 4),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           'Confirm password *',
-                                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                                          style: TextStyles.body(
+                                              context: context,
+                                              color: theme.textSecondary),
                                         ),
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: TextFormField(
-                                            controller: confirmPasswordController,
+                                            controller:
+                                                confirmPasswordController,
                                             keyboardType: TextInputType.text,
                                             textAlign: TextAlign.end,
-                                            textAlignVertical: TextAlignVertical.center,
-                                            textInputAction: TextInputAction.done,
-                                            validator: (value) => confirmPasswordController.validPassword ? null : "",
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            validator: (value) =>
+                                                confirmPasswordController
+                                                        .validPassword
+                                                    ? null
+                                                    : "",
                                             onChanged: (value) {
                                               setState(() {});
                                             },
@@ -214,39 +271,54 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                               isDense: true,
                                               hintStyle: TextStyles.subTitle(
                                                 context: context,
-                                                color: theme.textSecondary.withAlpha(150),
+                                                color: theme.textSecondary
+                                                    .withAlpha(150),
                                               ),
-                                              errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                              errorStyle: const TextStyle(
+                                                  fontSize: 0, height: 0),
                                               contentPadding: EdgeInsets.zero,
                                               border: InputBorder.none,
                                               errorBorder: InputBorder.none,
-                                              focusedErrorBorder: InputBorder.none,
+                                              focusedErrorBorder:
+                                                  InputBorder.none,
                                               enabledBorder: InputBorder.none,
                                               focusedBorder: InputBorder.none,
                                               disabledBorder: InputBorder.none,
                                               suffixIcon: IconButton(
                                                 padding: EdgeInsets.zero,
-                                                highlightColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
                                                 splashColor: Colors.transparent,
-                                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        horizontal: -4,
+                                                        vertical: -4),
                                                 icon: Icon(
-                                                  isConfirmPasswordObscured ? Icons.visibility : Icons.visibility_off,
-                                                  color: confirmPasswordController.validPassword
-                                                      ? theme.textPrimary
-                                                      : theme.negative,
+                                                  isConfirmPasswordObscured
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off,
+                                                  color:
+                                                      confirmPasswordController
+                                                              .validPassword
+                                                          ? theme.textPrimary
+                                                          : theme.negative,
                                                 ),
                                                 onPressed: () {
                                                   setState(() {
-                                                    isConfirmPasswordObscured = !isConfirmPasswordObscured;
+                                                    isConfirmPasswordObscured =
+                                                        !isConfirmPasswordObscured;
                                                   });
                                                 },
                                               ),
                                             ),
-                                            obscureText: isConfirmPasswordObscured,
+                                            obscureText:
+                                                isConfirmPasswordObscured,
                                             style: TextStyles.title(
                                               context: context,
-                                              color:
-                                                  confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
+                                              color: confirmPasswordController
+                                                      .validPassword
+                                                  ? theme.textPrimary
+                                                  : theme.negative,
                                             ),
                                           ),
                                         ),
@@ -261,17 +333,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           Row(
                             children: [
                               Icon(
-                                passwordController.validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                color: passwordController.validPassword ? theme.positive : theme.negative,
+                                passwordController.validPassword
+                                    ? Icons.check_circle_rounded
+                                    : Icons.circle_outlined,
+                                color: passwordController.validPassword
+                                    ? theme.positive
+                                    : theme.negative,
                                 size: Dimension.radius.twelve,
                               ),
-                              SizedBox(width: Dimension.padding.horizontal.large),
+                              SizedBox(
+                                  width: Dimension.padding.horizontal.large),
                               Expanded(
                                 child: Text(
                                   "Password must be at least 6 characters long.",
                                   style: TextStyles.caption(
                                     context: context,
-                                    color: passwordController.validPassword ? theme.positive : theme.negative,
+                                    color: passwordController.validPassword
+                                        ? theme.positive
+                                        : theme.negative,
                                   ),
                                 ),
                               ),
@@ -282,17 +361,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             Row(
                               children: [
                                 Icon(
-                                  confirmPasswordController.validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                  color: confirmPasswordController.validPassword ? theme.positive : theme.negative,
+                                  confirmPasswordController.validPassword
+                                      ? Icons.check_circle_rounded
+                                      : Icons.circle_outlined,
+                                  color: confirmPasswordController.validPassword
+                                      ? theme.positive
+                                      : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.large),
+                                SizedBox(
+                                    width: Dimension.padding.horizontal.large),
                                 Expanded(
                                   child: Text(
                                     "Confirm Password must be at least 6 characters long.",
                                     style: TextStyles.caption(
                                       context: context,
-                                      color: confirmPasswordController.validPassword ? theme.positive : theme.negative,
+                                      color: confirmPasswordController
+                                              .validPassword
+                                          ? theme.positive
+                                          : theme.negative,
                                     ),
                                   ),
                                 ),
@@ -304,17 +391,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             Row(
                               children: [
                                 Icon(
-                                  validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                  color: validPassword ? theme.positive : theme.negative,
+                                  validPassword
+                                      ? Icons.check_circle_rounded
+                                      : Icons.circle_outlined,
+                                  color: validPassword
+                                      ? theme.positive
+                                      : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.large),
+                                SizedBox(
+                                    width: Dimension.padding.horizontal.large),
                                 Expanded(
                                   child: Text(
                                     "Password and Confirm Password must be the same.",
                                     style: TextStyles.caption(
                                       context: context,
-                                      color: validPassword ? theme.positive : theme.negative,
+                                      color: validPassword
+                                          ? theme.positive
+                                          : theme.negative,
                                     ),
                                   ),
                                 ),
@@ -325,13 +419,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             const SizedBox(height: 16),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              child: BlocConsumer<RegistrationBloc, RegistrationState>(
+                              child: BlocConsumer<RegistrationBloc,
+                                  RegistrationState>(
                                 listener: (context, state) {
                                   if (state is RegistrationError) {
-                                    context.errorNotification(message: state.failure.message);
+                                    context.errorNotification(
+                                        message: state.failure.message);
                                   } else if (state is RegistrationDone) {
                                     context.successNotification(
-                                      message: 'Congratulations. You have successfully registered. Have a nice one :)',
+                                      message:
+                                          'Congratulations. You have successfully registered. Have a nice one :)',
                                     );
                                   }
                                 },
@@ -339,19 +436,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   if (state is RegistrationLoading) {
                                     return ElevatedButton(
                                       onPressed: () {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
                                       },
-                                      child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                      child: NetworkingIndicator(
+                                          dimension: 28, color: theme.white),
                                     );
                                   }
                                   return ElevatedButton(
                                     onPressed: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
-                                      if (formKey.currentState?.validate() ?? false) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      if (formKey.currentState?.validate() ??
+                                          false) {
                                         context.read<RegistrationBloc>().add(
                                               CreateAccount(
                                                 username: widget.username,
-                                                password: passwordController.text,
+                                                password:
+                                                    passwordController.text,
                                                 refference: '',
                                               ),
                                             );
@@ -359,7 +461,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     },
                                     child: Text(
                                       "Sign up".toUpperCase(),
-                                      style: TextStyles.button(context: context),
+                                      style:
+                                          TextStyles.button(context: context),
                                     ),
                                   );
                                 },

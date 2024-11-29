@@ -4,7 +4,8 @@ import '../../leaderboard.dart';
 part 'find_event.dart';
 part 'find_state.dart';
 
-class FindLeaderboardBloc extends Bloc<FindLeaderboardEvent, FindLeaderboardState> {
+class FindLeaderboardBloc
+    extends Bloc<FindLeaderboardEvent, FindLeaderboardState> {
   final FindLeaderboardUseCase find;
   final RefreshLeaderboardUseCase refresh;
   FindLeaderboardBloc({

@@ -21,7 +21,8 @@ class DashboardForYouWidget extends StatelessWidget {
           children: [
             Text(
               'For You',
-              style: TextStyles.title(context: context, color: theme.textPrimary),
+              style:
+                  TextStyles.title(context: context, color: theme.textPrimary),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -34,7 +35,8 @@ class DashboardForYouWidget extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(color: theme.backgroundTertiary),
-                      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+                      borderRadius:
+                          BorderRadius.circular(Dimension.radius.twentyFour),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -59,29 +61,35 @@ class DashboardForYouWidget extends StatelessWidget {
                         SizedBox(height: Dimension.padding.vertical.large),
                         Text(
                           "Join for free and explore all of KEMON.",
-                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          style: TextStyles.body(
+                              context: context, color: theme.textPrimary),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: Dimension.padding.vertical.large),
                         InkWell(
                           onTap: () async {
-                            final bool? loggedIn = await context.pushNamed<bool>(CheckProfilePage.name);
+                            final bool? loggedIn = await context
+                                .pushNamed<bool>(CheckProfilePage.name);
                             if (loggedIn == true && context.mounted) {
                               context.pushNamed(ProfilePage.name);
                             }
                           },
-                          borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                          borderRadius:
+                              BorderRadius.circular(Dimension.radius.thirtyTwo),
                           child: Container(
                             width: double.infinity,
                             padding: EdgeInsets.all(Dimension.radius.twelve),
                             decoration: BoxDecoration(
                               color: theme.primary.withAlpha(50),
-                              borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                              borderRadius: BorderRadius.circular(
+                                  Dimension.radius.thirtyTwo),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               "Login or Sign up",
-                              style: TextStyles.miniHeadline(context: context, color: theme.primary).copyWith(
+                              style: TextStyles.miniHeadline(
+                                      context: context, color: theme.primary)
+                                  .copyWith(
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -98,8 +106,11 @@ class DashboardForYouWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: theme.link.withGreen(5).withRed(25).withBlue(50),
-                border: Border.all(color: theme.backgroundTertiary, strokeAlign: BorderSide.strokeAlignOutside),
-                borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+                border: Border.all(
+                    color: theme.backgroundTertiary,
+                    strokeAlign: BorderSide.strokeAlignOutside),
+                borderRadius:
+                    BorderRadius.circular(Dimension.radius.twentyFour),
               ),
               clipBehavior: Clip.antiAlias,
               child: Row(
@@ -118,7 +129,9 @@ class DashboardForYouWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Bought something recently?',
-                            style: TextStyles.subHeadline(context: context, color: theme.white).copyWith(
+                            style: TextStyles.subHeadline(
+                                    context: context, color: theme.white)
+                                .copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -126,19 +139,24 @@ class DashboardForYouWidget extends StatelessWidget {
                             onTap: () async {
                               context.pushNamed(SearchPage.name);
                             },
-                            borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                            borderRadius: BorderRadius.circular(
+                                Dimension.radius.thirtyTwo),
                             child: Container(
                               width: double.infinity,
                               padding: EdgeInsets.all(Dimension.radius.eight),
-                              margin: EdgeInsets.only(top: Dimension.padding.vertical.large),
+                              margin: EdgeInsets.only(
+                                  top: Dimension.padding.vertical.large),
                               decoration: BoxDecoration(
                                 color: theme.white,
-                                borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                                borderRadius: BorderRadius.circular(
+                                    Dimension.radius.thirtyTwo),
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 "Write a review",
-                                style: TextStyles.miniHeadline(context: context, color: theme.black).copyWith(
+                                style: TextStyles.miniHeadline(
+                                        context: context, color: theme.black)
+                                    .copyWith(
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),

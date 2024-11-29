@@ -43,17 +43,23 @@ class BusinessPage extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.info_outline_rounded, color: theme.primary, size: 24),
+                icon: Icon(Icons.info_outline_rounded,
+                    color: theme.primary, size: 24),
                 iconSize: 24,
               ),
             ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: urlSlug));
-              context.read<FindRatingBloc>().add(RefreshRating(urlSlug: urlSlug));
+              context
+                  .read<FindBusinessBloc>()
+                  .add(RefreshBusiness(urlSlug: urlSlug));
+              context
+                  .read<FindRatingBloc>()
+                  .add(RefreshRating(urlSlug: urlSlug));
               final reviewBloc = context.read<FindListingReviewsBloc>();
-              reviewBloc.add(RefreshListingReviews(urlSlug: urlSlug, filter: reviewBloc.state.filter));
+              reviewBloc.add(RefreshListingReviews(
+                  urlSlug: urlSlug, filter: reviewBloc.state.filter));
             },
             child: ListView(
               padding: EdgeInsets.zero,
@@ -94,9 +100,11 @@ class ShareButton extends StatelessWidget {
 #KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
               );
 
-              if (result.status == ShareResultStatus.success && context.mounted) {
+              if (result.status == ShareResultStatus.success &&
+                  context.mounted) {
                 result.raw;
-                context.successNotification(message: 'Thank you for sharing ${business.name.full}');
+                context.successNotification(
+                    message: 'Thank you for sharing ${business.name.full}');
               }
             },
           );

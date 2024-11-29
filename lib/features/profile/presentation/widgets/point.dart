@@ -18,7 +18,9 @@ class ProfilePointWidget extends StatelessWidget {
             if (state is FindProfileDone) {
               return Text(
                 state.profile.kemonIdentity.point.toString(),
-                style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: style ??
+                    TextStyles.subTitle(
+                        context: context, color: theme.textPrimary),
               );
             } else if (state is FindProfileLoading) {
               return const ShimmerLabel(width: 112, height: 12, radius: 12);
@@ -42,7 +44,8 @@ class MyProfilePointWidget extends StatelessWidget {
         final profile = state.profile;
         if (profile != null) {
           return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
+            create: (context) => sl<FindProfileBloc>()
+              ..add(FindProfile(identity: profile.identity)),
             child: ProfilePointWidget(style: style),
           );
         }

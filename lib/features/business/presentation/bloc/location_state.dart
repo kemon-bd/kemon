@@ -63,7 +63,8 @@ class FindBusinessesByLocationDone extends FindBusinessesByLocationState {
   });
 
   @override
-  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings];
+  List<Object?> get props =>
+      [businesses, total, page, related, query, sortBy, ratings];
 }
 
 class FindBusinessesByLocationPaginating extends FindBusinessesByLocationDone {
@@ -78,5 +79,6 @@ class FindBusinessesByLocationPaginating extends FindBusinessesByLocationDone {
   });
 
   @override
-  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings];
+  List<Object?> get props =>
+      [businesses, total, page, related, query, sortBy, ratings];
 }

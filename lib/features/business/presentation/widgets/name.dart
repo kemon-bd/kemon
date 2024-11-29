@@ -30,7 +30,9 @@ class BusinessNameWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: Text(
                   state.business.name.full,
-                  style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  style: style ??
+                      TextStyles.subTitle(
+                          context: context, color: theme.textPrimary),
                   textAlign: align,
                   maxLines: maxLines,
                   overflow: TextOverflow.ellipsis,

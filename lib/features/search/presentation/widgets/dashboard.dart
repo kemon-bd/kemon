@@ -42,7 +42,8 @@ class DashboardSearchWidget extends StatelessWidget {
                         Expanded(
                           child: Text(
                             "Find company or category ...",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                            style: TextStyles.subTitle(
+                                context: context, color: theme.textSecondary),
                           ),
                         ),
                       ],

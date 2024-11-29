@@ -30,21 +30,26 @@ class FeaturedLocationsWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Locations",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                        style: TextStyles.title(
+                            context: context, color: theme.textPrimary),
                       ),
                       ActionChip(
                         label: Text(
                           "See all",
-                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(
+                                  context: context, color: theme.textPrimary)
+                              .copyWith(
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         backgroundColor: theme.backgroundSecondary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(width: 0, color: Colors.transparent),
+                          side: const BorderSide(
+                              width: 0, color: Colors.transparent),
                         ),
-                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                        visualDensity:
+                            const VisualDensity(horizontal: -4, vertical: -4),
                         onPressed: () {
                           context.pushNamed(LocationsPage.name);
                         },
@@ -66,7 +71,8 @@ class FeaturedLocationsWidget extends StatelessWidget {
                       itemBuilder: (_, index) {
                         final location = locations.elementAt(index);
                         return InkWell(
-                          borderRadius: BorderRadius.circular(Dimension.radius.max),
+                          borderRadius:
+                              BorderRadius.circular(Dimension.radius.max),
                           onTap: () {
                             context.pushNamed(
                               LocationPage.name,
@@ -82,12 +88,17 @@ class FeaturedLocationsWidget extends StatelessWidget {
                                 CircleAvatar(
                                   backgroundColor: theme.textPrimary,
                                   radius: Dimension.radius.twelve,
-                                  child: Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                  child: Icon(Icons.layers_outlined,
+                                      color: theme.white,
+                                      size: Dimension.radius.twelve),
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.small),
+                                SizedBox(
+                                    width: Dimension.padding.horizontal.small),
                                 Text(
                                   location.name.full,
-                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                  style: TextStyles.subTitle(
+                                      context: context,
+                                      color: theme.textPrimary),
                                 ),
                               ],
                             ),
