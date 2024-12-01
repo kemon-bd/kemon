@@ -12,7 +12,7 @@ class LeaderModel extends LeaderEntity {
   }) {
     try {
       return LeaderModel(
-        identity: Identity.guid(guid: map['userId']),
+        identity: Identity.guid(guid: map['userGuid']),
         point:  (map['point'] as num).toInt(),
       );
     } catch (e, stackTrace) {
