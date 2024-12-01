@@ -1,13 +1,45 @@
 {
-    "hash": "a1b2c3d4e5f60123456789abcdef3",
+    "hash": "version10releasedOn1stDecember2024",
     "changes": [
         {
-            "type": "ux",
-            "title": "Login redirection enforced for unauthorized review."
+            "type": "feature",
+            "title": "Deeplink enabled for seem-less navigation."
+        },
+        {
+            "type": "feature",
+            "title": "Profile completeness checker added."
+        },
+        {
+            "type": "feature",
+            "title": "Reactions added to reviews."
+        },
+        {
+            "type": "feature",
+            "title": "All categories page added."
         },
         {
             "type": "ux",
-            "title": "Pull-down-to-refresh added in business page."
+            "title": "Category page added redesigned."
+        },
+        {
+            "type": "ux",
+            "title": "Filter and sort option added to category page."
+        },
+        {
+            "type": "feature",
+            "title": "All locations page added redesigned."
+        },
+        {
+            "type": "feature",
+            "title": "Location page added."
+        },
+        {
+            "type": "feature",
+            "title": "Change password added."
+        },
+        {
+            "type": "feature",
+            "title": "Forgot password added."
         }
     ]
 }

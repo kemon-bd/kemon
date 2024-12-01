@@ -23,16 +23,13 @@ class BusinessRatingsWidget extends StatelessWidget {
                     return Center(child: Text(state.failure.message));
                   } else if (state is FindRatingDone) {
                     final RatingEntity rating = state.rating;
-                    return BlocBuilder<FindListingReviewsBloc,
-                        FindListingReviewsState>(
+                    return BlocBuilder<FindListingReviewsBloc, FindListingReviewsState>(
                       builder: (context, state) {
                         if (state is FindListingReviewsDone) {
                           final userGuid = context.auth.guid ?? '';
                           final List<ReviewEntity> reviews = state.reviews;
-                          final bool hasMyReview =
-                              reviews.hasMyReview(userGuid: userGuid);
-                          final ratingWidget =
-                              Icon(Icons.star, color: theme.primary);
+                          final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
+                          final ratingWidget = Icon(Icons.star, color: theme.primary);
                           final emptyRatingWidget = Icon(
                             Icons.star_border_rounded,
                             color: theme.primary,
@@ -58,29 +55,18 @@ class BusinessRatingsWidget extends StatelessWidget {
                                       empty: emptyRatingWidget,
                                     ),
                                     onRatingUpdate: (value) async {
-                                      final ratingBloc =
-                                          context.read<FindRatingBloc>();
-                                      final reviewBloc = context
-                                          .read<FindListingReviewsBloc>();
+                                      final ratingBloc = context.read<FindRatingBloc>();
+                                      final reviewBloc = context.read<FindListingReviewsBloc>();
                                       if (context.auth.profile == null) {
-                                        final ProfileModel? authorization =
-                                            await context
-                                                .pushNamed<ProfileModel>(
+                                        final ProfileModel? authorization = await context.pushNamed<ProfileModel>(
                                           CheckProfilePage.name,
-                                          queryParameters: {
-                                            'authorize': 'true'
-                                          },
+                                          queryParameters: {'authorize': 'true'},
                                         );
                                         if (authorization == null) {
                                           return;
-                                        } else if (reviews.hasMyReview(
-                                            userGuid:
-                                                authorization.identity.guid)) {
+                                        } else if (reviews.hasMyReview(userGuid: authorization.identity.guid)) {
                                           reviewBloc.add(
-                                            FindListingReviews(
-                                                urlSlug: business.urlSlug,
-                                                filter:
-                                                    reviewBloc.state.filter),
+                                            FindListingReviews(urlSlug: business.urlSlug, filter: reviewBloc.state.filter),
                                           );
                                           return;
                                         }
@@ -88,8 +74,7 @@ class BusinessRatingsWidget extends StatelessWidget {
 
                                       if (!context.mounted) return;
 
-                                      final bool? added =
-                                          await context.pushNamed(
+                                      final bool? added = await context.pushNamed(
                                         NewReviewPage.name,
                                         pathParameters: {
                                           'urlSlug': business.urlSlug,
@@ -99,8 +84,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                         },
                                       );
                                       if (added ?? false) {
-                                        ratingBloc.add(RefreshRating(
-                                            urlSlug: business.urlSlug));
+                                        ratingBloc.add(RefreshRating(urlSlug: business.urlSlug));
                                         reviewBloc.add(RefreshListingReviews(
                                           urlSlug: business.urlSlug,
                                           filter: reviewBloc.state.filter,
@@ -110,8 +94,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                     itemCount: 5,
                                     glow: false,
                                     unratedColor: theme.primary,
-                                    itemSize:
-                                        MediaQuery.of(context).size.width / 6,
+                                    itemSize: MediaQuery.of(context).size.width / 6,
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -121,23 +104,16 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Reviews",
-                                    style: TextStyles.miniHeadline(
-                                            context: context,
-                                            color: theme.textPrimary)
-                                        .copyWith(
+                                    style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-                                  Icon(Icons.star,
-                                      color: theme.primary, size: 24),
+                                  Icon(Icons.star, color: theme.primary, size: 24),
                                   const SizedBox(width: 12),
                                   Text(
                                     rating.average.toStringAsFixed(1),
-                                    style: TextStyles.miniHeadline(
-                                            context: context,
-                                            color: theme.textPrimary)
-                                        .copyWith(
+                                    style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -147,9 +123,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   "Based on ${rating.total} review${rating.total > 1 ? "s" : ""}",
-                                  style: TextStyles.body(
-                                      context: context,
-                                      color: theme.textSecondary),
+                                  style: TextStyles.body(context: context, color: theme.textSecondary),
                                 ),
                               ],
                               const SizedBox(height: 16),
@@ -159,32 +133,28 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 count: rating.five,
                                 stars: 5,
                               ),
-                              SizedBox(
-                                  height: Dimension.padding.vertical.verySmall),
+                              SizedBox(height: Dimension.padding.vertical.verySmall),
                               _RatingItem(
                                 urlSlug: business.urlSlug,
                                 total: rating.total,
                                 count: rating.four,
                                 stars: 4,
                               ),
-                              SizedBox(
-                                  height: Dimension.padding.vertical.verySmall),
+                              SizedBox(height: Dimension.padding.vertical.verySmall),
                               _RatingItem(
                                 urlSlug: business.urlSlug,
                                 total: rating.total,
                                 count: rating.three,
                                 stars: 3,
                               ),
-                              SizedBox(
-                                  height: Dimension.padding.vertical.verySmall),
+                              SizedBox(height: Dimension.padding.vertical.verySmall),
                               _RatingItem(
                                 urlSlug: business.urlSlug,
                                 total: rating.total,
                                 count: rating.two,
                                 stars: 2,
                               ),
-                              SizedBox(
-                                  height: Dimension.padding.vertical.verySmall),
+                              SizedBox(height: Dimension.padding.vertical.verySmall),
                               _RatingItem(
                                 urlSlug: business.urlSlug,
                                 total: rating.total,
@@ -240,17 +210,14 @@ class _RatingItem extends StatelessWidget {
             }
 
             final reviewBloc = context.read<FindListingReviewsBloc>();
-            reviewBloc
-                .add(FindListingReviews(urlSlug: urlSlug, filter: filter));
+            reviewBloc.add(FindListingReviews(urlSlug: urlSlug, filter: filter));
           },
           splashColor: Colors.transparent,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
-                checked
-                    ? Icons.check_box_rounded
-                    : Icons.check_box_outline_blank_rounded,
+                checked ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded,
                 color: theme.primary,
                 size: Dimension.radius.eighteen,
               ),
@@ -258,8 +225,7 @@ class _RatingItem extends StatelessWidget {
               RatingBarIndicator(
                 itemCount: 5,
                 rating: stars.toDouble(),
-                itemBuilder: (_, __) =>
-                    Icon(Icons.star_rounded, color: theme.primary),
+                itemBuilder: (_, __) => Icon(Icons.star_rounded, color: theme.primary),
                 unratedColor: Colors.transparent,
                 itemSize: Dimension.radius.twelve,
                 direction: Axis.horizontal,
@@ -278,8 +244,7 @@ class _RatingItem extends StatelessWidget {
                 width: Dimension.size.horizontal.thirtySix,
                 child: Text(
                   "${(rating * 100).ceil()}%",
-                  style: TextStyles.caption(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.caption(context: context, color: theme.textPrimary),
                   textAlign: TextAlign.end,
                 ),
               ),
