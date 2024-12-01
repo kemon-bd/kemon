@@ -54,8 +54,10 @@ class AppConfig {
     // Firebase Messaging
     await setupFirebaseMessaging();
 
-    // Notification
-    await setupLocalNotification();
+    if (Platform.isAndroid) {
+      // Notification
+      await setupLocalNotification();
+    }
 
     await ScreenUtil.ensureScreenSize();
   }

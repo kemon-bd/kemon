@@ -23,13 +23,11 @@ class BusinessReviewItemWidget extends StatelessWidget {
             border: Border.all(color: theme.backgroundTertiary, width: .5),
           ),
           child: BlocProvider(
-            create: (context) =>
-                sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: review.user)),
             child: ListView(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding:
-                  EdgeInsets.all(Dimension.radius.sixteen).copyWith(bottom: 0),
+              padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(bottom: 0),
               children: [
                 Row(
                   children: [
@@ -48,9 +46,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileNameWidget(
-                            style: TextStyles.title(
-                                    context: context, color: theme.primary)
-                                .copyWith(
+                            style: TextStyles.title(context: context, color: theme.primary).copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                             onTap: () {
@@ -66,28 +62,21 @@ class BusinessReviewItemWidget extends StatelessWidget {
                             children: [
                               RatingBarIndicator(
                                 rating: review.rating.toDouble(),
-                                itemBuilder: (context, index) => Icon(
-                                    Icons.star_rounded,
-                                    color: theme.primary),
+                                itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
                                 unratedColor: theme.backgroundTertiary,
                                 itemCount: 5,
                                 itemSize: 16,
                                 direction: Axis.horizontal,
                               ),
                               const SizedBox(width: 8),
-                              Icon(Icons.circle,
-                                  size: 4, color: theme.backgroundTertiary),
+                              Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
                               const SizedBox(width: 8),
                               StreamBuilder(
-                                stream:
-                                    Stream.periodic(const Duration(seconds: 1)),
+                                stream: Stream.periodic(const Duration(seconds: 1)),
                                 builder: (context, snapshot) {
                                   return Text(
                                     review.date.duration,
-                                    style: TextStyles.caption(
-                                            context: context,
-                                            color: theme.textSecondary)
-                                        .copyWith(
+                                    style: TextStyles.caption(context: context, color: theme.textSecondary).copyWith(
                                       fontWeight: FontWeight.w400,
                                     ),
                                   );
@@ -103,9 +92,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 SizedBox(height: Dimension.padding.vertical.large),
                 Text(
                   review.title,
-                  style: TextStyles.subTitle(
-                          context: context, color: theme.textPrimary)
-                      .copyWith(
+                  style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                     fontWeight: FontWeight.bold,
                     height: 1.25,
                   ),
@@ -114,20 +101,15 @@ class BusinessReviewItemWidget extends StatelessWidget {
                   const SizedBox(height: 6),
                   ReadMoreText(
                     review.description ?? "",
-                    style: TextStyles.body(
-                        context: context, color: theme.textSecondary),
+                    style: TextStyles.body(context: context, color: theme.textSecondary),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
                     trimCollapsedText: '...more',
                     trimExpandedText: '\t\tShow less',
-                    lessStyle: TextStyles.subTitle(
-                            context: context, color: theme.primary)
-                        .copyWith(
+                    lessStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    moreStyle: TextStyles.subTitle(
-                            context: context, color: theme.primary)
-                        .copyWith(
+                    moreStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -149,11 +131,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               onTap: () {
                                 context.pushNamed(
                                   PhotoPreviewPage.name,
-                                  pathParameters: {
-                                    'url': review.photos
-                                        .map((e) => e.url)
-                                        .join(',')
-                                  },
+                                  pathParameters: {'url': review.photos.map((e) => e.url).join(',')},
                                   queryParameters: {'index': index.toString()},
                                 );
                               },
@@ -162,11 +140,8 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                 width: 64,
                                 height: 64,
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    const ShimmerLabel(
-                                        width: 64, height: 64, radius: 12),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.broken_image_rounded),
+                                placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 12),
+                                errorWidget: (context, url, error) => const Icon(Icons.broken_image_rounded),
                               ),
                             ),
                           ),
@@ -178,19 +153,15 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      top: BorderSide(
-                          color: theme.backgroundTertiary, width: .5),
+                      top: BorderSide(color: theme.backgroundTertiary, width: .5),
                     ),
                   ),
                   margin: EdgeInsets.only(top: Dimension.radius.twelve),
-                  padding: EdgeInsets.all(0).copyWith(
-                      bottom: Dimension.radius.four,
-                      top: Dimension.radius.four),
+                  padding: EdgeInsets.all(0).copyWith(bottom: Dimension.radius.four, top: Dimension.radius.four),
                   child: Row(
                     children: [
                       BlocProvider(
-                        create: (context) => sl<ReactionBloc>()
-                          ..add(FindReaction(review: review.identity)),
+                        create: (context) => sl<ReactionBloc>()..add(FindReaction(review: review.identity)),
                         child: BlocBuilder<ReactionBloc, ReactionState>(
                           builder: (context, state) {
                             if (state is ReactionDone) {
@@ -205,28 +176,18 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               return Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SizedBox(
-                                      width: Dimension
-                                          .padding.horizontal.verySmall),
+                                  SizedBox(width: Dimension.padding.horizontal.verySmall),
                                   ShimmerIcon(radius: Dimension.radius.twelve),
-                                  SizedBox(
-                                      width: Dimension
-                                          .padding.horizontal.verySmall),
+                                  SizedBox(width: Dimension.padding.horizontal.verySmall),
                                   ShimmerLabel(
                                     width: Dimension.size.horizontal.thirtyTwo,
                                     height: Dimension.size.vertical.twelve,
                                     radius: Dimension.radius.twelve,
                                   ),
-                                  SizedBox(
-                                      width:
-                                          Dimension.padding.horizontal.medium),
+                                  SizedBox(width: Dimension.padding.horizontal.medium),
                                   ShimmerIcon(radius: Dimension.radius.twelve),
-                                  SizedBox(
-                                      width: Dimension
-                                          .padding.horizontal.verySmall),
-                                  SizedBox(
-                                      width: Dimension
-                                          .padding.horizontal.verySmall),
+                                  SizedBox(width: Dimension.padding.horizontal.verySmall),
+                                  SizedBox(width: Dimension.padding.horizontal.verySmall),
                                   ShimmerLabel(
                                     width: Dimension.size.horizontal.thirtyTwo,
                                     height: Dimension.size.vertical.twelve,
@@ -244,8 +205,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         builder: (context, state) {
                           if (state is FindBusinessDone) {
                             final business = context.business;
-                            return BlocBuilder<FindProfileBloc,
-                                FindProfileState>(
+                            return BlocBuilder<FindProfileBloc, FindProfileState>(
                               builder: (context, state) {
                                 if (state is FindProfileDone) {
                                   final profile = state.profile;
@@ -262,13 +222,10 @@ class BusinessReviewItemWidget extends StatelessWidget {
 #KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
                                       );
 
-                                      if (result.status ==
-                                              ShareResultStatus.success &&
-                                          context.mounted) {
+                                      if (result.status == ShareResultStatus.success && context.mounted) {
                                         result.raw;
                                         context.successNotification(
-                                          message:
-                                              'Thank you for sharing ${profile.name.full}\'s review',
+                                          message: 'Thank you for sharing ${profile.name.full}\'s review',
                                         );
                                       }
                                     },
@@ -278,9 +235,8 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                         vertical: Dimension.radius.four,
                                       ),
                                       visualDensity: VisualDensity.compact,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimension.radius.sixteen)),
+                                      shape:
+                                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
                                       overlayColor: theme.textPrimary,
                                     ),
                                     icon: Icon(
@@ -290,9 +246,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                     ),
                                     label: Text(
                                       "Share",
-                                      style: TextStyles.body(
-                                          context: context,
-                                          color: theme.textSecondary),
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
                                     ),
                                   );
                                 }

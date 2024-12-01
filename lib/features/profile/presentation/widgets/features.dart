@@ -18,8 +18,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
           children: [
             Text(
               'Account',
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -30,8 +29,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(
-                    vertical: Dimension.padding.vertical.small),
+                padding: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.small),
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   BlocBuilder<FindProfileBloc, FindProfileState>(
@@ -51,8 +49,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                           ),
                           title: Text(
                             '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                            style: TextStyles.title(
-                                context: context, color: theme.textPrimary),
+                            style: TextStyles.title(context: context, color: theme.textPrimary),
                           ),
                           trailing: Icon(
                             Icons.open_in_new_rounded,
@@ -60,8 +57,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                             size: Dimension.radius.sixteen,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(Dimension.radius.sixteen)),
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(Dimension.radius.sixteen)),
                           ),
                           onTap: () {
                             context.pushNamed(
@@ -75,10 +71,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       }
                     },
                   ),
-                  Divider(
-                      height: Dimension.padding.vertical.small,
-                      thickness: .25,
-                      color: theme.backgroundTertiary),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .25, color: theme.backgroundTertiary),
                   ListTile(
                     leading: CircleAvatar(
                       radius: Dimension.radius.sixteen,
@@ -91,13 +84,10 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                     ),
                     subtitle: Text(
                       'Points',
-                      style: TextStyles.body(
-                          context: context, color: theme.textSecondary),
+                      style: TextStyles.body(context: context, color: theme.textSecondary),
                     ),
                     title: ProfilePointWidget(
-                      style: TextStyles.title(
-                              context: context, color: theme.positive)
-                          .copyWith(
+                      style: TextStyles.title(context: context, color: theme.positive).copyWith(
                         fontSize: Dimension.radius.sixteen,
                         height: 1,
                       ),
@@ -111,37 +101,52 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       context.pushNamed(LeaderboardPage.name);
                     },
                   ),
-                  Divider(
-                      height: Dimension.padding.vertical.small,
-                      thickness: .25,
-                      color: theme.backgroundTertiary),
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: Dimension.radius.sixteen,
-                      backgroundColor: Colors.deepPurpleAccent,
-                      child: Icon(
-                        Icons.lock_rounded,
-                        color: theme.white,
-                        size: Dimension.radius.sixteen,
-                      ),
-                    ),
-                    title: Text(
-                      "Change password",
-                      style: TextStyles.title(
-                          context: context, color: theme.textPrimary),
-                    ),
-                    trailing: Icon(
-                      Icons.open_in_new_rounded,
-                      color: theme.backgroundTertiary,
-                      size: Dimension.radius.sixteen,
-                    ),
-                    onTap: () {
-                      context.pushNamed(ChangePasswordPage.name);
+                  BlocBuilder<FindProfileBloc, FindProfileState>(
+                    builder: (context, state) {
+                      if (state is FindProfileDone) {
+                        final identity = state.profile.identity;
+                        final mine = identity.guid.same(as: context.auth.guid ?? '');
+                        return !mine
+                            ? SizedBox.shrink()
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Divider(
+                                    height: Dimension.padding.vertical.small,
+                                    thickness: .25,
+                                    color: theme.backgroundTertiary,
+                                  ),
+                                  ListTile(
+                                    leading: CircleAvatar(
+                                      radius: Dimension.radius.sixteen,
+                                      backgroundColor: Colors.deepPurpleAccent,
+                                      child: Icon(
+                                        Icons.lock_rounded,
+                                        color: theme.white,
+                                        size: Dimension.radius.sixteen,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      "Change password",
+                                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.open_in_new_rounded,
+                                      color: theme.backgroundTertiary,
+                                      size: Dimension.radius.sixteen,
+                                    ),
+                                    onTap: () {
+                                      context.pushNamed(ChangePasswordPage.name);
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(Dimension.radius.sixteen)),
+                                    ),
+                                  ),
+                                ],
+                              );
+                      }
+                      return SizedBox.shrink();
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(Dimension.radius.sixteen)),
-                    ),
                   ),
                 ],
               ),
