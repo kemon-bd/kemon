@@ -1,4 +1,6 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../../review/review.dart';
 import '../../business.dart';
@@ -29,10 +31,10 @@ class BusinessRatingsWidget extends StatelessWidget {
                           final userGuid = context.auth.guid ?? '';
                           final List<ReviewEntity> reviews = state.reviews;
                           final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
-                          final ratingWidget = Icon(Icons.star, color: theme.primary);
+                          final ratingWidget = Icon(Icons.star_sharp, color: theme.primary);
                           final emptyRatingWidget = Icon(
-                            Icons.star_border_rounded,
-                            color: theme.primary,
+                            Icons.star_sharp,
+                            color: theme.backgroundTertiary,
                             fill: 0,
                             grade: -25,
                             weight: 100,
@@ -40,61 +42,98 @@ class BusinessRatingsWidget extends StatelessWidget {
                           return ListView(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0).copyWith(
+                              top: !hasMyReview ? 4 : 16,
+                            ),
                             children: [
                               if (!hasMyReview) ...[
                                 Align(
                                   alignment: Alignment.center,
-                                  child: RatingBar(
-                                    minRating: 0,
-                                    maxRating: 5,
-                                    initialRating: 0,
-                                    ratingWidget: RatingWidget(
-                                      full: ratingWidget,
-                                      half: ratingWidget,
-                                      empty: emptyRatingWidget,
-                                    ),
-                                    onRatingUpdate: (value) async {
-                                      final ratingBloc = context.read<FindRatingBloc>();
-                                      final reviewBloc = context.read<FindListingReviewsBloc>();
-                                      if (context.auth.profile == null) {
-                                        final ProfileModel? authorization = await context.pushNamed<ProfileModel>(
-                                          CheckProfilePage.name,
-                                          queryParameters: {'authorize': 'true'},
-                                        );
-                                        if (authorization == null) {
-                                          return;
-                                        } else if (reviews.hasMyReview(userGuid: authorization.identity.guid)) {
-                                          reviewBloc.add(
-                                            FindListingReviews(urlSlug: business.urlSlug, filter: reviewBloc.state.filter),
+                                  child: BlocProvider(
+                                    create: (context) => sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.profilePoints)),
+                                    child: BlocBuilder<FindLookupBloc, FindLookupState>(
+                                      builder: (context, state) {
+                                        if (state is FindLookupDone) {
+                                          final checks = state.lookups;
+                                          return RatingBar(
+                                            minRating: 0,
+                                            maxRating: 5,
+                                            initialRating: 0,
+                                            ratingWidget: RatingWidget(
+                                              full: ratingWidget,
+                                              half: ratingWidget,
+                                              empty: emptyRatingWidget,
+                                            ),
+                                            onRatingUpdate: (value) async {
+                                              final ratingBloc = context.read<FindRatingBloc>();
+                                              final reviewBloc = context.read<FindListingReviewsBloc>();
+                                              if (context.auth.profile == null) {
+                                                final ProfileModel? authorization = await context.pushNamed<ProfileModel>(
+                                                  CheckProfilePage.name,
+                                                  queryParameters: {'authorize': 'true'},
+                                                );
+                                                if (!context.mounted) return;
+
+                                                if (authorization == null) {
+                                                  return;
+                                                } else if (reviews.hasMyReview(userGuid: authorization.identity.guid)) {
+                                                  reviewBloc.add(
+                                                    FindListingReviews(
+                                                      urlSlug: business.urlSlug,
+                                                      filter: reviewBloc.state.filter,
+                                                    ),
+                                                  );
+                                                  return;
+                                                } else if (authorization.progress(checks: checks) < 90) {
+                                                  await showModalBottomSheet(
+                                                    context: context,
+                                                    isScrollControlled: true,
+                                                    barrierColor: context.barrierColor,
+                                                    builder: (_) => ProfileCheckAlert(
+                                                      checks: authorization.missing(checks: checks),
+                                                    ),
+                                                  );
+                                                  return;
+                                                }
+                                              } else if (context.auth.profile!.progress(checks: checks) < 90) {
+                                                await showModalBottomSheet(
+                                                  context: context,
+                                                  isScrollControlled: true,
+                                                  barrierColor: context.barrierColor,
+                                                  builder: (_) => ProfileCheckAlert(
+                                                    checks: context.auth.profile!.missing(checks: checks),
+                                                  ),
+                                                );
+                                                return;
+                                              }
+
+                                              final bool? added = await context.pushNamed(
+                                                NewReviewPage.name,
+                                                pathParameters: {
+                                                  'urlSlug': business.urlSlug,
+                                                },
+                                                queryParameters: {
+                                                  'rating': value.toString(),
+                                                },
+                                              );
+                                              if (added ?? false) {
+                                                ratingBloc.add(RefreshRating(urlSlug: business.urlSlug));
+                                                reviewBloc.add(RefreshListingReviews(
+                                                  urlSlug: business.urlSlug,
+                                                  filter: reviewBloc.state.filter,
+                                                ));
+                                              }
+                                            },
+                                            itemCount: 5,
+                                            glow: false,
+                                            unratedColor: theme.primary,
+                                            itemSize: context.width / 6,
                                           );
-                                          return;
+                                        } else {
+                                          return SizedBox.shrink();
                                         }
-                                      }
-
-                                      if (!context.mounted) return;
-
-                                      final bool? added = await context.pushNamed(
-                                        NewReviewPage.name,
-                                        pathParameters: {
-                                          'urlSlug': business.urlSlug,
-                                        },
-                                        queryParameters: {
-                                          'rating': value.toString(),
-                                        },
-                                      );
-                                      if (added ?? false) {
-                                        ratingBloc.add(RefreshRating(urlSlug: business.urlSlug));
-                                        reviewBloc.add(RefreshListingReviews(
-                                          urlSlug: business.urlSlug,
-                                          filter: reviewBloc.state.filter,
-                                        ));
-                                      }
-                                    },
-                                    itemCount: 5,
-                                    glow: false,
-                                    unratedColor: theme.primary,
-                                    itemSize: MediaQuery.of(context).size.width / 6,
+                                      },
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -213,6 +252,7 @@ class _RatingItem extends StatelessWidget {
             reviewBloc.add(FindListingReviews(urlSlug: urlSlug, filter: filter));
           },
           splashColor: Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
