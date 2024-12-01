@@ -48,26 +48,14 @@ class AppConfig {
       storageDirectory: await getApplicationCacheDirectory(),
     );
 
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    final FirebaseMessaging messaging = FirebaseMessaging.instance;
-    final NotificationSettings settings =
-        await messaging.getNotificationSettings();
-    FirebaseMessaging.onBackgroundMessage(firebaseHandler);
-    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-      await messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-    }
-
     // Initialize the configurations
     await _setupDependencies();
+
+    // Firebase Messaging
+    await setupFirebaseMessaging();
+
+    // Notification
+    await setupLocalNotification();
 
     await ScreenUtil.ensureScreenSize();
   }
@@ -76,8 +64,7 @@ class AppConfig {
     required BuildContext context,
     required ThemeMode mode,
   }) {
-    final ThemeScheme theme =
-        mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
+    final ThemeScheme theme = mode != ThemeMode.dark ? ThemeScheme.light() : ThemeScheme.dark();
     return ThemeData(
       canvasColor: theme.backgroundPrimary,
       scaffoldBackgroundColor: theme.backgroundPrimary,
@@ -93,8 +80,7 @@ class AppConfig {
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle:
-            TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: TextStyle(height: 0, fontSize: 0),
         helperStyle: TextStyle(height: 0, fontSize: 0),
         border: OutlineInputBorder(
@@ -158,10 +144,8 @@ class AppConfig {
           ),
         ),
       ),
-      textSelectionTheme:
-          TextSelectionThemeData(cursorColor: theme.textPrimary),
-      iconTheme: IconThemeData(
-          color: theme.textPrimary, size: Dimension.radius.twenty),
+      textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
+      iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.twenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerTheme: DividerThemeData(
         space: Dimension.divider.normal,
@@ -176,10 +160,7 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: (mode != ThemeMode.dark
-                ? SystemUiOverlayStyle.dark
-                : SystemUiOverlayStyle.light)
-            .copyWith(
+        systemOverlayStyle: (mode != ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
         ),

@@ -21,6 +21,7 @@ dependencies:
   flutter_animate: ^4.5.0
   flutter_bloc: ^8.1.4
   flutter_keyboard_visibility: ^6.0.0
+  flutter_local_notifications: ^18.0.1
   flutter_native_splash: ^2.4.0
   flutter_rating_bar: ^4.0.1
   flutter_screenutil: ^5.9.3

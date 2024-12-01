@@ -35,8 +35,9 @@ extension StringExtension on String {
   }
 
   bool get zero {
-    if (same(as: '0') || same(as: '00') || same(as: '0.0') || same(as: '0.00'))
+    if (same(as: '0') || same(as: '00') || same(as: '0.0') || same(as: '0.00')) {
       return true;
+    }
     return false;
   }
 }

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:label="Kemon"
@@ -19,6 +20,22 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7128703901241959~5428520335"/>
         <!-- Google AdsMob -->
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        
+        <meta-data
+          android:name="com.google.firebase.messaging.default_notification_color"
+          android:resource="@color/primary" />
+        
+        <meta-data
+          android:name="com.google.firebase.messaging.default_notification_sound"
+          android:resource="@raw/notification" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="kemon_megaphone" />
 
         <activity
             android:name=".MainActivity"
@@ -48,6 +65,10 @@
         </activity>
 
         <meta-data android:name="flutterEmbedding" android:value="2" />
+
+        <receiver 
+            android:exported="false" 
+            android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
     </application>
 
     <queries>
@@ -102,4 +123,5 @@
                 android:name="android.support.customtabs.action.CustomTabsService"/>
         </intent>
     </queries>
+    
 </manifest>
