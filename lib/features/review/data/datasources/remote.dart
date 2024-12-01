@@ -42,6 +42,7 @@ abstract class ReviewRemoteDataSource {
   FutureOr<void> react({
     required String token,
     required Identity review,
+    required Identity listing,
     required Identity user,
     required Reaction reaction,
   });

@@ -42,5 +42,6 @@ abstract class ReviewRepository {
   FutureOr<Either<Failure, void>> react({
     required Identity review,
     required Reaction reaction,
+    required Identity listing,
   });
 }

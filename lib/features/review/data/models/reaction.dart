@@ -11,7 +11,7 @@ class ReactionModel extends ReactionEntity {
     required Map<String, dynamic> map,
   }) {
     final user = Identity.guid(guid: map["userGuid"]);
-    final type = Reaction.values.elementAt(map["type"] ?? 0);
+    final type = Reaction.values.elementAt(map["type"] ==true ? 1 : 0);
     return ReactionModel(
       user: user,
       type: type,

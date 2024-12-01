@@ -23,9 +23,7 @@ class ReviewLikeButton extends StatelessWidget {
                   final business = context.business;
                   final reviewBloc = context.read<FindListingReviewsBloc>();
                   reviewBloc.add(
-                    RefreshListingReviews(
-                        urlSlug: business.urlSlug,
-                        filter: reviewBloc.state.filter),
+                    RefreshListingReviews(urlSlug: business.urlSlug, filter: reviewBloc.state.filter),
                   );
                 } else if (state is ReactOnReviewError) {
                   context.errorNotification(message: state.failure.message);
@@ -55,15 +53,12 @@ class ReviewLikeButton extends StatelessWidget {
                     ),
                     visualDensity: VisualDensity.compact,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(Dimension.radius.sixteen),
+                      borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                     ),
                     overlayColor: theme.positive,
                   ),
                   icon: Icon(
-                    liked
-                        ? Icons.thumb_up_off_alt_rounded
-                        : Icons.thumb_up_off_alt_outlined,
+                    liked ? Icons.thumb_up_off_alt_rounded : Icons.thumb_up_off_alt_outlined,
                     color: liked ? theme.positive : theme.textSecondary,
                     size: Dimension.radius.twelve,
                   ),
@@ -77,6 +72,7 @@ class ReviewLikeButton extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    final business = context.business;
                     final profile = context.auth.profile;
                     final ProfileModel? authorization = profile ??
                         await context.pushNamed<ProfileModel>(
@@ -90,7 +86,10 @@ class ReviewLikeButton extends StatelessWidget {
                     if (!context.mounted) return;
                     builderContext.read<ReactOnReviewBloc>().add(
                           ReactOnReview(
-                              review: review, reaction: Reaction.like),
+                            review: review,
+                            reaction: Reaction.like,
+                            listing: business.identity,
+                          ),
                         );
                   },
                 ).animate().fade();

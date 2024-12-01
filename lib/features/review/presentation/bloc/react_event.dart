@@ -10,9 +10,11 @@ sealed class ReactOnReviewEvent extends Equatable {
 class ReactOnReview extends ReactOnReviewEvent {
   final Identity review;
   final Reaction reaction;
+    final Identity listing;
 
   const ReactOnReview({
     required this.review,
     required this.reaction,
+    required this.listing,
   });
 }

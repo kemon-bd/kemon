@@ -13,8 +13,7 @@ class ReviewDislikeButton extends StatelessWidget {
     return BlocBuilder<ReactionBloc, ReactionState>(
       builder: (context, state) {
         if (state is ReactionDone) {
-          final disliked =
-              state.reactions.iDisliked(identity: context.auth.identity);
+          final disliked = state.reactions.iDisliked(identity: context.auth.identity);
           final dislikes = state.reactions.dislikes;
           return BlocProvider(
             create: (_) => sl<ReactOnReviewBloc>(),
@@ -24,9 +23,7 @@ class ReviewDislikeButton extends StatelessWidget {
                   final business = context.business;
                   final reviewBloc = context.read<FindListingReviewsBloc>();
                   reviewBloc.add(
-                    RefreshListingReviews(
-                        urlSlug: business.urlSlug,
-                        filter: reviewBloc.state.filter),
+                    RefreshListingReviews(urlSlug: business.urlSlug, filter: reviewBloc.state.filter),
                   );
                 } else if (state is ReactOnReviewError) {
                   context.errorNotification(message: state.failure.message);
@@ -56,29 +53,26 @@ class ReviewDislikeButton extends StatelessWidget {
                     ),
                     visualDensity: VisualDensity.compact,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(Dimension.radius.sixteen),
+                      borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                     ),
                     overlayColor: theme.positive,
                   ),
                   icon: Icon(
-                    disliked
-                        ? Icons.thumb_down_rounded
-                        : Icons.thumb_down_off_alt_outlined,
+                    disliked ? Icons.thumb_down_rounded : Icons.thumb_down_off_alt_outlined,
                     color: disliked ? theme.negative : theme.textSecondary,
                     size: Dimension.radius.twelve,
                   ),
                   label: Text(
-                    '${dislikes > 0 ? "$disliked " : ''}Dislike${dislikes > 1 ? 's' : ''}${dislikes == 1 && disliked ? 'd' : ''}',
+                    '${dislikes > 0 ? "$dislikes " : ''}Dislike',
                     style: TextStyles.body(
                       context: context,
-                      color: disliked ? theme.positive : theme.textSecondary,
+                      color: disliked ? theme.negative : theme.textSecondary,
                     ).copyWith(
-                      fontWeight:
-                          disliked ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: disliked ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
                   onPressed: () async {
+                    final business = context.business;
                     final profile = context.auth.profile;
                     final ProfileModel? authorization = profile ??
                         await context.pushNamed<ProfileModel>(
@@ -92,7 +86,10 @@ class ReviewDislikeButton extends StatelessWidget {
                     if (!context.mounted) return;
                     builderContext.read<ReactOnReviewBloc>().add(
                           ReactOnReview(
-                              review: review, reaction: Reaction.dislike),
+                            review: review,
+                            reaction: Reaction.dislike,
+                            listing: business.identity,
+                          ),
                         );
                   },
                 ).animate().fade();

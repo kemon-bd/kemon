@@ -14,6 +14,7 @@ class ReactOnReviewBloc extends Bloc<ReactOnReviewEvent, ReactOnReviewState> {
       final result = await useCase(
         review: event.review,
         reaction: event.reaction,
+        listing: event.listing,
       );
       result.fold(
         (failure) => emit(ReactOnReviewError(failure: failure)),

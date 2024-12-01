@@ -205,12 +205,14 @@ class ReviewRepositoryImpl extends ReviewRepository {
   FutureOr<Either<Failure, void>> react({
     required Identity review,
     required Reaction reaction,
+    required Identity listing,
   }) async {
     try {
       if (await network.online) {
         final reviews = await remote.react(
           token: auth.token!,
           user: auth.identity!,
+          listing: listing,
           review: review,
           reaction: reaction,
         );
