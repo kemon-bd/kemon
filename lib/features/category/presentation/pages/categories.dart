@@ -34,6 +34,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   void dispose() {
     controller.removeListener(_scrollListener);
     controller.dispose();
+    search.dispose();
     super.dispose();
   }
 

@@ -41,7 +41,7 @@ Future<void> setupFirebaseMessaging() async {
       sound: true,
     );
   }
-  debugPrint(await FirebaseMessaging.instance.getToken());
+  // debugPrint(await FirebaseMessaging.instance.getToken());
 }
 
 AndroidNotificationDetails get _androidNotificationDetails => AndroidNotificationDetails(
