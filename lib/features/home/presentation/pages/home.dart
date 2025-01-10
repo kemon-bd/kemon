@@ -56,8 +56,7 @@ class _HomePageState extends State<HomePage> {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
-                    builder: (context) =>
-                        WhatsNewAlert(updates: state.updates, hash: state.hash),
+                    builder: (context) => WhatsNewAlert(updates: state.updates, hash: state.hash),
                   );
                 }
               },
@@ -71,9 +70,7 @@ class _HomePageState extends State<HomePage> {
               titleSpacing: Dimension.size.horizontal.sixteen,
               title: InkWell(
                 onTap: () {
-                  context
-                      .read<FeaturedCategoriesBloc>()
-                      .add(const FeaturedCategories());
+                  context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
                   context.read<RecentReviewsBloc>().add(const RecentReviews());
                 },
                 borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
@@ -91,9 +88,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              titleTextStyle:
-                  TextStyles.headline(context: context, color: theme.white)
-                      .copyWith(
+              titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
                 fontWeight: FontWeight.bold,
               ),
               centerTitle: false,
@@ -104,12 +99,9 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: CircleAvatar(
                     radius: Dimension.radius.sixteen,
-                    backgroundColor:
-                        themeMode == ThemeMode.dark ? theme.black : theme.white,
+                    backgroundColor: themeMode == ThemeMode.dark ? theme.black : theme.white,
                     child: Icon(
-                      themeMode == ThemeMode.dark
-                          ? Icons.dark_mode_rounded
-                          : Icons.light_mode_rounded,
+                      themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                       color: theme.primary,
                       size: Dimension.radius.sixteen,
                     ),
@@ -124,8 +116,7 @@ class _HomePageState extends State<HomePage> {
                     if (context.auth.authenticated) {
                       context.pushNamed(ProfilePage.name);
                     } else {
-                      final bool? loggedIn = await context
-                          .pushNamed(CheckProfilePage.name) as bool?;
+                      final bool? loggedIn = await context.pushNamed(CheckProfilePage.name) as bool?;
                       if (loggedIn == true && context.mounted) {
                         context.pushNamed(ProfilePage.name);
                       }

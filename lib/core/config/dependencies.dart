@@ -31,6 +31,15 @@ Future<void> get _core async {
 
   sl.registerLazySingleton(() => Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
+  sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
+  sl.registerLazySingleton<GoogleSignIn>(
+    () => GoogleSignIn(
+      scopes: [
+        'email',
+        'profile',
+      ],
+    ),
+  );
   sl.registerLazySingleton(
     () => List<AddressCheckOptions>.unmodifiable(
       <AddressCheckOptions>[

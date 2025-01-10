@@ -380,7 +380,7 @@ class _CategoriesWidget extends StatelessWidget {
                                 border: Border.all(width: 1, color: theme.backgroundTertiary),
                                 borderRadius: BorderRadius.circular(Dimension.radius.eight),
                               ),
-                              child: industry.icon.isNotEmpty
+                              child: industry.icon.url.isNotEmpty
                                   ? CachedNetworkImage(
                                       imageUrl: industry.icon.url,
                                       fit: BoxFit.cover,
@@ -452,7 +452,7 @@ class _CategoriesWidget extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(Dimension.radius.eight),
                                           ),
                                           clipBehavior: Clip.hardEdge,
-                                          child: category.icon.isNotEmpty
+                                          child: category.icon.url.isNotEmpty
                                               ? CachedNetworkImage(
                                                   imageUrl: category.icon.url,
                                                   width: Dimension.radius.twentyFour,

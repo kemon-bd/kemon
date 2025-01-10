@@ -6,4 +6,12 @@ abstract class RegistrationRemoteDataSource {
     required String password,
     required String refference,
   });
+
+  FutureOr<Identity> registerWithFacebook({
+    required Map<String, dynamic> facebook,
+  });
+
+  FutureOr<Identity> registerWithGoogle({
+    required GoogleSignInAccount google,
+  });
 }

@@ -39,13 +39,11 @@ class AppConfig {
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-    usePathUrlStrategy();
-
     // Bypass the SSL certificate verification
     HttpOverrides.global = MyHttpOverrides();
 
     HydratedBloc.storage = await HydratedStorage.build(
-      storageDirectory: await getApplicationCacheDirectory(),
+      storageDirectory: await getApplicationDocumentsDirectory(),
     );
 
     // Initialize the configurations
@@ -53,11 +51,6 @@ class AppConfig {
 
     // Firebase Messaging
     await setupFirebaseMessaging();
-
-    if (Platform.isAndroid) {
-      // Notification
-      await setupLocalNotification();
-    }
 
     await ScreenUtil.ensureScreenSize();
   }

@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../profile/profile.dart';
 
 abstract class LoginRepository {
   FutureOr<Either<Failure, void>> login({
@@ -10,4 +11,8 @@ abstract class LoginRepository {
   FutureOr<Either<Failure, void>> forgot({
     required String username,
   });
+
+  FutureOr<Either<Failure, ProfileEntity>> fbLogin();
+
+  FutureOr<Either<Failure, ProfileEntity>> googleSignIn();
 }

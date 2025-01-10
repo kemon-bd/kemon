@@ -1,4 +1,6 @@
 //! mason:linking-failures - DO NOT REMOVE THIS COMMENT --------------------------->
+import '../../shared.dart';
+
 part 'analytics.dart';
 part 'leaderboard.dart';
 part 'registration.dart';
@@ -68,16 +70,16 @@ class GoogleSignInFailure extends Failure {
 }
 
 class GoogleAccountNotRegisteredFailure extends Failure {
-  GoogleAccountNotRegisteredFailure()
-      : super(message: 'Google account is not registered.');
+  final GoogleSignInAccount account;
+  GoogleAccountNotRegisteredFailure({
+    required this.account,
+  }) : super(message: 'Google account is not registered.');
 }
 
 class FacebookAccountNotRegisteredFailure extends Failure {
-  FacebookAccountNotRegisteredFailure()
-      : super(message: 'Facebook account is not registered.');
+  FacebookAccountNotRegisteredFailure() : super(message: 'Facebook account is not registered.');
 }
 
 class AppleAccountNotRegisteredFailure extends Failure {
-  AppleAccountNotRegisteredFailure()
-      : super(message: 'Apple account is not registered.');
+  AppleAccountNotRegisteredFailure() : super(message: 'Apple account is not registered.');
 }

@@ -11,7 +11,6 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
   @override
   FutureOr<void> forgot({required String username}) {
-    // TODO: implement forgot
     throw UnimplementedError();
   }
 
@@ -32,17 +31,54 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final RemoteResponse<Map<String, dynamic>> result =
-            RemoteResponse.parse(response: response);
+        final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(response: response);
 
         if (result.success) {
           final TokenModel token = TokenModel.parse(map: result.result!);
-          final ProfileModel profile =
-              ProfileModel.parse(map: result.result!["userInfo"]);
+          final ProfileModel profile = ProfileModel.parse(map: result.result!["userInfo"]);
           return (
             token: token,
             profile: profile,
           );
+        } else {
+          throw RemoteFailure(message: result.error!);
+        }
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw RemoteFailure(message: "Internal server error.");
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw RemoteFailure(message: "Bad request.");
+      } else {
+        throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<ProfileModel?> socialLogin({
+    required String id,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        "username": id,
+        "socialid": id,
+      };
+
+      final Response response = await post(
+        RemoteEndpoints.login,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final RemoteResponse<Map<String, dynamic>?> result = RemoteResponse.parse(response: response);
+
+        if (result.success) {
+          if (result.result == null) return null;
+          final ProfileModel profile = ProfileModel.parse(map: result.result!);
+          return profile;
         } else {
           throw RemoteFailure(message: result.error!);
         }

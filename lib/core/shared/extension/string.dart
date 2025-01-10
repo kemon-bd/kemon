@@ -30,7 +30,11 @@ extension StringExtension on String {
   }
 
   String get url {
-    if (startsWith("http")) return this;
+    if (isEmpty) {
+      return '';
+    } else if (startsWith("http")) {
+      return this;
+    }
     return "${RemoteEndpoints.domain}$this";
   }
 

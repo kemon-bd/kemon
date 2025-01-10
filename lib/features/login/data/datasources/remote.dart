@@ -9,6 +9,10 @@ abstract class LoginRemoteDataSource {
     required String username,
     required String password,
   });
+  
+  FutureOr<ProfileModel?> socialLogin({
+    required String id,
+  });
 
   FutureOr<void> forgot({
     required String username,

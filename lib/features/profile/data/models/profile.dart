@@ -73,10 +73,10 @@ class ProfileModel extends ProfileEntity {
         'ProfileModel.parse: "phone" not found.',
       );
       assert(
-        map['phone'] is String,
+        map['phone'] is String?,
         'ProfileModel.parse: "phone" is not a String.',
       );
-      final String phone = map['phone'] as String;
+      final String phone = map['phone'] ?? '';
 
       assert(
         map.containsKey('profilePicture'),

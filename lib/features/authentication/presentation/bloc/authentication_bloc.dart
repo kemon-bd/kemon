@@ -5,8 +5,7 @@ import '../../../profile/profile.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc
-    extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc()
       : super(
           const AuthenticationState(
@@ -50,19 +49,31 @@ class AuthenticationBloc
 
   @override
   AuthenticationState? fromJson(Map<String, dynamic> json) {
-    if (json.isEmpty) {
-      return null;
-    } else {
-      final remember = json['remember'] ?? false;
-      if (remember) {
-        return AuthenticationState.parse(map: json);
+    try {
+      if (json.isEmpty) {
+        return null;
+      } else {
+        final remember = json['remember'] ?? false;
+        if (remember) {
+          return AuthenticationState.parse(map: json);
+        }
+        return null;
       }
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrint(stackTrace.toString());
       return null;
     }
   }
 
   @override
   Map<String, dynamic>? toJson(AuthenticationState? state) {
-    return state?.toMap;
+    try {
+      return state?.toMap;
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrint(stackTrace.toString());
+      return null;
+    }
   }
 }

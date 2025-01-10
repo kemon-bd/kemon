@@ -8,6 +8,16 @@ Future<void> get loginDependencies async {
     ),
   );
   sl.registerFactory(
+    () => FacebookLoginBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => GoogleSignInBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => ForgotPasswordBloc(
       useCase: sl(),
     ),
@@ -16,6 +26,16 @@ Future<void> get loginDependencies async {
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => LoginUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FacebookLoginUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => GoogleSignInUseCase(
       repository: sl(),
     ),
   );
@@ -31,6 +51,9 @@ Future<void> get loginDependencies async {
       network: sl(),
       auth: sl(),
       remote: sl(),
+      google: sl(),
+      facebook: sl(),
+      registration: sl(),
     ),
   );
 
@@ -38,6 +61,16 @@ Future<void> get loginDependencies async {
   sl.registerLazySingleton<LoginRemoteDataSource>(
     () => LoginRemoteDataSourceImpl(
       client: sl(),
+    ),
+  );
+  sl.registerLazySingleton<FacebookDataSource>(
+    () => FacebookDataSourceImpl(
+      facebook: sl(),
+    ),
+  );
+  sl.registerLazySingleton<GoogleDataSource>(
+    () => GoogleDataSourceImpl(
+      google: sl(),
     ),
   );
 }

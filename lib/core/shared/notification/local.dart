@@ -9,9 +9,7 @@ Future<void> setupLocalNotification() async {
   final notificationPlugin = FlutterLocalNotificationsPlugin();
   notificationPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestNotificationsPermission(
-
-      );
+      ?.requestNotificationsPermission();
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings(
     'drawable/ic_notification',
   );

@@ -5,6 +5,7 @@ class Dimension {
   static final radius = _Radius();
   static final padding = _Padding();
   static final divider = _Divider();
+  static final font = _Font();
 }
 
 //! ################################################
@@ -33,6 +34,20 @@ class _Radius {
 
 //! ################################################
 
+//* ------------------- Font -------------------
+class _Font {
+
+  final double six = 6.0.sp;
+  final double eight = 8.0.sp;
+  final double ten = 10.0.sp;
+  final double twelve = 12.0.sp;
+  final double fourteen = 14.0.sp;
+  final double sixteen = 16.0.sp;
+  final double eighteen = 18.0.sp;
+  final double twenty = 20.0.sp;
+  final double twentyFour = 24.0.sp;
+}
+
 //* ------------------- Padding -------------------
 class _Padding {
   final _HorizontalPadding horizontal = _HorizontalPadding();
@@ -53,6 +68,7 @@ class _VerticalPadding {
   final double ultraMax = 24.0.h;
   final double max = 16.0.h;
   final double large = 12.0.h;
+  final double semiLarge = 10.0.h;
   final double medium = 8.0.h;
   final double small = 4.0.h;
   final double verySmall = 2.0.h;

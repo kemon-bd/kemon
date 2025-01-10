@@ -27,7 +27,6 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
     ScreenUtil.init(context);
-
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         return MaterialApp.router(

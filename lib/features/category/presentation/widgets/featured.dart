@@ -30,26 +30,21 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Categories",
-                        style: TextStyles.title(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
                       ActionChip(
                         label: Text(
                           "See all",
-                          style: TextStyles.body(
-                                  context: context, color: theme.textPrimary)
-                              .copyWith(
+                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         backgroundColor: theme.backgroundSecondary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(
-                              width: 0, color: Colors.transparent),
+                          side: const BorderSide(width: 0, color: Colors.transparent),
                         ),
-                        visualDensity:
-                            const VisualDensity(horizontal: -4, vertical: -4),
+                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                         onPressed: () {
                           context.pushNamed(CategoriesPage.name);
                         },
@@ -71,8 +66,7 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                       itemBuilder: (_, index) {
                         final category = categories.elementAt(index);
                         return InkWell(
-                          borderRadius:
-                              BorderRadius.circular(Dimension.radius.max),
+                          borderRadius: BorderRadius.circular(Dimension.radius.max),
                           onTap: () {
                             context.pushNamed(
                               CategoryPage.name,
@@ -88,25 +82,21 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                                 CircleAvatar(
                                   backgroundColor: theme.textPrimary,
                                   radius: Dimension.radius.twelve,
-                                  child: CachedNetworkImage(
-                                    imageUrl: category.icon.url,
-                                    width: Dimension.radius.twelve,
-                                    height: Dimension.radius.twelve,
-                                    placeholder: (context, url) => ShimmerIcon(
-                                        radius: Dimension.radius.twenty),
-                                    errorWidget: (context, url, error) => Icon(
-                                        Icons.layers_outlined,
-                                        color: theme.white,
-                                        size: Dimension.radius.twelve),
-                                  ),
+                                  child: category.icon.url.isNotEmpty
+                                      ? CachedNetworkImage(
+                                          imageUrl: category.icon.url,
+                                          width: Dimension.radius.twelve,
+                                          height: Dimension.radius.twelve,
+                                          placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.twenty),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                        )
+                                      : Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
                                 ),
-                                SizedBox(
-                                    width: Dimension.padding.horizontal.small),
+                                SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(
                                   category.name.full,
-                                  style: TextStyles.subTitle(
-                                      context: context,
-                                      color: theme.textPrimary),
+                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                 ),
                               ],
                             ),
@@ -122,16 +112,13 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    state.failure is NoInternetFailure
-                        ? Icons.cloud_off_rounded
-                        : Icons.error_outline_rounded,
+                    state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
                     size: Dimension.size.horizontal.seventyTwo,
                     color: theme.textSecondary,
                   ),
                   Text(
                     state.failure.message,
-                    style: TextStyles.subHeadline(
-                        context: context, color: theme.textSecondary),
+                    style: TextStyles.subHeadline(context: context, color: theme.textSecondary),
                   ),
                 ],
               );

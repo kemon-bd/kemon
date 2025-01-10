@@ -67,7 +67,7 @@ class BusinessInformationWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(color: theme.backgroundTertiary, width: .75),
                             ),
-                            child: business.logo.isNotEmpty
+                            child: business.logo.url.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: business.logo.url,
                                     width: 64,

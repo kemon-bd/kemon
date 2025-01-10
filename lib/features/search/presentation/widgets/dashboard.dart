@@ -27,6 +27,7 @@ class DashboardSearchWidget extends StatelessWidget {
                   },
                   borderRadius: BorderRadius.circular(Dimension.radius.max),
                   child: Container(
+                    key: Keys.home.search,
                     decoration: BoxDecoration(
                       color: theme.backgroundPrimary,
                       borderRadius: BorderRadius.circular(Dimension.radius.max),

@@ -12,6 +12,8 @@ class ThemeScheme {
   final Color positiveBackgroundSecondary;
   final Color positiveBackgroundTertiary;
   final Color primary = const Color(0xFF0DA574); // base: 2BB673
+  final Color facebook = const Color(0xFF316FF6); // base: 2BB673
+  final Color google = const Color(0xFFDB4437); // base: 2BB673
   final Color negative;
   final Color warning;
   final Color shimmer;

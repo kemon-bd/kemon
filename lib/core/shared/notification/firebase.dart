@@ -22,25 +22,25 @@ Future<void> firebaseHandler(RemoteMessage message) async {
 
 Future<void> setupFirebaseMessaging() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final NotificationSettings settings = await messaging.getNotificationSettings();
   FirebaseMessaging.onBackgroundMessage(firebaseHandler);
-  if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-    await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    await messaging.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  }
+  // final FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // final NotificationSettings settings = await messaging.getNotificationSettings();
+  // if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+  //   await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
+  //   await messaging.setForegroundNotificationPresentationOptions(
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
+  // }
   // debugPrint(await FirebaseMessaging.instance.getToken());
 }
 

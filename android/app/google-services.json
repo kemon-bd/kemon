@@ -12,7 +12,16 @@
           "package_name": "bd.com.kemon"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "974762887289-too0a82l9eukr8c6nobbului0p3m3u0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bd.com.kemon",
+            "certificate_hash": "7538ec75ded1993accfe2fa0bbc3ba799a2bb9e3"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBqubdSur5tsfI73deWH8ZuBJ5pc-1QgGU"

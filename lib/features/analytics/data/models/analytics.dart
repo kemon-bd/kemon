@@ -2,8 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../analytics.dart';
 
 class AnalyticsModel extends AnalyticsEntity {
-  // TODO: implement model properties
-  AnalyticsModel({
+  const AnalyticsModel({
     required super.identity,
   });
 
@@ -11,7 +10,6 @@ class AnalyticsModel extends AnalyticsEntity {
     required Map<String, dynamic> map,
   }) {
     try {
-      // TODO: implement parse
       throw UnimplementedError();
     } catch (e, stackTrace) {
       throw AnalyticsModelParseFailure(

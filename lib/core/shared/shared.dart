@@ -33,6 +33,7 @@ export 'extension/string.dart';
 export 'extension/text_editing_controller.dart';
 export 'extension/theme.dart';
 export 'extension/token.dart';
+export 'keys/keys.dart';
 export 'notification/firebase.dart';
 export 'notification/local.dart';
 export 'remote/endpoints.dart';
@@ -63,6 +64,8 @@ export 'dart:math' hide log;
 export 'dart:developer' hide Flow;
 
 //! ----------------- 3rd party -----------------
+export 'package:google_sign_in/google_sign_in.dart';
+export 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:collection/collection.dart';
 export 'package:either_dart/either.dart';
