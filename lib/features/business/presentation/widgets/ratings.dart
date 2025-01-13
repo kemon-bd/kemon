@@ -84,7 +84,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                                     ),
                                                   );
                                                   return;
-                                                } else if (authorization.progress(checks: checks) < 90) {
+                                                } else if (authorization.progress(checks: checks) < 50) {
                                                   await showModalBottomSheet(
                                                     context: context,
                                                     isScrollControlled: true,
