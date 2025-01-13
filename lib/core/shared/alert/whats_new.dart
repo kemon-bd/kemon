@@ -46,7 +46,7 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               const SizedBox(height: 8),
               Text(
                 'Whats\' New',
-                style: TextStyles.bigHeadline(context: context, color: theme.positive),
+                style: TextStyles.h2(context: context, color: theme.positive),
               ),
               Divider(height: 16, thickness: .25, color: theme.backgroundTertiary),
               Container(
@@ -66,7 +66,7 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                       ),
                       title: Text(
                         update.title,
-                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                        style: TextStyles.subTitle1(context: context, color: theme.textPrimary),
                       ),
                       subtitle: update.description != null
                           ? Text(
@@ -90,7 +90,7 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                   onPressed: context.pop,
                   child: Text(
                     'Continue',
-                    style: TextStyles.miniHeadline(context: context, color: theme.white).copyWith(
+                    style: TextStyles.caption(context: context, color: theme.white).copyWith(
                       fontWeight: FontWeight.w900,
                     ),
                   ),

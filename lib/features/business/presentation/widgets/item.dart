@@ -65,7 +65,7 @@ class BusinessItemWidget extends StatelessWidget {
                             children: [
                               Text(
                                 "Latest reviews",
-                                style: TextStyles.subTitle(
+                                style: TextStyles.subTitle1(
                                     context: context, color: theme.primary),
                               ),
                               const SizedBox(width: 4),
@@ -125,7 +125,7 @@ class BusinessItemWidget extends StatelessWidget {
                               children: [
                                 Text(
                                   business.name.full,
-                                  style: TextStyles.subTitle(
+                                  style: TextStyles.subTitle1(
                                       context: context,
                                       color: theme.textPrimary),
                                 ),

@@ -46,7 +46,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileNameWidget(
-                            style: TextStyles.title(context: context, color: theme.primary).copyWith(
+                            style: TextStyles.h6(context: context, color: theme.primary).copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                             onTap: () {
@@ -92,7 +92,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 SizedBox(height: Dimension.padding.vertical.large),
                 Text(
                   review.title,
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                  style: TextStyles.subTitle1(context: context, color: theme.textPrimary).copyWith(
                     fontWeight: FontWeight.bold,
                     height: 1.25,
                   ),
@@ -101,15 +101,15 @@ class BusinessReviewItemWidget extends StatelessWidget {
                   const SizedBox(height: 6),
                   ReadMoreText(
                     review.description ?? "",
-                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                    style: TextStyles.body1(context: context, color: theme.textSecondary),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
                     trimCollapsedText: '...more',
                     trimExpandedText: '\t\tShow less',
-                    lessStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    lessStyle: TextStyles.subTitle1(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    moreStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    moreStyle: TextStyles.subTitle1(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -246,7 +246,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                     ),
                                     label: Text(
                                       "Share",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                      style: TextStyles.body1(context: context, color: theme.textSecondary),
                                     ),
                                   );
                                 }

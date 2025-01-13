@@ -50,7 +50,7 @@ class BusinessVerifiedWidget extends StatelessWidget {
                       const SizedBox(height: 24),
                       Text(
                         'This business is ${business.verified ? 'verified by Kemon' : 'not verified yet'}.',
-                        style: TextStyles.body(
+                        style: TextStyles.body1(
                             context: context, color: theme.textPrimary),
                         textAlign: TextAlign.center,
                       ),

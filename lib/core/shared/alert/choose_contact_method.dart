@@ -15,7 +15,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
           title: Text(
             "Choose a method",
             style:
-                TextStyles.headline(context: context, color: theme.textPrimary),
+                TextStyles.subTitle(context: context, color: theme.textPrimary),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -25,7 +25,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
                 leading: Icon(Icons.phone_rounded, color: theme.textPrimary),
                 title: Text(
                   "Call",
-                  style: TextStyles.body(
+                  style: TextStyles.body1(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {
@@ -37,7 +37,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
                 leading: Icon(Icons.sms_outlined, color: theme.textPrimary),
                 title: Text(
                   "Text",
-                  style: TextStyles.body(
+                  style: TextStyles.body1(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {

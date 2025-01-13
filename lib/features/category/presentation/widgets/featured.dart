@@ -30,7 +30,9 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Categories",
-                        style: TextStyles.title(context: context, color: theme.textPrimary),
+                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       ActionChip(
                         label: Text(
@@ -96,7 +98,7 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                                 SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(
                                   category.name.full,
-                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                  style: TextStyles.body(context: context, color: theme.textPrimary),
                                 ),
                               ],
                             ),
@@ -118,7 +120,7 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                   ),
                   Text(
                     state.failure.message,
-                    style: TextStyles.subHeadline(context: context, color: theme.textSecondary),
+                    style: TextStyles.body(context: context, color: theme.textSecondary),
                   ),
                 ],
               );

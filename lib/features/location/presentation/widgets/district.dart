@@ -51,7 +51,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                     children: [
                       Text(
                         "District",
-                        style: TextStyles.headline(
+                        style: TextStyles.subTitle(
                             context: context, color: theme.textPrimary),
                       ),
                       IconButton(
@@ -88,7 +88,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                       ),
                                     );
                               },
-                              style: TextStyles.subTitle(
+                              style: TextStyles.subTitle1(
                                   context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
@@ -150,7 +150,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.text,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.subTitle1(
                                                       context: context,
                                                       color: selected
                                                           ? theme.positive
@@ -174,7 +174,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No district found",
-                                        style: TextStyles.subTitle(
+                                        style: TextStyles.subTitle1(
                                             context: context,
                                             color: theme.textPrimary),
                                         textAlign: TextAlign.center,

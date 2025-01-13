@@ -57,7 +57,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     ? "Please rate your experience"
                     : "${rating.toInt()} star review",
                 style:
-                    TextStyles.title(context: context, color: theme.textPrimary)
+                    TextStyles.h6(context: context, color: theme.textPrimary)
                         .copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -105,13 +105,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 42),
                     Text(
                       "Review *",
-                      style: TextStyles.subTitle(
+                      style: TextStyles.subTitle1(
                           context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
                     TextFormField(
                       controller: descriptionController,
-                      style: TextStyles.body(
+                      style: TextStyles.body1(
                           context: context, color: theme.textPrimary),
                       minLines: 4,
                       maxLines: 20,
@@ -136,13 +136,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 16),
                     Text(
                       "Title *",
-                      style: TextStyles.subTitle(
+                      style: TextStyles.subTitle1(
                           context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
                     TextFormField(
                       controller: titleController,
-                      style: TextStyles.body(
+                      style: TextStyles.body1(
                           context: context, color: theme.textPrimary),
                       validator: (value) =>
                           value?.isNotEmpty ?? false ? null : '',
@@ -154,13 +154,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 16),
                     Text(
                       "Date of experience",
-                      style: TextStyles.subTitle(
+                      style: TextStyles.subTitle1(
                           context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
                     TextField(
                       controller: dateController,
-                      style: TextStyles.body(
+                      style: TextStyles.body1(
                           context: context, color: theme.textPrimary),
                       readOnly: true,
                       decoration: const InputDecoration(hintText: "optional"),
@@ -190,7 +190,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 16),
                     Text(
                       "Photos",
-                      style: TextStyles.subTitle(
+                      style: TextStyles.subTitle1(
                           context: context, color: theme.textSecondary),
                     ),
                     const SizedBox(height: 4),
@@ -230,7 +230,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                 ),
                                 title: Text(
                                   file.path.split('/').last,
-                                  style: TextStyles.body(
+                                  style: TextStyles.body1(
                                       context: context,
                                       color: theme.textSecondary),
                                   maxLines: 1,
@@ -309,7 +309,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                             ),
                             title: Text(
                               "Add a photo",
-                              style: TextStyles.body(
+                              style: TextStyles.body1(
                                       context: context,
                                       color: theme.textSecondary)
                                   .copyWith(
@@ -350,7 +350,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                   const SizedBox(height: 16),
                                   Text(
                                     'Review added successfully!',
-                                    style: TextStyles.body(
+                                    style: TextStyles.body1(
                                         context: context,
                                         color: theme.textPrimary),
                                   ),
@@ -374,7 +374,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                   const SizedBox(height: 16),
                                   Text(
                                     state.failure.message,
-                                    style: TextStyles.body(
+                                    style: TextStyles.body1(
                                         context: context,
                                         color: theme.textPrimary),
                                   ),

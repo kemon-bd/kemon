@@ -18,7 +18,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
           children: [
             Text(
               'Account',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle1(context: context, color: theme.textSecondary.withAlpha(100)),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -49,7 +49,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                           ),
                           title: Text(
                             '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                            style: TextStyles.title(context: context, color: theme.textPrimary),
+                            style: TextStyles.h6(context: context, color: theme.textPrimary),
                           ),
                           trailing: Icon(
                             Icons.open_in_new_rounded,
@@ -84,10 +84,10 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                     ),
                     subtitle: Text(
                       'Points',
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: TextStyles.body1(context: context, color: theme.textSecondary),
                     ),
                     title: ProfilePointWidget(
-                      style: TextStyles.title(context: context, color: theme.positive).copyWith(
+                      style: TextStyles.h6(context: context, color: theme.positive).copyWith(
                         fontSize: Dimension.radius.sixteen,
                         height: 1,
                       ),
@@ -128,7 +128,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                     ),
                                     title: Text(
                                       "Change password",
-                                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                                      style: TextStyles.h6(context: context, color: theme.textPrimary),
                                     ),
                                     trailing: Icon(
                                       Icons.open_in_new_rounded,

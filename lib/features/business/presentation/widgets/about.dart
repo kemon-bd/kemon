@@ -33,7 +33,7 @@ class BusinessAboutWidget extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         title: Text(
                           'About ${business.name.full}',
-                          style: TextStyles.title(
+                          style: TextStyles.h6(
                               context: context, color: theme.textPrimary),
                         ),
                         trailing: IconButton(
@@ -52,7 +52,7 @@ class BusinessAboutWidget extends StatelessWidget {
                           children: [
                             HtmlWidget(
                               business.about,
-                              textStyle: TextStyles.body(
+                              textStyle: TextStyles.body1(
                                   context: context, color: theme.textPrimary),
                             ),
                           ],

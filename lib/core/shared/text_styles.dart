@@ -6,7 +6,82 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
+      textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: color,
+            fontWeight: FontWeight.normal,
+            fontSize: 11.sp,
+            letterSpacing: 1.5.sp,
+          ),
+    );
+  }
+
+  static TextStyle body1({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: color,
+            fontWeight: FontWeight.normal,
+            fontSize: 17.sp,
+            letterSpacing: 0.5.sp,
+          ),
+    );
+  }
+
+  static TextStyle body2({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: color,
+            fontWeight: FontWeight.normal,
+            fontSize: 15.sp,
+            letterSpacing: 0.25.sp,
+          ),
+    );
+  }
+
+  static TextStyle subTitle1({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: color,
+            fontWeight: FontWeight.normal,
+            fontSize: 17.sp,
+            letterSpacing: 0.15.sp,
+          ),
+    );
+  }
+
+  static TextStyle subTitle2({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+            letterSpacing: 0.1.sp,
+          ),
+    );
+  }
+
+  static TextStyle h6({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w500,
+            fontSize: 21.sp,
+            letterSpacing: 0.15.sp,
+          ),
     );
   }
 
@@ -15,55 +90,12 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
-    );
-  }
-
-  static TextStyle body({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .bodyMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.normal),
-    );
-  }
-
-  static TextStyle subTitle({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleSmall
-          ?.copyWith(color: color, height: 1),
-    );
-  }
-
-  static TextStyle title({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.bold),
-    );
-  }
-
-  static TextStyle miniHeadline({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .titleLarge
-          ?.copyWith(color: color, fontWeight: FontWeight.w300),
+      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w500,
+            fontSize: 26.sp,
+            letterSpacing: 0.sp,
+          ),
     );
   }
 
@@ -73,61 +105,67 @@ class TextStyles {
     final theme = context.theme.scheme;
     return GoogleFonts.solway(
       color: theme.white,
-      shadows: [
-        BoxShadow(
-          color: theme.black.withAlpha(15),
-          offset: const Offset(4, 4),
-          blurRadius: 4,
-          spreadRadius: 4,
-        )
-      ],
-      fontWeight: FontWeight.w900,
-      textStyle: Theme.of(context).textTheme.titleLarge,
+      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: theme.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+            letterSpacing: 1.25.sp,
+          ),
     );
   }
 
-  static TextStyle subHeadline({
+  static TextStyle body({
     required BuildContext context,
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .headlineSmall
-          ?.copyWith(color: color, fontWeight: FontWeight.w300),
-    );
-  }
-
-  static TextStyle headline({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context)
-          .textTheme
-          .headlineMedium
-          ?.copyWith(color: color, fontWeight: FontWeight.w400),
-    );
-  }
-
-  static TextStyle bigHeadline({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.rubik(
-      textStyle: Theme.of(context)
-          .textTheme
-          .headlineLarge
-          ?.copyWith(color: color, fontWeight: FontWeight.bold),
-    );
-  }
-
-  static TextStyle input(BuildContext context, Color color) {
-    return GoogleFonts.mavenPro(
-      textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
             color: color,
             fontWeight: FontWeight.normal,
-            height: 1,
+            fontSize: 36.sp,
+            letterSpacing: 0.25.sp,
+          ),
+    );
+  }
+
+  static TextStyle subTitle({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: color,
+            fontWeight: FontWeight.normal,
+            fontSize: 51.sp,
+            letterSpacing: 0.sp,
+          ),
+    );
+  }
+
+  static TextStyle h2({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w100,
+            fontSize: 64.sp,
+            letterSpacing: -0.5.sp,
+          ),
+    );
+  }
+
+  static TextStyle title({
+    required BuildContext context,
+    required Color color,
+  }) {
+    return GoogleFonts.solway(
+      textStyle: Theme.of(context).textTheme.displayLarge?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w100,
+            fontSize: 103.sp,
+            letterSpacing: -1.5.sp,
           ),
     );
   }

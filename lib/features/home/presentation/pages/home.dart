@@ -79,17 +79,17 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Image.asset(
                       'images/logo/full.png',
-                      width: Dimension.size.horizontal.tweenty,
-                      height: Dimension.size.vertical.twenty,
+                      width: Dimension.radius.twentyFour,
+                      height: Dimension.radius.twentyFour,
                       fit: BoxFit.contain,
                     ),
                     SizedBox(width: Dimension.size.horizontal.eight),
-                    const Text('KEMON'),
+                    Text(
+                      'KEMON',
+                      style: TextStyles.title(context: context, color: theme.white),
+                    ),
                   ],
                 ),
-              ),
-              titleTextStyle: TextStyles.headline(context: context, color: theme.white).copyWith(
-                fontWeight: FontWeight.bold,
               ),
               centerTitle: false,
               actions: [

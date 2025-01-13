@@ -143,7 +143,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Reviews",
-                                    style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
+                                    style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -152,7 +152,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                   const SizedBox(width: 12),
                                   Text(
                                     rating.average.toStringAsFixed(1),
-                                    style: TextStyles.miniHeadline(context: context, color: theme.textPrimary).copyWith(
+                                    style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -162,7 +162,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   "Based on ${rating.total} review${rating.total > 1 ? "s" : ""}",
-                                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  style: TextStyles.body1(context: context, color: theme.textSecondary),
                                 ),
                               ],
                               const SizedBox(height: 16),

@@ -81,7 +81,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               children: [
                                 Text(
                                   'Create an account',
-                                  style: TextStyles.headline(
+                                  style: TextStyles.subTitle(
                                           context: context, color: theme.white)
                                       .copyWith(
                                     fontWeight: FontWeight.w900,
@@ -91,7 +91,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Please fill all the required fields to create an account.',
-                                  style: TextStyles.body(
+                                  style: TextStyles.body1(
                                           context: context,
                                           color: theme.semiWhite)
                                       .copyWith(
@@ -114,7 +114,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         children: [
                           Text(
                             'Password',
-                            style: TextStyles.miniHeadline(
+                            style: TextStyles.caption(
                                 context: context, color: theme.textPrimary),
                           ),
                           const SizedBox(height: 8),
@@ -146,7 +146,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     children: [
                                       Text(
                                         'Password *',
-                                        style: TextStyles.body(
+                                        style: TextStyles.body1(
                                             context: context,
                                             color: theme.textSecondary),
                                       ),
@@ -173,7 +173,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                           decoration: InputDecoration(
                                             hintText: 'required',
                                             isDense: true,
-                                            hintStyle: TextStyles.subTitle(
+                                            hintStyle: TextStyles.subTitle1(
                                               context: context,
                                               color: theme.textSecondary
                                                   .withAlpha(150),
@@ -214,7 +214,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             ),
                                           ),
                                           obscureText: isObscured,
-                                          style: TextStyles.title(
+                                          style: TextStyles.h6(
                                             context: context,
                                             color:
                                                 passwordController.validPassword
@@ -243,7 +243,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       children: [
                                         Text(
                                           'Confirm password *',
-                                          style: TextStyles.body(
+                                          style: TextStyles.body1(
                                               context: context,
                                               color: theme.textSecondary),
                                         ),
@@ -269,7 +269,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             decoration: InputDecoration(
                                               hintText: 'required',
                                               isDense: true,
-                                              hintStyle: TextStyles.subTitle(
+                                              hintStyle: TextStyles.subTitle1(
                                                 context: context,
                                                 color: theme.textSecondary
                                                     .withAlpha(150),
@@ -313,7 +313,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             ),
                                             obscureText:
                                                 isConfirmPasswordObscured,
-                                            style: TextStyles.title(
+                                            style: TextStyles.h6(
                                               context: context,
                                               color: confirmPasswordController
                                                       .validPassword

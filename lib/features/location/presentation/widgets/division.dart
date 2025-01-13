@@ -49,7 +49,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                     children: [
                       Text(
                         "Division",
-                        style: TextStyles.headline(
+                        style: TextStyles.subTitle(
                             context: context, color: theme.textPrimary),
                       ),
                       IconButton(
@@ -83,7 +83,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                         query: value,
                                         lookup: Lookups.division));
                               },
-                              style: TextStyles.subTitle(
+                              style: TextStyles.subTitle1(
                                   context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
@@ -142,7 +142,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.text,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.subTitle1(
                                                       context: context,
                                                       color: selected
                                                           ? theme.positive
@@ -166,7 +166,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No division found",
-                                        style: TextStyles.subTitle(
+                                        style: TextStyles.subTitle1(
                                             context: context,
                                             color: theme.textPrimary),
                                         textAlign: TextAlign.center,

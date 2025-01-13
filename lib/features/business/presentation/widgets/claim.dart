@@ -50,7 +50,7 @@ class BusinessClaimWidget extends StatelessWidget {
                       const SizedBox(height: 24),
                       Text(
                         'This business is ${business.claimed ? 'already claimed by the owner' : 'not claimed yet'}.',
-                        style: TextStyles.body(
+                        style: TextStyles.body1(
                             context: context, color: theme.textPrimary),
                         textAlign: TextAlign.center,
                       ),

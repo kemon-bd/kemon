@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Text(
                                         'Hey, we know you.',
-                                        style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                        style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2,
                                         ),
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                       const SizedBox(height: 4),
                                       Text(
                                         'Continue with your secured password.',
-                                        style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                        style: TextStyles.body1(context: context, color: theme.semiWhite).copyWith(
                                           height: 1,
                                         ),
                                       ),
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 16),
                           ProfileNameWidget(
-                            style: TextStyles.miniHeadline(context: context, color: theme.textSecondary),
+                            style: TextStyles.caption(context: context, color: theme.textSecondary),
                             align: TextAlign.center,
                             shimmerAlignment: Alignment.center,
                           ),
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                           Semantics(
                             label: 'Password',
                             child: TextFormField(
-                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                              style: TextStyles.body1(context: context, color: theme.textPrimary),
                               controller: passwordController,
                               keyboardType: TextInputType.text,
                               autocorrect: false,
@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                 errorStyle: TextStyle(fontSize: 0),
                                 label: Text(
                                   'Password',
-                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                  style: TextStyles.subTitle1(context: context, color: theme.textPrimary),
                                 ),
                                 alignLabelWithHint: true,
                                 suffixIcon: IconButton(
@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(
                                 "Remember me",
-                                style: TextStyles.title(context: context, color: theme.textPrimary),
+                                style: TextStyles.h6(context: context, color: theme.textPrimary),
                               ),
                               Switch(
                                 activeColor: theme.backgroundSecondary,

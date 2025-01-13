@@ -86,7 +86,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -94,7 +94,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Sign in to your account to continue',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.body1(context: context, color: theme.semiWhite).copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -133,7 +133,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                             Semantics(
                               label: 'Email/Phone',
                               child: TextFormField(
-                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                                style: TextStyles.body1(context: context, color: theme.textPrimary),
                                 controller: usernameController,
                                 keyboardType: TextInputType.emailAddress,
                                 autocorrect: false,
@@ -145,7 +145,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                   errorStyle: TextStyle(fontSize: 0),
                                   label: Text(
                                     'Email/Phone',
-                                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                    style: TextStyles.subTitle1(context: context, color: theme.textPrimary),
                                   ),
                                   alignLabelWithHint: true,
                                 ),
@@ -218,7 +218,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                         },
                                         child: Text(
                                           'Forgot Password',
-                                          style: TextStyles.title(context: context, color: theme.link),
+                                          style: TextStyles.h6(context: context, color: theme.link),
                                         ),
                                       ),
                                     ),

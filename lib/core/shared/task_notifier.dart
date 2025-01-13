@@ -26,7 +26,7 @@ class TaskNotifier {
             ),
             title: Text(
               message,
-              style: TextStyles.body(
+              style: TextStyles.body1(
                 context: context,
                 color: Colors.white,
               ),
@@ -58,7 +58,7 @@ class TaskNotifier {
             leading: const Icon(Icons.error_rounded, color: Colors.white),
             title: Text(
               message,
-              style: TextStyles.body(
+              style: TextStyles.body1(
                 context: context,
                 color: Colors.white,
               ),
@@ -87,7 +87,7 @@ class TaskNotifier {
             leading: const Icon(Icons.warning_rounded, color: Colors.white),
             title: Text(
               message,
-              style: TextStyles.body(
+              style: TextStyles.body1(
                 context: context,
                 color: Colors.white,
               ),
@@ -118,7 +118,7 @@ class TaskNotifier {
                 color: Colors.white),
             title: Text(
               "No internet!!!",
-              style: TextStyles.body(
+              style: TextStyles.body1(
                 context: context,
                 color: Colors.white,
               ),
@@ -149,7 +149,7 @@ class TaskNotifier {
                 const Icon(Icons.tips_and_updates_rounded, color: Colors.white),
             title: Text(
               message,
-              style: TextStyles.body(
+              style: TextStyles.body1(
                 context: context,
                 color: Colors.white,
               ),

@@ -32,7 +32,7 @@ class SubCategoryPage extends StatelessWidget {
                   final subCategory = state.subCategory;
                   return Text(
                     subCategory.name.full,
-                    style: TextStyles.title(
+                    style: TextStyles.h6(
                             context: context, color: theme.textPrimary)
                         .copyWith(
                       fontWeight: FontWeight.bold,
@@ -131,7 +131,7 @@ class SubCategoryPage extends StatelessWidget {
                               vertical: context.height * .25),
                           child: Text(
                             "No listing found :(",
-                            style: TextStyles.title(
+                            style: TextStyles.h6(
                                 context: context,
                                 color: theme.backgroundTertiary),
                           ),

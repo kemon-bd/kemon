@@ -89,7 +89,7 @@ class _HorizontalSize {
   final double four = 4.0.w;
   final double eight = 8.0.w;
   final double sixteen = 16.0.w;
-  final double tweenty = 20.0.w;
+  final double twenty = 20.0.w;
   final double twentyFour = 24.0.w;
   final double thirtyTwo = 32.0.w;
   final double thirtySix = 36.0.w;
@@ -118,7 +118,7 @@ class _VerticalSize {
   final double oneTwelve = 112.0.h;
   final double oneTwentyEight = 128.0.h;
   final double oneFortyFour = 144.0.h;
-  final double carousel = 128.0.h;
+  final double carousel = 108.0.h;
   final double min = 0.0.h;
 } //? ------------------- Size -------------------
 

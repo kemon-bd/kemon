@@ -37,7 +37,7 @@ class BusinessLogoWidget extends StatelessWidget {
                 final fallback = Center(
                   child: Text(
                     state.business.name.symbol,
-                    style: TextStyles.body(
+                    style: TextStyles.body1(
                             context: context,
                             color: placeholderColor ?? theme.textPrimary)
                         .copyWith(
@@ -149,7 +149,7 @@ class MyBusinessLogoWidget extends StatelessWidget {
                     errorWidget: (_, __, ___) => Center(
                       child: Text(
                         symbol,
-                        style: TextStyles.body(
+                        style: TextStyles.body1(
                                 context: context,
                                 color: placeholderColor ?? theme.white)
                             .copyWith(

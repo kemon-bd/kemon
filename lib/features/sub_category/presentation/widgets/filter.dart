@@ -52,7 +52,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                     children: [
                       Text(
                         "Sub Category",
-                        style: TextStyles.headline(
+                        style: TextStyles.subTitle(
                             context: context, color: theme.textPrimary),
                       ),
                       IconButton(
@@ -91,7 +91,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                       ),
                                     );
                               },
-                              style: TextStyles.subTitle(
+                              style: TextStyles.subTitle1(
                                   context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
@@ -154,7 +154,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.name.full,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.subTitle1(
                                                       context: context,
                                                       color: selected
                                                           ? theme.positive
@@ -178,7 +178,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No sub category found",
-                                        style: TextStyles.subTitle(
+                                        style: TextStyles.subTitle1(
                                             context: context,
                                             color: theme.textPrimary),
                                         textAlign: TextAlign.center,

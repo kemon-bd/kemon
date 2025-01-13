@@ -24,7 +24,7 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
               children: [
                 Text(
                   "Sort By",
-                  style: TextStyles.headline(
+                  style: TextStyles.subTitle(
                       context: context, color: theme.textPrimary),
                 ),
                 IconButton(
@@ -99,7 +99,7 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         item.text,
-                                        style: TextStyles.subTitle(
+                                        style: TextStyles.subTitle1(
                                           context: context,
                                           color: selected
                                               ? theme.primary

@@ -51,7 +51,7 @@ class _ThanaFilterWidgetState extends State<ThanaFilterWidget> {
                     children: [
                       Text(
                         "Thana",
-                        style: TextStyles.headline(
+                        style: TextStyles.subTitle(
                             context: context, color: theme.textPrimary),
                       ),
                       IconButton(
@@ -88,7 +88,7 @@ class _ThanaFilterWidgetState extends State<ThanaFilterWidget> {
                                       ),
                                     );
                               },
-                              style: TextStyles.subTitle(
+                              style: TextStyles.subTitle1(
                                   context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
@@ -150,7 +150,7 @@ class _ThanaFilterWidgetState extends State<ThanaFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.text,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.subTitle1(
                                                       context: context,
                                                       color: selected
                                                           ? theme.positive
@@ -174,7 +174,7 @@ class _ThanaFilterWidgetState extends State<ThanaFilterWidget> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No thana found",
-                                        style: TextStyles.subTitle(
+                                        style: TextStyles.subTitle1(
                                             context: context,
                                             color: theme.textPrimary),
                                         textAlign: TextAlign.center,

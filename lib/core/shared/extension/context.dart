@@ -24,7 +24,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.white),
+        style: TextStyles.body1(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.positive,
     );
@@ -40,7 +40,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.white),
+        style: TextStyles.body1(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.negative,
     );
@@ -57,7 +57,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.black),
+        style: TextStyles.body1(context: this, color: scheme.black),
       ),
       backgroundColor: scheme.warning,
     );

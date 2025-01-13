@@ -35,7 +35,7 @@ class _ForgotPasswordPickUsernameWidgetState
                     children: [
                       Text(
                         'Forgot Password',
-                        style: TextStyles.headline(
+                        style: TextStyles.subTitle(
                                 context: context, color: theme.textPrimary)
                             .copyWith(
                           fontWeight: FontWeight.w900,
@@ -45,7 +45,7 @@ class _ForgotPasswordPickUsernameWidgetState
                       SizedBox(height: Dimension.padding.vertical.small),
                       Text(
                         'Enter your username to reset your password.',
-                        style: TextStyles.body(
+                        style: TextStyles.body1(
                                 context: context, color: theme.textSecondary)
                             .copyWith(
                           height: 1,
@@ -64,7 +64,7 @@ class _ForgotPasswordPickUsernameWidgetState
                             (value ?? '').isNotEmpty ? null : "",
                         decoration: InputDecoration(
                           labelText: 'Username',
-                          labelStyle: TextStyles.body(
+                          labelStyle: TextStyles.body1(
                               context: context, color: theme.textPrimary),
                         ),
                       ),

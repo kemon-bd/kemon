@@ -12,11 +12,11 @@ class DeleteConfirmationWidget extends StatelessWidget {
           backgroundColor: theme.negative,
           title: Text(
             "Confirmation",
-            style: TextStyles.headline(context: context, color: Colors.white),
+            style: TextStyles.subTitle(context: context, color: Colors.white),
           ),
           content: Text(
             "Are you sure ?",
-            style: TextStyles.body(context: context, color: Colors.white),
+            style: TextStyles.body1(context: context, color: Colors.white),
           ),
           actions: [
             TextButton(
@@ -35,7 +35,7 @@ class DeleteConfirmationWidget extends StatelessWidget {
               child: Text(
                 "Cancel",
                 style:
-                    TextStyles.subTitle(context: context, color: Colors.white)
+                    TextStyles.subTitle1(context: context, color: Colors.white)
                         .copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -54,7 +54,7 @@ class DeleteConfirmationWidget extends StatelessWidget {
               child: Text(
                 "Yes, Delete",
                 style:
-                    TextStyles.subTitle(context: context, color: theme.negative)
+                    TextStyles.subTitle1(context: context, color: theme.negative)
                         .copyWith(
                   fontWeight: FontWeight.bold,
                 ),

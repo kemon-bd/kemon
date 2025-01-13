@@ -64,7 +64,7 @@ class ReviewDislikeButton extends StatelessWidget {
                   ),
                   label: Text(
                     '${dislikes > 0 ? "$dislikes " : ''}Dislike',
-                    style: TextStyles.body(
+                    style: TextStyles.body1(
                       context: context,
                       color: disliked ? theme.negative : theme.textSecondary,
                     ).copyWith(

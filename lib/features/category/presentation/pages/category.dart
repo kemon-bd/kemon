@@ -92,7 +92,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: TextStyles.body1(context: context, color: theme.textPrimary),
                             onChanged: (query) {
                               final bloc = context.read<FindBusinessesByCategoryBloc>();
                               final filter = bloc.state;
@@ -115,7 +115,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body1(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -325,7 +325,7 @@ class _NameWidget extends StatelessWidget {
           final category = state.category;
           return Text(
             category.name.full,
-            style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+            style: TextStyles.h2(context: context, color: theme.textPrimary).copyWith(
               fontWeight: FontWeight.bold,
               fontSize: fontSize ?? Dimension.radius.twelve,
             ),
@@ -377,11 +377,11 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(context: context, color: theme.textPrimary),
+                style: TextStyles.h6(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: TextStyles.body1(context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -462,14 +462,14 @@ class _ListingsWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No listing found :(",
-                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.h6(context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );
         } else if (state is FindBusinessesByCategoryError) {
           return Text(
             state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
+            style: TextStyles.body1(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

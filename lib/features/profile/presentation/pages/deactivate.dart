@@ -52,7 +52,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
           width: context.width * 0.125,
           height: context.width * 0.125,
           textStyle:
-              TextStyles.body(context: context, color: theme.textPrimary),
+              TextStyles.body1(context: context, color: theme.textPrimary),
           decoration: BoxDecoration(
               color: theme.backgroundSecondary,
               borderRadius: BorderRadius.circular(8)),
@@ -60,7 +60,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
 
         final focusedPinTheme = defaultPinTheme.copyWith(
           textStyle:
-              TextStyles.subTitle(context: context, color: theme.textPrimary),
+              TextStyles.subTitle1(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -68,7 +68,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.primary)
+          textStyle: TextStyles.subTitle1(context: context, color: theme.primary)
               .copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -81,7 +81,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
 
         final errorPinTheme = defaultPinTheme.copyWith(
           textStyle:
-              TextStyles.subTitle(context: context, color: theme.negative)
+              TextStyles.subTitle1(context: context, color: theme.negative)
                   .copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -127,7 +127,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                 children: [
                                   Text(
                                     'Verify OTP',
-                                    style: TextStyles.headline(
+                                    style: TextStyles.subTitle(
                                             context: context,
                                             color: theme.white)
                                         .copyWith(
@@ -138,7 +138,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                   const SizedBox(height: 4),
                                   Text(
                                     'A ${widget.otp.length} digit verification code has been sent to your phone / email address',
-                                    style: TextStyles.body(
+                                    style: TextStyles.body1(
                                             context: context,
                                             color: theme.semiWhite)
                                         .copyWith(
@@ -192,7 +192,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                 if (state is DeactivateAccountLoading) {
                                   return Text(
                                     'Please wait...',
-                                    style: TextStyles.body(
+                                    style: TextStyles.body1(
                                         context: context,
                                         color: theme.textSecondary),
                                   );
@@ -210,10 +210,10 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                         endTime: endTime ??
                                             DateTime.now().add(_duration),
                                         enableDescriptions: false,
-                                        timeTextStyle: TextStyles.body(
+                                        timeTextStyle: TextStyles.body1(
                                             context: context,
                                             color: theme.textPrimary),
-                                        colonsTextStyle: TextStyles.body(
+                                        colonsTextStyle: TextStyles.body1(
                                             context: context,
                                             color: theme.textPrimary),
                                       )
@@ -223,13 +223,13 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                           children: [
                                             TextSpan(
                                               text: "Didn't receive the OTP? ",
-                                              style: TextStyles.body(
+                                              style: TextStyles.body1(
                                                   context: context,
                                                   color: theme.textSecondary),
                                             ),
                                             TextSpan(
                                               text: "Resend OTP",
-                                              style: TextStyles.body(
+                                              style: TextStyles.body1(
                                                       context: context,
                                                       color: theme.primary)
                                                   .copyWith(

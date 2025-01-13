@@ -47,7 +47,7 @@ class ProfileInformationWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ProfileNameWidget(
                 align: TextAlign.center,
-                style: TextStyles.headline(
+                style: TextStyles.subTitle(
                         context: context, color: theme.textPrimary)
                     .copyWith(
                   fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class ProfileInformationWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ProfileSinceWidget(
-                style: TextStyles.body(
+                style: TextStyles.body1(
                         context: context,
                         color: theme.textSecondary.withAlpha(150))
                     .copyWith(
@@ -80,7 +80,7 @@ class ProfileInformationWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   label: Text(
                     'Edit profile',
-                    style: TextStyles.title(
+                    style: TextStyles.h6(
                         context: context, color: theme.backgroundPrimary),
                   ),
                   onPressed: () async {

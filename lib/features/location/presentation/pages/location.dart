@@ -93,7 +93,7 @@ class _LocationPageState extends State<LocationPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(
+                            style: TextStyles.body1(
                                 context: context, color: theme.textPrimary),
                             onChanged: (query) {
                               final bloc =
@@ -114,7 +114,7 @@ class _LocationPageState extends State<LocationPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(
+                              hintStyle: TextStyles.body1(
                                   context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
@@ -339,7 +339,7 @@ class _NameWidget extends StatelessWidget {
           final location = state.location;
           return Text(
             location.name.full,
-            style: TextStyles.bigHeadline(
+            style: TextStyles.h2(
                     context: context, color: theme.textPrimary)
                 .copyWith(
               fontWeight: FontWeight.bold,
@@ -394,12 +394,12 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(
+                style: TextStyles.h6(
                     context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(
+                style: TextStyles.body1(
                     context: context, color: theme.textSecondary),
               ),
             ],
@@ -484,7 +484,7 @@ class _ListingsWidget extends StatelessWidget {
                         EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No listing found :(",
-                      style: TextStyles.title(
+                      style: TextStyles.h6(
                           context: context, color: theme.backgroundTertiary),
                     ),
                   ),
@@ -492,7 +492,7 @@ class _ListingsWidget extends StatelessWidget {
         } else if (state is FindBusinessesByLocationError) {
           return Text(
             state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
+            style: TextStyles.body1(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

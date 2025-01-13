@@ -30,14 +30,14 @@ class DropdownFormWidget<T> extends DropdownWidget<T> {
           final labelWidget = Text(
             label,
             style: labelStyle ??
-                TextStyles.subTitle(
+                TextStyles.subTitle1(
                     context: context, color: theme.textSecondary),
           );
           final textWidget = Text(
             text,
             style: textStyle?.copyWith(
                     color: valid ? theme.textPrimary : theme.negative) ??
-                TextStyles.title(
+                TextStyles.h6(
                     context: context,
                     color: valid ? theme.textPrimary : theme.negative),
             maxLines: 1,

@@ -64,7 +64,7 @@ class ReviewLikeButton extends StatelessWidget {
                   ),
                   label: Text(
                     '${likes > 0 ? "$likes " : ''}Like${likes > 1 ? 's' : ''}',
-                    style: TextStyles.body(
+                    style: TextStyles.body1(
                       context: context,
                       color: liked ? theme.positive : theme.textSecondary,
                     ).copyWith(
