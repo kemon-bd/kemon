@@ -19,7 +19,7 @@ class ProfilePointWidget extends StatelessWidget {
               return Text(
                 state.profile.kemonIdentity.point.toString(),
                 style: style ??
-                    TextStyles.subTitle1(
+                    TextStyles.subTitle(
                         context: context, color: theme.textPrimary),
               );
             } else if (state is FindProfileLoading) {

@@ -25,7 +25,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
                 leading: Icon(Icons.phone_rounded, color: theme.textPrimary),
                 title: Text(
                   "Call",
-                  style: TextStyles.body1(
+                  style: TextStyles.body(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {
@@ -37,7 +37,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
                 leading: Icon(Icons.sms_outlined, color: theme.textPrimary),
                 title: Text(
                   "Text",
-                  style: TextStyles.body1(
+                  style: TextStyles.body(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {

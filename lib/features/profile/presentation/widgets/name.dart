@@ -31,7 +31,7 @@ class ProfileNameWidget extends StatelessWidget {
                 child: Text(
                   state.profile.name.full,
                   style: style ??
-                      TextStyles.subTitle1(
+                      TextStyles.subTitle(
                           context: context, color: theme.textPrimary),
                   textAlign: align,
                   maxLines: 1,

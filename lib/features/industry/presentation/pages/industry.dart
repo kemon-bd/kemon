@@ -31,7 +31,7 @@ class IndustryPage extends StatelessWidget {
                   final industry = state.industry;
                   return Text(
                     industry.name.full,
-                    style: TextStyles.h6(
+                    style: TextStyles.overline(
                             context: context, color: theme.textPrimary)
                         .copyWith(
                       fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class IndustryPage extends StatelessWidget {
                               vertical: context.height * .25),
                           child: Text(
                             "No listing found :(",
-                            style: TextStyles.h6(
+                            style: TextStyles.overline(
                                 context: context,
                                 color: theme.backgroundTertiary),
                           ),

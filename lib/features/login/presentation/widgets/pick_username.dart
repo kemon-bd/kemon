@@ -8,12 +8,10 @@ class ForgotPasswordPickUsernameWidget extends StatefulWidget {
   });
 
   @override
-  State<ForgotPasswordPickUsernameWidget> createState() =>
-      _ForgotPasswordPickUsernameWidgetState();
+  State<ForgotPasswordPickUsernameWidget> createState() => _ForgotPasswordPickUsernameWidgetState();
 }
 
-class _ForgotPasswordPickUsernameWidgetState
-    extends State<ForgotPasswordPickUsernameWidget> {
+class _ForgotPasswordPickUsernameWidgetState extends State<ForgotPasswordPickUsernameWidget> {
   final TextEditingController usernameController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -35,9 +33,7 @@ class _ForgotPasswordPickUsernameWidgetState
                     children: [
                       Text(
                         'Forgot Password',
-                        style: TextStyles.subTitle(
-                                context: context, color: theme.textPrimary)
-                            .copyWith(
+                        style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                           fontWeight: FontWeight.w900,
                           letterSpacing: 2,
                         ),
@@ -45,9 +41,7 @@ class _ForgotPasswordPickUsernameWidgetState
                       SizedBox(height: Dimension.padding.vertical.small),
                       Text(
                         'Enter your username to reset your password.',
-                        style: TextStyles.body1(
-                                context: context, color: theme.textSecondary)
-                            .copyWith(
+                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                           height: 1,
                         ),
                       ),
@@ -56,16 +50,12 @@ class _ForgotPasswordPickUsernameWidgetState
                         controller: usernameController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        autofillHints: const [
-                          AutofillHints.username,
-                          AutofillHints.newUsername
-                        ],
-                        validator: (value) =>
-                            (value ?? '').isNotEmpty ? null : "",
+                        autofillHints: const [AutofillHints.username, AutofillHints.newUsername],
+                        validator: (value) => (value ?? '').isNotEmpty ? null : "",
+                        style: TextStyles.body(context: context, color: theme.textPrimary),
                         decoration: InputDecoration(
                           labelText: 'Username',
-                          labelStyle: TextStyles.body1(
-                              context: context, color: theme.textPrimary),
+                          labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
                         ),
                       ),
                       SizedBox(height: Dimension.size.vertical.twenty),
@@ -78,8 +68,7 @@ class _ForgotPasswordPickUsernameWidgetState
                               setState(() {
                                 picked = true;
                               });
-                              widget
-                                  .onUsernameSelected(usernameController.text);
+                              widget.onUsernameSelected(usernameController.text);
                             }
                           },
                           child: Text(

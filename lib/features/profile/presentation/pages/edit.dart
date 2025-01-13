@@ -91,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           const SizedBox(height: 4),
                                           Text(
                                             'Let us know about you, more precisely.',
-                                            style: TextStyles.body1(context: context, color: theme.semiWhite).copyWith(
+                                            style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
                                               height: 1,
                                             ),
                                           ),
@@ -146,7 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               errorWidget: (_, __, ___) => Center(
                                                 child: Text(
                                                   state.profile.name.symbol,
-                                                  style: TextStyles.body1(context: context, color: theme.primary).copyWith(
+                                                  style: TextStyles.body(context: context, color: theme.primary).copyWith(
                                                     fontSize: 64,
                                                   ),
                                                 ),
@@ -208,7 +208,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         children: [
                                           Text(
                                             'First name *',
-                                            style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(context: context, color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -230,7 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               },
                                               decoration: InputDecoration(
                                                 hintText: 'required',
-                                                hintStyle: TextStyles.subTitle1(
+                                                hintStyle: TextStyles.subTitle(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
                                                 ),
@@ -242,7 +242,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                               ),
-                                              style: TextStyles.h6(
+                                              style: TextStyles.overline(
                                                 context: context,
                                                 color: firstNameController.validName ? theme.textPrimary : theme.negative,
                                               ),
@@ -260,7 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         children: [
                                           Text(
                                             'Last',
-                                            style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(context: context, color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -278,7 +278,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               decoration: InputDecoration(
                                                 hintText: 'optional',
                                                 isDense: true,
-                                                hintStyle: TextStyles.subTitle1(
+                                                hintStyle: TextStyles.subTitle(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
                                                 ),
@@ -290,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                               ),
-                                              style: TextStyles.h6(context: context, color: theme.textPrimary),
+                                              style: TextStyles.overline(context: context, color: theme.textPrimary),
                                             ),
                                           ),
                                         ],
@@ -305,7 +305,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         children: [
                                           Text(
                                             'Email *',
-                                            style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(context: context, color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -323,7 +323,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               decoration: InputDecoration(
                                                 hintText: 'required',
                                                 isDense: true,
-                                                hintStyle: TextStyles.subTitle1(
+                                                hintStyle: TextStyles.subTitle(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
                                                 ),
@@ -335,7 +335,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                               ),
-                                              style: TextStyles.h6(
+                                              style: TextStyles.overline(
                                                 context: context,
                                                 color: emailController.validEmail ? theme.textPrimary : theme.negative,
                                               ),
@@ -353,7 +353,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         children: [
                                           Text(
                                             'Phone *',
-                                            style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                            style: TextStyles.body(context: context, color: theme.textSecondary),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -376,7 +376,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               decoration: InputDecoration(
                                                 hintText: 'required',
                                                 isDense: true,
-                                                hintStyle: TextStyles.subTitle1(
+                                                hintStyle: TextStyles.subTitle(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
                                                 ),
@@ -388,7 +388,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                               ),
-                                              style: TextStyles.h6(
+                                              style: TextStyles.overline(
                                                 context: context,
                                                 color: phoneController.validPhone ? theme.textPrimary : theme.negative,
                                               ),
@@ -431,13 +431,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           children: [
                                             Text(
                                               'Date of birth',
-                                              style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                              style: TextStyles.body(context: context, color: theme.textSecondary),
                                             ),
                                             const SizedBox(width: 12),
                                             Expanded(
                                               child: Text(
                                                 dob?.dMMMMyyyy ?? 'Select one',
-                                                style: TextStyles.h6(context: context, color: theme.textPrimary),
+                                                style: TextStyles.overline(context: context, color: theme.textPrimary),
                                                 textAlign: TextAlign.end,
                                               ),
                                             ),
@@ -481,7 +481,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         onPressed: () {
                                           FocusScope.of(context).requestFocus(FocusNode());
                                         },
-                                        child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                        child: NetworkingIndicator(dimension: Dimension.radius.eighteen, color: theme.white),
                                       );
                                     }
                                     return ElevatedButton(

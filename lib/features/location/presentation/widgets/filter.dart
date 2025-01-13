@@ -73,7 +73,7 @@ class _FilterBusinessesByLocationWidgetState
             const SizedBox(height: 24),
             Text(
               'Rating',
-              style: TextStyles.subTitle1(
+              style: TextStyles.subTitle(
                   context: context, color: theme.textPrimary),
             ),
             const SizedBox(height: 8),
@@ -82,7 +82,7 @@ class _FilterBusinessesByLocationWidgetState
               children: {
                 RatingRange.all: Text(
                   'All',
-                  style: TextStyles.subTitle1(
+                  style: TextStyles.subTitle(
                     context: context,
                     color: rating == RatingRange.all
                         ? theme.white
@@ -102,7 +102,7 @@ class _FilterBusinessesByLocationWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '1 ~ 2',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.worst
                             ? theme.white
@@ -124,7 +124,7 @@ class _FilterBusinessesByLocationWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '3 ~ 4',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.average
                             ? theme.white
@@ -146,7 +146,7 @@ class _FilterBusinessesByLocationWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '5.0',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.best
                             ? theme.white
@@ -179,7 +179,7 @@ class _FilterBusinessesByLocationWidgetState
                         const Divider(height: 24),
                         Text(
                           'Related',
-                          style: TextStyles.subTitle1(
+                          style: TextStyles.subTitle(
                               context: context, color: theme.textPrimary),
                         ),
                         const SizedBox(height: 8),
@@ -219,7 +219,7 @@ class _FilterBusinessesByLocationWidgetState
                                     borderRadius: BorderRadius.circular(16)),
                                 label: Text(
                                   location.name.full,
-                                  style: TextStyles.body1(
+                                  style: TextStyles.body(
                                           context: context,
                                           color: theme.textPrimary)
                                       .copyWith(

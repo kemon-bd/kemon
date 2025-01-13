@@ -56,7 +56,7 @@ class UserReviewItemWidget extends StatelessWidget {
                           children: [
                             BusinessNameWidget(
                               maxLines: 1,
-                              style: TextStyles.body1(
+                              style: TextStyles.body(
                                       context: context, color: theme.primary)
                                   .copyWith(
                                 fontSize: 16,
@@ -106,7 +106,7 @@ class UserReviewItemWidget extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(
                   review.title,
-                  style: TextStyles.subTitle1(
+                  style: TextStyles.subTitle(
                           context: context, color: theme.textPrimary)
                       .copyWith(
                     fontWeight: FontWeight.bold,
@@ -117,18 +117,18 @@ class UserReviewItemWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   ReadMoreText(
                     review.description ?? "",
-                    style: TextStyles.body1(
+                    style: TextStyles.body(
                         context: context, color: theme.textSecondary),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
                     trimCollapsedText: '...more',
                     trimExpandedText: '\t\tShow less',
-                    lessStyle: TextStyles.subTitle1(
+                    lessStyle: TextStyles.subTitle(
                             context: context, color: theme.primary)
                         .copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    moreStyle: TextStyles.subTitle1(
+                    moreStyle: TextStyles.subTitle(
                             context: context, color: theme.primary)
                         .copyWith(
                       fontWeight: FontWeight.bold,

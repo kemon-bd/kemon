@@ -26,7 +26,7 @@ class ChooseUploadMethodWidget extends StatelessWidget {
                     color: theme.textPrimary),
                 title: Text(
                   "Camera",
-                  style: TextStyles.body1(
+                  style: TextStyles.body(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {
@@ -39,7 +39,7 @@ class ChooseUploadMethodWidget extends StatelessWidget {
                     color: theme.textPrimary),
                 title: Text(
                   "Gallery",
-                  style: TextStyles.body1(
+                  style: TextStyles.body(
                       context: context, color: theme.textPrimary),
                 ),
                 onTap: () {

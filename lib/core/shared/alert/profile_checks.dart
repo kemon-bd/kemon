@@ -33,7 +33,7 @@ class ProfileCheckAlert extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'Incomplete profile',
-                style: TextStyles.h2(context: context, color: theme.primary),
+                style: TextStyles.title(context: context, color: theme.primary),
               ),
               const SizedBox(height: 4),
               Text(
@@ -43,7 +43,7 @@ class ProfileCheckAlert extends StatelessWidget {
               Divider(height: 42, thickness: .25, color: theme.backgroundTertiary),
               Text(
                 'Here is the missing information about your profile:',
-                style: TextStyles.body1(context: context, color: theme.textPrimary),
+                style: TextStyles.body(context: context, color: theme.textPrimary),
               ),
               Container(
                 constraints: BoxConstraints(
@@ -59,11 +59,11 @@ class ProfileCheckAlert extends StatelessWidget {
                       leading: Icon(Icons.info_outline_rounded, color: theme.warning),
                       title: Text(
                         checkpoint.text,
-                        style: TextStyles.subTitle1(context: context, color: theme.warning),
+                        style: TextStyles.subTitle(context: context, color: theme.warning),
                       ),
                       trailing: Text(
                         "+ ${checkpoint.point}",
-                        style: TextStyles.subTitle1(context: context, color: theme.warning),
+                        style: TextStyles.subTitle(context: context, color: theme.warning),
                       ),
                     );
                   },

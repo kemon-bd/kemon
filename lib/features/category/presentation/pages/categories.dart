@@ -74,7 +74,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ? null
                           : Text(
                               'Categories',
-                              style: TextStyles.h2(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Dimension.radius.sixteen,
                               ),
@@ -95,7 +95,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body1(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
                               final bloc = context.read<FindAllCategoriesBloc>();
                               final filter = bloc.state;
@@ -112,7 +112,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body1(context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -135,7 +135,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                         Expanded(
                                           child: Text(
                                             'Categories',
-                                            style: TextStyles.h2(context: context, color: theme.textPrimary).copyWith(
+                                            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: Dimension.radius.twentyFour,
                                             ),
@@ -321,11 +321,11 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.h6(context: context, color: theme.textPrimary),
+                style: TextStyles.overline(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body1(context: context, color: theme.textSecondary),
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -470,7 +470,7 @@ class _CategoriesWidget extends StatelessWidget {
                                         Expanded(
                                           child: Text(
                                             category.name.full,
-                                            style: TextStyles.body1(context: context, color: theme.textPrimary),
+                                            style: TextStyles.body(context: context, color: theme.textPrimary),
                                           ),
                                         ),
                                         SizedBox(width: Dimension.padding.horizontal.medium),
@@ -537,14 +537,14 @@ class _CategoriesWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No category found :(",
-                      style: TextStyles.h6(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );
         } else if (state is FindAllCategoriesError) {
           return Text(
             state.failure.message,
-            style: TextStyles.body1(context: context, color: theme.negative),
+            style: TextStyles.body(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

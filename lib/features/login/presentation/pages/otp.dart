@@ -54,16 +54,12 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         final defaultPinTheme = PinTheme(
           width: context.width * 0.125,
           height: context.width * 0.125,
-          textStyle:
-              TextStyles.body1(context: context, color: theme.textPrimary),
-          decoration: BoxDecoration(
-              color: theme.backgroundSecondary,
-              borderRadius: BorderRadius.circular(8)),
+          textStyle: TextStyles.body(context: context, color: theme.textPrimary),
+          decoration: BoxDecoration(color: theme.backgroundSecondary, borderRadius: BorderRadius.circular(8)),
         );
 
         final focusedPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle1(context: context, color: theme.textPrimary),
+          textStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -71,8 +67,7 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle1(context: context, color: theme.primary)
-              .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -83,9 +78,7 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         );
 
         final errorPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle1(context: context, color: theme.negative)
-                  .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.negative).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -103,9 +96,13 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                   flex: 1,
                   child: Container(
                     width: double.maxFinite,
-                    alignment: Alignment.bottomLeft,
-                    padding:
-                        const EdgeInsets.only(left: 24, right: 24, bottom: 16),
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(
+                      top: context.topInset + 16,
+                      left: 24,
+                      right: 24,
+                      bottom: 16,
+                    ),
                     decoration: BoxDecoration(
                       color: theme.primary,
                       image: const DecorationImage(
@@ -117,29 +114,31 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                     ),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
-                          ? Container()
+                          ? IconButton(
+                              padding: const EdgeInsets.all(0),
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              onPressed: context.pop,
+                              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                            )
                           : Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  onPressed: context.pop,
+                                  icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                                ),
+                                const Spacer(),
                                 Text(
                                   'Verify OTP',
-                                  style: TextStyles.subTitle(
-                                          context: context, color: theme.white)
-                                      .copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2,
-                                  ),
+                                  style: TextStyles.title(context: context, color: theme.white),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'A ${widget.otp.length} digit verification code has been sent to your phone / email address',
-                                  style: TextStyles.body1(
-                                          context: context,
-                                          color: theme.semiWhite)
-                                      .copyWith(
-                                    height: 1,
-                                  ),
+                                  style: TextStyles.body(context: context, color: theme.semiWhite),
                                 ),
                               ],
                             ),
@@ -154,8 +153,7 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                     child: ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16)
-                          .copyWith(bottom: 16 + context.bottomInset),
+                      padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                       children: [
                         const SizedBox(height: 42),
                         Pinput(
@@ -169,10 +167,8 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                           focusedPinTheme: focusedPinTheme,
                           submittedPinTheme: submittedPinTheme,
                           errorPinTheme: errorPinTheme,
-                          pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
-                          validator: (value) =>
-                              ((value ?? "") == code) ? null : "",
+                          pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                          validator: (value) => ((value ?? "") == code) ? null : "",
                         ),
                         const SizedBox(height: 20),
                         Center(
@@ -187,30 +183,22 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                               if (state is OtpLoading) {
                                 return Text(
                                   'Please wait...',
-                                  style: TextStyles.body1(
-                                      context: context,
-                                      color: theme.textSecondary),
+                                  style: TextStyles.body(context: context, color: theme.textSecondary),
                                 );
                               }
                               return endTime != null
                                   ? TimerCountdown(
-                                      format:
-                                          CountDownTimerFormat.minutesSeconds,
+                                      format: CountDownTimerFormat.minutesSeconds,
                                       onEnd: () {
                                         setState(() {
                                           endTime = null;
                                         });
                                       },
                                       spacerWidth: 4,
-                                      endTime: endTime ??
-                                          DateTime.now().add(_duration),
+                                      endTime: endTime ?? DateTime.now().add(_duration),
                                       enableDescriptions: false,
-                                      timeTextStyle: TextStyles.body1(
-                                          context: context,
-                                          color: theme.textPrimary),
-                                      colonsTextStyle: TextStyles.body1(
-                                          context: context,
-                                          color: theme.textPrimary),
+                                      timeTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                      colonsTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
                                     )
                                   : Text.rich(
                                       TextSpan(
@@ -218,24 +206,16 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                         children: [
                                           TextSpan(
                                             text: "Didn't receive the OTP? ",
-                                            style: TextStyles.body1(
-                                                context: context,
-                                                color: theme.textSecondary),
+                                            style: TextStyles.body(context: context, color: theme.textSecondary),
                                           ),
                                           TextSpan(
                                             text: "Resend OTP",
-                                            style: TextStyles.body1(
-                                                    context: context,
-                                                    color: theme.primary)
-                                                .copyWith(
+                                            style: TextStyles.body(context: context, color: theme.primary).copyWith(
                                               fontWeight: FontWeight.bold,
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                context.read<OtpBloc>().add(
-                                                    ResendOtp(
-                                                        username:
-                                                            widget.username));
+                                                context.read<OtpBloc>().add(ResendOtp(username: widget.username));
 
                                                 otpController.clear();
                                               },
@@ -254,8 +234,7 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                             onPressed: () async {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (formKey.currentState?.validate() ?? false) {
-                                final ProfileModel? profile =
-                                    await context.pushNamed(
+                                final ProfileModel? profile = await context.pushNamed(
                                   RegistrationPage.name,
                                   queryParameters: {
                                     'username': widget.username,

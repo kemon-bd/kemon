@@ -36,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
               key: Keys.search.suggestion.field,
               autofocus: true,
               controller: controller,
-              style: TextStyles.subTitle1(context: context, color: theme.textPrimary),
+              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               onChanged: (query) {
                 if (query.isNotEmpty) {
                   context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
@@ -89,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                   icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.h6(context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.overline(context: context, color: theme.backgroundPrimary),
                   ),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                 ),
@@ -208,7 +208,7 @@ class _SearchPageState extends State<SearchPage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           BusinessNameWidget(
-                                            style: TextStyles.subTitle1(context: context, color: theme.primary),
+                                            style: TextStyles.subTitle(context: context, color: theme.primary),
                                           ),
                                           const SizedBox(height: 4),
                                           BusinessRatingWidget(urlSlug: urlSlug),
@@ -250,7 +250,7 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               industry.name.full,
-                              style: TextStyles.body1(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -290,7 +290,7 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               category.name.full,
-                              style: TextStyles.body1(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
@@ -330,7 +330,7 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               subCategory.name.full,
-                              style: TextStyles.body1(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.primary),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,

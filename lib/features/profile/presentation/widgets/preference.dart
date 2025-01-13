@@ -16,7 +16,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
           children: [
             Text(
               'Preferences',
-              style: TextStyles.subTitle1(
+              style: TextStyles.subTitle(
                   context: context, color: theme.textSecondary.withAlpha(100)),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
@@ -50,7 +50,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Theme',
-                      style: TextStyles.h6(
+                      style: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                     ),
                     trailing: Icon(Icons.arrow_forward_ios_rounded,
@@ -76,7 +76,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Privacy policy',
-                      style: TextStyles.h6(
+                      style: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded,
@@ -101,7 +101,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Terms and conditions',
-                      style: TextStyles.h6(
+                      style: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded,

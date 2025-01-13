@@ -45,7 +45,7 @@ class ProfileProgressWidget extends StatelessWidget {
                             children: [
                               Text(
                                 '${(progress * 100).round()}% Progress',
-                                style: TextStyles.body1(
+                                style: TextStyles.body(
                                     context: context,
                                     color: theme.textSecondary),
                               )
@@ -89,7 +89,7 @@ class ProfileProgressWidget extends StatelessWidget {
                                               .padding.horizontal.small),
                                       Text(
                                         checkpoint.text,
-                                        style: TextStyles.body1(
+                                        style: TextStyles.body(
                                             context: context,
                                             color: theme.textSecondary),
                                       ),

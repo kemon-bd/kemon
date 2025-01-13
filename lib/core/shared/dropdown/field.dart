@@ -30,12 +30,12 @@ class DropdownWidget<T> extends StatelessWidget {
         final labelWidget = Text(
           label,
           style: labelStyle ??
-              TextStyles.subTitle1(context: context, color: theme.textSecondary),
+              TextStyles.subTitle(context: context, color: theme.textSecondary),
         );
         final textWidget = Text(
           text,
           style: textStyle ??
-              TextStyles.h6(
+              TextStyles.overline(
                 context: context,
                 color:
                     onSelect != null ? theme.textPrimary : theme.textSecondary,

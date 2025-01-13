@@ -19,7 +19,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
             Text(
               'Danger Zone',
               style:
-                  TextStyles.subTitle1(context: context, color: theme.negative),
+                  TextStyles.subTitle(context: context, color: theme.negative),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -61,7 +61,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                           ),
                           title: Text(
                             'Deactivate account',
-                            style: TextStyles.h6(
+                            style: TextStyles.overline(
                                 context: context, color: Colors.deepPurple),
                           ),
                           trailing: state is DeactivateAccountLoading
@@ -96,7 +96,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Logout',
-                      style: TextStyles.h6(
+                      style: TextStyles.overline(
                           context: context, color: theme.negative),
                     ),
                     trailing: Icon(Icons.arrow_forward_ios_rounded,

@@ -31,7 +31,7 @@ class BusinessNameWidget extends StatelessWidget {
                 child: Text(
                   state.business.name.full,
                   style: style ??
-                      TextStyles.subTitle1(
+                      TextStyles.subTitle(
                           context: context, color: theme.textPrimary),
                   textAlign: align,
                   maxLines: maxLines,

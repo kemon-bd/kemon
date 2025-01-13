@@ -99,7 +99,7 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         item.text,
-                                        style: TextStyles.subTitle1(
+                                        style: TextStyles.subTitle(
                                           context: context,
                                           color: selected
                                               ? theme.primary

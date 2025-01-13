@@ -57,7 +57,7 @@ class ProfileInformationWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ProfileSinceWidget(
-                style: TextStyles.body1(
+                style: TextStyles.body(
                         context: context,
                         color: theme.textSecondary.withAlpha(150))
                     .copyWith(
@@ -80,7 +80,7 @@ class ProfileInformationWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   label: Text(
                     'Edit profile',
-                    style: TextStyles.h6(
+                    style: TextStyles.overline(
                         context: context, color: theme.backgroundPrimary),
                   ),
                   onPressed: () async {

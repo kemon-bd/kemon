@@ -38,7 +38,7 @@ class _VerifyOtpForChangePasswordWidgetState
           width: context.width * 0.125,
           height: context.width * 0.125,
           textStyle:
-              TextStyles.body1(context: context, color: theme.textPrimary),
+              TextStyles.body(context: context, color: theme.textPrimary),
           decoration: BoxDecoration(
               color: theme.backgroundSecondary,
               borderRadius: BorderRadius.circular(8)),
@@ -46,7 +46,7 @@ class _VerifyOtpForChangePasswordWidgetState
 
         final focusedPinTheme = defaultPinTheme.copyWith(
           textStyle:
-              TextStyles.subTitle1(context: context, color: theme.textPrimary),
+              TextStyles.subTitle(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -54,7 +54,7 @@ class _VerifyOtpForChangePasswordWidgetState
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle1(context: context, color: theme.primary)
+          textStyle: TextStyles.subTitle(context: context, color: theme.primary)
               .copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -67,7 +67,7 @@ class _VerifyOtpForChangePasswordWidgetState
 
         final errorPinTheme = defaultPinTheme.copyWith(
           textStyle:
-              TextStyles.subTitle1(context: context, color: theme.negative)
+              TextStyles.subTitle(context: context, color: theme.negative)
                   .copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -106,7 +106,7 @@ class _VerifyOtpForChangePasswordWidgetState
                   SizedBox(height: Dimension.padding.vertical.small),
                   Text(
                     'A 6 digit verification code has been sent to your phone / email address',
-                    style: TextStyles.body1(
+                    style: TextStyles.body(
                             context: context, color: theme.textSecondary)
                         .copyWith(
                       height: 1,
@@ -135,7 +135,7 @@ class _VerifyOtpForChangePasswordWidgetState
                         if (state is RequestOtpForPasswordChangeLoading) {
                           return Text(
                             'Please wait...',
-                            style: TextStyles.body1(
+                            style: TextStyles.body(
                                 context: context, color: theme.textSecondary),
                           );
                         }
@@ -151,9 +151,9 @@ class _VerifyOtpForChangePasswordWidgetState
                                 endTime:
                                     endTime ?? DateTime.now().add(_duration),
                                 enableDescriptions: false,
-                                timeTextStyle: TextStyles.body1(
+                                timeTextStyle: TextStyles.body(
                                     context: context, color: theme.textPrimary),
-                                colonsTextStyle: TextStyles.body1(
+                                colonsTextStyle: TextStyles.body(
                                     context: context, color: theme.textPrimary),
                               )
                             : Text.rich(
@@ -162,13 +162,13 @@ class _VerifyOtpForChangePasswordWidgetState
                                   children: [
                                     TextSpan(
                                       text: "Didn't receive the OTP? ",
-                                      style: TextStyles.body1(
+                                      style: TextStyles.body(
                                           context: context,
                                           color: theme.textSecondary),
                                     ),
                                     TextSpan(
                                       text: "Resend OTP",
-                                      style: TextStyles.body1(
+                                      style: TextStyles.body(
                                               context: context,
                                               color: theme.primary)
                                           .copyWith(

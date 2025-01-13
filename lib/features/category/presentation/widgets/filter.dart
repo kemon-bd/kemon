@@ -95,10 +95,10 @@ class _FilterBusinessesByCategoryWidgetState
                   if (state is FindCategoryDone) {
                     return DropdownWidget<SubCategoryEntity>(
                       label: 'Sub-category',
-                      labelStyle: TextStyles.subTitle1(
+                      labelStyle: TextStyles.subTitle(
                           context: context, color: theme.textSecondary),
                       text: subCategory?.name.full ?? 'Select one',
-                      textStyle: TextStyles.h6(
+                      textStyle: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                       popup: BlocProvider(
                         create: (_) => sl<SubCategoriesByCategoryBloc>()
@@ -125,7 +125,7 @@ class _FilterBusinessesByCategoryWidgetState
                   } else if (state is FindCategoryLoading) {
                     return DropdownLoadingWidget(
                       label: 'Sub-category',
-                      labelStyle: TextStyles.subTitle1(
+                      labelStyle: TextStyles.subTitle(
                           context: context, color: theme.textSecondary),
                     );
                   }
@@ -136,7 +136,7 @@ class _FilterBusinessesByCategoryWidgetState
             const Divider(height: 24),
             Text(
               'Location',
-              style: TextStyles.subTitle1(
+              style: TextStyles.subTitle(
                   context: context, color: theme.textPrimary),
             ),
             const SizedBox(height: 8),
@@ -153,10 +153,10 @@ class _FilterBusinessesByCategoryWidgetState
                 children: [
                   DropdownWidget<LookupEntity>(
                     label: 'Division',
-                    labelStyle: TextStyles.subTitle1(
+                    labelStyle: TextStyles.subTitle(
                         context: context, color: theme.textSecondary),
                     text: division?.text ?? 'Select one',
-                    textStyle: TextStyles.h6(
+                    textStyle: TextStyles.overline(
                         context: context, color: theme.textPrimary),
                     popup: BlocProvider(
                       create: (_) => sl<FindLookupBloc>()
@@ -183,10 +183,10 @@ class _FilterBusinessesByCategoryWidgetState
                     const Divider(),
                     DropdownWidget<LookupEntity>(
                       label: 'District',
-                      labelStyle: TextStyles.subTitle1(
+                      labelStyle: TextStyles.subTitle(
                           context: context, color: theme.textSecondary),
                       text: district?.text ?? 'Select one',
-                      textStyle: TextStyles.h6(
+                      textStyle: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                       popup: BlocProvider(
                         create: (_) => sl<FindLookupBloc>()
@@ -219,10 +219,10 @@ class _FilterBusinessesByCategoryWidgetState
                     const Divider(),
                     DropdownWidget<LookupEntity>(
                       label: 'Thana',
-                      labelStyle: TextStyles.subTitle1(
+                      labelStyle: TextStyles.subTitle(
                           context: context, color: theme.textSecondary),
                       text: thana?.text ?? 'Select one',
-                      textStyle: TextStyles.h6(
+                      textStyle: TextStyles.overline(
                           context: context, color: theme.textPrimary),
                       popup: BlocProvider(
                         create: (_) => sl<FindLookupBloc>()
@@ -255,7 +255,7 @@ class _FilterBusinessesByCategoryWidgetState
             const Divider(height: 24),
             Text(
               'Rating',
-              style: TextStyles.subTitle1(
+              style: TextStyles.subTitle(
                   context: context, color: theme.textPrimary),
             ),
             const SizedBox(height: 8),
@@ -264,7 +264,7 @@ class _FilterBusinessesByCategoryWidgetState
               children: {
                 RatingRange.all: Text(
                   'All',
-                  style: TextStyles.subTitle1(
+                  style: TextStyles.subTitle(
                     context: context,
                     color: rating == RatingRange.all
                         ? theme.white
@@ -284,7 +284,7 @@ class _FilterBusinessesByCategoryWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '1 ~ 2',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.worst
                             ? theme.white
@@ -306,7 +306,7 @@ class _FilterBusinessesByCategoryWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '3 ~ 4',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.average
                             ? theme.white
@@ -328,7 +328,7 @@ class _FilterBusinessesByCategoryWidgetState
                     const SizedBox(width: 2),
                     Text(
                       '5.0',
-                      style: TextStyles.subTitle1(
+                      style: TextStyles.subTitle(
                         context: context,
                         color: rating == RatingRange.best
                             ? theme.white
@@ -361,7 +361,7 @@ class _FilterBusinessesByCategoryWidgetState
                         const Divider(height: 24),
                         Text(
                           'Related',
-                          style: TextStyles.subTitle1(
+                          style: TextStyles.subTitle(
                               context: context, color: theme.textPrimary),
                         ),
                         const SizedBox(height: 8),
@@ -401,7 +401,7 @@ class _FilterBusinessesByCategoryWidgetState
                                     borderRadius: BorderRadius.circular(16)),
                                 label: Text(
                                   category.name.full,
-                                  style: TextStyles.body1(
+                                  style: TextStyles.body(
                                           context: context,
                                           color: theme.textPrimary)
                                       .copyWith(

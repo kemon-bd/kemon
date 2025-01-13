@@ -50,7 +50,7 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                 SizedBox(height: Dimension.padding.vertical.small),
                 Text(
                   'Enter your new password. It must be at least 6 characters long.',
-                  style: TextStyles.body1(
+                  style: TextStyles.body(
                           context: context, color: theme.textSecondary)
                       .copyWith(
                     height: 1,
@@ -72,7 +72,7 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                       : "",
                   decoration: InputDecoration(
                     labelText: 'Old Password',
-                    labelStyle: TextStyles.body1(
+                    labelStyle: TextStyles.body(
                         context: context, color: theme.textPrimary),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,
@@ -107,7 +107,7 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                   validator: (value) => newController.validPassword ? null : "",
                   decoration: InputDecoration(
                     labelText: 'New Password',
-                    labelStyle: TextStyles.body1(
+                    labelStyle: TextStyles.body(
                         context: context, color: theme.textPrimary),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,
@@ -145,7 +145,7 @@ class _ResetMyPasswordWidgetState extends State<ResetMyPasswordWidget> {
                       : "",
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
-                    labelStyle: TextStyles.body1(
+                    labelStyle: TextStyles.body(
                         context: context, color: theme.textPrimary),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,

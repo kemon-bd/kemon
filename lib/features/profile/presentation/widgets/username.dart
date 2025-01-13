@@ -26,7 +26,7 @@ class ProfileUsernameWidget extends StatelessWidget {
               return Text(
                 state.profile.kemonIdentity.username,
                 style: style ??
-                    TextStyles.subTitle1(
+                    TextStyles.subTitle(
                         context: context, color: theme.textPrimary),
                 textAlign: align,
               );

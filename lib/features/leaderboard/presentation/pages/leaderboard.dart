@@ -71,7 +71,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           ? null
                           : Text(
                               "Leaderboard",
-                              style: TextStyles.h2(context: context, color: theme.textPrimary)
+                              style: TextStyles.title(context: context, color: theme.textPrimary)
                                   .copyWith(fontSize: Dimension.radius.twenty),
                             ).animate().fade(),
                       actions: [
@@ -86,7 +86,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body1(context: context, color: theme.textPrimary),
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
                               final bloc = context.read<FindLeaderboardBloc>();
                               final filter = bloc.state;
@@ -106,7 +106,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body1(context: context, color: theme.textSecondary),
+                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
                                 vertical: Dimension.padding.vertical.large,
@@ -128,7 +128,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                       children: [
                                         Text(
                                           "Leaderboard",
-                                          style: TextStyles.h2(context: context, color: theme.textPrimary)
+                                          style: TextStyles.title(context: context, color: theme.textPrimary)
                                               .copyWith(fontSize: Dimension.radius.twentyFour),
                                         ).animate().fade(),
                                         IconWidget(),
@@ -169,7 +169,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Text(
           label,
-          style: TextStyles.subTitle1(
+          style: TextStyles.subTitle(
             context: context,
             color: selected ? theme.white : theme.semiBlack,
           ).copyWith(
@@ -292,11 +292,11 @@ class TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.h6(context: context, color: theme.textPrimary),
+                style: TextStyles.overline(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Participants",
-                style: TextStyles.body1(context: context, color: theme.textSecondary),
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
           );
@@ -378,7 +378,7 @@ class ListingsWidget extends StatelessWidget {
                             if (index >= 3)
                               Text(
                                 '#${index + 1}',
-                                style: TextStyles.h6(context: context, color: theme.black),
+                                style: TextStyles.overline(context: context, color: theme.black),
                                 textAlign: TextAlign.start,
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
@@ -386,13 +386,13 @@ class ListingsWidget extends StatelessWidget {
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
                               child: ProfileNameWidget(
-                                style: TextStyles.h6(context: context, color: theme.black),
+                                style: TextStyles.overline(context: context, color: theme.black),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Text(
                               NumberFormat('###,###,###,###').format(leader.point),
-                              style: TextStyles.h6(context: context, color: theme.black),
+                              style: TextStyles.overline(context: context, color: theme.black),
                             ),
                           ],
                         ),
@@ -412,14 +412,14 @@ class ListingsWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No leaders found :(",
-                      style: TextStyles.h6(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );
         } else if (state is FindLeaderboardError) {
           return Text(
             state.failure.message,
-            style: TextStyles.body1(context: context, color: theme.negative),
+            style: TextStyles.body(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

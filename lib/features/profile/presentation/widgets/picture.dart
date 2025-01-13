@@ -42,7 +42,7 @@ class ProfilePictureWidget extends StatelessWidget {
                 final fallback = Center(
                   child: Text(
                     state.profile.name.symbol,
-                    style: TextStyles.body1(context: context, color: placeholderColor ?? theme.white).copyWith(
+                    style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                       fontSize: size / 2,
                     ),
                   ),
@@ -142,7 +142,7 @@ class MyProfilePictureWidget extends StatelessWidget {
                     errorWidget: (_, __, ___) => Center(
                       child: Text(
                         symbol,
-                        style: TextStyles.body1(context: context, color: placeholderColor ?? theme.white).copyWith(
+                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                           fontSize: size / 2,
                         ),
                       ),

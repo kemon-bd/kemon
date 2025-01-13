@@ -35,7 +35,7 @@ class _ResultPageState extends State<ResultPage> {
             ),
             title: Text(widget.query),
             titleTextStyle:
-                TextStyles.subTitle1(context: context, color: theme.textPrimary),
+                TextStyles.subTitle(context: context, color: theme.textPrimary),
             centerTitle: false,
             actions: const [
               /* IconButton(

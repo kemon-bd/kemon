@@ -33,7 +33,7 @@ class ProfilePage extends StatelessWidget {
               title: MyProfileUsernameWidget(
                 shimmerAlignment: Alignment.center,
                 style:
-                    TextStyles.h6(context: context, color: theme.textPrimary)
+                    TextStyles.overline(context: context, color: theme.textPrimary)
                         .copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1,

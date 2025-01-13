@@ -162,7 +162,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   "Based on ${rating.total} review${rating.total > 1 ? "s" : ""}",
-                                  style: TextStyles.body1(context: context, color: theme.textSecondary),
+                                  style: TextStyles.body(context: context, color: theme.textSecondary),
                                 ),
                               ],
                               const SizedBox(height: 16),

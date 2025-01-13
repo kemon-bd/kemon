@@ -70,12 +70,12 @@ class AppConfig {
         isDense: true,
         filled: true,
         fillColor: theme.backgroundSecondary,
-        labelStyle: TextStyles.body1(context: context, color: theme.textPrimary),
+        labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
         contentPadding: EdgeInsets.symmetric(
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle: TextStyles.body1(context: context, color: theme.textSecondary),
+        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
         errorStyle: TextStyle(height: 0, fontSize: 0),
         helperStyle: TextStyle(height: 0, fontSize: 0),
         border: OutlineInputBorder(

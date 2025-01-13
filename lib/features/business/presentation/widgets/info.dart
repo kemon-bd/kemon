@@ -36,7 +36,7 @@ class BusinessInformationWidget extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   children: [
                     BusinessNameWidget(
-                      style: TextStyles.h2(
+                      style: TextStyles.title(
                         context: context,
                         color: theme.textPrimary,
                       ).copyWith(

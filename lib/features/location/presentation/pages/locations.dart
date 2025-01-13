@@ -71,7 +71,7 @@ class _LocationsPageState extends State<LocationsPage> {
                           ? null
                           : Text(
                               'Locations',
-                              style: TextStyles.h2(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Dimension.radius.sixteen,
                               ),
@@ -94,7 +94,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                         Expanded(
                                           child: Text(
                                             'Locations',
-                                            style: TextStyles.h2(context: context, color: theme.textPrimary).copyWith(
+                                            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: Dimension.radius.twentyFour,
                                             ),
@@ -147,7 +147,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                         padding: EdgeInsets.symmetric(vertical: context.height * .25),
                                         child: Text(
                                           "No category found :(",
-                                          style: TextStyles.h6(context: context, color: theme.backgroundTertiary),
+                                          style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                                         ),
                                       ),
                                     );
@@ -376,7 +376,7 @@ class _DistrictItem extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     thana.text,
-                                    style: TextStyles.body1(context: context, color: theme.textPrimary),
+                                    style: TextStyles.body(context: context, color: theme.textPrimary),
                                   ),
                                 ),
                                 SizedBox(width: Dimension.padding.horizontal.medium),
