@@ -88,16 +88,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             controller: search,
                             style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
-                              final bloc = context.read<FindLeaderboardBloc>();
-                              final filter = bloc.state;
-
-                              bloc.add(
-                                FindLeaderboard(
-                                  query: query,
-                                  from: filter.from,
-                                  to: filter.to,
-                                ),
-                              );
+                              context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: query));
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -105,7 +96,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 size: Dimension.radius.sixteen,
                                 color: theme.textSecondary,
                               ),
-                              hintText: 'Find company or products...',
+                              hintText: 'Search by name or email',
                               hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
@@ -137,7 +128,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                     const SizedBox(height: 16),
                                     Row(
                                       children: [
-                                        SortButton(),
+                                        _FilterButton(search: search),
                                         const SizedBox(width: 16),
                                         const Spacer(),
                                         TotalCount(),
@@ -208,53 +199,6 @@ class ShareButton extends StatelessWidget {
   }
 }
 
-class SortButton extends StatelessWidget {
-  const SortButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return InkWell(
-      onTap: () {
-        /* showModalBottomSheet(
-          context: context,
-          backgroundColor: theme.backgroundPrimary,
-          barrierColor: context.barrierColor,
-          isScrollControlled: true,
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindLeaderboardBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-            ],
-            child: const SortBusinessesByCategoryWidget(),
-          ),
-        ); */
-      },
-      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimension.padding.horizontal.ultraMax,
-          vertical: Dimension.padding.vertical.medium,
-        ),
-        decoration: BoxDecoration(
-          color: theme.link.withAlpha(50),
-          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
-            Text(
-              'Sort',
-              style: TextStyles.caption(context: context, color: theme.link),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class IconWidget extends StatelessWidget {
   const IconWidget({
     super.key,
@@ -292,7 +236,7 @@ class TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.overline(context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Participants",
@@ -324,7 +268,35 @@ class ListingsWidget extends StatelessWidget {
         if (state is FindLeaderboardLoading) {
           return ListView.separated(
             itemBuilder: (_, index) {
-              return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
+              return Container(
+                decoration: BoxDecoration(
+                  color: theme.backgroundSecondary,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimension.padding.horizontal.max,
+                  vertical: Dimension.padding.vertical.medium,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ShimmerIcon(radius: Dimension.radius.twelve),
+                    SizedBox(width: Dimension.padding.horizontal.medium),
+                    ShimmerIcon(radius: Dimension.radius.twentyFour),
+                    SizedBox(width: Dimension.padding.horizontal.medium),
+                    ShimmerLabel(
+                      width: Dimension.size.horizontal.sixtyFour,
+                      height: Dimension.size.vertical.twelve,
+                    ),
+                    Spacer(),
+                    const SizedBox(width: 16),
+                    ShimmerLabel(
+                      width: Dimension.size.horizontal.twentyFour,
+                      height: Dimension.size.vertical.twelve,
+                    ),
+                  ],
+                ),
+              );
             },
             separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
             itemCount: 10,
@@ -346,8 +318,6 @@ class ListingsWidget extends StatelessWidget {
                               PaginateLeaderboard(
                                 page: state.page + 1,
                                 query: search.text,
-                                from: DateTime.now(),
-                                to: DateTime.now(),
                               ),
                             );
                       }
@@ -378,7 +348,7 @@ class ListingsWidget extends StatelessWidget {
                             if (index >= 3)
                               Text(
                                 '#${index + 1}',
-                                style: TextStyles.overline(context: context, color: theme.black),
+                                style: TextStyles.body(context: context, color: theme.black),
                                 textAlign: TextAlign.start,
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
@@ -386,13 +356,13 @@ class ListingsWidget extends StatelessWidget {
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
                               child: ProfileNameWidget(
-                                style: TextStyles.overline(context: context, color: theme.black),
+                                style: TextStyles.body(context: context, color: theme.black),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Text(
                               NumberFormat('###,###,###,###').format(leader.point),
-                              style: TextStyles.overline(context: context, color: theme.black),
+                              style: TextStyles.body(context: context, color: theme.black),
                             ),
                           ],
                         ),
@@ -425,6 +395,57 @@ class ListingsWidget extends StatelessWidget {
           return const SizedBox();
         }
       },
+    );
+  }
+}
+
+class _FilterButton extends StatelessWidget {
+  final TextEditingController search;
+
+  const _FilterButton({
+    required this.search,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return InkWell(
+      onTap: () async {
+        final bool? applied = await showModalBottomSheet(
+          context: context,
+          backgroundColor: theme.backgroundPrimary,
+          barrierColor: context.barrierColor,
+          isScrollControlled: true,
+          builder: (_) => const LeaderboardFilterWidget(),
+        );
+
+        if (!context.mounted) return;
+
+        if (applied ?? false) {
+          context.read<FindLeaderboardBloc>().add(RefreshLeaderboard(query: search.text));
+        }
+      },
+      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimension.padding.horizontal.ultraMax,
+          vertical: Dimension.padding.vertical.medium,
+        ),
+        decoration: BoxDecoration(
+          color: theme.link,
+          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Text(
+              'Filter',
+              style: TextStyles.caption(context: context, color: theme.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

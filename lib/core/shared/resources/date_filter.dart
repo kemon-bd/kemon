@@ -1,9 +1,9 @@
 import '../../../../core/shared/shared.dart';
 
-class GenderFilterWidget extends StatelessWidget {
-  final Gender? selection;
+class DateRangeFilterWidget extends StatelessWidget {
+  final DateRangeOption selection;
 
-  const GenderFilterWidget({
+  const DateRangeFilterWidget({
     super.key,
     required this.selection,
   });
@@ -24,14 +24,14 @@ class GenderFilterWidget extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               padding: const EdgeInsets.all(16).copyWith(bottom: context.bottomInset + 16),
-              physics: const ScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Gender",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      "Date range",
+                      style: TextStyles.title(context: context, color: theme.textPrimary),
                     ),
                     IconButton(
                       onPressed: () {
@@ -49,6 +49,9 @@ class GenderFilterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Container(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * .5,
+                  ),
                   decoration: BoxDecoration(
                     color: theme.backgroundSecondary,
                     borderRadius: BorderRadius.circular(16),
@@ -57,7 +60,7 @@ class GenderFilterWidget extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(height: .25, color: theme.backgroundTertiary),
                     itemBuilder: (context, index) {
-                      final item = Gender.values[index];
+                      final item = DateRangeOption.values[index];
                       final bool selected = selection == item;
                       return InkWell(
                         onTap: () {
@@ -77,7 +80,7 @@ class GenderFilterWidget extends StatelessWidget {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  item.text,
+                                  item.name,
                                   style: TextStyles.body(
                                     context: context,
                                     color: selected ? theme.positive : theme.textPrimary,
@@ -89,10 +92,10 @@ class GenderFilterWidget extends StatelessWidget {
                         ),
                       );
                     },
-                    itemCount: Gender.values.length,
+                    itemCount: DateRangeOption.values.length,
                     shrinkWrap: true,
                     padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const ScrollPhysics(),
                   ),
                 ),
               ],

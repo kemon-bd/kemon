@@ -114,6 +114,7 @@ class _VerticalSize {
   final double fortyEight = 48.0.h;
   final double sixtyFour = 64.0.h;
   final double seventyTwo = 72.0.h;
+  final double ninetyTwo = 92.0.h;
   final double hundred = 100.0.h;
   final double oneTwelve = 112.0.h;
   final double oneTwentyEight = 128.0.h;

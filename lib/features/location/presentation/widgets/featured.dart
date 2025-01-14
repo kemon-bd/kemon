@@ -82,7 +82,7 @@ class FeaturedLocationsWidget extends StatelessWidget {
                                 CircleAvatar(
                                   backgroundColor: theme.textPrimary,
                                   radius: Dimension.radius.twelve,
-                                  child: Icon(Icons.layers_outlined, color: theme.white, size: Dimension.radius.twelve),
+                                  child: Icon(Icons.layers_outlined, color: theme.backgroundPrimary, size: Dimension.radius.twelve),
                                 ),
                                 SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(

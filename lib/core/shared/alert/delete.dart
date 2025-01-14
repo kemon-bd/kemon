@@ -1,7 +1,11 @@
 import '../shared.dart';
 
 class DeleteConfirmationWidget extends StatelessWidget {
-  const DeleteConfirmationWidget({super.key});
+  final String? affirm;
+  const DeleteConfirmationWidget({
+    super.key,
+    this.affirm,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +16,11 @@ class DeleteConfirmationWidget extends StatelessWidget {
           backgroundColor: theme.negative,
           title: Text(
             "Confirmation",
-            style: TextStyles.subTitle(context: context, color: Colors.white),
+            style: TextStyles.title(context: context, color: theme.backgroundPrimary),
           ),
           content: Text(
             "Are you sure ?",
-            style: TextStyles.body(context: context, color: Colors.white),
+            style: TextStyles.body(context: context, color: theme.backgroundPrimary),
           ),
           actions: [
             TextButton(
@@ -26,15 +30,16 @@ class DeleteConfirmationWidget extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                side: const BorderSide(
-                  color: Colors.white,
+                side: BorderSide(
+                  color: theme.backgroundPrimary,
                   width: 1,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.medium),
               ),
               child: Text(
                 "Cancel",
-                style: TextStyles.subTitle(context: context, color: Colors.white).copyWith(
+                style: TextStyles.button(context: context).copyWith(
+                  color: theme.backgroundPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -43,15 +48,20 @@ class DeleteConfirmationWidget extends StatelessWidget {
             TextButton(
               onPressed: () => context.pop(true),
               style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
+                backgroundColor: theme.backgroundPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
+                ),
+                side: BorderSide(
+                  color: theme.backgroundPrimary,
+                  width: 1,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
               ),
               child: Text(
-                "Yes, Delete",
-                style: TextStyles.subTitle(context: context, color: theme.negative).copyWith(
+                affirm ?? "Yes, Delete",
+                style: TextStyles.button(context: context).copyWith(
+                  color: theme.negative,
                   fontWeight: FontWeight.bold,
                 ),
               ),

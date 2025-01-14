@@ -22,7 +22,7 @@ class _LocationsPageState extends State<LocationsPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    final isExpanded = controller.offset <= kToolbarHeight - (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -52,7 +52,7 @@ class _LocationsPageState extends State<LocationsPage> {
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
                 final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
-                final double expandedHeight = context.topInset + kToolbarHeight;
+                final double expandedHeight = context.topInset + kToolbarHeight + (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,

@@ -31,8 +31,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                           final userGuid = context.auth.guid ?? '';
                           final List<ReviewEntity> reviews = state.reviews;
                           final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
-                          final ratingWidget = Icon(Icons.star_sharp, color: theme.primary);
-                          final emptyRatingWidget = Icon(
+                          final icon = Icon(
                             Icons.star_sharp,
                             color: theme.backgroundTertiary,
                             fill: 0,
@@ -60,10 +59,11 @@ class BusinessRatingsWidget extends StatelessWidget {
                                             maxRating: 5,
                                             initialRating: 0,
                                             ratingWidget: RatingWidget(
-                                              full: ratingWidget,
-                                              half: ratingWidget,
-                                              empty: emptyRatingWidget,
+                                              full: icon,
+                                              half: icon,
+                                              empty: icon,
                                             ),
+                                            updateOnDrag: false,
                                             onRatingUpdate: (value) async {
                                               final ratingBloc = context.read<FindRatingBloc>();
                                               final reviewBloc = context.read<FindListingReviewsBloc>();
@@ -95,7 +95,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                                   );
                                                   return;
                                                 }
-                                              } else if (context.auth.profile!.progress(checks: checks) < 90) {
+                                              } else if (context.auth.profile!.progress(checks: checks) < 50) {
                                                 await showModalBottomSheet(
                                                   context: context,
                                                   isScrollControlled: true,
@@ -143,7 +143,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Reviews",
-                                    style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                                    style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -152,7 +152,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                   const SizedBox(width: 12),
                                   Text(
                                     rating.average.toStringAsFixed(1),
-                                    style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                                    style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

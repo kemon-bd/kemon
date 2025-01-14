@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
           floatingActionButton: controller.text.isEmpty
               ? null
               : FloatingActionButton.extended(
-              key: Keys.search.suggestion.submit,
+                  key: Keys.search.suggestion.submit,
                   backgroundColor: theme.primary,
                   onPressed: () {
                     context.pushNamed(
@@ -89,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                   icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.overline(context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.subTitle(context: context, color: theme.backgroundPrimary),
                   ),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                 ),
@@ -156,7 +156,9 @@ class _SearchPageState extends State<SearchPage> {
 
                 return ListView(
                   shrinkWrap: true,
-                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + Dimension.padding.vertical.max),
+                  padding: EdgeInsets.zero.copyWith(
+                    bottom: context.bottomInset + (2*Dimension.padding.vertical.max) + kToolbarHeight,
+                  ),
                   children: [
                     if (businesses.isNotEmpty) ...[
                       Container(
@@ -164,7 +166,7 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${businesses.length} Business${businesses.length > 1 ? "es" : ""}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -208,9 +210,11 @@ class _SearchPageState extends State<SearchPage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           BusinessNameWidget(
-                                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                                            style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: 2),
                                           BusinessRatingWidget(urlSlug: urlSlug),
                                         ],
                                       ),
@@ -236,12 +240,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${industries.length} Industr${industries.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...industries.map(
                         (industry) {
                           return ListTile(
@@ -250,11 +254,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               industry.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {
@@ -276,12 +282,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${categories.length} Categor${categories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...categories.map(
                         (category) {
                           return ListTile(
@@ -290,11 +296,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               category.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {
@@ -316,12 +324,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${subCategories.length} Sub categor${subCategories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...subCategories.map(
                         (subCategory) {
                           return ListTile(
@@ -330,11 +338,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               subCategory.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {

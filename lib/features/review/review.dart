@@ -45,3 +45,4 @@ export 'presentation/widgets/user_item.dart';
 export 'presentation/widgets/business_rating.dart';
 export 'presentation/widgets/like.dart';
 export 'presentation/widgets/dislike.dart';
+export 'presentation/widgets/share.dart';

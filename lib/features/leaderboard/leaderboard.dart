@@ -11,4 +11,6 @@ export 'domain/usecases/find.dart';
 export 'domain/usecases/refresh.dart';
 
 export 'presentation/bloc/find_bloc.dart';
+export 'presentation/bloc/filter_bloc.dart';
 export 'presentation/pages/leaderboard.dart';
+export 'presentation/widgets/filter.dart';

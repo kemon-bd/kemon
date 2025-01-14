@@ -38,12 +38,12 @@ class ProfileCheckAlert extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 'KEMON enforces ALL users to complete 50% of their public profile to prevent spam, troll, in-appropriate behavior and keeping the community safe.',
-                style: TextStyles.caption(context: context, color: theme.textSecondary),
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
               Divider(height: 42, thickness: .25, color: theme.backgroundTertiary),
               Text(
                 'Here is the missing information about your profile:',
-                style: TextStyles.body(context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Container(
                 constraints: BoxConstraints(
@@ -56,15 +56,19 @@ class ProfileCheckAlert extends StatelessWidget {
                       dense: true,
                       contentPadding: EdgeInsets.zero,
                       visualDensity: VisualDensity.compact,
-                      leading: Icon(Icons.info_outline_rounded, color: theme.warning),
+                      leading: Icon(Icons.warning_rounded, color: theme.warning),
                       title: Text(
-                        checkpoint.text,
-                        style: TextStyles.subTitle(context: context, color: theme.warning),
+                        checkpoint.text.sentenceCase,
+                        style: TextStyles.body(context: context, color: theme.warning),
                       ),
                       trailing: Text(
                         "+ ${checkpoint.point}",
                         style: TextStyles.subTitle(context: context, color: theme.warning),
-                      ),
+                      )
+                          .animate(
+                            onComplete: (controller) => controller.repeat(reverse: true),
+                          )
+                          .fade(duration: 600.milliseconds),
                     );
                   },
                   separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),

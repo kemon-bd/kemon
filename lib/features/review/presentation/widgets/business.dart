@@ -13,8 +13,7 @@ class BusinessReviewsWidget extends StatelessWidget {
         } else if (state is FindListingReviewsError) {
           return Center(child: Text(state.failure.message));
         } else if (state is FindListingReviewsDone) {
-          final List<ReviewEntity> reviews =
-              state.reviews.filter(options: state.filter);
+          final List<ReviewEntity> reviews = state.reviews.filter(options: state.filter);
 
           return ListView.separated(
             itemBuilder: (_, index) {
@@ -24,8 +23,7 @@ class BusinessReviewsWidget extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             physics: const NeverScrollableScrollPhysics(),
             itemCount: reviews.length,
-            padding: const EdgeInsets.all(16.0)
-                .copyWith(bottom: 16 + context.bottomInset),
+            padding: const EdgeInsets.all(16.0).copyWith(bottom: 16 + context.bottomInset),
             shrinkWrap: true,
           );
         }

@@ -32,20 +32,13 @@ class ProfilePage extends StatelessWidget {
               ),
               title: MyProfileUsernameWidget(
                 shimmerAlignment: Alignment.center,
-                style:
-                    TextStyles.overline(context: context, color: theme.textPrimary)
-                        .copyWith(
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                ),
+                style: TextStyles.subTitle(context: context, color: theme.white),
               ),
               titleSpacing: 0,
               actions: [
                 IconButton(
                   icon: Icon(Icons.logout_rounded, color: theme.white),
-                  onPressed: () => context
-                      .read<AuthenticationBloc>()
-                      .add(const AuthenticationLogout()),
+                  onPressed: () => context.read<AuthenticationBloc>().add(const AuthenticationLogout()),
                 ),
               ],
               centerTitle: true,

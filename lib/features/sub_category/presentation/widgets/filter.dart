@@ -12,8 +12,7 @@ class SubCategoryFilterWidget extends StatefulWidget {
   });
 
   @override
-  State<SubCategoryFilterWidget> createState() =>
-      _SubCategoryFilterWidgetState();
+  State<SubCategoryFilterWidget> createState() => _SubCategoryFilterWidgetState();
 }
 
 class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
@@ -43,8 +42,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: const EdgeInsets.all(16)
-                    .copyWith(bottom: context.bottomInset + 16),
+                padding: const EdgeInsets.all(16).copyWith(bottom: context.bottomInset + 16),
                 physics: const ScrollPhysics(),
                 children: [
                   Row(
@@ -52,8 +50,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                     children: [
                       Text(
                         "Sub Category",
-                        style: TextStyles.subTitle(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
                       IconButton(
                         onPressed: () {
@@ -70,8 +67,7 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  BlocBuilder<SubCategoriesByCategoryBloc,
-                      SubCategoriesByCategoryState>(
+                  BlocBuilder<SubCategoriesByCategoryBloc, SubCategoriesByCategoryState>(
                     builder: (districtContext, state) {
                       if (state is SubCategoriesByCategoryDone) {
                         return ListView(
@@ -82,29 +78,24 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                             TextField(
                               controller: controller,
                               onChanged: (value) {
-                                districtContext
-                                    .read<SubCategoriesByCategoryBloc>()
-                                    .add(
+                                districtContext.read<SubCategoriesByCategoryBloc>().add(
                                       SearchSubCategoriesByCategory(
                                         query: value,
                                         category: widget.category,
                                       ),
                                     );
                               },
-                              style: TextStyles.subTitle(
-                                  context: context, color: theme.textPrimary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: theme.backgroundSecondary,
                                 hintText: "Search district ...",
+                                hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     controller.clear();
-                                    districtContext
-                                        .read<SubCategoriesByCategoryBloc>()
-                                        .add(
-                                          SubCategoriesByCategory(
-                                              category: widget.category),
+                                    districtContext.read<SubCategoriesByCategoryBloc>().add(
+                                          SubCategoriesByCategory(category: widget.category),
                                         );
                                   },
                                   child: Icon(
@@ -121,14 +112,10 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                               child: state.subCategories.isNotEmpty
                                   ? ListView.separated(
                                       separatorBuilder: (context, index) =>
-                                          Divider(
-                                              height: .25,
-                                              color: theme.backgroundTertiary),
+                                          Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
-                                        final place =
-                                            state.subCategories[index];
-                                        final bool selected = place.name.full
-                                            .same(as: subCategory?.name.full);
+                                        final place = state.subCategories[index];
+                                        final bool selected = place.name.full.same(as: subCategory?.name.full);
 
                                         return InkWell(
                                           onTap: () {
@@ -139,13 +126,8 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                             child: Row(
                                               children: [
                                                 Icon(
-                                                  selected
-                                                      ? Icons
-                                                          .check_circle_rounded
-                                                      : Icons.circle_outlined,
-                                                  color: selected
-                                                      ? theme.positive
-                                                      : theme.textPrimary,
+                                                  selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                                  color: selected ? theme.positive : theme.textPrimary,
                                                   size: 24,
                                                   grade: 200,
                                                   weight: 700,
@@ -154,11 +136,9 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.name.full,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.body(
                                                       context: context,
-                                                      color: selected
-                                                          ? theme.positive
-                                                          : theme.textPrimary,
+                                                      color: selected ? theme.positive : theme.textPrimary,
                                                     ),
                                                   ),
                                                 ),
@@ -169,18 +149,14 @@ class _SubCategoryFilterWidgetState extends State<SubCategoryFilterWidget> {
                                       },
                                       itemCount: state.subCategories.length,
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.zero
-                                          .copyWith(top: 8, bottom: 8),
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
+                                      physics: const NeverScrollableScrollPhysics(),
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No sub category found",
-                                        style: TextStyles.subTitle(
-                                            context: context,
-                                            color: theme.textPrimary),
+                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),

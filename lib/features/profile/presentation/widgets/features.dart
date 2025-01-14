@@ -18,7 +18,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
           children: [
             Text(
               'Account',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
+              style: TextStyles.subTitle(context: context, color: theme.textSecondary),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -49,7 +49,7 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                           ),
                           title: Text(
                             '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                            style: TextStyles.overline(context: context, color: theme.textPrimary),
+                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                           ),
                           trailing: Icon(
                             Icons.open_in_new_rounded,
@@ -77,26 +77,27 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       radius: Dimension.radius.sixteen,
                       backgroundColor: Colors.deepOrangeAccent,
                       child: Icon(
-                        Icons.emoji_events_rounded,
+                        Icons.leaderboard_rounded,
                         color: theme.white,
                         size: Dimension.radius.sixteen,
                       ),
                     ),
-                    subtitle: Text(
-                      'Points',
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                    ),
                     title: ProfilePointWidget(
-                      style: TextStyles.overline(context: context, color: theme.positive).copyWith(
+                      style: TextStyles.subTitle(context: context, color: theme.positive).copyWith(
                         fontSize: Dimension.radius.sixteen,
                         height: 1,
                       ),
+                    ),
+                    subtitle: Text(
+                      'Points',
+                      style: TextStyles.caption(context: context, color: theme.textSecondary),
                     ),
                     trailing: Icon(
                       Icons.open_in_new_rounded,
                       color: theme.backgroundTertiary,
                       size: Dimension.radius.sixteen,
                     ),
+                    visualDensity: VisualDensity(vertical: -4),
                     onTap: () {
                       context.pushNamed(LeaderboardPage.name);
                     },
@@ -128,14 +129,21 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                     ),
                                     title: Text(
                                       "Change password",
-                                      style: TextStyles.overline(context: context, color: theme.textPrimary),
+                                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                     ),
                                     trailing: Icon(
                                       Icons.open_in_new_rounded,
                                       color: theme.backgroundTertiary,
                                       size: Dimension.radius.sixteen,
                                     ),
-                                    onTap: () {
+                                    onTap: () async {
+                                      final confirmed = await showDialog(
+                                        context: context,
+                                        builder: (_) => DeleteConfirmationWidget(affirm: 'Continue'),
+                                      );
+                                      if (!confirmed) return;
+                                      if (!context.mounted) return;
+
                                       context.pushNamed(ChangePasswordPage.name);
                                     },
                                     shape: RoundedRectangleBorder(

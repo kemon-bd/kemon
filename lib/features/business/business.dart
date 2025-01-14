@@ -27,3 +27,4 @@ export 'presentation/widgets/verified.dart';
 export 'presentation/widgets/about.dart';
 export 'presentation/widgets/name.dart';
 export 'presentation/widgets/logo.dart';
+export 'presentation/widgets/share.dart';

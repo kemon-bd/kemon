@@ -404,12 +404,7 @@ final router = GoRouter(
       path: LeaderboardPage.path,
       name: LeaderboardPage.name,
       builder: (context, state) => BlocProvider(
-        create: (context) => sl<FindLeaderboardBloc>()
-          ..add(FindLeaderboard(
-            query: '',
-            from: DateTime.now().startOfThisYear,
-            to: DateTime.now().endOfThisYear,
-          )),
+        create: (context) => sl<FindLeaderboardBloc>()..add(FindLeaderboard(query: '')),
         child: const LeaderboardPage(),
       ),
     ),

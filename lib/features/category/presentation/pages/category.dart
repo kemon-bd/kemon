@@ -114,7 +114,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                 size: Dimension.radius.sixteen,
                                 color: theme.textSecondary,
                               ),
-                              hintText: 'Find company or products...',
+                              hintText: 'Looking for something specific?',
                               hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
@@ -225,6 +225,7 @@ class _FilterButton extends StatelessWidget {
           backgroundColor: theme.backgroundPrimary,
           barrierColor: context.barrierColor,
           isScrollControlled: true,
+          shape: RoundedRectangleBorder(),
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
@@ -377,7 +378,7 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.overline(context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",

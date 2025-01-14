@@ -131,8 +131,15 @@ class AppConfig {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           elevation: Dimension.radius.three,
-          backgroundColor: theme.backgroundPrimary,
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: theme.backgroundSecondary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
+            side: BorderSide(
+              color: theme.textSecondary.withAlpha(150),
+              width: Dimension.padding.horizontal.min,
+              strokeAlign: BorderSide.strokeAlignCenter,
+            ),
+          ),
           padding: EdgeInsets.symmetric(
             horizontal: Dimension.padding.horizontal.max,
             vertical: Dimension.padding.vertical.large,

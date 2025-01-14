@@ -24,13 +24,12 @@ class PublicProfilePage extends StatelessWidget {
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
+              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
               onPressed: context.pop,
             ),
             title: ProfileUsernameWidget(
-              style: TextStyles.overline(context: context, color: theme.textPrimary).copyWith(
+              style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                 fontWeight: FontWeight.bold,
-                height: 1,
               ),
             ),
             centerTitle: true,

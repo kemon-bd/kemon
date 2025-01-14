@@ -42,8 +42,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: const EdgeInsets.all(16)
-                    .copyWith(bottom: context.bottomInset + 16),
+                padding: const EdgeInsets.all(16).copyWith(bottom: context.bottomInset + 16),
                 physics: const ScrollPhysics(),
                 children: [
                   Row(
@@ -51,8 +50,7 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                     children: [
                       Text(
                         "District",
-                        style: TextStyles.subTitle(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
                       IconButton(
                         onPressed: () {
@@ -88,12 +86,12 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                       ),
                                     );
                               },
-                              style: TextStyles.subTitle(
-                                  context: context, color: theme.textPrimary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: theme.backgroundSecondary,
                                 hintText: "Search district ...",
+                                hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     controller.clear();
@@ -118,13 +116,10 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                               child: state.lookups.isNotEmpty
                                   ? ListView.separated(
                                       separatorBuilder: (context, index) =>
-                                          Divider(
-                                              height: .25,
-                                              color: theme.backgroundTertiary),
+                                          Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.lookups[index];
-                                        final bool selected = place.value
-                                            .same(as: widget.district?.value);
+                                        final bool selected = place.value.same(as: widget.district?.value);
 
                                         return InkWell(
                                           onTap: () {
@@ -135,13 +130,8 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                             child: Row(
                                               children: [
                                                 Icon(
-                                                  selected
-                                                      ? Icons
-                                                          .check_circle_rounded
-                                                      : Icons.circle_outlined,
-                                                  color: selected
-                                                      ? theme.positive
-                                                      : theme.textPrimary,
+                                                  selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                                  color: selected ? theme.positive : theme.textPrimary,
                                                   size: 24,
                                                   grade: 200,
                                                   weight: 700,
@@ -150,11 +140,9 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.text,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.body(
                                                       context: context,
-                                                      color: selected
-                                                          ? theme.positive
-                                                          : theme.textPrimary,
+                                                      color: selected ? theme.positive : theme.textPrimary,
                                                     ),
                                                   ),
                                                 ),
@@ -165,18 +153,14 @@ class _DistrictFilterWidgetState extends State<DistrictFilterWidget> {
                                       },
                                       itemCount: state.lookups.length,
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.zero
-                                          .copyWith(top: 8, bottom: 8),
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
+                                      physics: const NeverScrollableScrollPhysics(),
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No district found",
-                                        style: TextStyles.subTitle(
-                                            context: context,
-                                            color: theme.textPrimary),
+                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),

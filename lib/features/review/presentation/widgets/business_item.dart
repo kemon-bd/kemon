@@ -1,6 +1,5 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
-import '../../../business/business.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -32,7 +31,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 Row(
                   children: [
                     ProfilePictureWidget(
-                      size: 48,
+                      size: Dimension.radius.thirtyTwo,
                       onTap: () {
                         context.pushNamed(
                           PublicProfilePage.name,
@@ -46,7 +45,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileNameWidget(
-                            style: TextStyles.overline(context: context, color: theme.primary).copyWith(
+                            style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                             onTap: () {
@@ -56,7 +55,6 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               );
                             },
                           ),
-                          const SizedBox(height: 4),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -76,9 +74,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                 builder: (context, snapshot) {
                                   return Text(
                                     review.date.duration,
-                                    style: TextStyles.caption(context: context, color: theme.textSecondary).copyWith(
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
                                   );
                                 },
                               ),
@@ -92,24 +88,21 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 SizedBox(height: Dimension.padding.vertical.large),
                 Text(
                   review.title,
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
-                    fontWeight: FontWeight.bold,
-                    height: 1.25,
-                  ),
+                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                 ),
                 if (review.description != null) ...[
                   const SizedBox(height: 6),
                   ReadMoreText(
                     review.description ?? "",
-                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                    style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(inherit: true),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
-                    trimCollapsedText: '...more',
+                    trimCollapsedText: 'Show more',
                     trimExpandedText: '\t\tShow less',
-                    lessStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    lessStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    moreStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                    moreStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -161,7 +154,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       BlocProvider(
-                        create: (context) => sl<ReactionBloc>()..add(FindReaction(review: review.identity)),
+                        create: (_) => sl<ReactionBloc>()..add(FindReaction(review: review.identity)),
                         child: BlocBuilder<ReactionBloc, ReactionState>(
                           builder: (context, state) {
                             if (state is ReactionDone) {
@@ -169,6 +162,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   ReviewLikeButton(review: review.identity),
+                                  SizedBox(width: Dimension.padding.horizontal.medium),
                                   ReviewDislikeButton(review: review.identity),
                                 ],
                               );
@@ -201,62 +195,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      BlocBuilder<FindBusinessBloc, FindBusinessState>(
-                        builder: (context, state) {
-                          if (state is FindBusinessDone) {
-                            final business = context.business;
-                            return BlocBuilder<FindProfileBloc, FindProfileState>(
-                              builder: (context, state) {
-                                if (state is FindProfileDone) {
-                                  final profile = state.profile;
-                                  return TextButton.icon(
-                                    onPressed: () async {
-                                      final result = await Share.share(
-                                        """🌟 Discover the Best, Rated by the Rest! 🌟
-🚀 Explore authentic reviews and ratings on Kemon!
-💬 Real People. Real Reviews. Make smarter decisions today.
-👀 Check out ${profile.name.full}'s review about "${business.name.full}" at (https://kemon.com.bd/review-detail/${review.identity.id}) now and share your experience with the community!
-
-📲 Join the conversation on Kemon – Bangladesh's Premier Review Platform!
-
-#KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
-                                      );
-
-                                      if (result.status == ShareResultStatus.success && context.mounted) {
-                                        result.raw;
-                                        context.successNotification(
-                                          message: 'Thank you for sharing ${profile.name.full}\'s review',
-                                        );
-                                      }
-                                    },
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: Dimension.radius.eight,
-                                        vertical: Dimension.radius.four,
-                                      ),
-                                      visualDensity: VisualDensity.compact,
-                                      shape:
-                                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
-                                      overlayColor: theme.textPrimary,
-                                    ),
-                                    icon: Icon(
-                                      Icons.share_rounded,
-                                      color: theme.textSecondary,
-                                      size: Dimension.radius.sixteen,
-                                    ),
-                                    label: Text(
-                                      "Share",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                                    ),
-                                  );
-                                }
-                                return SizedBox.shrink();
-                              },
-                            );
-                          }
-                          return SizedBox.shrink();
-                        },
-                      ),
+                      ReviewShareButton(identity: review.identity),
                     ],
                   ),
                 ),

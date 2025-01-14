@@ -14,21 +14,15 @@ class FindLeaderboardBloc
   }) : super(FindLeaderboardInitial()) {
     on<FindLeaderboard>((event, emit) async {
       emit(FindLeaderboardLoading(
-        from: event.from,
-        to: event.to,
         query: event.query,
       ));
       final result = await find(
         page: 1,
         query: event.query,
-        from: event.from,
-        to: event.to,
       );
       result.fold(
         (failure) => emit(FindLeaderboardError(
           failure: failure,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
         (leaderboard) => emit(FindLeaderboardDone(
@@ -36,8 +30,6 @@ class FindLeaderboardBloc
           total: leaderboard.total,
           page: 1,
           deadline: leaderboard.deadline,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
       );
@@ -45,19 +37,13 @@ class FindLeaderboardBloc
 
     on<RefreshLeaderboard>((event, emit) async {
       emit(FindLeaderboardLoading(
-        from: event.from,
-        to: event.to,
         query: event.query,
       ));
       final result = await refresh(
-        from: event.from,
-        to: event.to,
       );
       result.fold(
         (failure) => emit(FindLeaderboardError(
           failure: failure,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
         (leaderboard) => emit(FindLeaderboardDone(
@@ -65,8 +51,6 @@ class FindLeaderboardBloc
           total: leaderboard.total,
           page: 1,
           deadline: leaderboard.deadline,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
       );
@@ -75,8 +59,6 @@ class FindLeaderboardBloc
     on<PaginateLeaderboard>((event, emit) async {
       final oldState = (state as FindLeaderboardDone);
       emit(FindLeaderboardPaginating(
-        from: event.from,
-        to: event.to,
         query: event.query,
         page: event.page,
         deadline: oldState.deadline,
@@ -86,14 +68,10 @@ class FindLeaderboardBloc
       final result = await find(
         page: event.page,
         query: event.query,
-        from: event.from,
-        to: event.to,
       );
       result.fold(
         (failure) => emit(FindLeaderboardError(
           failure: failure,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
         (leaderboard) => emit(FindLeaderboardDone(
@@ -101,8 +79,6 @@ class FindLeaderboardBloc
           total: leaderboard.total,
           page: event.page,
           deadline: leaderboard.deadline,
-          from: event.from,
-          to: event.to,
           query: event.query,
         )),
       );

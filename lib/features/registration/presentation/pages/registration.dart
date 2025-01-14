@@ -357,7 +357,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       onPressed: () {
                                         FocusScope.of(context).requestFocus(FocusNode());
                                       },
-                                      child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                      child: NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.white),
                                     );
                                   }
                                   return ElevatedButton(

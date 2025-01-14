@@ -37,7 +37,7 @@ class TextStyles {
     return GoogleFonts.solway(
       color: theme.white,
       textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: theme.black,
+            color: theme.white,
             fontWeight: FontWeight.bold,
             fontSize: 51.sp,
             letterSpacing: 1.25.sp,

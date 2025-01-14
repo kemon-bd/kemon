@@ -1,6 +1,7 @@
 import 'core/config/config.dart';
 import 'core/shared/shared.dart';
 import 'features/authentication/authentication.dart';
+import 'features/leaderboard/leaderboard.dart';
 import 'features/whats_new/whats_new.dart';
 
 FutureOr<void> main() async {
@@ -14,6 +15,7 @@ FutureOr<void> main() async {
         BlocProvider(create: (_) => WhatsNewBloc()),
         BlocProvider(create: (_) => sl<ThemeBloc>()),
         BlocProvider(create: (_) => sl<AuthenticationBloc>()),
+        BlocProvider(create: (_) => sl<LeaderboardFilterBloc>()),
       ],
       child: const MainApp(),
     ),

@@ -2,6 +2,7 @@ import 'package:kemon/features/profile/profile.dart';
 
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../leaderboard/leaderboard.dart';
 import '../../../location/location.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
@@ -95,11 +96,27 @@ class _HomePageState extends State<HomePage> {
               actions: [
                 IconButton(
                   onPressed: () {
+                    context.pushNamed(LeaderboardPage.name);
+                  },
+                  padding: EdgeInsets.all(0),
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  icon: CircleAvatar(
+                    radius: Dimension.radius.sixteen,
+                    backgroundColor: theme.white,
+                    child: Icon(
+                      Icons.leaderboard_rounded,
+                      color: theme.primary,
+                      size: Dimension.radius.sixteen,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
                     context.read<ThemeBloc>().add(const ToggleTheme());
                   },
                   icon: CircleAvatar(
                     radius: Dimension.radius.sixteen,
-                    backgroundColor: themeMode == ThemeMode.dark ? theme.black : theme.white,
+                    backgroundColor: theme.white,
                     child: Icon(
                       themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                       color: theme.primary,

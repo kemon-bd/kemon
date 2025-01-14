@@ -18,7 +18,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    final isExpanded = controller.offset <= Dimension.size.vertical.fortyEight;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -55,7 +55,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 final double expandedHeight = context.topInset +
                     kToolbarHeight +
                     (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
-                    Dimension.size.vertical.oneTwelve;
+                    Dimension.size.vertical.fortyEight;
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,
@@ -111,7 +111,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 size: Dimension.radius.sixteen,
                                 color: theme.textSecondary,
                               ),
-                              hintText: 'Find company or products...',
+                              hintText: 'Looking for something specific?',
                               hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
@@ -141,28 +141,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                             ),
                                           ).animate().fade(),
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.all(Dimension.radius.eight),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.twelve),
-                                          ),
-                                          child: Icon(
-                                            Icons.label_rounded,
-                                            size: Dimension.radius.twenty,
-                                            color: theme.backgroundTertiary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const _FilterButton(),
-                                        const SizedBox(width: 16),
-                                        _SortButton(),
-                                        const Spacer(),
                                         _TotalCount(),
                                       ],
                                     ),
@@ -213,100 +191,6 @@ class _ShareButton extends StatelessWidget {
   }
 }
 
-class _FilterButton extends StatelessWidget {
-  const _FilterButton();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return InkWell(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: theme.backgroundPrimary,
-          barrierColor: context.barrierColor,
-          isScrollControlled: true,
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindAllCategoriesBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-            ],
-            child: const FilterBusinessesByCategoryWidget(),
-          ),
-        );
-      },
-      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimension.padding.horizontal.ultraMax,
-          vertical: Dimension.padding.vertical.medium,
-        ),
-        decoration: BoxDecoration(
-          color: theme.link,
-          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
-            Text(
-              'Filter',
-              style: TextStyles.caption(context: context, color: theme.white),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SortButton extends StatelessWidget {
-  const _SortButton();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return InkWell(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: theme.backgroundPrimary,
-          barrierColor: context.barrierColor,
-          isScrollControlled: true,
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindAllCategoriesBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-            ],
-            child: const SortBusinessesByCategoryWidget(),
-          ),
-        );
-      },
-      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimension.padding.horizontal.ultraMax,
-          vertical: Dimension.padding.vertical.medium,
-        ),
-        decoration: BoxDecoration(
-          color: theme.link.withAlpha(50),
-          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
-            Text(
-              'Sort',
-              style: TextStyles.caption(context: context, color: theme.link),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _TotalCount extends StatelessWidget {
   const _TotalCount();
 
@@ -321,11 +205,11 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.overline(context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: TextStyles.caption(context: context, color: theme.textSecondary),
               ),
             ],
           );

@@ -6,8 +6,7 @@ class FilterBusinessesByLocationWidget extends StatefulWidget {
   const FilterBusinessesByLocationWidget({super.key});
 
   @override
-  State<FilterBusinessesByLocationWidget> createState() =>
-      _FilterBusinessesByLocationWidgetState();
+  State<FilterBusinessesByLocationWidget> createState() => _FilterBusinessesByLocationWidgetState();
 }
 
 enum RatingRange {
@@ -17,8 +16,7 @@ enum RatingRange {
   best,
 }
 
-class _FilterBusinessesByLocationWidgetState
-    extends State<FilterBusinessesByLocationWidget> {
+class _FilterBusinessesByLocationWidgetState extends State<FilterBusinessesByLocationWidget> {
   RatingRange rating = RatingRange.all;
 
   @override
@@ -53,8 +51,7 @@ class _FilterBusinessesByLocationWidgetState
               children: [
                 Text(
                   "Filter",
-                  style: TextStyles.subTitle(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
                 IconButton(
                   onPressed: () {
@@ -73,8 +70,7 @@ class _FilterBusinessesByLocationWidgetState
             const SizedBox(height: 24),
             Text(
               'Rating',
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textPrimary),
+              style: TextStyles.body(context: context, color: theme.textSecondary),
             ),
             const SizedBox(height: 8),
             CupertinoSlidingSegmentedControl<RatingRange>(
@@ -82,32 +78,26 @@ class _FilterBusinessesByLocationWidgetState
               children: {
                 RatingRange.all: Text(
                   'All',
-                  style: TextStyles.subTitle(
+                  style: TextStyles.body(
                     context: context,
-                    color: rating == RatingRange.all
-                        ? theme.white
-                        : theme.textSecondary,
-                  ),
+                    color: rating == RatingRange.all ? theme.white : theme.textSecondary,
+                  ).copyWith(fontWeight: FontWeight.bold),
                 ),
                 RatingRange.worst: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.worst
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.worst ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '1 ~ 2',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.worst
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.worst ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -116,20 +106,16 @@ class _FilterBusinessesByLocationWidgetState
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.average
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.average ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '3 ~ 4',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.average
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.average ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -138,20 +124,16 @@ class _FilterBusinessesByLocationWidgetState
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.best
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.best ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '5.0',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.best
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.best ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -165,12 +147,11 @@ class _FilterBusinessesByLocationWidgetState
               backgroundColor: theme.backgroundSecondary,
               padding: EdgeInsets.all(Dimension.radius.four),
             ),
-            BlocBuilder<FindBusinessesByLocationBloc,
-                FindBusinessesByLocationState>(
+            BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
               builder: (context, state) {
                 if (state is FindBusinessesByLocationDone) {
                   return Visibility(
-                    visible: state.businesses.isNotEmpty,
+                    visible: state.related.isNotEmpty,
                     child: ListView(
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(0),
@@ -179,8 +160,7 @@ class _FilterBusinessesByLocationWidgetState
                         const Divider(height: 24),
                         Text(
                           'Related',
-                          style: TextStyles.subTitle(
-                              context: context, color: theme.textPrimary),
+                          style: TextStyles.body(context: context, color: theme.textSecondary),
                         ),
                         const SizedBox(height: 8),
                         Container(
@@ -191,8 +171,7 @@ class _FilterBusinessesByLocationWidgetState
                           decoration: BoxDecoration(
                             color: theme.backgroundSecondary,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                                color: theme.backgroundTertiary, width: .25),
+                            border: Border.all(color: theme.backgroundTertiary, width: .25),
                           ),
                           padding: const EdgeInsets.all(8),
                           child: MasonryGridView.count(
@@ -207,22 +186,15 @@ class _FilterBusinessesByLocationWidgetState
                             itemBuilder: (_, index) {
                               final location = state.related[index];
                               return ActionChip(
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 backgroundColor: theme.backgroundPrimary,
                                 padding: const EdgeInsets.all(12),
-                                side: BorderSide(
-                                    color: theme.backgroundTertiary, width: 1),
-                                visualDensity: const VisualDensity(
-                                    horizontal: -4, vertical: -4),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16)),
+                                side: BorderSide(color: theme.backgroundTertiary, width: 1),
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                                 label: Text(
                                   location.name.full,
-                                  style: TextStyles.body(
-                                          context: context,
-                                          color: theme.textPrimary)
-                                      .copyWith(
+                                  style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),

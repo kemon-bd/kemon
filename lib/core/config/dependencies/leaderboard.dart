@@ -2,13 +2,13 @@ part of '../config.dart';
 
 Future<void> get leaderboardDependencies async {
   //! ----------------- Bloc -----------------
-
   sl.registerFactory(
     () => FindLeaderboardBloc(
       find: sl(),
       refresh: sl(),
     ),
   );
+  sl.registerLazySingleton(() => LeaderboardFilterBloc());
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -26,6 +26,7 @@ Future<void> get leaderboardDependencies async {
   sl.registerLazySingleton<LeaderboardRepository>(
     () => LeaderboardRepositoryImpl(
       network: sl(),
+      filter: sl(),
       remote: sl(),
       local: sl(),
     ),

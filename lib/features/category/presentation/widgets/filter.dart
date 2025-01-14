@@ -10,8 +10,7 @@ class FilterBusinessesByCategoryWidget extends StatefulWidget {
   const FilterBusinessesByCategoryWidget({super.key});
 
   @override
-  State<FilterBusinessesByCategoryWidget> createState() =>
-      _FilterBusinessesByCategoryWidgetState();
+  State<FilterBusinessesByCategoryWidget> createState() => _FilterBusinessesByCategoryWidgetState();
 }
 
 enum RatingRange {
@@ -21,8 +20,7 @@ enum RatingRange {
   best,
 }
 
-class _FilterBusinessesByCategoryWidgetState
-    extends State<FilterBusinessesByCategoryWidget> {
+class _FilterBusinessesByCategoryWidgetState extends State<FilterBusinessesByCategoryWidget> {
   LookupEntity? division;
   LookupEntity? district;
   LookupEntity? thana;
@@ -66,8 +64,7 @@ class _FilterBusinessesByCategoryWidgetState
               children: [
                 Text(
                   "Filter",
-                  style: TextStyles.subTitle(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
                 IconButton(
                   onPressed: () {
@@ -95,20 +92,18 @@ class _FilterBusinessesByCategoryWidgetState
                   if (state is FindCategoryDone) {
                     return DropdownWidget<SubCategoryEntity>(
                       label: 'Sub-category',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                       text: subCategory?.name.full ?? 'Select one',
-                      textStyle: TextStyles.overline(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      iconColor: theme.link,
                       popup: BlocProvider(
                         create: (_) => sl<SubCategoriesByCategoryBloc>()
                           ..add(
-                            SubCategoriesByCategory(
-                                category: state.category.identity.guid),
+                            SubCategoriesByCategory(category: state.category.identity.guid),
                           ),
-                        child: SubCategoryFilterWidget(
-                            subCategory: subCategory,
-                            category: state.category.identity.guid),
+                        child: SubCategoryFilterWidget(subCategory: subCategory, category: state.category.identity.guid),
                       ),
                       onSelect: (selection) {
                         if (selection.urlSlug == subCategory?.urlSlug) {
@@ -125,8 +120,7 @@ class _FilterBusinessesByCategoryWidgetState
                   } else if (state is FindCategoryLoading) {
                     return DropdownLoadingWidget(
                       label: 'Sub-category',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                     );
                   }
                   return Container();
@@ -136,8 +130,7 @@ class _FilterBusinessesByCategoryWidgetState
             const Divider(height: 24),
             Text(
               'Location',
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textPrimary),
+              style: TextStyles.body(context: context, color: theme.textSecondary),
             ),
             const SizedBox(height: 8),
             Container(
@@ -153,14 +146,14 @@ class _FilterBusinessesByCategoryWidgetState
                 children: [
                   DropdownWidget<LookupEntity>(
                     label: 'Division',
-                    labelStyle: TextStyles.subTitle(
-                        context: context, color: theme.textSecondary),
+                    labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                     text: division?.text ?? 'Select one',
-                    textStyle: TextStyles.overline(
-                        context: context, color: theme.textPrimary),
+                    textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    iconColor: theme.link,
                     popup: BlocProvider(
-                      create: (_) => sl<FindLookupBloc>()
-                        ..add(const FindLookup(lookup: Lookups.division)),
+                      create: (_) => sl<FindLookupBloc>()..add(const FindLookup(lookup: Lookups.division)),
                       child: DivisionFilterWidget(division: division),
                     ),
                     onSelect: (selection) {
@@ -183,17 +176,16 @@ class _FilterBusinessesByCategoryWidgetState
                     const Divider(),
                     DropdownWidget<LookupEntity>(
                       label: 'District',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                       text: district?.text ?? 'Select one',
-                      textStyle: TextStyles.overline(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      iconColor: theme.link,
                       popup: BlocProvider(
                         create: (_) => sl<FindLookupBloc>()
                           ..add(
-                            FindLookupWithParent(
-                                lookup: Lookups.district,
-                                parent: division?.value ?? ''),
+                            FindLookupWithParent(lookup: Lookups.district, parent: division?.value ?? ''),
                           ),
                         child: DistrictFilterWidget(
                           district: district,
@@ -219,17 +211,16 @@ class _FilterBusinessesByCategoryWidgetState
                     const Divider(),
                     DropdownWidget<LookupEntity>(
                       label: 'Thana',
-                      labelStyle: TextStyles.subTitle(
-                          context: context, color: theme.textSecondary),
+                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                       text: thana?.text ?? 'Select one',
-                      textStyle: TextStyles.overline(
-                          context: context, color: theme.textPrimary),
+                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      iconColor: theme.link,
                       popup: BlocProvider(
                         create: (_) => sl<FindLookupBloc>()
                           ..add(
-                            FindLookupWithParent(
-                                lookup: Lookups.thana,
-                                parent: district?.value ?? ''),
+                            FindLookupWithParent(lookup: Lookups.thana, parent: district?.value ?? ''),
                           ),
                         child: ThanaFilterWidget(
                           thana: thana,
@@ -255,8 +246,7 @@ class _FilterBusinessesByCategoryWidgetState
             const Divider(height: 24),
             Text(
               'Rating',
-              style: TextStyles.subTitle(
-                  context: context, color: theme.textPrimary),
+              style: TextStyles.body(context: context, color: theme.textSecondary),
             ),
             const SizedBox(height: 8),
             CupertinoSlidingSegmentedControl<RatingRange>(
@@ -264,32 +254,26 @@ class _FilterBusinessesByCategoryWidgetState
               children: {
                 RatingRange.all: Text(
                   'All',
-                  style: TextStyles.subTitle(
+                  style: TextStyles.body(
                     context: context,
-                    color: rating == RatingRange.all
-                        ? theme.white
-                        : theme.textSecondary,
-                  ),
+                    color: rating == RatingRange.all ? theme.white : theme.textSecondary,
+                  ).copyWith(fontWeight: FontWeight.bold),
                 ),
                 RatingRange.worst: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.worst
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.worst ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '1 ~ 2',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.worst
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.worst ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -298,20 +282,16 @@ class _FilterBusinessesByCategoryWidgetState
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.average
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.average ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '3 ~ 4',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.average
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.average ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -320,20 +300,16 @@ class _FilterBusinessesByCategoryWidgetState
                   children: [
                     Icon(
                       Icons.star_rounded,
-                      color: rating == RatingRange.best
-                          ? theme.white
-                          : theme.textSecondary,
+                      color: rating == RatingRange.best ? theme.white : theme.textSecondary,
                       size: Dimension.radius.sixteen,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '5.0',
-                      style: TextStyles.subTitle(
+                      style: TextStyles.body(
                         context: context,
-                        color: rating == RatingRange.best
-                            ? theme.white
-                            : theme.textSecondary,
-                      ),
+                        color: rating == RatingRange.best ? theme.white : theme.textSecondary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -347,12 +323,11 @@ class _FilterBusinessesByCategoryWidgetState
               backgroundColor: theme.backgroundSecondary,
               padding: EdgeInsets.all(Dimension.radius.four),
             ),
-            BlocBuilder<FindBusinessesByCategoryBloc,
-                FindBusinessesByCategoryState>(
+            BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
               builder: (context, state) {
                 if (state is FindBusinessesByCategoryDone) {
                   return Visibility(
-                    visible: state.businesses.isNotEmpty,
+                    visible: state.related.isNotEmpty,
                     child: ListView(
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(0),
@@ -361,8 +336,7 @@ class _FilterBusinessesByCategoryWidgetState
                         const Divider(height: 24),
                         Text(
                           'Related',
-                          style: TextStyles.subTitle(
-                              context: context, color: theme.textPrimary),
+                          style: TextStyles.body(context: context, color: theme.textSecondary),
                         ),
                         const SizedBox(height: 8),
                         Container(
@@ -373,8 +347,7 @@ class _FilterBusinessesByCategoryWidgetState
                           decoration: BoxDecoration(
                             color: theme.backgroundSecondary,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                                color: theme.backgroundTertiary, width: .25),
+                            border: Border.all(color: theme.backgroundTertiary, width: .25),
                           ),
                           padding: const EdgeInsets.all(8),
                           child: MasonryGridView.count(
@@ -389,31 +362,23 @@ class _FilterBusinessesByCategoryWidgetState
                             itemBuilder: (_, index) {
                               final category = state.related[index];
                               return ActionChip(
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 backgroundColor: theme.backgroundPrimary,
                                 padding: const EdgeInsets.all(12),
-                                side: BorderSide(
-                                    color: theme.backgroundTertiary, width: 1),
-                                visualDensity: const VisualDensity(
-                                    horizontal: -4, vertical: -4),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16)),
+                                side: BorderSide(color: theme.backgroundTertiary, width: 1),
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                                 label: Text(
                                   category.name.full,
-                                  style: TextStyles.body(
-                                          context: context,
-                                          color: theme.textPrimary)
-                                      .copyWith(
+                                  style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                                 onPressed: () {
                                   context.pop();
-                                  context.pushNamed(SubCategoryPage.name,
-                                      pathParameters: {
-                                        'urlSlug': category.urlSlug,
-                                      });
+                                  context.pushNamed(SubCategoryPage.name, pathParameters: {
+                                    'urlSlug': category.urlSlug,
+                                  });
                                 },
                               );
                             },

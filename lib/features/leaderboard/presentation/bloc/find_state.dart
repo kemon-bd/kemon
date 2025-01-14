@@ -2,13 +2,9 @@ part of 'find_bloc.dart';
 
 abstract class FindLeaderboardState extends Equatable {
   final String query;
-  final DateTime from;
-  final DateTime to;
 
   const FindLeaderboardState({
     this.query = '',
-    required this.to,
-    required this.from,
   });
 
   @override
@@ -16,18 +12,12 @@ abstract class FindLeaderboardState extends Equatable {
 }
 
 class FindLeaderboardInitial extends FindLeaderboardState {
-  FindLeaderboardInitial()
-      : super(
-          from: DateTime.now().startOfThisYear,
-          to: DateTime.now().endOfThisYear,
-        );
+  const FindLeaderboardInitial();
 }
 
 class FindLeaderboardLoading extends FindLeaderboardState {
   const FindLeaderboardLoading({
     required super.query,
-    required super.from,
-    required super.to,
   });
 }
 
@@ -37,8 +27,6 @@ class FindLeaderboardError extends FindLeaderboardState {
   const FindLeaderboardError({
     required this.failure,
     required super.query,
-    required super.from,
-    required super.to,
   });
 
   @override
@@ -57,8 +45,6 @@ class FindLeaderboardDone extends FindLeaderboardState {
     required this.deadline,
     required this.leaders,
     required super.query,
-    required super.from,
-    required super.to,
   });
 
   @override
@@ -72,8 +58,6 @@ class FindLeaderboardPaginating extends FindLeaderboardDone {
     required super.deadline,
     required super.leaders,
     required super.query,
-    required super.from,
-    required super.to,
   });
 
   @override
