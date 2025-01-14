@@ -471,7 +471,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       context.errorNotification(message: state.failure.message);
                                     } else if (state is UpdateProfileDone) {
                                       context.successNotification(
-                                        message: 'Congralutations. Your profile has been updated :)',
+                                        message: 'Congratulations. Your profile has been updated :)',
                                       );
                                       context.pop(true);
                                     }
