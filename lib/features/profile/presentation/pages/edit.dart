@@ -82,7 +82,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Getting a new skin :p',
+                                            'Edit Profile',
                                             style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                                               fontWeight: FontWeight.w900,
                                               letterSpacing: 2,
@@ -90,7 +90,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            'Let us know about you, more precisely.',
+                                            'Let us know more about you.',
                                             style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
                                               height: 1,
                                             ),
