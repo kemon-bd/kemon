@@ -23,6 +23,9 @@ abstract class BusinessRemoteDataSource {
   FutureOr<BusinessesByLocationPaginatedResponse> location({
     required int page,
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,

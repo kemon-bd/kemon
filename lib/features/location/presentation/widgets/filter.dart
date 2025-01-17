@@ -3,7 +3,15 @@ import '../../../business/business.dart';
 import '../../location.dart';
 
 class FilterBusinessesByLocationWidget extends StatefulWidget {
-  const FilterBusinessesByLocationWidget({super.key});
+  final String? division;
+  final String? district;
+  final String? thana;
+  const FilterBusinessesByLocationWidget({
+    super.key,
+    required this.division,
+    required this.district,
+    required this.thana,
+  });
 
   @override
   State<FilterBusinessesByLocationWidget> createState() => _FilterBusinessesByLocationWidgetState();
@@ -234,6 +242,9 @@ class _FilterBusinessesByLocationWidgetState extends State<FilterBusinessesByLoc
                                           ? [3, 4]
                                           : [5],
                               location: state.location.urlSlug,
+                              division: widget.division,
+                              district: widget.district,
+                              thana: widget.thana,
                             ),
                           );
                       context.pop();

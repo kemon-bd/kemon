@@ -140,8 +140,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
-      refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required String category,
     required String? query,
     required SortBy? sort,
@@ -199,6 +198,9 @@ class BusinessRepositoryImpl extends BusinessRepository {
   FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> location({
     required int page,
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
@@ -217,6 +219,9 @@ class BusinessRepositoryImpl extends BusinessRepository {
         final result = await remote.location(
           page: page,
           location: location,
+          division: division,
+          district: district,
+          thana: thana,
           query: query,
           sort: sort,
           ratings: ratings,
@@ -261,9 +266,11 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>>
-      refreshLocation({
+  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
@@ -274,6 +281,9 @@ class BusinessRepositoryImpl extends BusinessRepository {
         final result = await remote.location(
           page: 1,
           location: location,
+          division: division,
+          district: district,
+          thana: thana,
           query: query,
           sort: sort,
           ratings: ratings,

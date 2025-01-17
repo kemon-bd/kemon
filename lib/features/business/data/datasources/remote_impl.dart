@@ -65,12 +65,18 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   FutureOr<BusinessesByLocationPaginatedResponse> location({
     required int page,
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
   }) async {
     final Map<String, String> headers = {
       'urlSlug': location.toLowerCase().trim(),
+      'division': division?.toLowerCase().trim() ?? '',
+      'district': district?.toLowerCase().trim() ?? '',
+      'thana': thana?.toLowerCase().trim() ?? '',
       'query': query ?? '',
       'pageno': '$page',
       'sortby': sort.value,

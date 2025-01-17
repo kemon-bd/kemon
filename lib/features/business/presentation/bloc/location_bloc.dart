@@ -5,8 +5,7 @@ import '../../business.dart';
 part 'location_event.dart';
 part 'location_state.dart';
 
-class FindBusinessesByLocationBloc
-    extends Bloc<FindBusinessesByLocationEvent, FindBusinessesByLocationState> {
+class FindBusinessesByLocationBloc extends Bloc<FindBusinessesByLocationEvent, FindBusinessesByLocationState> {
   final BusinessesByLocationUseCase find;
   final RefreshBusinessesByLocationUseCase refresh;
   FindBusinessesByLocationBloc({
@@ -21,6 +20,9 @@ class FindBusinessesByLocationBloc
       ));
       final result = await find(
         location: event.location,
+        division: event.division,
+        district: event.district,
+        thana: event.thana,
         page: 1,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
@@ -55,6 +57,9 @@ class FindBusinessesByLocationBloc
       ));
       final result = await refresh(
         location: event.location,
+        division: event.division,
+        district: event.district,
+        thana: event.thana,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         ratings: event.ratings,
@@ -94,6 +99,9 @@ class FindBusinessesByLocationBloc
         ));
         final result = await find(
           location: event.location,
+          division: event.division,
+          district: event.district,
+          thana: event.thana,
           page: event.page,
           query: event.query ?? '',
           sort: event.sort ?? SortBy.recommended,

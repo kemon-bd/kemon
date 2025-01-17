@@ -35,8 +35,7 @@ abstract class BusinessRepository {
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });
-  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>>
-      refreshCategory({
+  FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
     required String category,
     required String? query,
     required SortBy? sort,
@@ -50,13 +49,18 @@ abstract class BusinessRepository {
   FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> location({
     required int page,
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
   });
-  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>>
-      refreshLocation({
+  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,

@@ -12,15 +12,21 @@ class FindBusinessesByLocation extends FindBusinessesByLocationEvent {
   final SortBy? sort;
   final List<int> ratings;
   final String location;
+  final String? division;
+  final String? district;
+  final String? thana;
 
   const FindBusinessesByLocation({
     required this.location,
     this.query,
     this.sort,
     this.ratings = const [],
+    required this.division,
+    required this.district,
+    required this.thana,
   });
   @override
-  List<Object?> get props => [location, query, sort, ratings];
+  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
 }
 
 class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
@@ -28,15 +34,21 @@ class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
   final SortBy? sort;
   final List<int> ratings;
   final String location;
+  final String? division;
+  final String? district;
+  final String? thana;
 
   const RefreshBusinessesByLocation({
     required this.location,
     this.query,
     this.sort,
     this.ratings = const [],
+    required this.division,
+    required this.district,
+    required this.thana,
   });
   @override
-  List<Object?> get props => [location, query, sort, ratings];
+  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
 }
 
 class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
@@ -45,6 +57,9 @@ class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
   final List<int> ratings;
   final int page;
   final String location;
+  final String? division;
+  final String? district;
+  final String? thana;
 
   const PaginateBusinessesByLocation({
     required this.page,
@@ -52,7 +67,10 @@ class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
     this.query,
     this.sort,
     this.ratings = const [],
+    required this.division,
+    required this.district,
+    required this.thana,
   });
   @override
-  List<Object?> get props => [location, query, sort, ratings];
+  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
 }

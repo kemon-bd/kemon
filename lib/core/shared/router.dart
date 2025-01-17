@@ -5,6 +5,7 @@ import '../../features/industry/industry.dart';
 import '../../features/leaderboard/leaderboard.dart';
 import '../../features/location/location.dart';
 import '../../features/login/login.dart';
+import '../../features/lookup/lookup.dart';
 import '../../features/profile/profile.dart';
 import '../../features/registration/registration.dart';
 import '../../features/review/review.dart';
@@ -363,12 +364,21 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByLocationBloc>()
               ..add(
-                FindBusinessesByLocation(location: state.pathParameters['urlSlug']!),
+                FindBusinessesByLocation(
+                  location: state.pathParameters['urlSlug']!,
+                  division: state.uri.queryParameters['division'],
+                  district: state.uri.queryParameters['district'],
+                  thana: state.uri.queryParameters['thana'],
+                ),
               ),
           ),
         ],
         child: LocationPage(
           urlSlug: state.pathParameters['urlSlug']!,
+          location: state.extra as LookupEntity?,
+          division: state.uri.queryParameters['division'],
+          district: state.uri.queryParameters['district'],
+          thana: state.uri.queryParameters['thana'],
         ),
       ),
     ),

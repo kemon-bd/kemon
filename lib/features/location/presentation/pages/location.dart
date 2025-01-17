@@ -1,16 +1,25 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
 class LocationPage extends StatefulWidget {
   static const String path = '/location/:urlSlug';
   static const String name = 'LocationPage';
   final String urlSlug;
+  final LookupEntity? location;
+  final String? division;
+  final String? district;
+  final String? thana;
 
   const LocationPage({
     super.key,
     required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
+    required this.location,
   });
 
   @override
@@ -77,6 +86,10 @@ class _LocationPageState extends State<LocationPage> {
                           ? null
                           : _NameWidget(
                               urlSlug: widget.urlSlug,
+                              location: widget.location,
+                              division: widget.division,
+                              district: widget.district,
+                              thana: widget.thana,
                               fontSize: Dimension.radius.sixteen,
                               maxLines: 2,
                             ).animate().fade(),
@@ -103,6 +116,9 @@ class _LocationPageState extends State<LocationPage> {
                                 query: query,
                                 sort: filter.sortBy,
                                 ratings: filter.ratings,
+                                division: widget.division,
+                                district: widget.district,
+                                thana: widget.thana,
                               ));
                             },
                             decoration: InputDecoration(
@@ -133,9 +149,14 @@ class _LocationPageState extends State<LocationPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
-                                          child: _NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
-                                              .animate()
-                                              .fade(),
+                                          child: _NameWidget(
+                                            urlSlug: widget.urlSlug,
+                                            location: widget.location,
+                                            division: widget.division,
+                                            district: widget.district,
+                                            thana: widget.thana,
+                                            fontSize: Dimension.radius.twentyFour,
+                                          ).animate().fade(),
                                         ),
                                         _IconWidget(urlSlug: widget.urlSlug),
                                       ],
@@ -144,9 +165,19 @@ class _LocationPageState extends State<LocationPage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        _FilterButton(urlSlug: widget.urlSlug),
+                                        _FilterButton(
+                                          urlSlug: widget.urlSlug,
+                                          division: widget.division,
+                                          district: widget.district,
+                                          thana: widget.thana,
+                                        ),
                                         const SizedBox(width: 16),
-                                        _SortButton(),
+                                        _SortButton(
+                                          urlSlug: widget.urlSlug,
+                                          division: widget.division,
+                                          district: widget.district,
+                                          thana: widget.thana,
+                                        ),
                                         const Spacer(),
                                         _TotalCount(),
                                       ],
@@ -157,7 +188,15 @@ class _LocationPageState extends State<LocationPage> {
                             )
                           : null,
                     ),
-                    SliverToBoxAdapter(child: _ListingsWidget(search: search, urlSlug: widget.urlSlug)),
+                    SliverToBoxAdapter(
+                      child: _ListingsWidget(
+                        search: search,
+                        urlSlug: widget.urlSlug,
+                        division: widget.division,
+                        district: widget.district,
+                        thana: widget.thana,
+                      ),
+                    ),
                   ],
                 );
               },
@@ -208,8 +247,14 @@ class _ShareButton extends StatelessWidget {
 
 class _FilterButton extends StatelessWidget {
   final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
   const _FilterButton({
     required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
   });
 
   @override
@@ -228,7 +273,11 @@ class _FilterButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
-            child: const FilterBusinessesByLocationWidget(),
+            child: FilterBusinessesByLocationWidget(
+              division: division,
+              district: district,
+              thana: thana,
+            ),
           ),
         );
       },
@@ -258,7 +307,16 @@ class _FilterButton extends StatelessWidget {
 }
 
 class _SortButton extends StatelessWidget {
-  const _SortButton();
+  final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
+  const _SortButton({
+    required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +333,12 @@ class _SortButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
-            child: const SortBusinessesByLocationWidget(),
+            child: SortBusinessesByLocationWidget(
+              urlSlug: urlSlug,
+              division: division,
+              district: district,
+              thana: thana,
+            ),
           ),
         );
       },
@@ -306,10 +369,18 @@ class _SortButton extends StatelessWidget {
 
 class _NameWidget extends StatelessWidget {
   final String urlSlug;
+  final LookupEntity? location;
+  final String? division;
+  final String? district;
+  final String? thana;
   final double? fontSize;
   final int? maxLines;
   const _NameWidget({
     required this.urlSlug,
+    required this.location,
+    required this.division,
+    required this.district,
+    required this.thana,
     this.fontSize,
     this.maxLines,
   });
@@ -331,7 +402,15 @@ class _NameWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           );
         }
-        return Container();
+        return Text(
+          location?.text ?? '',
+          style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize ?? Dimension.radius.twelve,
+          ),
+          maxLines: maxLines,
+          overflow: TextOverflow.ellipsis,
+        );
       },
     );
   }
@@ -393,11 +472,17 @@ class _TotalCount extends StatelessWidget {
 
 class _ListingsWidget extends StatelessWidget {
   final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
   final TextEditingController search;
 
   const _ListingsWidget({
     required this.urlSlug,
     required this.search,
+    required this.division,
+    required this.district,
+    required this.thana,
   });
 
   @override
@@ -432,6 +517,9 @@ class _ListingsWidget extends StatelessWidget {
                                 location: urlSlug,
                                 sort: state.sortBy,
                                 ratings: state.ratings,
+                                division: division,
+                                district: district,
+                                thana: thana,
                               ),
                             );
                       }
