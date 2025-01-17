@@ -1,4 +1,3 @@
-
 import '../../../../core/shared/shared.dart';
 import '../../../lookup/lookup.dart';
 import '../../profile.dart';
@@ -30,10 +29,10 @@ class ProfileProgressWidget extends StatelessWidget {
                             vertical: Dimension.radius.eight,
                           ),
                           decoration: BoxDecoration(
-                            color: theme.backgroundSecondary,
+                            color: progress < 50 ? theme.warning.withAlpha(15) : theme.backgroundSecondary,
                             borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                             border: Border.all(
-                              color: theme.backgroundTertiary,
+                              color: progress < 50 ? theme.warning.withAlpha(125) : theme.backgroundTertiary,
                               width: 1,
                               strokeAlign: BorderSide.strokeAlignOutside,
                             ),
@@ -44,7 +43,10 @@ class ProfileProgressWidget extends StatelessWidget {
                             children: [
                               Text(
                                 '${(progress * 100).round()}% Progress',
-                                style: TextStyles.body(context: context, color: theme.textSecondary),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: progress < 50 ? theme.warning : theme.textSecondary,
+                                ),
                               )
                                   .animate(
                                     onComplete: (controller) => controller.repeat(reverse: true),
@@ -59,7 +61,7 @@ class ProfileProgressWidget extends StatelessWidget {
                               LinearProgressIndicator(
                                 value: progress,
                                 backgroundColor: theme.backgroundTertiary,
-                                valueColor: AlwaysStoppedAnimation(theme.primary),
+                                valueColor: AlwaysStoppedAnimation(progress < 50 ? theme.warning : theme.primary),
                                 borderRadius: BorderRadius.circular(Dimension.radius.max),
                               ),
                               SizedBox(height: Dimension.padding.vertical.large),

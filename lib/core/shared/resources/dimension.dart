@@ -29,6 +29,7 @@ class _Radius {
   final double six = 6.0.r;
   final double four = 4.0.r;
   final double three = 3.0.r;
+  final double two = 2.0.r;
   final double one = 1.0.r;
 } //? ------------------- Radius -------------------
 

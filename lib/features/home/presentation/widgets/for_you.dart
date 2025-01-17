@@ -19,17 +19,11 @@ class DashboardForYouWidget extends StatelessWidget {
           ),
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            Text(
-              'For You',
-              style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: Dimension.padding.vertical.medium),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
                 if (state.profile == null) {
                   return Container(
+                    margin: EdgeInsets.only(bottom: Dimension.padding.vertical.max),
                     padding: EdgeInsets.symmetric(
                       horizontal: Dimension.padding.horizontal.large,
                       vertical: Dimension.padding.vertical.large,
@@ -96,7 +90,6 @@ class DashboardForYouWidget extends StatelessWidget {
                 return Container();
               },
             ),
-            SizedBox(height: Dimension.padding.vertical.max),
             Container(
               decoration: BoxDecoration(
                 color: theme.link.withGreen(5).withRed(25).withBlue(50),

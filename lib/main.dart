@@ -37,6 +37,12 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppConfig.themeData(context: context, mode: state.mode),
           darkTheme: AppConfig.themeData(context: context, mode: state.mode),
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+              child: child!,
+            );
+          },
         );
       },
     );

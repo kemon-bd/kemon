@@ -30,7 +30,9 @@ class FeaturedLocationsWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Locations",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       ActionChip(
                         label: Text(
@@ -53,7 +55,7 @@ class FeaturedLocationsWidget extends StatelessWidget {
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
                   SizedBox(
-                    height: 400.h,
+                    height: 360.h,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
                       mainAxisSpacing: Dimension.padding.horizontal.max,
@@ -76,19 +78,20 @@ class FeaturedLocationsWidget extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(Dimension.radius.four),
+                            padding: EdgeInsets.symmetric(horizontal: Dimension.radius.four),
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: theme.textPrimary,
-                                  radius: Dimension.radius.twelve,
-                                  child: Icon(Icons.layers_outlined, color: theme.backgroundPrimary, size: Dimension.radius.twelve),
+                                  backgroundColor: theme.backgroundTertiary,
+                                  radius: Dimension.radius.ten,
+                                  child: Icon(Icons.place_outlined, color: theme.textSecondary, size: Dimension.radius.ten),
                                 ),
                                 SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(
                                   location.name.full,
                                   style: TextStyles.body(context: context, color: theme.textPrimary),
                                 ),
+                                SizedBox(width: Dimension.padding.horizontal.small),
                               ],
                             ),
                           ),
