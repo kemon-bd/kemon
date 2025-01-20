@@ -102,8 +102,7 @@ export 'package:flutter_rating_bar/flutter_rating_bar.dart';
 export 'package:expandable/expandable.dart';
 export 'package:pinput/pinput.dart';
 export 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-export 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
-    hide ImageSource;
+export 'package:flutter_widget_from_html/flutter_widget_from_html.dart' hide ImageSource;
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:readmore/readmore.dart';
 export 'package:dots_indicator/dots_indicator.dart';
@@ -116,3 +115,4 @@ export 'package:device_info_plus/device_info_plus.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:recase/recase.dart';
 export 'package:flutter_svg/flutter_svg.dart';
+export 'package:firebase_analytics/firebase_analytics.dart';

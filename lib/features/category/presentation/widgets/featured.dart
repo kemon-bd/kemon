@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../category.dart';
 
@@ -47,7 +48,15 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                           side: const BorderSide(width: 0, color: Colors.transparent),
                         ),
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                        onPressed: () {
+                        onPressed: () async {
+                          await sl<FirebaseAnalytics>().logEvent(
+                            name: 'home_featured_categories_all',
+                            parameters: {
+                              'id': context.auth.profile?.identity.id ?? 'anonymous',
+                              'name': context.auth.profile?.name.full ?? 'Guest',
+                            },
+                          );
+                          if (!context.mounted) return;
                           context.pushNamed(CategoriesPage.name);
                         },
                       ),
@@ -69,7 +78,17 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                         final category = categories.elementAt(index);
                         return InkWell(
                           borderRadius: BorderRadius.circular(Dimension.radius.max),
-                          onTap: () {
+                          onTap: () async {
+                            await sl<FirebaseAnalytics>().logEvent(
+                              name: 'home_featured_categories_item',
+                              parameters: {
+                                'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                'name': context.auth.profile?.name.full ?? 'Guest',
+                                'category': category.name.full,
+                                'urlSlug': category.urlSlug,
+                              },
+                            );
+                            if (!context.mounted) return;
                             context.pushNamed(
                               CategoryPage.name,
                               pathParameters: {

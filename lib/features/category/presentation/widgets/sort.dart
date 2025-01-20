@@ -67,7 +67,7 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
                               onTap: () {
                                 context.read<FindBusinessesByCategoryBloc>().add(
                                       FindBusinessesByCategory(
-                                        category: category,
+                                        urlSlug: category,
                                         sort: SortBy.values[index],
                                         division: state.division,
                                         district: state.district,

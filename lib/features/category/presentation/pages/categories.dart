@@ -280,14 +280,47 @@ class _CategoriesWidget extends StatelessWidget {
                             ),
                             SizedBox(width: Dimension.padding.horizontal.large),
                             Expanded(
-                              child: Text(
-                                industry.name.full,
-                                style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Dimension.radius.sixteen,
+                              child: Text.rich(
+                                TextSpan(
+                                  text: '',
+                                  children: [
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.aboveBaseline,
+                                      baseline: TextBaseline.alphabetic,
+                                      child: Text(
+                                        industry.name.full,
+                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: Dimension.radius.sixteen,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                    WidgetSpan(
+                                      child: IconButton(
+                                        padding: EdgeInsets.all(4),
+                                        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                        iconSize: Dimension.radius.twenty,
+                                        constraints: BoxConstraints(
+                                          maxHeight: Dimension.radius.twenty,
+                                          maxWidth: Dimension.radius.twenty,
+                                        ),
+                                        onPressed: () {
+                                          FocusScope.of(context).requestFocus(FocusNode());
+
+                                          context.pushNamed(
+                                            CategoryPage.name,
+                                            extra: industry,
+                                            pathParameters: {
+                                              'urlSlug': industry.urlSlug,
+                                            },
+                                          );
+                                        },
+                                        icon: Icon(Icons.open_in_new_rounded, size: Dimension.radius.sixteen),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],

@@ -1,5 +1,7 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../location/location.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 part 'location_event.dart';
@@ -25,6 +27,8 @@ class FindBusinessesByLocationBloc extends Bloc<FindBusinessesByLocationEvent, F
         thana: event.thana,
         page: 1,
         query: event.query ?? '',
+        category: event.category,
+        sub: event.sub,
         sort: event.sort ?? SortBy.recommended,
         ratings: event.ratings,
       );
@@ -57,6 +61,8 @@ class FindBusinessesByLocationBloc extends Bloc<FindBusinessesByLocationEvent, F
       ));
       final result = await refresh(
         location: event.location,
+        category: event.category,
+        sub: event.sub,
         division: event.division,
         district: event.district,
         thana: event.thana,
@@ -99,6 +105,8 @@ class FindBusinessesByLocationBloc extends Bloc<FindBusinessesByLocationEvent, F
         ));
         final result = await find(
           location: event.location,
+          category: event.category,
+          sub: event.sub,
           division: event.division,
           district: event.district,
           thana: event.thana,

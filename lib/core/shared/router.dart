@@ -302,7 +302,7 @@ final router = GoRouter(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
                 FindBusinessesByCategory(
-                  category: state.pathParameters['urlSlug']!,
+                  urlSlug: state.pathParameters['urlSlug']!,
                 ),
               ),
           ),
@@ -341,11 +341,12 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
         child: CategoryPage(
+          category: state.extra as CategoryEntity?,
           urlSlug: state.pathParameters['urlSlug']!,
         ),
       ),
@@ -401,7 +402,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
               ),
           ),
         ],

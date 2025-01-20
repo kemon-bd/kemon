@@ -80,7 +80,16 @@ class BusinessItemWidget extends StatelessWidget {
               return InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: () {
+                onTap: () async {
+                  await sl<FirebaseAnalytics>().logEvent(
+                    name: 'location_listing_item',
+                    parameters: {
+                      'id': context.auth.profile?.identity.id ?? 'anonymous',
+                      'name': context.auth.profile?.name.full ?? 'Guest',
+                      'urlSlug': business.urlSlug,
+                    },
+                  );
+                  if (!context.mounted) return;
                   context.pushNamed(
                     BusinessPage.name,
                     pathParameters: {

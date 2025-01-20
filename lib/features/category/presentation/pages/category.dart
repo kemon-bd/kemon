@@ -6,12 +6,13 @@ import '../../category.dart';
 class CategoryPage extends StatefulWidget {
   static const String path = '/category/:urlSlug';
   static const String name = 'CategoryPage';
-
+  final CategoryEntity? category;
   final String urlSlug;
 
   const CategoryPage({
     super.key,
     required this.urlSlug,
+    required this.category,
   });
 
   @override
@@ -75,6 +76,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       title: isExpanded
                           ? null
                           : _NameWidget(
+                              category: widget.category,
                               urlSlug: widget.urlSlug,
                               fontSize: Dimension.radius.sixteen,
                               maxLines: 2,
@@ -98,7 +100,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               final filter = bloc.state;
 
                               bloc.add(FindBusinessesByCategory(
-                                category: widget.urlSlug,
+                                urlSlug: widget.urlSlug,
                                 query: query,
                                 sort: filter.sortBy,
                                 ratings: filter.ratings,
@@ -136,9 +138,11 @@ class _CategoryPageState extends State<CategoryPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
-                                          child: _NameWidget(urlSlug: widget.urlSlug, fontSize: Dimension.radius.twentyFour)
-                                              .animate()
-                                              .fade(),
+                                          child: _NameWidget(
+                                            category: widget.category,
+                                            urlSlug: widget.urlSlug,
+                                            fontSize: Dimension.radius.twentyFour,
+                                          ).animate().fade(),
                                         ),
                                         _IconWidget(urlSlug: widget.urlSlug),
                                       ],
@@ -147,7 +151,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        _FilterButton(urlSlug: widget.urlSlug),
+                                        _FilterButton(urlSlug: widget.urlSlug, category: widget.category),
                                         const SizedBox(width: 16),
                                         _SortButton(),
                                         const Spacer(),
@@ -211,8 +215,10 @@ class _ShareButton extends StatelessWidget {
 
 class _FilterButton extends StatelessWidget {
   final String urlSlug;
+  final CategoryEntity? category;
   const _FilterButton({
     required this.urlSlug,
+    required this.category,
   });
 
   @override
@@ -231,7 +237,7 @@ class _FilterButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
               BlocProvider.value(value: context.read<FindCategoryBloc>()),
             ],
-            child: const FilterBusinessesByCategoryWidget(),
+            child: FilterCategoryWidget(category: category),
           ),
         );
       },
@@ -309,10 +315,12 @@ class _SortButton extends StatelessWidget {
 
 class _NameWidget extends StatelessWidget {
   final String urlSlug;
+  final CategoryEntity? category;
   final double? fontSize;
   final int? maxLines;
   const _NameWidget({
     required this.urlSlug,
+    required this.category,
     this.fontSize,
     this.maxLines,
   });
@@ -334,7 +342,15 @@ class _NameWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           );
         }
-        return Container();
+        return Text(
+          category?.name.full ?? '',
+          style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize ?? Dimension.radius.twelve,
+          ),
+          maxLines: maxLines,
+          overflow: TextOverflow.ellipsis,
+        );
       },
     );
   }
@@ -432,7 +448,7 @@ class _ListingsWidget extends StatelessWidget {
                               PaginateBusinessesByCategory(
                                 page: state.page + 1,
                                 query: search.text,
-                                category: urlSlug,
+                                urlSlug: urlSlug,
                                 sort: state.sortBy,
                                 ratings: state.ratings,
                                 division: state.division,

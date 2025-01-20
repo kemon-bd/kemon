@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -26,22 +27,24 @@ abstract class BusinessRepository {
 
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   });
@@ -54,6 +57,8 @@ abstract class BusinessRepository {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
     required List<int> ratings,
   });
   FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
@@ -63,6 +68,8 @@ abstract class BusinessRepository {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
     required List<int> ratings,
   });
 }

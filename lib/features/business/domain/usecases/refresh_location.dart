@@ -1,4 +1,6 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 class RefreshBusinessesByLocationUseCase {
@@ -15,6 +17,8 @@ class RefreshBusinessesByLocationUseCase {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async =>
       await repository.refreshLocation(
@@ -23,6 +27,8 @@ class RefreshBusinessesByLocationUseCase {
         district: district,
         thana: thana,
         query: query,
+        category: category,
+        sub: sub,
         sort: sort,
         ratings: ratings,
       );

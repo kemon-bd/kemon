@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
@@ -16,6 +17,7 @@ abstract class BusinessRemoteDataSource {
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   });
@@ -29,5 +31,7 @@ abstract class BusinessRemoteDataSource {
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
   });
 }

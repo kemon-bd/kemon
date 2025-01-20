@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../location.dart';
 
@@ -47,7 +48,15 @@ class FeaturedLocationsWidget extends StatelessWidget {
                           side: const BorderSide(width: 0, color: Colors.transparent),
                         ),
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                        onPressed: () {
+                        onPressed: () async {
+                          await sl<FirebaseAnalytics>().logEvent(
+                            name: 'home_featured_locations_all',
+                            parameters: {
+                              'id': context.auth.profile?.identity.id ?? 'anonymous',
+                              'name': context.auth.profile?.name.full ?? 'Guest',
+                            },
+                          );
+                          if (!context.mounted) return;
                           context.pushNamed(LocationsPage.name);
                         },
                       ),
@@ -69,7 +78,17 @@ class FeaturedLocationsWidget extends StatelessWidget {
                         final location = locations.elementAt(index);
                         return InkWell(
                           borderRadius: BorderRadius.circular(Dimension.radius.max),
-                          onTap: () {
+                          onTap: () async {
+                            await sl<FirebaseAnalytics>().logEvent(
+                              name: 'home_featured_locations_item',
+                              parameters: {
+                                'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                'name': context.auth.profile?.name.full ?? 'Guest',
+                                'location': location.name.full,
+                                'urlSlug': location.urlSlug,
+                              },
+                            );
+                            if (!context.mounted) return;
                             context.pushNamed(
                               LocationPage.name,
                               pathParameters: {

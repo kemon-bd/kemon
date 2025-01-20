@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
 import '../../../profile/profile.dart';
@@ -61,6 +62,14 @@ class DashboardForYouWidget extends StatelessWidget {
                         SizedBox(height: Dimension.padding.vertical.large),
                         InkWell(
                           onTap: () async {
+                            await sl<FirebaseAnalytics>().logEvent(
+                              name: 'home_for_you_login',
+                              parameters: {
+                                'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                'name': context.auth.profile?.name.full ?? 'Guest',
+                              },
+                            );
+                            if (!context.mounted) return;
                             final bool? loggedIn = await context.pushNamed<bool>(CheckProfilePage.name);
                             if (loggedIn == true && context.mounted) {
                               context.pushNamed(ProfilePage.name);
@@ -119,6 +128,14 @@ class DashboardForYouWidget extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () async {
+                              await sl<FirebaseAnalytics>().logEvent(
+                                name: 'home_write_a_review',
+                                parameters: {
+                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                  'name': context.auth.profile?.name.full ?? 'Guest',
+                                },
+                              );
+                              if (!context.mounted) return;
                               context.pushNamed(SearchPage.name);
                             },
                             borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),

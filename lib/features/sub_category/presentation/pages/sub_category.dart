@@ -104,7 +104,7 @@ class SubCategoryPage extends StatelessWidget {
                               context.read<FindBusinessesByCategoryBloc>().add(
                                     PaginateBusinessesByCategory(
                                         page: state.page + 1,
-                                        category: urlSlug),
+                                        urlSlug: urlSlug),
                                   );
                             }
                             return const BusinessItemShimmerWidget();

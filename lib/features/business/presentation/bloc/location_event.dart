@@ -9,6 +9,8 @@ abstract class FindBusinessesByLocationEvent extends Equatable {
 
 class FindBusinessesByLocation extends FindBusinessesByLocationEvent {
   final String? query;
+  final CategoryEntity? category;
+  final SubCategoryEntity? sub;
   final SortBy? sort;
   final List<int> ratings;
   final String location;
@@ -18,6 +20,8 @@ class FindBusinessesByLocation extends FindBusinessesByLocationEvent {
 
   const FindBusinessesByLocation({
     required this.location,
+    this.category,
+    this.sub,
     this.query,
     this.sort,
     this.ratings = const [],
@@ -31,6 +35,8 @@ class FindBusinessesByLocation extends FindBusinessesByLocationEvent {
 
 class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
   final String? query;
+  final CategoryEntity? category;
+  final SubCategoryEntity? sub;
   final SortBy? sort;
   final List<int> ratings;
   final String location;
@@ -40,6 +46,8 @@ class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
 
   const RefreshBusinessesByLocation({
     required this.location,
+    this.category,
+    this.sub,
     this.query,
     this.sort,
     this.ratings = const [],
@@ -53,6 +61,8 @@ class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
 
 class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
   final String? query;
+  final CategoryEntity? category;
+  final SubCategoryEntity? sub;
   final SortBy? sort;
   final List<int> ratings;
   final int page;
@@ -63,6 +73,8 @@ class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
 
   const PaginateBusinessesByLocation({
     required this.page,
+    this.category,
+    this.sub,
     required this.location,
     this.query,
     this.sort,

@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
@@ -56,24 +57,26 @@ class BusinessRepositoryImpl extends BusinessRepository {
   @override
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> category({
     required int page,
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
     try {
       final result = await local.findCategory(
-        category: category,
+        urlSlug: urlSlug,
         page: page,
         query: query,
         sort: sort,
         division: division,
         district: district,
         thana: thana,
+        category: category,
         sub: sub,
         ratings: ratings,
       );
@@ -82,24 +85,26 @@ class BusinessRepositoryImpl extends BusinessRepository {
       if (await network.online) {
         final result = await remote.category(
           page: page,
-          urlSlug: category,
+          urlSlug: urlSlug,
           query: query,
           sort: sort,
           division: division,
           district: district,
           thana: thana,
+          category: category,
           subCategory: sub,
           ratings: ratings,
         );
 
         await local.addCategory(
-          category: category,
+          urlSlug: urlSlug,
           page: page,
           query: query,
           sort: sort,
           division: division,
           district: district,
           thana: thana,
+          category: category,
           sub: sub,
           ratings: ratings,
           response: result,
@@ -113,12 +118,13 @@ class BusinessRepositoryImpl extends BusinessRepository {
                 related: [],
               )
             : await local.findCategory(
-                category: category,
+                urlSlug: urlSlug,
                 query: query,
                 sort: sort,
                 division: division,
                 district: district,
                 thana: thana,
+                category: category,
                 sub: sub,
                 ratings: ratings,
                 page: page - 1,
@@ -141,12 +147,13 @@ class BusinessRepositoryImpl extends BusinessRepository {
 
   @override
   FutureOr<Either<Failure, BusinessesByCategoryPaginatedResponse>> refreshCategory({
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
@@ -155,24 +162,26 @@ class BusinessRepositoryImpl extends BusinessRepository {
       if (await network.online) {
         final result = await remote.category(
           page: 1,
-          urlSlug: category,
+          urlSlug: urlSlug,
           query: query,
           sort: sort,
           division: division,
           district: district,
           thana: thana,
+          category: category,
           subCategory: sub,
           ratings: ratings,
         );
 
         await local.addCategory(
-          category: category,
+          urlSlug: urlSlug,
           page: 1,
           query: query,
           sort: sort,
           division: division,
           district: district,
           thana: thana,
+          category: category,
           sub: sub,
           ratings: ratings,
           response: result,
@@ -203,11 +212,15 @@ class BusinessRepositoryImpl extends BusinessRepository {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
     try {
       final result = await local.findLocation(
         location: location,
+        category: category,
+        subCategory: sub,
         page: page,
         query: query,
         sort: sort,
@@ -225,10 +238,14 @@ class BusinessRepositoryImpl extends BusinessRepository {
           query: query,
           sort: sort,
           ratings: ratings,
+          category: category,
+          sub: sub,
         );
 
         await local.addLocation(
           location: location,
+          category: category,
+          sub: sub,
           page: page,
           query: query,
           sort: sort,
@@ -244,6 +261,8 @@ class BusinessRepositoryImpl extends BusinessRepository {
               )
             : await local.findLocation(
                 location: location,
+                category: category,
+                subCategory: sub,
                 query: query,
                 sort: sort,
                 ratings: ratings,
@@ -268,6 +287,8 @@ class BusinessRepositoryImpl extends BusinessRepository {
   @override
   FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
     required String location,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
     required String? division,
     required String? district,
     required String? thana,
@@ -287,10 +308,14 @@ class BusinessRepositoryImpl extends BusinessRepository {
           query: query,
           sort: sort,
           ratings: ratings,
+          category: category,
+          sub: sub,
         );
 
         await local.addLocation(
           location: location,
+          category: category,
+          sub: sub,
           page: 1,
           query: query,
           sort: sort,

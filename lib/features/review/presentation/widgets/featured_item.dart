@@ -43,7 +43,16 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                   children: [
                     ProfilePictureWidget(
                       size: Dimension.radius.twentyFour,
-                      onTap: () {
+                      onTap: () async {
+                        await sl<FirebaseAnalytics>().logEvent(
+                          name: 'home_recent_review_avatar',
+                          parameters: {
+                            'id': context.auth.profile?.identity.id ?? 'anonymous',
+                            'name': context.auth.profile?.name.full ?? 'Guest',
+                            'user': review.user.guid,
+                          },
+                        );
+                        if (!context.mounted) return;
                         context.pushNamed(
                           PublicProfilePage.name,
                           pathParameters: {'user': review.user.guid},
@@ -57,7 +66,16 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                         children: [
                           ProfileNameWidget(
                             style: TextStyles.body(context: context, color: theme.primary),
-                            onTap: () {
+                            onTap: () async {
+                              await sl<FirebaseAnalytics>().logEvent(
+                                name: 'home_recent_review_name',
+                                parameters: {
+                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                  'name': context.auth.profile?.name.full ?? 'Guest',
+                                  'user': review.user.guid,
+                                },
+                              );
+                              if (!context.mounted) return;
                               context.pushNamed(
                                 PublicProfilePage.name,
                                 pathParameters: {'user': review.user.guid},
@@ -107,7 +125,17 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   maxLines: 1,
-                  onTap: () {
+                  onTap: () async {
+                    await sl<FirebaseAnalytics>().logEvent(
+                      name: 'home_recent_review_listing',
+                      parameters: {
+                        'id': context.auth.profile?.identity.id ?? 'anonymous',
+                        'name': context.auth.profile?.name.full ?? 'Guest',
+                        'user': review.user.guid,
+                        'listing': review.listing,
+                      },
+                    );
+                    if (!context.mounted) return;
                     context.pushNamed(
                       BusinessPage.name,
                       pathParameters: {'urlSlug': review.listing},

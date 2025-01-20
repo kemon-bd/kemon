@@ -1,5 +1,6 @@
 import 'package:kemon/features/profile/profile.dart';
 
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
 import '../../../leaderboard/leaderboard.dart';
@@ -24,6 +25,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<WhatsNewBloc>().add(const CheckForUpdate());
     FirebaseMessaging.onMessage.listen(firebaseHandler);
+    sl<FirebaseAnalytics>().logScreenView(
+      screenName: "Home",
+      parameters: {
+        'id': context.auth.profile?.identity.id ?? 'anonymous',
+        'name': context.auth.profile?.name.full ?? 'Guest',
+      },
+    );
+
 
     if (kReleaseMode) {
       InAppUpdate.checkForUpdate().then(
@@ -70,9 +79,16 @@ class _HomePageState extends State<HomePage> {
               surfaceTintColor: theme.primary,
               titleSpacing: Dimension.size.horizontal.sixteen,
               title: InkWell(
-                onTap: () {
+                onTap: () async {
                   context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
                   context.read<RecentReviewsBloc>().add(const RecentReviews());
+                  await sl<FirebaseAnalytics>().logEvent(
+                    name: 'home_logo',
+                    parameters: {
+                      'id': context.auth.profile?.identity.id ?? 'anonymous',
+                      'name': context.auth.profile?.name.full ?? 'Guest',
+                    },
+                  );
                 },
                 borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                 child: Row(
@@ -95,8 +111,15 @@ class _HomePageState extends State<HomePage> {
               centerTitle: false,
               actions: [
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     context.pushNamed(LeaderboardPage.name);
+                    await sl<FirebaseAnalytics>().logEvent(
+                      name: 'home_leaderboard',
+                      parameters: {
+                        'id': context.auth.profile?.identity.id ?? 'anonymous',
+                        'name': context.auth.profile?.name.full ?? 'Guest',
+                      },
+                    );
                   },
                   padding: EdgeInsets.all(0),
                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -111,8 +134,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     context.read<ThemeBloc>().add(const ToggleTheme());
+                    await sl<FirebaseAnalytics>().logEvent(
+                      name: 'home_theme',
+                      parameters: {
+                        'id': context.auth.profile?.identity.id ?? 'anonymous',
+                        'name': context.auth.profile?.name.full ?? 'Guest',
+                        'theme': themeMode == ThemeMode.dark ? 'light' : 'dark',
+                      },
+                    );
                   },
                   icon: CircleAvatar(
                     radius: Dimension.radius.sixteen,
@@ -130,6 +161,15 @@ class _HomePageState extends State<HomePage> {
                   borderColor: theme.white,
                   showWhenUnAuthorized: true,
                   onTap: () async {
+                    await sl<FirebaseAnalytics>().logEvent(
+                      name: 'home_avatar',
+                      parameters: {
+                        'id': context.auth.profile?.identity.id ?? 'anonymous',
+                        'name': context.auth.profile?.name.full ?? 'Guest',
+                        'loggedIn': context.auth.profile != null,
+                      },
+                    );
+                    if (!context.mounted) return;
                     if (context.auth.authenticated) {
                       context.pushNamed(ProfilePage.name);
                     } else {

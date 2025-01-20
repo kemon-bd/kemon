@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../search.dart';
 
@@ -21,8 +22,15 @@ class DashboardSearchWidget extends StatelessWidget {
                 vertical: Dimension.padding.vertical.ultraMax,
               ),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
                   context.pushNamed(SearchPage.name);
+                  await sl<FirebaseAnalytics>().logEvent(
+                    name: 'home_search',
+                    parameters: {
+                      'id': context.auth.profile?.identity.id ?? 'anonymous',
+                      'name': context.auth.profile?.name.full ?? 'Guest',
+                    },
+                  );
                 },
                 borderRadius: BorderRadius.circular(Dimension.radius.max),
                 child: Container(

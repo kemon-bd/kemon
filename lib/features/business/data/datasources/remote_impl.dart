@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -20,6 +21,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   }) async {
@@ -30,6 +32,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'division': division?.value ?? '',
       'district': district?.value ?? '',
       'thana': thana?.value ?? '',
+      'categoryslug': category?.urlSlug ?? '',
       'subcategoryslug': subCategory?.urlSlug ?? '',
       'sortby': sort.value,
       'rating': ratings.join(','),
@@ -71,6 +74,8 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
   }) async {
     final Map<String, String> headers = {
       'urlSlug': location.toLowerCase().trim(),
@@ -81,6 +86,8 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'pageno': '$page',
       'sortby': sort.value,
       'rating': ratings.join(','),
+      'categoryslug': category?.urlSlug ?? '',
+      'subcategoryslug': sub?.urlSlug ?? '',
     };
 
     final Response response = await client.get(

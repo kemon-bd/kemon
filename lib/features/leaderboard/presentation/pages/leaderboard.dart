@@ -29,6 +29,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   @override
   void initState() {
     super.initState();
+    sl<FirebaseAnalytics>().logScreenView(
+      screenName: 'Leaderboard',
+      parameters: {
+        'id': context.auth.profile?.identity.id ?? 'anonymous',
+        'name': context.auth.profile?.name.full ?? 'Guest',
+      },
+    );
     controller.addListener(_scrollListener);
   }
 

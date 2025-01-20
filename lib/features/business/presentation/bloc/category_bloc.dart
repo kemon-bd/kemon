@@ -7,8 +7,7 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc
-    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase find;
   final RefreshBusinessesByCategoryUseCase refresh;
   FindBusinessesByCategoryBloc({
@@ -24,15 +23,17 @@ class FindBusinessesByCategoryBloc
         district: event.district,
         thana: event.thana,
         subCategory: event.subCategory,
+        category: event.category,
       ));
       final result = await find(
-        category: event.category,
+        urlSlug: event.urlSlug,
         page: 1,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         division: event.division,
         district: event.district,
         thana: event.thana,
+        category: event.category,
         subCategory: event.subCategory,
         ratings: event.ratings,
       );
@@ -45,6 +46,7 @@ class FindBusinessesByCategoryBloc
           division: event.division,
           district: event.district,
           thana: event.thana,
+          category: event.category,
           subCategory: event.subCategory,
         )),
         (response) => emit(
@@ -59,6 +61,7 @@ class FindBusinessesByCategoryBloc
             division: event.division,
             district: event.district,
             thana: event.thana,
+            category: event.category,
             subCategory: event.subCategory,
           ),
         ),
@@ -73,9 +76,10 @@ class FindBusinessesByCategoryBloc
         district: event.district,
         thana: event.thana,
         subCategory: event.subCategory,
+        category: event.category,
       ));
       final result = await refresh(
-        category: event.category,
+        urlSlug: event.urlSlug,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         division: event.division,
@@ -83,6 +87,7 @@ class FindBusinessesByCategoryBloc
         thana: event.thana,
         subCategory: event.subCategory,
         ratings: event.ratings,
+        category: event.category,
       );
       result.fold(
         (failure) => emit(FindBusinessesByCategoryError(
@@ -93,6 +98,7 @@ class FindBusinessesByCategoryBloc
           division: event.division,
           district: event.district,
           thana: event.thana,
+          category: event.category,
           subCategory: event.subCategory,
         )),
         (response) => emit(
@@ -107,6 +113,7 @@ class FindBusinessesByCategoryBloc
             division: event.division,
             district: event.district,
             thana: event.thana,
+            category: event.category,
             subCategory: event.subCategory,
           ),
         ),
@@ -127,10 +134,11 @@ class FindBusinessesByCategoryBloc
           division: event.division,
           district: event.district,
           thana: event.thana,
+          category: event.category,
           subCategory: event.subCategory,
         ));
         final result = await find(
-          category: event.category,
+          urlSlug: event.urlSlug,
           page: event.page,
           query: event.query ?? '',
           sort: event.sort ?? SortBy.recommended,
@@ -139,6 +147,7 @@ class FindBusinessesByCategoryBloc
           thana: event.thana,
           subCategory: event.subCategory,
           ratings: event.ratings,
+          category: event.category,
         );
         result.fold(
           (failure) => emit(FindBusinessesByCategoryError(
@@ -149,6 +158,7 @@ class FindBusinessesByCategoryBloc
             division: event.division,
             district: event.district,
             thana: event.thana,
+            category: event.category,
             subCategory: event.subCategory,
           )),
           (response) => emit(
@@ -163,6 +173,7 @@ class FindBusinessesByCategoryBloc
               division: event.division,
               district: event.district,
               thana: event.thana,
+              category: event.category,
               subCategory: event.subCategory,
             ),
           ),

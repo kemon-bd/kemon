@@ -6,6 +6,7 @@ abstract class FindBusinessesByCategoryState extends Equatable {
   final LookupEntity? division;
   final LookupEntity? district;
   final LookupEntity? thana;
+  final CategoryEntity? category;
   final SubCategoryEntity? subCategory;
   final List<int> ratings;
 
@@ -16,12 +17,12 @@ abstract class FindBusinessesByCategoryState extends Equatable {
     required this.division,
     required this.district,
     required this.thana,
+    required this.category,
     required this.subCategory,
   });
 
   @override
-  List<Object?> get props =>
-      [query, sortBy, ratings, division, district, thana, subCategory];
+  List<Object?> get props => [query, sortBy, ratings, division, district, thana, category, subCategory];
 }
 
 class FindBusinessesByCategoryInitial extends FindBusinessesByCategoryState {
@@ -33,6 +34,7 @@ class FindBusinessesByCategoryInitial extends FindBusinessesByCategoryState {
           division: null,
           district: null,
           thana: null,
+          category: null,
           subCategory: null,
         );
 }
@@ -45,6 +47,7 @@ class FindBusinessesByCategoryLoading extends FindBusinessesByCategoryState {
     required super.division,
     required super.district,
     required super.thana,
+    required super.category,
     required super.subCategory,
   });
 }
@@ -60,12 +63,12 @@ class FindBusinessesByCategoryError extends FindBusinessesByCategoryState {
     required super.division,
     required super.district,
     required super.thana,
+    required super.category,
     required super.subCategory,
   });
 
   @override
-  List<Object?> get props =>
-      [failure, query, sortBy, ratings, division, district, thana, subCategory];
+  List<Object?> get props => [failure, query, sortBy, ratings, division, district, thana, subCategory];
 }
 
 class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
@@ -85,23 +88,12 @@ class FindBusinessesByCategoryDone extends FindBusinessesByCategoryState {
     required super.division,
     required super.district,
     required super.thana,
+    required super.category,
     required super.subCategory,
   });
 
   @override
-  List<Object?> get props => [
-        businesses,
-        total,
-        page,
-        related,
-        query,
-        sortBy,
-        ratings,
-        division,
-        district,
-        thana,
-        subCategory
-      ];
+  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings, division, district, thana, subCategory];
 }
 
 class FindBusinessesByCategoryPaginating extends FindBusinessesByCategoryDone {
@@ -116,21 +108,10 @@ class FindBusinessesByCategoryPaginating extends FindBusinessesByCategoryDone {
     required super.division,
     required super.district,
     required super.thana,
+    required super.category,
     required super.subCategory,
   });
 
   @override
-  List<Object?> get props => [
-        businesses,
-        total,
-        page,
-        related,
-        query,
-        sortBy,
-        ratings,
-        division,
-        district,
-        thana,
-        subCategory
-      ];
+  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings, division, district, thana, subCategory];
 }

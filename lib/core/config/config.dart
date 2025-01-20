@@ -53,6 +53,8 @@ class AppConfig {
     await setupFirebaseMessaging();
 
     await ScreenUtil.ensureScreenSize();
+
+    await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
   }
 
   static ThemeData themeData({

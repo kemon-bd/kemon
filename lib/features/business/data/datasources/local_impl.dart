@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -6,12 +7,13 @@ import '../../business.dart';
 
 typedef CategoryKey = ({
   int page,
-  String category,
+  String urlSlug,
   String? query,
   SortBy? sort,
   LookupEntity? division,
   LookupEntity? district,
   LookupEntity? thana,
+  CategoryEntity? category,
   SubCategoryEntity? sub,
   List<int> ratings,
 });
@@ -19,6 +21,8 @@ typedef CategoryKey = ({
 typedef LocationKey = ({
   int page,
   String location,
+  CategoryEntity? category,
+  SubCategoryEntity? sub,
   String? query,
   SortBy? sort,
   List<int> ratings,
@@ -53,12 +57,13 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   @override
   FutureOr<BusinessesByCategoryPaginatedResponse> findCategory({
     required int page,
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
   }) async {
@@ -68,12 +73,13 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     for (int p = 1; p <= page; p++) {
       final key = (
         page: p,
-        category: category,
+        urlSlug: urlSlug,
         query: query,
         sort: sort,
         division: division,
         district: district,
         thana: thana,
+        category: category,
         sub: sub,
         ratings: ratings,
       );
@@ -109,24 +115,26 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   @override
   FutureOr<void> addCategory({
     required int page,
-    required String category,
+    required String urlSlug,
     required String? query,
     required SortBy? sort,
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
     required BusinessesByCategoryPaginatedResponse response,
   }) {
     final key = (
       page: page,
-      category: category,
+      urlSlug: urlSlug,
       query: query,
       sort: sort,
       division: division,
       district: district,
       thana: thana,
+      category: category,
       sub: sub,
       ratings: ratings,
     );
@@ -138,6 +146,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   FutureOr<void> addLocation({
     required int page,
     required String location,
+    CategoryEntity? category,
+    SubCategoryEntity? sub,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
@@ -146,6 +156,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     final key = (
       page: page,
       location: location,
+      category: category,
+      sub: sub,
       query: query,
       sort: sort,
       ratings: ratings,
@@ -157,6 +169,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   @override
   FutureOr<BusinessesByLocationPaginatedResponse> findLocation({
     required int page,
+    required CategoryEntity? category,
+    required SubCategoryEntity? subCategory,
     required String location,
     required String? query,
     required SortBy? sort,
@@ -169,6 +183,8 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
       final key = (
         page: p,
         location: location,
+        category: category,
+        sub: subCategory,
         query: query,
         sort: sort,
         ratings: ratings,

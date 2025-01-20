@@ -45,6 +45,15 @@ class _LocationPageState extends State<LocationPage> {
   void initState() {
     super.initState();
     controller.addListener(_scrollListener);
+    sl<FirebaseAnalytics>().logScreenView(
+      screenClass: 'LocationPage',
+      screenName: 'LocationPage',
+      parameters: {
+        'id': context.auth.profile?.identity.id ?? 'anonymous',
+        'name': context.auth.profile?.name.full ?? 'Guest',
+        'urlSlug': widget.urlSlug,
+      },
+    );
   }
 
   @override
@@ -120,6 +129,16 @@ class _LocationPageState extends State<LocationPage> {
                                 district: widget.district,
                                 thana: widget.thana,
                               ));
+                            },
+                            onTap: () async {
+                              await sl<FirebaseAnalytics>().logEvent(
+                                name: 'listing_search_within_location',
+                                parameters: {
+                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                  'name': context.auth.profile?.name.full ?? 'Guest',
+                                  'urlSlug': widget.urlSlug,
+                                },
+                              );
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -221,6 +240,15 @@ class _ShareButton extends StatelessWidget {
           return IconButton(
             icon: Icon(Icons.share, color: theme.primary),
             onPressed: () async {
+              await sl<FirebaseAnalytics>().logEvent(
+                name: 'home_featured_locations_item',
+                parameters: {
+                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                  'name': context.auth.profile?.name.full ?? 'Guest',
+                  'location': location.name.full,
+                  'urlSlug': location.urlSlug,
+                },
+              );
               final result = await Share.share(
                 """🌟 Discover the Best, Rated by the Rest! 🌟
 🚀 Explore authentic reviews and ratings on Kemon!
@@ -261,7 +289,16 @@ class _FilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        await sl<FirebaseAnalytics>().logEvent(
+          name: 'location_filter',
+          parameters: {
+            'id': context.auth.profile?.identity.id ?? 'anonymous',
+            'name': context.auth.profile?.name.full ?? 'Guest',
+            'urlSlug': urlSlug,
+          },
+        );
+        if (!context.mounted) return;
         showModalBottomSheet(
           context: context,
           backgroundColor: theme.backgroundPrimary,
@@ -322,7 +359,16 @@ class _SortButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        await sl<FirebaseAnalytics>().logEvent(
+          name: 'location_sort',
+          parameters: {
+            'id': context.auth.profile?.identity.id ?? 'anonymous',
+            'name': context.auth.profile?.name.full ?? 'Guest',
+            'urlSlug': urlSlug,
+          },
+        );
+        if (!context.mounted) return;
         showModalBottomSheet(
           context: context,
           backgroundColor: theme.backgroundPrimary,
