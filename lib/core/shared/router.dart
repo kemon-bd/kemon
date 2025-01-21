@@ -366,6 +366,19 @@ final router = GoRouter(
               ),
           ),
           BlocProvider(
+            create: (context) => sl<LocationListingsFilterBloc>()
+              ..add(
+                ApplyLocationListingsFilter(
+                  category: null,
+                  subCategory: null,
+                  rating: RatingRange.all,
+                  division: state.uri.queryParameters['division'],
+                  district: state.uri.queryParameters['district'],
+                  thana: state.uri.queryParameters['thana'],
+                ),
+              ),
+          ),
+          BlocProvider(
             create: (context) => sl<FindBusinessesByLocationBloc>()
               ..add(
                 FindBusinessesByLocation(

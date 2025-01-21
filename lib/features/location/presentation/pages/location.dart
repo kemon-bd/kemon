@@ -69,156 +69,210 @@ class _LocationPageState extends State<LocationPage> {
       builder: (_, state) {
         final theme = state.scheme;
         return KeyboardDismissOnTap(
-          child: Scaffold(
-            body: ValueListenableBuilder<bool>(
-              valueListenable: expanded,
-              builder: (context, isExpanded, _) {
-                return CustomScrollView(
-                  cacheExtent: 0,
-                  controller: controller,
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      collapsedHeight: context.topInset +
-                          kToolbarHeight +
-                          Dimension.padding.vertical.min -
-                          (Platform.isIOS ? Dimension.padding.vertical.small : 0),
-                      expandedHeight: context.topInset +
-                          kToolbarHeight +
-                          (Platform.isAndroid ? Dimension.padding.vertical.small : 0) +
-                          Dimension.size.vertical.oneTwelve,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
-                      ),
-                      title: isExpanded
-                          ? null
-                          : _NameWidget(
-                              urlSlug: widget.urlSlug,
-                              location: widget.location,
+          child: BlocListener<LocationListingsFilterBloc, LocationListingsFilterState>(
+            listener: (context, state) {
+              context.read<FindBusinessesByLocationBloc>().add(
+                    RefreshBusinessesByLocation(
+                      division: state.division,
+                      district: state.district,
+                      thana: state.thana,
+                      sub: state.subCategory,
+                      category: state.category,
+                      ratings: state.rating.stars,
+                      location: widget.urlSlug,
+                    ),
+                  );
+            },
+            child: Scaffold(
+              body: ValueListenableBuilder<bool>(
+                valueListenable: expanded,
+                builder: (context, isExpanded, _) {
+                  final appBar = SliverAppBar(
+                    pinned: true,
+                    collapsedHeight: context.topInset +
+                        kToolbarHeight +
+                        Dimension.padding.vertical.min -
+                        (Platform.isIOS ? Dimension.padding.vertical.small : 0),
+                    expandedHeight: context.topInset +
+                        kToolbarHeight +
+                        (Platform.isAndroid ? Dimension.padding.vertical.small : 0) +
+                        Dimension.size.vertical.oneTwelve,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back, color: theme.primary),
+                      onPressed: context.pop,
+                    ),
+                    title: isExpanded
+                        ? null
+                        : _NameWidget(
+                            urlSlug: widget.urlSlug,
+                            location: widget.location,
+                            division: widget.division,
+                            district: widget.district,
+                            thana: widget.thana,
+                            fontSize: Dimension.radius.sixteen,
+                            maxLines: 2,
+                          ).animate().fade(),
+                    centerTitle: false,
+                    actions: [
+                      const _ShareButton(),
+                    ],
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimension.padding.horizontal.max,
+                          vertical: Dimension.padding.vertical.large,
+                        ).copyWith(top: 0),
+                        child: TextField(
+                          controller: search,
+                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          onChanged: (query) {
+                            final bloc = context.read<FindBusinessesByLocationBloc>();
+                            final filter = bloc.state;
+
+                            bloc.add(FindBusinessesByLocation(
+                              location: widget.urlSlug,
+                              query: query,
+                              sort: filter.sortBy,
+                              ratings: filter.ratings,
                               division: widget.division,
                               district: widget.district,
                               thana: widget.thana,
-                              fontSize: Dimension.radius.sixteen,
-                              maxLines: 2,
-                            ).animate().fade(),
-                      centerTitle: false,
-                      actions: [
-                        const _ShareButton(),
-                      ],
-                      bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.max,
-                            vertical: Dimension.padding.vertical.large,
-                          ).copyWith(top: 0),
-                          child: TextField(
-                            controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
-                            onChanged: (query) {
-                              final bloc = context.read<FindBusinessesByLocationBloc>();
-                              final filter = bloc.state;
-
-                              bloc.add(FindBusinessesByLocation(
-                                location: widget.urlSlug,
-                                query: query,
-                                sort: filter.sortBy,
-                                ratings: filter.ratings,
-                                division: widget.division,
-                                district: widget.district,
-                                thana: widget.thana,
-                              ));
-                            },
-                            onTap: () async {
-                              await sl<FirebaseAnalytics>().logEvent(
-                                name: 'listing_search_within_location',
-                                parameters: {
-                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
-                                  'name': context.auth.profile?.name.full ?? 'Guest',
-                                  'urlSlug': widget.urlSlug,
-                                },
-                              );
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search_rounded,
-                                size: Dimension.radius.sixteen,
-                                color: theme.textSecondary,
-                              ),
-                              hintText: 'Looking for something specific?',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                                vertical: Dimension.padding.vertical.large,
-                              ),
+                            ));
+                          },
+                          onEditingComplete: () async {
+                            await sl<FirebaseAnalytics>().logEvent(
+                              name: 'listing_search_within_location',
+                              parameters: {
+                                'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                'name': context.auth.profile?.name.full ?? 'Guest',
+                                'urlSlug': widget.urlSlug,
+                              },
+                            );
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              size: Dimension.radius.sixteen,
+                              color: theme.textSecondary,
+                            ),
+                            hintText: 'Looking for something specific?',
+                            hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: Dimension.padding.horizontal.max,
+                              vertical: Dimension.padding.vertical.large,
                             ),
                           ),
                         ),
                       ),
-                      flexibleSpace: isExpanded
-                          ? FlexibleSpaceBar(
-                              background: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: _NameWidget(
-                                            urlSlug: widget.urlSlug,
-                                            location: widget.location,
-                                            division: widget.division,
-                                            district: widget.district,
-                                            thana: widget.thana,
-                                            fontSize: Dimension.radius.twentyFour,
-                                          ).animate().fade(),
-                                        ),
-                                        _IconWidget(urlSlug: widget.urlSlug),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        _FilterButton(
+                    ),
+                    flexibleSpace: isExpanded
+                        ? FlexibleSpaceBar(
+                            background: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Dimension.padding.horizontal.max,
+                              ).copyWith(top: context.topInset + kToolbarHeight),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: _NameWidget(
                                           urlSlug: widget.urlSlug,
+                                          location: widget.location,
                                           division: widget.division,
                                           district: widget.district,
                                           thana: widget.thana,
-                                        ),
-                                        const SizedBox(width: 16),
-                                        _SortButton(
-                                          urlSlug: widget.urlSlug,
-                                          division: widget.division,
-                                          district: widget.district,
-                                          thana: widget.thana,
-                                        ),
-                                        const Spacer(),
-                                        _TotalCount(),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                          fontSize: Dimension.radius.twentyFour,
+                                        ).animate().fade(),
+                                      ),
+                                      _IconWidget(urlSlug: widget.urlSlug),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      _FilterButton(
+                                        urlSlug: widget.urlSlug,
+                                        division: widget.division,
+                                        district: widget.district,
+                                        thana: widget.thana,
+                                      ),
+                                      const SizedBox(width: 16),
+                                      _SortButton(
+                                        urlSlug: widget.urlSlug,
+                                        division: widget.division,
+                                        district: widget.district,
+                                        thana: widget.thana,
+                                      ),
+                                      const Spacer(),
+                                      _TotalCount(),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            )
-                          : null,
-                    ),
-                    SliverToBoxAdapter(
-                      child: _ListingsWidget(
-                        search: search,
-                        urlSlug: widget.urlSlug,
-                        division: widget.division,
-                        district: widget.district,
-                        thana: widget.thana,
-                      ),
-                    ),
-                  ],
-                );
-              },
+                            ),
+                          )
+                        : null,
+                  );
+                  final shimmer = SliverList.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                    itemBuilder: (context, index) => const BusinessItemShimmerWidget(),
+                    itemCount: 10,
+                  );
+                  done(FindBusinessesByLocationDone state, urlSlug) {
+                    final businesses = state.businesses;
+                    final hasMore = state.total > businesses.length;
+
+                    return SliverList.separated(
+                      addAutomaticKeepAlives: false,
+                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                      itemBuilder: (context, index) {
+                        if (index == businesses.length && hasMore) {
+                          if (state is! FindBusinessesByLocationPaginating) {
+                            final filter = context.read<LocationListingsFilterBloc>().state;
+                            context.read<FindBusinessesByLocationBloc>().add(
+                                  PaginateBusinessesByLocation(
+                                    page: state.page + 1,
+                                    query: search.text,
+                                    location: urlSlug,
+                                    sort: state.sortBy,
+                                    ratings: filter.rating.stars,
+                                    division: filter.division,
+                                    district: filter.district,
+                                    thana: filter.thana,
+                                    category: filter.category,
+                                  ),
+                                );
+                          }
+                          return const BusinessItemShimmerWidget();
+                        }
+                        final business = businesses[index];
+                        return BusinessItemWidget(urlSlug: business.urlSlug);
+                      },
+                      itemCount: businesses.length + (hasMore ? 1 : 0),
+                    );
+                  }
+
+                  return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
+                    builder: (context, state) {
+                      return CustomScrollView(
+                        cacheExtent: 0,
+                        controller: controller,
+                        slivers: [
+                          appBar,
+                          if (state is FindBusinessesByLocationLoading) shimmer,
+                          if (state is FindBusinessesByLocationLoading) shimmer,
+                          if (state is FindBusinessesByLocationDone) done(state, widget.urlSlug),
+                          SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );

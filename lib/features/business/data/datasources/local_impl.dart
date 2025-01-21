@@ -5,20 +5,11 @@ import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
-typedef LocationKey = ({
-  int page,
-  String location,
-  CategoryEntity? category,
-  SubCategoryEntity? sub,
-  String? query,
-  SortBy? sort,
-  List<int> ratings,
-});
 
 class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   final Map<String, BusinessEntity> _cache = {};
   final Map<_CategoryKey, BusinessesByCategoryPaginatedResponse> _category = {};
-  final Map<LocationKey, BusinessesByLocationPaginatedResponse> _location = {};
+  final Map<_LocationKey, BusinessesByLocationPaginatedResponse> _location = {};
 
   @override
   FutureOr<void> add({
@@ -140,7 +131,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required List<int> ratings,
     required BusinessesByLocationPaginatedResponse response,
   }) async {
-    final key = (
+    final _LocationKey key = _LocationKey(
       page: page,
       location: location,
       category: category,
@@ -167,7 +158,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     Set<BusinessEntity> businesses = {};
     Set<LocationEntity> related = {};
     for (int p = 1; p <= page; p++) {
-      final key = (
+      final _LocationKey key = _LocationKey(
         page: p,
         location: location,
         category: category,
@@ -233,4 +224,27 @@ class _CategoryKey extends Equatable {
         sub,
         ratings,
       ];
+}
+
+class _LocationKey extends Equatable {
+  final int page;
+  final String location;
+  final CategoryEntity? category;
+  final SubCategoryEntity? sub;
+  final String? query;
+  final SortBy? sort;
+  final List<int> ratings;
+
+  const _LocationKey({
+    required this.page,
+    required this.location,
+    required this.category,
+    required this.sub,
+    required this.query,
+    required this.sort,
+    required this.ratings,
+  });
+
+  @override
+  List<Object?> get props => [page, location, category, sub, query, sort, ratings];
 }

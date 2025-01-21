@@ -15,8 +15,8 @@ class BusinessNotFoundInLocalCacheFailure extends Failure {
 }
 
 class BusinessNotFoundByCategoryInLocalCacheFailure extends Failure {
-  BusinessNotFoundByCategoryInLocalCacheFailure()
+  BusinessNotFoundByCategoryInLocalCacheFailure([String? reason])
       : super(
-          message: 'Business not found by category in local cache.',
+          message: 'Business not found by category in local cache.${reason?.isNotEmpty ?? false ? '\nReason: $reason' : ''}',
         );
 }
