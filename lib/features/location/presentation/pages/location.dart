@@ -228,7 +228,7 @@ class _LocationPageState extends State<LocationPage> {
 
                     return SliverList.separated(
                       addAutomaticKeepAlives: false,
-                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.medium),
                       itemBuilder: (context, index) {
                         if (index == businesses.length && hasMore) {
                           if (state is! FindBusinessesByLocationPaginating) {
@@ -250,7 +250,37 @@ class _LocationPageState extends State<LocationPage> {
                           return const BusinessItemShimmerWidget();
                         }
                         final business = businesses[index];
-                        return BusinessItemWidget(urlSlug: business.urlSlug);
+                        final child = BusinessItemWidget(urlSlug: business.urlSlug);
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            child,
+                            if (index + 1 == businesses.length && !hasMore) ...[
+                              SizedBox(height: Dimension.padding.vertical.max),
+                              Container(
+                                width: context.width,
+                                color: theme.backgroundSecondary,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(Dimension.radius.twelve),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline_rounded,
+                                      color: theme.textSecondary,
+                                      size: Dimension.radius.twelve,
+                                    ),
+                                    SizedBox(width: Dimension.padding.horizontal.small),
+                                    Text(
+                                      "reached the bottom of the results.",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ],
+                        );
                       },
                       itemCount: businesses.length + (hasMore ? 1 : 0),
                     );
@@ -295,7 +325,7 @@ class _ShareButton extends StatelessWidget {
             icon: Icon(Icons.share, color: theme.primary),
             onPressed: () async {
               await sl<FirebaseAnalytics>().logEvent(
-                name: 'home_featured_locations_item',
+                name: 'location_share',
                 parameters: {
                   'id': context.auth.profile?.identity.id ?? 'anonymous',
                   'name': context.auth.profile?.name.full ?? 'Guest',
@@ -344,14 +374,6 @@ class _FilterButton extends StatelessWidget {
     final theme = context.theme.scheme;
     return InkWell(
       onTap: () async {
-        await sl<FirebaseAnalytics>().logEvent(
-          name: 'location_filter',
-          parameters: {
-            'id': context.auth.profile?.identity.id ?? 'anonymous',
-            'name': context.auth.profile?.name.full ?? 'Guest',
-            'urlSlug': urlSlug,
-          },
-        );
         if (!context.mounted) return;
         showModalBottomSheet(
           context: context,
@@ -362,6 +384,7 @@ class _FilterButton extends StatelessWidget {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(value: context.read<LocationListingsFilterBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
             child: LocationListingsFilter(
@@ -415,7 +438,7 @@ class _SortButton extends StatelessWidget {
     return InkWell(
       onTap: () async {
         await sl<FirebaseAnalytics>().logEvent(
-          name: 'location_sort',
+          name: 'listings_by_location_sort',
           parameters: {
             'id': context.auth.profile?.identity.id ?? 'anonymous',
             'name': context.auth.profile?.name.full ?? 'Guest',
@@ -561,94 +584,6 @@ class _TotalCount extends StatelessWidget {
                 style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
-
-class _ListingsWidget extends StatelessWidget {
-  final String urlSlug;
-  final String? division;
-  final String? district;
-  final String? thana;
-  final TextEditingController search;
-
-  const _ListingsWidget({
-    required this.urlSlug,
-    required this.search,
-    required this.division,
-    required this.district,
-    required this.thana,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
-      builder: (context, state) {
-        if (state is FindBusinessesByLocationLoading) {
-          return ListView.separated(
-            itemBuilder: (_, index) {
-              return const BusinessItemShimmerWidget();
-            },
-            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-            itemCount: 10,
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
-          );
-        } else if (state is FindBusinessesByLocationDone) {
-          final businesses = state.businesses;
-          final hasMore = state.total > businesses.length;
-
-          return businesses.isNotEmpty
-              ? ListView.separated(
-                  itemBuilder: (_, index) {
-                    if (index == businesses.length && hasMore) {
-                      if (state is! FindBusinessesByLocationPaginating) {
-                        context.read<FindBusinessesByLocationBloc>().add(
-                              PaginateBusinessesByLocation(
-                                page: state.page + 1,
-                                query: search.text,
-                                location: urlSlug,
-                                sort: state.sortBy,
-                                ratings: state.ratings,
-                                division: division,
-                                district: district,
-                                thana: thana,
-                              ),
-                            );
-                      }
-                      return const BusinessItemShimmerWidget();
-                    }
-                    final business = businesses[index];
-                    return BusinessItemWidget(urlSlug: business.urlSlug);
-                  },
-                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: businesses.length + (hasMore ? 1 : 0),
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom: Dimension.padding.vertical.max + context.bottomInset,
-                  ),
-                )
-              : Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
-                    child: Text(
-                      "No listing found :(",
-                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
-                    ),
-                  ),
-                );
-        } else if (state is FindBusinessesByLocationError) {
-          return Text(
-            state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

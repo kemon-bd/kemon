@@ -27,14 +27,10 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
   @override
   void initState() {
     super.initState();
-    final filter = context.read<FindBusinessesByLocationBloc>().state;
-    rating = filter.ratings.isEmpty
-        ? RatingRange.all
-        : filter.ratings.contains(1) && filter.ratings.contains(2)
-            ? RatingRange.worst
-            : filter.ratings.contains(3) && filter.ratings.contains(4)
-                ? RatingRange.average
-                : RatingRange.best;
+    final filter = context.read<LocationListingsFilterBloc>().state;
+    rating = filter.rating;
+    category = filter.category;
+    subCategory = filter.subCategory;
   }
 
   @override
@@ -82,21 +78,21 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                    DropdownWidget<CategoryEntity>(
-                      label: 'Category',
-                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                      text: category?.name.full ?? 'Select one',
-                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      iconColor: theme.link,
-                      popup: CategoryFilter(industry: null, selection: category),
-                      onSelect: (selection) {
-                        setState(() {
-                          category = selection;
-                        });
-                      },
+                  DropdownWidget<CategoryEntity>(
+                    label: 'Category',
+                    labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                    text: category?.name.full ?? 'Select one',
+                    textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
+                    iconColor: theme.link,
+                    popup: CategoryFilter(industry: null, selection: category),
+                    onSelect: (selection) {
+                      setState(() {
+                        category = selection;
+                      });
+                    },
+                  ),
                   if (category != null)
                     DropdownWidget<SubCategoryEntity>(
                       label: 'Sub-category',
@@ -276,15 +272,14 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
                 if (state is FindLocationDone) {
                   return ElevatedButton(
                     onPressed: () {
-                      context.read<FindBusinessesByLocationBloc>().add(
-                            FindBusinessesByLocation(
-                              ratings: rating.stars,
-                              location: state.location.urlSlug,
+                      context.read<LocationListingsFilterBloc>().add(
+                            ApplyLocationListingsFilter(
+                              rating: rating,
                               division: widget.division,
                               district: widget.district,
                               thana: widget.thana,
                               category: category,
-                              sub: subCategory,
+                              subCategory: subCategory,
                             ),
                           );
                       context.pop();

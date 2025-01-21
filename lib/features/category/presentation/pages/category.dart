@@ -41,6 +41,7 @@ class _CategoryPageState extends State<CategoryPage> {
   void dispose() {
     controller.removeListener(_scrollListener);
     controller.dispose();
+    search.dispose();
     super.dispose();
   }
 
@@ -190,7 +191,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
                     return SliverList.separated(
                       addAutomaticKeepAlives: false,
-                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.medium),
                       itemBuilder: (context, index) {
                         if (index == businesses.length && hasMore) {
                           if (state is! FindBusinessesByCategoryPaginating) {
@@ -212,7 +213,37 @@ class _CategoryPageState extends State<CategoryPage> {
                           return const BusinessItemShimmerWidget();
                         }
                         final business = businesses[index];
-                        return BusinessItemWidget(urlSlug: business.urlSlug);
+                        final child = BusinessItemWidget(urlSlug: business.urlSlug);
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            child,
+                            if (index + 1 == businesses.length && !hasMore) ...[
+                              SizedBox(height: Dimension.padding.vertical.max),
+                              Container(
+                                width: context.width,
+                                color: theme.backgroundSecondary,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(Dimension.radius.twelve),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline_rounded,
+                                      color: theme.textSecondary,
+                                      size: Dimension.radius.twelve,
+                                    ),
+                                    SizedBox(width: Dimension.padding.horizontal.small),
+                                    Text(
+                                      "reached the bottom of the results.",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ],
+                        );
                       },
                       itemCount: businesses.length + (hasMore ? 1 : 0),
                     );
@@ -221,7 +252,6 @@ class _CategoryPageState extends State<CategoryPage> {
                   return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
                     builder: (context, state) {
                       return CustomScrollView(
-                        cacheExtent: 0,
                         controller: controller,
                         slivers: [
                           appBar,

@@ -24,43 +24,7 @@ class BusinessItemWidget extends StatelessWidget {
                 expandWidget(expanded, total) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (business.contact.phone?.isNotEmpty ?? false) ...[
-                              Icon(
-                                Icons.phone_outlined,
-                                color: theme.primary,
-                                size: Dimension.radius.sixteen,
-                              ),
-                              SizedBox(width: Dimension.size.horizontal.eight),
-                            ],
-                            if (business.contact.email?.isNotEmpty ?? false) ...[
-                              Icon(
-                                Icons.email_outlined,
-                                color: theme.primary,
-                                size: Dimension.radius.sixteen,
-                              ),
-                              SizedBox(width: Dimension.size.horizontal.eight),
-                            ],
-                            if (business.address.formatted.isNotEmpty) ...[
-                              Icon(
-                                Icons.place_outlined,
-                                color: theme.primary,
-                                size: Dimension.radius.sixteen,
-                              ),
-                              SizedBox(width: Dimension.size.horizontal.eight),
-                            ],
-                            if (business.contact.website?.isNotEmpty ?? false) ...[
-                              Icon(
-                                Icons.language_rounded,
-                                color: theme.primary,
-                                size: Dimension.radius.sixteen,
-                              ),
-                              SizedBox(width: Dimension.size.horizontal.eight),
-                            ],
-                          ],
-                        ),
+                        Spacer(),
                         if (total > 0)
                           ExpandableButton(
                             child: Row(
@@ -144,6 +108,44 @@ class BusinessItemWidget extends StatelessWidget {
                                     ),
                                   ],
                                   SizedBox(height: Dimension.padding.vertical.verySmall),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (business.contact.phone?.isNotEmpty ?? false) ...[
+                                        Icon(
+                                          Icons.phone_outlined,
+                                          color: theme.textSecondary.withAlpha(200),
+                                          size: Dimension.radius.eight,
+                                        ),
+                                        SizedBox(width: Dimension.padding.horizontal.small),
+                                      ],
+                                      if (business.contact.email?.isNotEmpty ?? false) ...[
+                                        Icon(
+                                          Icons.email_outlined,
+                                          color: theme.textSecondary.withAlpha(200),
+                                          size: Dimension.radius.eight,
+                                        ),
+                                        SizedBox(width: Dimension.padding.horizontal.small),
+                                      ],
+                                      if (business.address.formatted.isNotEmpty) ...[
+                                        Icon(
+                                          Icons.place_outlined,
+                                          color: theme.textSecondary.withAlpha(200),
+                                          size: Dimension.radius.eight,
+                                        ),
+                                        SizedBox(width: Dimension.padding.horizontal.small),
+                                      ],
+                                      if (business.contact.website?.isNotEmpty ?? false) ...[
+                                        Icon(
+                                          Icons.language_outlined,
+                                          color: theme.textSecondary.withAlpha(200),
+                                          size: Dimension.radius.eight,
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                  SizedBox(height: Dimension.padding.vertical.verySmall),
                                   BlocProvider(
                                     create: (context) => sl<FindRatingBloc>()..add(FindRating(urlSlug: business.urlSlug)),
                                     child: BlocBuilder<FindRatingBloc, FindRatingState>(
@@ -205,13 +207,7 @@ class BusinessItemWidget extends StatelessWidget {
                                   child: Expandable(
                                     collapsed: Padding(
                                       padding: const EdgeInsets.all(0).copyWith(
-                                        top: ((business.contact.phone ?? '').isEmpty &&
-                                                (business.contact.email ?? '').isEmpty &&
-                                                business.address.formatted.isEmpty &&
-                                                (business.contact.website ?? '').isEmpty &&
-                                                reviews.isEmpty)
-                                            ? 0
-                                            : Dimension.padding.vertical.medium,
+                                        top: reviews.isEmpty ? 0 : Dimension.padding.vertical.medium,
                                       ),
                                       child: expandWidget(false, reviews.length),
                                     ),
