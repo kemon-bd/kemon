@@ -113,7 +113,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
 
         final oldBusinesses = page == 1
             ? (
-                total: 0,
+                total: result.total,
                 businesses: [],
                 related: [],
               )

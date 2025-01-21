@@ -1,6 +1,5 @@
 import '../shared.dart';
 
-
 extension DateRangeOptionEnumExtension on DateRangeOption {
   String get name {
     switch (this) {
@@ -54,13 +53,11 @@ extension DateRangeOptionEnumExtension on DateRangeOption {
         break;
       case DateRangeOption.thisMonth:
         start = DateTime(now.year, now.month, 1);
-        end = DateTime(now.year, now.month + 1, 1)
-            .subtract(const Duration(days: 1));
+        end = DateTime(now.year, now.month + 1, 1).subtract(const Duration(days: 1));
         break;
       case DateRangeOption.lastMonth:
         start = DateTime(now.year, now.month - 1, 1);
-        end =
-            DateTime(now.year, now.month, 1).subtract(const Duration(days: 1));
+        end = DateTime(now.year, now.month, 1).subtract(const Duration(days: 1));
         break;
       case DateRangeOption.thisYear:
         start = DateTime(now.year, 1, 1);
@@ -140,6 +137,21 @@ extension AnalyticSourceExtension on AnalyticSource {
         return "Address";
       case AnalyticSource.website:
         return "Website";
+    }
+  }
+}
+
+extension RatingRangeExtension on RatingRange {
+  List<int> get stars {
+    switch (this) {
+      case RatingRange.all:
+        return [];
+      case RatingRange.worst:
+        return [0, 1, 2];
+      case RatingRange.average:
+        return [2, 3, 4];
+      case RatingRange.best:
+        return [4, 5];
     }
   }
 }

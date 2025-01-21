@@ -18,21 +18,17 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final List<dynamic> data =
-            networkResponse.result!["featuredCategories"];
+        final List<dynamic> data = networkResponse.result!["featuredCategories"];
 
         return data.map((e) => CategoryModel.parse(map: e)).toList();
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 
@@ -53,32 +49,26 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
         final int total = networkResponse.result!["totalCount"];
-        final List<dynamic> data =
-            networkResponse.result!["categoryModelCombinedList"];
+        final List<dynamic> data = networkResponse.result!["categoryModelCombinedList"];
         final result = data
             .map(
               (map) => (
                 industry: IndustryModel.parse(map: map['industry']),
-                categories: List<dynamic>.from(map['categories'])
-                    .map((cat) => CategoryModel.parse(map: cat))
-                    .toList(),
+                categories: List<dynamic>.from(map['categories']).map((cat) => CategoryModel.parse(map: cat)).toList(),
               ),
             )
             .toList();
 
         return (total: total, results: result);
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 
@@ -95,22 +85,17 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final List<dynamic> data =
-            networkResponse.result!["categoryModelCombinedList"];
+        final List<dynamic> data = networkResponse.result!["categoryModelCombinedList"];
 
-        return CategoryModel.parse(
-            map: List<dynamic>.from(data.first['categories']).first);
+        return CategoryModel.parse(map: List<dynamic>.from(data.first['categories']).first);
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 }

@@ -1,4 +1,3 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../category.dart';
@@ -51,123 +50,190 @@ class _CategoryPageState extends State<CategoryPage> {
       builder: (_, state) {
         final theme = state.scheme;
         return KeyboardDismissOnTap(
-          child: Scaffold(
-            body: ValueListenableBuilder<bool>(
-              valueListenable: expanded,
-              builder: (context, isExpanded, _) {
-                return CustomScrollView(
-                  cacheExtent: 0,
-                  controller: controller,
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      collapsedHeight: context.topInset +
-                          kToolbarHeight +
-                          Dimension.padding.vertical.min -
-                          (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
-                      expandedHeight: context.topInset +
-                          kToolbarHeight +
-                          (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
-                          Dimension.size.vertical.oneTwelve,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
-                      ),
-                      title: isExpanded
-                          ? null
-                          : _NameWidget(
-                              category: widget.category,
-                              urlSlug: widget.urlSlug,
-                              fontSize: Dimension.radius.sixteen,
-                              maxLines: 2,
-                            ).animate().fade(),
-                      centerTitle: false,
-                      actions: [
-                        const _ShareButton(),
-                      ],
-                      bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.max,
-                            vertical: Dimension.padding.vertical.large,
-                          ).copyWith(top: 0),
-                          child: TextField(
-                            controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
-                            onChanged: (query) {
-                              final bloc = context.read<FindBusinessesByCategoryBloc>();
-                              final filter = bloc.state;
+          child: BlocListener<CategoryListingsFilterBloc, CategoryListingsFilterState>(
+            listener: (context, state) {
+              context.read<FindBusinessesByCategoryBloc>().add(
+                    RefreshBusinessesByCategory(
+                      division: state.division,
+                      district: state.district,
+                      thana: state.thana,
+                      subCategory: state.subCategory,
+                      ratings: state.rating.stars,
+                      urlSlug: widget.urlSlug,
+                    ),
+                  );
+            },
+            child: Scaffold(
+              body: ValueListenableBuilder<bool>(
+                valueListenable: expanded,
+                builder: (context, isExpanded, _) {
+                  final appBar = SliverAppBar(
+                    pinned: true,
+                    collapsedHeight: context.topInset +
+                        kToolbarHeight +
+                        Dimension.padding.vertical.min -
+                        (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
+                    expandedHeight: context.topInset +
+                        kToolbarHeight +
+                        (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
+                        Dimension.size.vertical.oneTwelve,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back, color: theme.primary),
+                      onPressed: context.pop,
+                    ),
+                    title: isExpanded
+                        ? null
+                        : _NameWidget(
+                            category: widget.category,
+                            urlSlug: widget.urlSlug,
+                            fontSize: Dimension.radius.sixteen,
+                            maxLines: 2,
+                          ).animate().fade(),
+                    centerTitle: false,
+                    actions: [
+                      const _ShareButton(),
+                    ],
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimension.padding.horizontal.max,
+                          vertical: Dimension.padding.vertical.large,
+                        ).copyWith(top: 0),
+                        child: TextField(
+                          controller: search,
+                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          onChanged: (query) {
+                            final bloc = context.read<FindBusinessesByCategoryBloc>();
+                            final filter = context.read<CategoryListingsFilterBloc>().state;
 
-                              bloc.add(FindBusinessesByCategory(
-                                urlSlug: widget.urlSlug,
-                                query: query,
-                                sort: filter.sortBy,
-                                ratings: filter.ratings,
-                                division: filter.division,
-                                district: filter.district,
-                                thana: filter.thana,
-                                subCategory: filter.subCategory,
-                              ));
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search_rounded,
-                                size: Dimension.radius.sixteen,
-                                color: theme.textSecondary,
-                              ),
-                              hintText: 'Looking for something specific?',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                                vertical: Dimension.padding.vertical.large,
-                              ),
+                            bloc.add(FindBusinessesByCategory(
+                              urlSlug: widget.urlSlug,
+                              query: query,
+                              sort: SortBy.recommended,
+                              ratings: filter.rating.stars,
+                              division: filter.division,
+                              district: filter.district,
+                              thana: filter.thana,
+                              subCategory: filter.subCategory,
+                            ));
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              size: Dimension.radius.sixteen,
+                              color: theme.textSecondary,
+                            ),
+                            hintText: 'Looking for something specific?',
+                            hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: Dimension.padding.horizontal.max,
+                              vertical: Dimension.padding.vertical.large,
                             ),
                           ),
                         ),
                       ),
-                      flexibleSpace: isExpanded
-                          ? FlexibleSpaceBar(
-                              background: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: _NameWidget(
-                                            category: widget.category,
-                                            urlSlug: widget.urlSlug,
-                                            fontSize: Dimension.radius.twentyFour,
-                                          ).animate().fade(),
-                                        ),
-                                        _IconWidget(urlSlug: widget.urlSlug),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        _FilterButton(urlSlug: widget.urlSlug, category: widget.category),
-                                        const SizedBox(width: 16),
-                                        _SortButton(),
-                                        const Spacer(),
-                                        _TotalCount(),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : null,
                     ),
-                    SliverToBoxAdapter(child: _ListingsWidget(search: search, urlSlug: widget.urlSlug)),
-                  ],
-                );
-              },
+                    flexibleSpace: isExpanded
+                        ? FlexibleSpaceBar(
+                            background: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Dimension.padding.horizontal.max,
+                              ).copyWith(top: context.topInset + kToolbarHeight),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: _NameWidget(
+                                          category: widget.category,
+                                          urlSlug: widget.urlSlug,
+                                          fontSize: Dimension.radius.twentyFour,
+                                        ).animate().fade(),
+                                      ),
+                                      _IconWidget(urlSlug: widget.urlSlug),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      BlocBuilder<FindCategoryBloc, FindCategoryState>(
+                                        builder: (context, state) {
+                                          if (state is FindCategoryDone) {
+                                            return _FilterButton(category: state.category);
+                                          }
+                                          return const SizedBox();
+                                        },
+                                      ),
+                                      const SizedBox(width: 16),
+                                      _SortButton(),
+                                      const Spacer(),
+                                      _TotalCount(),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : null,
+                  );
+                  final shimmer = SliverList.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                    itemBuilder: (context, index) => const BusinessItemShimmerWidget(),
+                    itemCount: 10,
+                  );
+                  done(FindBusinessesByCategoryDone state, urlSlug) {
+                    final businesses = state.businesses;
+                    final hasMore = state.total > businesses.length;
+
+                    return SliverList.separated(
+                      addAutomaticKeepAlives: false,
+                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                      itemBuilder: (context, index) {
+                        if (index == businesses.length && hasMore) {
+                          if (state is! FindBusinessesByCategoryPaginating) {
+                            final filter = context.read<CategoryListingsFilterBloc>().state;
+                            context.read<FindBusinessesByCategoryBloc>().add(
+                                  PaginateBusinessesByCategory(
+                                    page: state.page + 1,
+                                    query: search.text,
+                                    urlSlug: urlSlug,
+                                    sort: state.sortBy,
+                                    ratings: filter.rating.stars,
+                                    division: filter.division,
+                                    district: filter.district,
+                                    thana: filter.thana,
+                                    subCategory: filter.subCategory,
+                                  ),
+                                );
+                          }
+                          return const BusinessItemShimmerWidget();
+                        }
+                        final business = businesses[index];
+                        return BusinessItemWidget(urlSlug: business.urlSlug);
+                      },
+                      itemCount: businesses.length + (hasMore ? 1 : 0),
+                    );
+                  }
+
+                  return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                    builder: (context, state) {
+                      return CustomScrollView(
+                        cacheExtent: 0,
+                        controller: controller,
+                        slivers: [
+                          appBar,
+                          if (state is FindBusinessesByCategoryLoading) shimmer,
+                          if (state is FindBusinessesByCategoryDone) done(state, widget.urlSlug),
+                          SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );
@@ -214,10 +280,8 @@ class _ShareButton extends StatelessWidget {
 }
 
 class _FilterButton extends StatelessWidget {
-  final String urlSlug;
-  final CategoryEntity? category;
+  final CategoryEntity category;
   const _FilterButton({
-    required this.urlSlug,
     required this.category,
   });
 
@@ -236,8 +300,9 @@ class _FilterButton extends StatelessWidget {
             providers: [
               BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
               BlocProvider.value(value: context.read<FindCategoryBloc>()),
+              BlocProvider.value(value: context.read<CategoryListingsFilterBloc>()),
             ],
-            child: FilterCategoryWidget(category: category),
+            child: CategoryListingsFilter(category: category.identity.guid),
           ),
         );
       },
@@ -283,6 +348,7 @@ class _SortButton extends StatelessWidget {
             providers: [
               BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
               BlocProvider.value(value: context.read<FindCategoryBloc>()),
+              BlocProvider.value(value: context.read<CategoryListingsFilterBloc>()),
             ],
             child: const SortBusinessesByCategoryWidget(),
           ),
@@ -401,92 +467,6 @@ class _TotalCount extends StatelessWidget {
                 style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
-
-class _ListingsWidget extends StatelessWidget {
-  final String urlSlug;
-  final TextEditingController search;
-
-  const _ListingsWidget({
-    required this.urlSlug,
-    required this.search,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
-      builder: (context, state) {
-        if (state is FindBusinessesByCategoryLoading) {
-          return ListView.separated(
-            itemBuilder: (_, index) {
-              return const BusinessItemShimmerWidget();
-            },
-            separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-            itemCount: 10,
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
-          );
-        } else if (state is FindBusinessesByCategoryDone) {
-          final businesses = state.businesses;
-          final hasMore = state.total > businesses.length;
-
-          return businesses.isNotEmpty
-              ? ListView.separated(
-                  itemBuilder: (_, index) {
-                    if (index == businesses.length && hasMore) {
-                      if (state is! FindBusinessesByCategoryPaginating) {
-                        context.read<FindBusinessesByCategoryBloc>().add(
-                              PaginateBusinessesByCategory(
-                                page: state.page + 1,
-                                query: search.text,
-                                urlSlug: urlSlug,
-                                sort: state.sortBy,
-                                ratings: state.ratings,
-                                division: state.division,
-                                district: state.district,
-                                thana: state.thana,
-                                subCategory: state.subCategory,
-                              ),
-                            );
-                      }
-                      return const BusinessItemShimmerWidget();
-                    }
-                    final business = businesses[index];
-                    return BlocProvider(
-                      create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: business.urlSlug)),
-                      child: const BusinessItemWidget(),
-                    );
-                  },
-                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: businesses.length + (hasMore ? 1 : 0),
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom: Dimension.padding.vertical.max + context.bottomInset,
-                  ),
-                )
-              : Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.height * .25),
-                    child: Text(
-                      "No listing found :(",
-                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
-                    ),
-                  ),
-                );
-        } else if (state is FindBusinessesByCategoryError) {
-          return Text(
-            state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

@@ -20,5 +20,5 @@ export 'presentation/widgets/featured_shimmer.dart';
 export 'presentation/widgets/division.dart';
 export 'presentation/widgets/district.dart';
 export 'presentation/widgets/thana.dart';
-export 'presentation/widgets/filter.dart';
+export 'presentation/widgets/filter_listing.dart';
 export 'presentation/widgets/sort.dart';

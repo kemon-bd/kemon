@@ -344,6 +344,9 @@ final router = GoRouter(
                 FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
               ),
           ),
+          BlocProvider(
+            create: (context) => sl<CategoryListingsFilterBloc>(),
+          ),
         ],
         child: CategoryPage(
           category: state.extra as CategoryEntity?,

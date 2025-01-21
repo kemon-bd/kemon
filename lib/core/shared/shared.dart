@@ -30,6 +30,7 @@ export 'extension/profile.dart';
 export 'extension/review.dart';
 export 'extension/search.dart';
 export 'extension/string.dart';
+export 'extension/sub_category.dart';
 export 'extension/text_editing_controller.dart';
 export 'extension/theme.dart';
 export 'extension/token.dart';

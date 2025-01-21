@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../category.dart';
@@ -64,15 +65,19 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
                             final selected = state.sortBy == item;
 
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                final filter = context.read<CategoryListingsFilterBloc>().state;
+                                await sl<FirebaseAnalytics>().logEvent(name: 'listings_by_category_sort');
+                                if (!context.mounted) return;
                                 context.read<FindBusinessesByCategoryBloc>().add(
-                                      FindBusinessesByCategory(
+                                      RefreshBusinessesByCategory(
                                         urlSlug: category,
                                         sort: SortBy.values[index],
-                                        division: state.division,
-                                        district: state.district,
-                                        thana: state.thana,
-                                        ratings: state.ratings,
+                                        division: filter.division,
+                                        district: filter.district,
+                                        thana: filter.thana,
+                                        ratings: filter.rating.stars,
+                                        subCategory: filter.subCategory,
                                       ),
                                     );
                                 context.pop();

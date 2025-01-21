@@ -18,6 +18,11 @@ Future<void> get categoryDependencies async {
       refresh: sl(),
     ),
   );
+  sl.registerFactory(
+    () => CategoryListingsFilterBloc(
+      analytics: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(

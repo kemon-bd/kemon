@@ -14,6 +14,13 @@ enum Reaction { dislike, like }
 
 enum AnalyticSource { socialProfile, phone, email, address, website }
 
+enum RatingRange {
+  all,
+  worst,
+  average,
+  best,
+}
+
 enum DateRangeOption {
   today,
   yesterday,

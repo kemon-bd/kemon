@@ -51,3 +51,15 @@ extension IndustryBasedCategoriesExtension on List<IndustryBasedCategories> {
         .toList();
   }
 }
+
+extension CategoryListingsFilterStateExtension on CategoryListingsFilterState {
+  Map<String, dynamic> get toMap {
+    return {
+      "subCategory" : subCategory?.toMap,
+      "division" : division?.toMap,
+      "district" : district?.toMap,
+      "thana" : thana?.toMap,
+      "ratings" : rating.index,
+    };
+  }
+}

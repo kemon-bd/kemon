@@ -1,4 +1,3 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../industry.dart';
@@ -31,9 +30,7 @@ class IndustryPage extends StatelessWidget {
                   final industry = state.industry;
                   return Text(
                     industry.name.full,
-                    style: TextStyles.overline(
-                            context: context, color: theme.textPrimary)
-                        .copyWith(
+                    style: TextStyles.overline(context: context, color: theme.textPrimary).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,
@@ -44,27 +41,22 @@ class IndustryPage extends StatelessWidget {
               },
             ),
             actions: [
-              BlocBuilder<FindBusinessesByCategoryBloc,
-                  FindBusinessesByCategoryState>(
+              BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
                 builder: (context, state) {
                   if (state is FindBusinessesByCategoryDone) {
                     return Container(
-                      margin: EdgeInsets.only(
-                          right: Dimension.padding.horizontal.max),
+                      margin: EdgeInsets.only(right: Dimension.padding.horizontal.max),
                       child: Text(
                         '${state.businesses.length} out of ${state.total}',
-                        style: TextStyles.caption(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.caption(context: context, color: theme.textPrimary),
                       ),
                     );
                   } else if (state is FindBusinessesByCategoryPaginating) {
                     return Container(
-                      margin: EdgeInsets.only(
-                          right: Dimension.padding.horizontal.max),
+                      margin: EdgeInsets.only(right: Dimension.padding.horizontal.max),
                       child: Text(
                         'fetching more...',
-                        style: TextStyles.caption(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.caption(context: context, color: theme.textPrimary),
                       ),
                     );
                   }
@@ -74,22 +66,18 @@ class IndustryPage extends StatelessWidget {
             ],
             centerTitle: false,
           ),
-          body: BlocBuilder<FindBusinessesByCategoryBloc,
-              FindBusinessesByCategoryState>(
+          body: BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
             builder: (context, state) {
               if (state is FindBusinessesByCategoryLoading) {
                 return ListView.separated(
                   itemBuilder: (_, index) {
                     return const BusinessItemShimmerWidget();
                   },
-                  separatorBuilder: (_, __) =>
-                      SizedBox(height: Dimension.padding.vertical.medium),
+                  separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: 10,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                      bottom:
-                          Dimension.padding.vertical.max + context.bottomInset),
+                  padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
                 );
               } else if (state is FindBusinessesByCategoryDone) {
                 final businesses = state.businesses;
@@ -101,38 +89,26 @@ class IndustryPage extends StatelessWidget {
                           if (index == businesses.length) {
                             if (state is! FindBusinessesByCategoryPaginating) {
                               context.read<FindBusinessesByCategoryBloc>().add(
-                                    PaginateBusinessesByCategory(
-                                        page: state.page + 1,
-                                        urlSlug: urlSlug),
+                                    PaginateBusinessesByCategory(page: state.page + 1, urlSlug: urlSlug),
                                   );
                             }
                             return const BusinessItemShimmerWidget();
                           }
                           final business = businesses[index];
-                          return BlocProvider(
-                            create: (_) => sl<FindBusinessBloc>()
-                              ..add(FindBusiness(urlSlug: business.urlSlug)),
-                            child: const BusinessItemWidget(),
-                          );
+                          return BusinessItemWidget(urlSlug: business.urlSlug);
                         },
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: Dimension.padding.vertical.medium),
+                        separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                         itemCount: businesses.length + (hasMore ? 1 : 0),
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: EdgeInsets.zero.copyWith(
-                            bottom: Dimension.padding.vertical.max +
-                                context.bottomInset),
+                        padding: EdgeInsets.zero.copyWith(bottom: Dimension.padding.vertical.max + context.bottomInset),
                       )
                     : Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: context.height * .25),
+                          padding: EdgeInsets.symmetric(vertical: context.height * .25),
                           child: Text(
                             "No listing found :(",
-                            style: TextStyles.overline(
-                                context: context,
-                                color: theme.backgroundTertiary),
+                            style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                           ),
                         ),
                       );

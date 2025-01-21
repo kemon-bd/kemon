@@ -5,19 +5,6 @@ import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
-typedef CategoryKey = ({
-  int page,
-  String urlSlug,
-  String? query,
-  SortBy? sort,
-  LookupEntity? division,
-  LookupEntity? district,
-  LookupEntity? thana,
-  CategoryEntity? category,
-  SubCategoryEntity? sub,
-  List<int> ratings,
-});
-
 typedef LocationKey = ({
   int page,
   String location,
@@ -30,7 +17,7 @@ typedef LocationKey = ({
 
 class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
   final Map<String, BusinessEntity> _cache = {};
-  final Map<CategoryKey, BusinessesByCategoryPaginatedResponse> _category = {};
+  final Map<_CategoryKey, BusinessesByCategoryPaginatedResponse> _category = {};
   final Map<LocationKey, BusinessesByLocationPaginatedResponse> _location = {};
 
   @override
@@ -71,7 +58,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     Set<BusinessEntity> businesses = {};
     Set<SubCategoryEntity> related = {};
     for (int p = 1; p <= page; p++) {
-      final key = (
+      final _CategoryKey key = _CategoryKey(
         page: p,
         urlSlug: urlSlug,
         query: query,
@@ -126,7 +113,7 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
     required List<int> ratings,
     required BusinessesByCategoryPaginatedResponse response,
   }) {
-    final key = (
+    final _CategoryKey key = _CategoryKey(
       page: page,
       urlSlug: urlSlug,
       query: query,
@@ -206,4 +193,44 @@ class BusinessLocalDataSourceImpl extends BusinessLocalDataSource {
       related: related.toList(),
     );
   }
+}
+
+class _CategoryKey extends Equatable {
+  final int page;
+  final String urlSlug;
+  final String? query;
+  final SortBy? sort;
+  final LookupEntity? division;
+  final LookupEntity? district;
+  final LookupEntity? thana;
+  final CategoryEntity? category;
+  final SubCategoryEntity? sub;
+  final List<int> ratings;
+
+  const _CategoryKey({
+    required this.page,
+    required this.urlSlug,
+    required this.query,
+    required this.sort,
+    required this.division,
+    required this.district,
+    required this.thana,
+    required this.category,
+    required this.sub,
+    required this.ratings,
+  });
+
+  @override
+  List<Object?> get props => [
+        page,
+        urlSlug,
+        query,
+        sort,
+        division,
+        district,
+        thana,
+        category,
+        sub,
+        ratings,
+      ];
 }

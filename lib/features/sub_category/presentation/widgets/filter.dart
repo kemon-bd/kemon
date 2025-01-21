@@ -151,7 +151,7 @@ class _SubCategoryFilterState extends State<SubCategoryFilter> {
                                         itemCount: state.subCategories.length,
                                         shrinkWrap: true,
                                         padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics: const ScrollPhysics(),
                                       ),
                                     )
                                   : Padding(

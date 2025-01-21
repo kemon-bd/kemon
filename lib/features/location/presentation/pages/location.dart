@@ -310,7 +310,7 @@ class _FilterButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
-            child: FilterBusinessesByLocationWidget(
+            child: LocationListingsFilter(
               division: division,
               district: district,
               thana: thana,
@@ -572,10 +572,7 @@ class _ListingsWidget extends StatelessWidget {
                       return const BusinessItemShimmerWidget();
                     }
                     final business = businesses[index];
-                    return BlocProvider(
-                      create: (_) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: business.urlSlug)),
-                      child: const BusinessItemWidget(),
-                    );
+                    return BusinessItemWidget(urlSlug: business.urlSlug);
                   },
                   separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
                   itemCount: businesses.length + (hasMore ? 1 : 0),
