@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../home/home.dart';
 import '../../review.dart';
 
 class NewReviewPage extends StatefulWidget {
@@ -50,7 +51,13 @@ class _NewReviewPageState extends State<NewReviewPage> {
               surfaceTintColor: theme.backgroundPrimary,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-                onPressed: context.pop,
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.goNamed(HomePage.name);
+                  }
+                },
               ),
               title: Text(
                 rating.toInt() == 0 ? "Please rate your experience" : "${rating.toInt()} star review",

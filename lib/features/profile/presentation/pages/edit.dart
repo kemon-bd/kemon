@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../profile.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -72,7 +73,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     IconButton(
                                       padding: const EdgeInsets.all(0),
                                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                      onPressed: context.pop,
+                                      onPressed: () {
+                                        if (context.canPop()) {
+                                          context.pop();
+                                        } else {
+                                          context.goNamed(HomePage.name);
+                                        }
+                                      },
                                       icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                     ),
                                     const SizedBox(width: 16),

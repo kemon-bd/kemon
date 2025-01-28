@@ -153,10 +153,11 @@ class MyProfilePictureWidget extends StatelessWidget {
             );
           } else if (showWhenUnAuthorized) {
             return CircleAvatar(
+              radius: size/2,
               backgroundColor: theme.white,
               child: Icon(
                 Icons.account_circle_outlined,
-                size: size / 1.25,
+                size: size *.85,
                 color: theme.primary,
               ),
             );

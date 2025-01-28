@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -40,7 +41,13 @@ class UserReviewsPage extends StatelessWidget {
             centerTitle: false,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
           ),
           body: const UserReviewsWidget(),

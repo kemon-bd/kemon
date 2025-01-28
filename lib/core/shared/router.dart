@@ -251,7 +251,11 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindListingReviewsBloc>()
               ..add(
-                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!, filter: []),
+                FindListingReviews(
+                  guid: state.uri.queryParameters['review'],
+                  urlSlug: state.pathParameters['urlSlug']!,
+                  filter: [],
+                ),
               ),
           ),
         ],

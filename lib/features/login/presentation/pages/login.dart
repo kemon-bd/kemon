@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../login.dart';
 
@@ -84,7 +85,13 @@ class _LoginPageState extends State<LoginPage> {
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              onPressed: context.pop,
+                              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                             )
                           : Row(
@@ -93,7 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
                                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                  onPressed: context.pop,
+                                  onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                                   icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
                                 const SizedBox(width: 16),

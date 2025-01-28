@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../home/home.dart';
 import '../../category.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -80,7 +81,13 @@ class _CategoryPageState extends State<CategoryPage> {
                         Dimension.size.vertical.oneTwelve,
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back, color: theme.primary),
-                      onPressed: context.pop,
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                     ),
                     title: isExpanded
                         ? null
@@ -467,10 +474,25 @@ class _IconWidget extends StatelessWidget {
         border: Border.all(width: 1, color: theme.backgroundTertiary),
         borderRadius: BorderRadius.circular(Dimension.radius.twelve),
       ),
-      child: Icon(
-        Icons.label_rounded,
-        size: Dimension.radius.twenty,
-        color: theme.backgroundTertiary,
+      child: BlocBuilder<FindCategoryBloc, FindCategoryState>(
+        builder: (context, state) {
+          final fallback = Icon(
+            Icons.label_rounded,
+            size: Dimension.radius.twenty,
+            color: theme.backgroundTertiary,
+          );
+          if (state is FindCategoryDone) {
+            return CachedNetworkImage(
+              imageUrl: state.category.icon.url,
+              width: Dimension.radius.twenty,
+              height: Dimension.radius.twenty,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => fallback,
+              errorWidget: (context, url, error) => fallback,
+            );
+          }
+          return fallback;
+        },
       ),
     );
   }

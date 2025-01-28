@@ -52,9 +52,8 @@ class AppConfig {
     // Firebase Messaging
     await setupFirebaseMessaging();
 
-    await ScreenUtil.ensureScreenSize();
-
     await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
+    
   }
 
   static ThemeData themeData({

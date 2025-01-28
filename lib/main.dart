@@ -28,7 +28,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-    ScreenUtil.init(context);
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         return MaterialApp.router(
@@ -37,9 +36,13 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppConfig.themeData(context: context, mode: state.mode),
           darkTheme: AppConfig.themeData(context: context, mode: state.mode),
-          builder: (context, child) {
+          builder: (mqContext, child) {
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+              data: MediaQuery.of(mqContext).copyWith(
+                textScaler: TextScaler.linear(1.0),
+                accessibleNavigation: false,
+                devicePixelRatio: MediaQuery.of(mqContext).devicePixelRatio,
+              ),
               child: child!,
             );
           },

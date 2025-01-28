@@ -1,3 +1,4 @@
+import '../../../features/home/home.dart';
 import '../shared.dart';
 
 class DeleteConfirmationWidget extends StatelessWidget {
@@ -24,7 +25,13 @@ class DeleteConfirmationWidget extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: context.pop,
+              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
               style: TextButton.styleFrom(
                 backgroundColor: theme.negative,
                 shape: RoundedRectangleBorder(

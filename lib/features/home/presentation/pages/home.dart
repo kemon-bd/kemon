@@ -47,13 +47,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-      context,
-      designSize: Size(
-        Dimension.size.horizontal.max,
-        Dimension.size.vertical.max,
-      ),
-    );
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
@@ -156,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 MyProfilePictureWidget(
-                  size: Dimension.radius.thirty,
+                  size: Dimension.radius.thirtyTwo,
                   border: Dimension.divider.veryLarge,
                   borderColor: theme.white,
                   showWhenUnAuthorized: true,
@@ -166,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                       parameters: {
                         'id': context.auth.profile?.identity.id ?? 'anonymous',
                         'name': context.auth.profile?.name.full ?? 'Guest',
-                        'loggedIn': context.auth.profile != null,
+                        'loggedIn': (context.auth.profile != null).toString(),
                       },
                     );
                     if (!context.mounted) return;

@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../leaderboard.dart';
 
@@ -72,7 +73,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           Dimension.size.vertical.oneTwelve,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
+                        onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                       ),
                       title: isExpanded
                           ? null

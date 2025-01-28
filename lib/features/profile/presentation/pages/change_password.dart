@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../profile.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -36,7 +37,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
             leading: IconButton(
-              onPressed: context.pop,
+              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
               icon: Icon(Icons.arrow_back, color: theme.textPrimary),
             ),
           ),

@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../../registration/registration.dart';
 
@@ -117,7 +118,13 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              onPressed: context.pop,
+                              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                             )
                           : Column(
@@ -127,7 +134,13 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
                                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                  onPressed: context.pop,
+                                  onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                                   icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
                                 const Spacer(),

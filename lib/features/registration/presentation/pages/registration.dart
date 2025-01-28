@@ -28,6 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  bool acknowledged = false;
   bool isObscured = true;
   bool isConfirmPasswordObscured = true;
 
@@ -78,7 +79,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ? IconButton(
                                 padding: const EdgeInsets.all(0),
                                 visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                onPressed: context.pop,
+                                onPressed: () {
+                                  if (context.canPop()) {
+                                    context.pop();
+                                  } else {
+                                    context.goNamed(HomePage.name);
+                                  }
+                                },
                                 icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                               )
                             : Column(
@@ -88,7 +95,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   IconButton(
                                     padding: const EdgeInsets.all(0),
                                     visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                    onPressed: context.pop,
+                                    onPressed: () {
+                                      if (context.canPop()) {
+                                        context.pop();
+                                      } else {
+                                        context.goNamed(HomePage.name);
+                                      }
+                                    },
                                     icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                   ),
                                   const Spacer(),
@@ -281,7 +294,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 color: passwordController.validPassword ? theme.positive : theme.negative,
                                 size: Dimension.radius.twelve,
                               ),
-                              SizedBox(width: Dimension.padding.horizontal.large),
+                              SizedBox(width: Dimension.padding.horizontal.medium),
                               Expanded(
                                 child: Text(
                                   "Password must be at least 6 characters long.",
@@ -302,7 +315,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   color: confirmPasswordController.validPassword ? theme.positive : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.large),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
                                 Expanded(
                                   child: Text(
                                     "Confirm Password must be at least 6 characters long.",
@@ -324,7 +337,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   color: validPassword ? theme.positive : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.large),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
                                 Expanded(
                                   child: Text(
                                     "Password and Confirm Password must be the same.",
@@ -338,6 +351,54 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                           ],
                           if (validPassword) ...[
+                            const SizedBox(height: 16),
+                            CheckboxListTile(
+                              dense: true,
+                              value: acknowledged,
+                              contentPadding: EdgeInsets.all(0),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                              onChanged: (flag) {
+                                setState(() {
+                                  acknowledged = flag ?? false;
+                                });
+                              },
+                              title: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "I have read and agree ",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    ),
+                                    TextSpan(
+                                      text: "Terms of Service",
+                                      style: TextStyles.body(context: context, color: theme.link),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          launchUrlString(ExternalLinks.termsAndConditions);
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: " and ",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    ),
+                                    TextSpan(
+                                      text: "Privacy Policy",
+                                      style: TextStyles.body(context: context, color: theme.link),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          launchUrlString(ExternalLinks.privacyPolicy);
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: ".",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 16),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -361,18 +422,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     );
                                   }
                                   return ElevatedButton(
-                                    onPressed: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
-                                      if (formKey.currentState?.validate() ?? false) {
-                                        context.read<RegistrationBloc>().add(
-                                              CreateAccount(
-                                                username: widget.username,
-                                                password: passwordController.text,
-                                                refference: '',
-                                              ),
-                                            );
-                                      }
-                                    },
+                                    onPressed: acknowledged
+                                        ? () {
+                                            FocusScope.of(context).requestFocus(FocusNode());
+                                            if (formKey.currentState?.validate() ?? false) {
+                                              context.read<RegistrationBloc>().add(
+                                                    CreateAccount(
+                                                      username: widget.username,
+                                                      password: passwordController.text,
+                                                      refference: '',
+                                                    ),
+                                                  );
+                                            }
+                                          }
+                                        : null,
                                     child: Text(
                                       "Sign up".toUpperCase(),
                                       style: TextStyles.button(context: context),

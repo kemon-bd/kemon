@@ -27,9 +27,7 @@ extension DateRangeOptionEnumExtension on DateRangeOption {
         return 'All time';
       case DateRangeOption.custom:
         return 'Custom';
-      default:
-        return '';
-    }
+      }
   }
 
   DateTimeRange get evaluate {
@@ -80,8 +78,7 @@ extension DateRangeOptionEnumExtension on DateRangeOption {
         end = DateTime(2100);
         break;
       case DateRangeOption.custom:
-      default:
-        start = DateTime(2010, 1, 1);
+      start = DateTime(2010, 1, 1);
         end = now;
     }
 
@@ -118,9 +115,7 @@ extension GenderExtension on Gender {
         return 'Female';
       case Gender.other:
         return 'Other';
-      default:
-        return '';
-    }
+      }
   }
 }
 

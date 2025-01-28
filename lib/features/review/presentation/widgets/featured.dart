@@ -1,5 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../profile/profile.dart';
 import '../../review.dart';
 
 class FeaturedReviewsWidget extends StatelessWidget {
@@ -18,41 +17,34 @@ class FeaturedReviewsWidget extends StatelessWidget {
               final reviews = state.reviews;
               return ListView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: Dimension.padding.horizontal.max,
                   vertical: Dimension.padding.vertical.max,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
                 children: [
-                  Text(
-                    "Recent reviews",
-                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                  Padding(
+                    padding: EdgeInsets.only(left: Dimension.padding.horizontal.max),
+                    child: Text(
+                      "Recent reviews",
+                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                    ),
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
                   if (reviews.isNotEmpty)
-                    SizedBox(
-                      height: Dimension.size.vertical.carousel,
-                      child: CarouselView(
-                        itemExtent: context.width * .75,
-                        shrinkExtent: context.width * .5,
-                        itemSnapping: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(Dimension.radius.twelve),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.small),
-                        onTap: (index) {
-                          final review = reviews.elementAt(index);
-                          context.pushNamed(
-                            PublicProfilePage.name,
-                            pathParameters: {'user': review.user.guid},
-                          );
-                        },
-                        children: reviews
-                            .map(
-                              (review) => FeaturedReviewItemWidget(review: review),
-                            )
-                            .toList(),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: Dimension.size.horizontal.max,
+                        maxHeight: Dimension.size.vertical.carousel,
+                      ),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
+                        itemBuilder: (_, index) => FeaturedReviewItemWidget(review: reviews.elementAt(index)),
+                        separatorBuilder: (_, index) => SizedBox(width: Dimension.padding.horizontal.medium),
+                        itemCount: reviews.length,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
                       ),
                     ),
                   if (reviews.isEmpty) const Text('No reviews yet'),

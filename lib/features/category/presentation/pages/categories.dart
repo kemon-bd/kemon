@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../category.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -68,7 +69,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       expandedHeight: expandedHeight,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.goNamed(HomePage.name);
+                          }
+                        },
                       ),
                       title: isExpanded
                           ? null

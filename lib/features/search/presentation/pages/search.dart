@@ -2,6 +2,7 @@ import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
+import '../../../home/home.dart';
 import '../../../industry/industry.dart';
 import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
@@ -30,7 +31,13 @@ class _SearchPageState extends State<SearchPage> {
             surfaceTintColor: theme.backgroundPrimary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
             ),
             title: TextField(
               key: Keys.search.suggestion.field,

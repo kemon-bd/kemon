@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../business.dart';
 
 class BusinessAboutWidget extends StatelessWidget {
@@ -36,7 +37,13 @@ class BusinessAboutWidget extends StatelessWidget {
                           style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                         ),
                         trailing: IconButton(
-                          onPressed: context.pop,
+                          onPressed: () {
+                            if (context.canPop()) {
+                              context.pop();
+                            } else {
+                              context.goNamed(HomePage.name);
+                            }
+                          },
                           icon: Icon(Icons.close_rounded, color: theme.textPrimary),
                         ),
                       ),

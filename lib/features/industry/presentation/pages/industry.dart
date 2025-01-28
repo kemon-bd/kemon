@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../home/home.dart';
 import '../../industry.dart';
 
 class IndustryPage extends StatelessWidget {
@@ -22,7 +23,13 @@ class IndustryPage extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
             ),
             title: BlocBuilder<FindIndustryBloc, FindIndustryState>(
               builder: (context, state) {

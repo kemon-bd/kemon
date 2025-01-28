@@ -31,15 +31,13 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Categories",
-                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyles.body(context: context, color: theme.textSecondary),
                       ),
                       ActionChip(
                         label: Text(
                           "See all",
                           style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         backgroundColor: theme.backgroundSecondary,
@@ -64,7 +62,7 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
                   SizedBox(
-                    height: 360.h,
+                    height: 120,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
                       mainAxisSpacing: Dimension.padding.horizontal.max,
@@ -102,26 +100,26 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   backgroundColor: theme.backgroundTertiary,
-                                  radius: Dimension.radius.ten,
+                                  radius: Dimension.radius.twelve,
                                   child: category.icon.url.isNotEmpty
                                       ? CachedNetworkImage(
                                           imageUrl: category.icon.url,
-                                          width: Dimension.radius.ten,
-                                          height: Dimension.radius.ten,
-                                          placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.ten),
+                                          width: Dimension.radius.twelve,
+                                          height: Dimension.radius.twelve,
+                                          placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.twelve),
                                           errorWidget: (context, url, error) => Icon(
                                             Icons.layers_outlined,
                                             color: theme.textSecondary,
-                                            size: Dimension.radius.ten,
+                                            size: Dimension.radius.twelve,
                                           ),
                                         )
                                       : Icon(
                                           Icons.layers_outlined,
                                           color: theme.textSecondary,
-                                          size: Dimension.radius.ten,
+                                          size: Dimension.radius.twelve,
                                         ),
                                 ),
-                                SizedBox(width: Dimension.padding.horizontal.small),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
                                 Text(
                                   category.name.full,
                                   style: TextStyles.body(context: context, color: theme.textPrimary),

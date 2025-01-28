@@ -7,11 +7,11 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
+      textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: color,
             fontWeight: FontWeight.w500,
-            fontSize: 21.sp,
-            letterSpacing: 0.15.sp,
+            fontSize: 10,
+            letterSpacing: 0.15,
           ),
     );
   }
@@ -21,11 +21,11 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+      textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
             color: color,
             fontWeight: FontWeight.w500,
-            fontSize: 26.sp,
-            letterSpacing: 0.sp,
+            fontSize: 12,
+            letterSpacing: 0,
           ),
     );
   }
@@ -36,11 +36,11 @@ class TextStyles {
     final theme = context.theme.scheme;
     return GoogleFonts.solway(
       color: theme.white,
-      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+      textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: theme.white,
             fontWeight: FontWeight.bold,
-            fontSize: 51.sp,
-            letterSpacing: 1.25.sp,
+            fontSize: 20,
+            letterSpacing: 1.25,
           ),
     );
   }
@@ -50,11 +50,11 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
+      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: color,
             fontWeight: FontWeight.normal,
-            fontSize: 36.sp,
-            letterSpacing: 0.25.sp,
+            fontSize: 14,
+            letterSpacing: 0.25,
           ),
     );
   }
@@ -64,11 +64,11 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
             color: color,
             fontWeight: FontWeight.normal,
-            fontSize: 51.sp,
-            letterSpacing: 0.sp,
+            fontSize: 20,
+            letterSpacing: 0,
           ),
     );
   }
@@ -78,11 +78,11 @@ class TextStyles {
     required Color color,
   }) {
     return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.displayLarge?.copyWith(
+      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: color,
-            fontWeight: FontWeight.w100,
-            fontSize: 103.sp,
-            letterSpacing: -1.5.sp,
+            fontWeight: FontWeight.normal,
+            fontSize: 28,
+            letterSpacing: -1.5,
           ),
     );
   }

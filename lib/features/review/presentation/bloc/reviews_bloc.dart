@@ -20,6 +20,7 @@ class FindListingReviewsBloc
           filter: event.filter,
         )),
         (reviews) => emit(FindListingReviewsDone(
+          guid: event.guid,
           reviews: reviews,
           filter: event.filter,
         )),

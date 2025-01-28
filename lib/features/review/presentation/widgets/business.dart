@@ -18,7 +18,18 @@ class BusinessReviewsWidget extends StatelessWidget {
           return ListView.separated(
             itemBuilder: (_, index) {
               final review = reviews[index];
-              return BusinessReviewItemWidget(review: review);
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                clipBehavior: Clip.antiAlias,
+                child: SmoothHighlight(
+                  useInitialHighLight: true,
+                  duration: 3.seconds,
+                  enabled: review.identity.guid.same(as: state.guid),
+                  color: Colors.yellowAccent.shade700,
+                  padding: EdgeInsets.all(2),
+                  child: BusinessReviewItemWidget(review: review),
+                ),
+              );
             },
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             physics: const NeverScrollableScrollPhysics(),

@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../business.dart';
 import '../../../review/review.dart';
 
@@ -27,7 +28,13 @@ class BusinessPage extends StatelessWidget {
             surfaceTintColor: theme.backgroundSecondary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.primary),
-              onPressed: context.pop,
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             centerTitle: false,
             actions: [

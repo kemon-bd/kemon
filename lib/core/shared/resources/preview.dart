@@ -1,3 +1,4 @@
+import '../../../features/home/home.dart';
 import '../shared.dart';
 
 class PhotoPreviewPage extends StatefulWidget {
@@ -38,7 +39,13 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
             surfaceTintColor: theme.primary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
-              onPressed: context.pop,
+              onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
             ),
             forceMaterialTransparency: true,
           ),

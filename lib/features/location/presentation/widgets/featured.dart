@@ -31,15 +31,13 @@ class FeaturedLocationsWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Locations",
-                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyles.body(context: context, color: theme.textSecondary),
                       ),
                       ActionChip(
                         label: Text(
                           "See all",
                           style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         backgroundColor: theme.backgroundSecondary,
@@ -64,7 +62,7 @@ class FeaturedLocationsWidget extends StatelessWidget {
                   ),
                   SizedBox(height: Dimension.padding.vertical.small),
                   SizedBox(
-                    height: 360.h,
+                    height: 120,
                     child: MasonryGridView.count(
                       crossAxisCount: 3,
                       mainAxisSpacing: Dimension.padding.horizontal.max,

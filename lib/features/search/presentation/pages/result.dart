@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../home/home.dart';
 import '../../search.dart';
 
 class ResultPage extends StatefulWidget {
@@ -30,7 +31,13 @@ class _ResultPageState extends State<ResultPage> {
             surfaceTintColor: theme.backgroundPrimary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             title: Text(widget.query),
             titleTextStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),

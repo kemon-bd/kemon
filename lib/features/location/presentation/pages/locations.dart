@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
@@ -66,7 +67,13 @@ class _LocationsPageState extends State<LocationsPage> {
                       expandedHeight: expandedHeight,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
+                        onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                       ),
                       title: isExpanded
                           ? null

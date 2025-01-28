@@ -60,15 +60,15 @@ class DashboardSearchWidget extends StatelessWidget {
             ),
             SizedBox(
               width: Dimension.size.horizontal.max,
-              height: Dimension.padding.vertical.ultraMax,
+              height: Dimension.size.vertical.twentyFour,
               child: Stack(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 children: [
                   Positioned.fill(
                     bottom: .1,
                     child: Container(
-                      height: Dimension.padding.vertical.ultraMax,
                       width: Dimension.size.horizontal.max,
+                      height: Dimension.size.vertical.twentyFour,
                       decoration: BoxDecoration(
                         color: theme.primary,
                       ),
@@ -78,8 +78,8 @@ class DashboardSearchWidget extends StatelessWidget {
                   ),
                   Positioned.fill(
                     child: Container(
-                      height: Dimension.padding.vertical.ultraMax,
                       width: Dimension.size.horizontal.max,
+                      height: Dimension.size.vertical.twentyFour,
                       decoration: BoxDecoration(
                         color: theme.backgroundPrimary,
                         borderRadius: BorderRadius.vertical(

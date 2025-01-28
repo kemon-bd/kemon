@@ -1,3 +1,4 @@
+import '../../../features/home/home.dart';
 import '../../../features/whats_new/whats_new.dart';
 import '../shared.dart';
 
@@ -87,7 +88,13 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               SizedBox(
                 width: context.width,
                 child: ElevatedButton(
-                  onPressed: context.pop,
+                  onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                   child: Text(
                     'Continue',
                     style: TextStyles.button(context: context),

@@ -1,6 +1,7 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../home/home.dart';
 import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
@@ -92,14 +93,20 @@ class _LocationPageState extends State<LocationPage> {
                     collapsedHeight: context.topInset +
                         kToolbarHeight +
                         Dimension.padding.vertical.min -
-                        (Platform.isIOS ? Dimension.padding.vertical.small : 0),
+                        (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
                     expandedHeight: context.topInset +
                         kToolbarHeight +
-                        (Platform.isAndroid ? Dimension.padding.vertical.small : 0) +
+                        (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
                         Dimension.size.vertical.oneTwelve,
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back, color: theme.primary),
-                      onPressed: context.pop,
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                     ),
                     title: isExpanded
                         ? null
