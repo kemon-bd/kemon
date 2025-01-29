@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
 import '../../profile.dart';
@@ -49,6 +50,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               builder: (context, state) {
                 if (state is FindProfileDone) {
+                  final profile = state.profile;
                   return Column(
                     children: [
                       Container(
@@ -341,6 +343,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
+                                                suffixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
+                                                suffixIcon: !(profile.email?.verified ?? false) ||
+                                                        !emailController.text.same(as: profile.email?.address)
+                                                    ? IconButton(
+                                                        padding: EdgeInsets.all(0),
+                                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                                        onPressed: () async {
+                                                          final confirmed = await showDialog(
+                                                            context: context,
+                                                            builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
+                                                          );
+                                                          if (!confirmed) return;
+                                                          if (!context.mounted) return;
+
+                                                          final verified = await showModalBottomSheet<bool>(
+                                                            context: context,
+                                                            barrierColor: context.barrierColor,
+                                                            builder: (_) => MultiBlocProvider(
+                                                              providers: [
+                                                                BlocProvider(
+                                                                  create: (_) => sl<RequestOtpForPasswordChangeBloc>()
+                                                                    ..add(
+                                                                      RequestOtpForPhoneOrEmailVerification(
+                                                                        username: profile.email!.address,
+                                                                      ),
+                                                                    ),
+                                                                ),
+                                                                BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
+                                                              ],
+                                                              child: VerifyPhoneOrEmailWidget(
+                                                                username: profile.phone!.number,
+                                                              ),
+                                                            ),
+                                                          );
+                                                          if (!(verified ?? true)) return;
+                                                          if (!context.mounted) return;
+                                                          context
+                                                              .read<FindProfileBloc>()
+                                                              .add(RefreshProfile(identity: context.auth.profile!.identity));
+                                                        },
+                                                        icon: Icon(Icons.verified_outlined, color: theme.link),
+                                                      )
+                                                    : null,
                                               ),
                                               style: TextStyles.body(
                                                 context: context,
@@ -393,6 +438,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 enabledBorder: InputBorder.none,
                                                 focusedBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
+                                                suffixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
+                                                suffixIcon: !(profile.phone?.verified ?? false) ||
+                                                        !phoneController.text.same(as: profile.phone?.number)
+                                                    ? IconButton(
+                                                        padding: EdgeInsets.all(0),
+                                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                                        onPressed: () async {
+                                                          final confirmed = await showDialog(
+                                                            context: context,
+                                                            builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
+                                                          );
+                                                          if (!confirmed) return;
+                                                          if (!context.mounted) return;
+
+                                                          final verified = await showModalBottomSheet<bool>(
+                                                            context: context,
+                                                            barrierColor: context.barrierColor,
+                                                            builder: (_) => MultiBlocProvider(
+                                                              providers: [
+                                                                BlocProvider(
+                                                                  create: (_) => sl<RequestOtpForPasswordChangeBloc>()
+                                                                    ..add(
+                                                                      RequestOtpForPhoneOrEmailVerification(
+                                                                        username: profile.phone!.number,
+                                                                      ),
+                                                                    ),
+                                                                ),
+                                                                BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
+                                                              ],
+                                                              child: VerifyPhoneOrEmailWidget(
+                                                                username: profile.phone!.number,
+                                                              ),
+                                                            ),
+                                                          );
+                                                          if (!(verified ?? true)) return;
+                                                          if (!context.mounted) return;
+                                                          context
+                                                              .read<FindProfileBloc>()
+                                                              .add(RefreshProfile(identity: context.auth.profile!.identity));
+                                                        },
+                                                        icon: Icon(Icons.verified_outlined, color: theme.link),
+                                                      )
+                                                    : null,
                                               ),
                                               style: TextStyles.body(
                                                 context: context,

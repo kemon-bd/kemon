@@ -17,3 +17,13 @@ final class RequestOtpForPasswordChange
   @override
   List<Object> get props => [username];
 }
+final class RequestOtpForPhoneOrEmailVerification
+    extends RequestOtpForPasswordChangeEvent {
+  final String username;
+
+  const RequestOtpForPhoneOrEmailVerification({
+    required this.username,
+  });
+  @override
+  List<Object> get props => [username];
+}

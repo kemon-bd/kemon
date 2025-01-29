@@ -101,6 +101,8 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       'email': profile.email?.address ?? '',
       'dob': profile.dob?.toIso8601String() ?? '',
       'gender': profile.gender?.index.toString() ?? '-1',
+      'isphoneverified': profile.phone?.verified.toString() ?? 'false',
+      'isemailverified': profile.email?.verified.toString() ?? 'false',
       'isupload': avatar != null ? 'true' : 'false',
     });
     if (avatar != null) {
@@ -200,10 +202,12 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   @override
   FutureOr<String> requestOtpForPasswordChange({
     required String username,
+    required bool verificationOnly,
   }) async {
     try {
       final Map<String, String> headers = {
         "username": username,
+        "verificationOnly": verificationOnly.toString(),
       };
 
       final Response response = await post(

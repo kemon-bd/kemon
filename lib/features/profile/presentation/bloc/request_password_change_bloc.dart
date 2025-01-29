@@ -13,7 +13,15 @@ class RequestOtpForPasswordChangeBloc extends Bloc<
   }) : super(RequestOtpForPasswordChangeInitial()) {
     on<RequestOtpForPasswordChange>((event, emit) async {
       emit(RequestOtpForPasswordChangeLoading());
-      final result = await useCase(username: event.username);
+      final result = await useCase(username: event.username, verificationOnly: false);
+      result.fold(
+        (failure) => emit(RequestOtpForPasswordChangeError(failure: failure)),
+        (otp) => emit(RequestOtpForPasswordChangeDone(otp: otp)),
+      );
+    });
+    on<RequestOtpForPhoneOrEmailVerification>((event, emit) async {
+      emit(RequestOtpForPasswordChangeLoading());
+      final result = await useCase(username: event.username, verificationOnly: true);
       result.fold(
         (failure) => emit(RequestOtpForPasswordChangeError(failure: failure)),
         (otp) => emit(RequestOtpForPasswordChangeDone(otp: otp)),

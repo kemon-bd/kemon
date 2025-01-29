@@ -28,13 +28,13 @@ class ProfilePage extends StatelessWidget {
               surfaceTintColor: theme.primary,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_rounded, color: theme.white),
-                onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.goNamed(HomePage.name);
+                  }
+                },
               ),
               title: MyProfileUsernameWidget(
                 shimmerAlignment: Alignment.center,

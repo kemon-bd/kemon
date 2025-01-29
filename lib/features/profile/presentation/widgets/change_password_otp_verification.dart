@@ -9,12 +9,10 @@ class VerifyOtpForChangePasswordWidget extends StatefulWidget {
   });
 
   @override
-  State<VerifyOtpForChangePasswordWidget> createState() =>
-      _VerifyOtpForChangePasswordWidgetState();
+  State<VerifyOtpForChangePasswordWidget> createState() => _VerifyOtpForChangePasswordWidgetState();
 }
 
-class _VerifyOtpForChangePasswordWidgetState
-    extends State<VerifyOtpForChangePasswordWidget> {
+class _VerifyOtpForChangePasswordWidgetState extends State<VerifyOtpForChangePasswordWidget> {
   String code = '';
   final TextEditingController otpController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -37,16 +35,12 @@ class _VerifyOtpForChangePasswordWidgetState
         final defaultPinTheme = PinTheme(
           width: context.width * 0.125,
           height: context.width * 0.125,
-          textStyle:
-              TextStyles.body(context: context, color: theme.textPrimary),
-          decoration: BoxDecoration(
-              color: theme.backgroundSecondary,
-              borderRadius: BorderRadius.circular(8)),
+          textStyle: TextStyles.body(context: context, color: theme.textPrimary),
+          decoration: BoxDecoration(color: theme.backgroundSecondary, borderRadius: BorderRadius.circular(8)),
         );
 
         final focusedPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle(context: context, color: theme.textPrimary),
+          textStyle: TextStyles.subTitle(context: context, color: theme.textPrimary),
           decoration: defaultPinTheme.decoration!.copyWith(
             color: theme.backgroundSecondary,
             border: Border.all(color: theme.textPrimary, width: 2),
@@ -54,8 +48,7 @@ class _VerifyOtpForChangePasswordWidgetState
         );
 
         final submittedPinTheme = defaultPinTheme.copyWith(
-          textStyle: TextStyles.subTitle(context: context, color: theme.primary)
-              .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -66,9 +59,7 @@ class _VerifyOtpForChangePasswordWidgetState
         );
 
         final errorPinTheme = defaultPinTheme.copyWith(
-          textStyle:
-              TextStyles.subTitle(context: context, color: theme.negative)
-                  .copyWith(
+          textStyle: TextStyles.subTitle(context: context, color: theme.negative).copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: defaultPinTheme.decoration!.copyWith(
@@ -78,8 +69,7 @@ class _VerifyOtpForChangePasswordWidgetState
           ),
         );
         return KeyboardDismissOnTap(
-          child: BlocListener<RequestOtpForPasswordChangeBloc,
-              RequestOtpForPasswordChangeState>(
+          child: BlocListener<RequestOtpForPasswordChangeBloc, RequestOtpForPasswordChangeState>(
             listener: (context, state) {
               if (state is RequestOtpForPasswordChangeDone) {
                 setState(() {
@@ -92,13 +82,13 @@ class _VerifyOtpForChangePasswordWidgetState
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: ListView(
-                padding: EdgeInsets.all(Dimension.radius.sixteen),
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(bottom: Dimension.radius.sixteen + context.bottomInset),
                 children: [
                   Text(
                     'Verify OTP',
-                    style: TextStyles.subTitle(
-                            context: context, color: theme.textPrimary)
-                        .copyWith(
+                    style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                       fontWeight: FontWeight.w900,
                       letterSpacing: 2,
                     ),
@@ -106,9 +96,7 @@ class _VerifyOtpForChangePasswordWidgetState
                   SizedBox(height: Dimension.padding.vertical.small),
                   Text(
                     'A 6 digit verification code has been sent to your phone / email address',
-                    style: TextStyles.body(
-                            context: context, color: theme.textSecondary)
-                        .copyWith(
+                    style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                       height: 1,
                     ),
                   ),
@@ -129,14 +117,12 @@ class _VerifyOtpForChangePasswordWidgetState
                   ),
                   SizedBox(height: Dimension.size.vertical.twentyFour),
                   Center(
-                    child: BlocBuilder<RequestOtpForPasswordChangeBloc,
-                        RequestOtpForPasswordChangeState>(
+                    child: BlocBuilder<RequestOtpForPasswordChangeBloc, RequestOtpForPasswordChangeState>(
                       builder: (context, state) {
                         if (state is RequestOtpForPasswordChangeLoading) {
                           return Text(
                             'Please wait...',
-                            style: TextStyles.body(
-                                context: context, color: theme.textSecondary),
+                            style: TextStyles.body(context: context, color: theme.textSecondary),
                           );
                         }
                         return endTime != null
@@ -148,13 +134,10 @@ class _VerifyOtpForChangePasswordWidgetState
                                   });
                                 },
                                 spacerWidth: 4,
-                                endTime:
-                                    endTime ?? DateTime.now().add(_duration),
+                                endTime: endTime ?? DateTime.now().add(_duration),
                                 enableDescriptions: false,
-                                timeTextStyle: TextStyles.body(
-                                    context: context, color: theme.textPrimary),
-                                colonsTextStyle: TextStyles.body(
-                                    context: context, color: theme.textPrimary),
+                                timeTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                colonsTextStyle: TextStyles.body(context: context, color: theme.textPrimary),
                               )
                             : Text.rich(
                                 TextSpan(
@@ -162,26 +145,18 @@ class _VerifyOtpForChangePasswordWidgetState
                                   children: [
                                     TextSpan(
                                       text: "Didn't receive the OTP? ",
-                                      style: TextStyles.body(
-                                          context: context,
-                                          color: theme.textSecondary),
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
                                     ),
                                     TextSpan(
                                       text: "Resend OTP",
-                                      style: TextStyles.body(
-                                              context: context,
-                                              color: theme.primary)
-                                          .copyWith(
+                                      style: TextStyles.body(context: context, color: theme.primary).copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           context
-                                              .read<
-                                                  RequestOtpForPasswordChangeBloc>()
-                                              .add(RequestOtpForPasswordChange(
-                                                  username:
-                                                      context.auth.username!));
+                                              .read<RequestOtpForPasswordChangeBloc>()
+                                              .add(RequestOtpForPasswordChange(username: context.auth.username!));
 
                                           otpController.clear();
                                         },

@@ -158,11 +158,13 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   FutureOr<Either<Failure, String>> requestOtpForPasswordChange({
     required String username,
+    required bool verificationOnly,
   }) async {
     try {
       if (await network.online) {
         final result = await remote.requestOtpForPasswordChange(
           username: username,
+          verificationOnly: verificationOnly,
         );
 
         return Right(result);

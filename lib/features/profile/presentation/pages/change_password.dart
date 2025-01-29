@@ -37,13 +37,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
             leading: IconButton(
-              onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
               icon: Icon(Icons.arrow_back, color: theme.textPrimary),
             ),
           ),

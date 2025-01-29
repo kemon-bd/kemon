@@ -10,8 +10,10 @@ class RequestOtpForPasswordChangeUseCase {
 
   FutureOr<Either<Failure, String>> call({
     required String username,
+    required bool verificationOnly,
   }) async =>
       await repository.requestOtpForPasswordChange(
         username: username,
+        verificationOnly: verificationOnly,
       );
 }

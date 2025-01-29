@@ -1,3 +1,4 @@
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../lookup/lookup.dart';
 import '../../profile.dart';
@@ -13,6 +14,7 @@ class ProfileProgressWidget extends StatelessWidget {
         return BlocBuilder<FindProfileBloc, FindProfileState>(
           builder: (_, state) {
             if (state is FindProfileDone) {
+              final profile = state.profile;
               return ProfilePointsBuilder(
                 builder: (checks) {
                   final progress = (state.profile.progress(checks: checks)) / 100;
@@ -83,6 +85,51 @@ class ProfileProgressWidget extends StatelessWidget {
                                         checkpoint.text.sentenceCase,
                                         style: TextStyles.body(context: context, color: theme.warning),
                                       ),
+                                      if (checkpoint.text.match(like: "verified")) ...[
+                                        SizedBox(width: Dimension.padding.horizontal.small),
+                                        IconButton(
+                                          padding: EdgeInsets.all(0),
+                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                          onPressed: () async {
+                                            final confirmed = await showDialog(
+                                              context: context,
+                                              builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
+                                            );
+                                            if (!confirmed) return;
+                                            if (!context.mounted) return;
+
+                                            final verified = await showModalBottomSheet<bool>(
+                                              context: context,
+                                              barrierColor: context.barrierColor,
+                                              builder: (_) => MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider(
+                                                    create: (_) => sl<RequestOtpForPasswordChangeBloc>()
+                                                      ..add(
+                                                        RequestOtpForPhoneOrEmailVerification(
+                                                            username: checkpoint.text.match(like: "phone")
+                                                                ? profile.phone!.number
+                                                                : profile.email!.address),
+                                                      ),
+                                                  ),
+                                                  BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
+                                                ],
+                                                child: VerifyPhoneOrEmailWidget(
+                                                  username: checkpoint.text.match(like: "phone")
+                                                      ? profile.phone!.number
+                                                      : profile.email!.address,
+                                                ),
+                                              ),
+                                            );
+                                            if (!(verified ?? true)) return;
+                                            if (!context.mounted) return;
+                                            context
+                                                .read<FindProfileBloc>()
+                                                .add(RefreshProfile(identity: context.auth.profile!.identity));
+                                          },
+                                          icon: Icon(Icons.verified_outlined, color: theme.link),
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
