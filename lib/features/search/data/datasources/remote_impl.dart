@@ -103,6 +103,7 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
       final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(
         response: response,
       );
+      
 
       if (result.success) {
         final List<dynamic> businessesMap = result.result!['listing'];

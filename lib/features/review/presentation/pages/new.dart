@@ -105,9 +105,21 @@ class _NewReviewPageState extends State<NewReviewPage> {
                   ),
                   if (rating > 0) ...[
                     const SizedBox(height: 42),
-                    Text(
-                      "Review *",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Review",
+                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                          ),
+                          WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                          WidgetSpan(
+                            baseline: TextBaseline.ideographic,
+                            alignment: PlaceholderAlignment.top,
+                            child: Icon(Icons.emergency_rounded, color: theme.negative, size: Dimension.radius.twelve),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 4),
                     TextFormField(
@@ -132,25 +144,54 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      "Title *",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Summary",
+                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                          ),
+                          WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                          WidgetSpan(
+                            baseline: TextBaseline.ideographic,
+                            alignment: PlaceholderAlignment.top,
+                            child: Text(
+                              "optional",
+                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 4),
-                    TextFormField(
+                    TextField(
                       controller: titleController,
                       style: TextStyles.body(context: context, color: theme.textPrimary),
-                      validator: (value) => value?.isNotEmpty ?? false ? null : '',
                       decoration: InputDecoration(
-                        hintText: "required",
+                        hintText: "in a few words...",
                         hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                         helperText: '',
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      "Date of experience",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Date of experience",
+                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                          ),
+                          WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                          WidgetSpan(
+                            baseline: TextBaseline.ideographic,
+                            alignment: PlaceholderAlignment.top,
+                            child: Text(
+                              "optional",
+                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 4),
                     TextField(
@@ -185,9 +226,24 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      "Photos",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Photos",
+                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                          ),
+                          WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                          WidgetSpan(
+                            baseline: TextBaseline.ideographic,
+                            alignment: PlaceholderAlignment.top,
+                            child: Text(
+                              "optional",
+                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Container(

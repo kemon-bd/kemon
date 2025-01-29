@@ -100,6 +100,7 @@ class ProfileProgressWidget extends StatelessWidget {
 
                                             final verified = await showModalBottomSheet<bool>(
                                               context: context,
+                                              isScrollControlled: true,
                                               barrierColor: context.barrierColor,
                                               builder: (_) => MultiBlocProvider(
                                                 providers: [
@@ -114,10 +115,13 @@ class ProfileProgressWidget extends StatelessWidget {
                                                   ),
                                                   BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
                                                 ],
-                                                child: VerifyPhoneOrEmailWidget(
-                                                  username: checkpoint.text.match(like: "phone")
-                                                      ? profile.phone!.number
-                                                      : profile.email!.address,
+                                                child: Padding(
+                                                  padding: context.viewInsets,
+                                                  child: VerifyPhoneOrEmailWidget(
+                                                    username: checkpoint.text.match(like: "phone")
+                                                        ? profile.phone!.number
+                                                        : profile.email!.address,
+                                                  ),
                                                 ),
                                               ),
                                             );

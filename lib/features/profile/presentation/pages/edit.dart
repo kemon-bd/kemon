@@ -359,6 +359,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                                                           final verified = await showModalBottomSheet<bool>(
                                                             context: context,
+                                                            isScrollControlled: true,
                                                             barrierColor: context.barrierColor,
                                                             builder: (_) => MultiBlocProvider(
                                                               providers: [
@@ -372,8 +373,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                                 ),
                                                                 BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
                                                               ],
-                                                              child: VerifyPhoneOrEmailWidget(
-                                                                username: profile.phone!.number,
+                                                              child: Padding(
+                                                                padding: context.viewInsets,
+                                                                child: VerifyPhoneOrEmailWidget(
+                                                                  username: profile.phone!.number,
+                                                                ),
                                                               ),
                                                             ),
                                                           );
@@ -454,6 +458,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                                                           final verified = await showModalBottomSheet<bool>(
                                                             context: context,
+                                                            isScrollControlled: true,
                                                             barrierColor: context.barrierColor,
                                                             builder: (_) => MultiBlocProvider(
                                                               providers: [
@@ -467,8 +472,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                                 ),
                                                                 BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
                                                               ],
-                                                              child: VerifyPhoneOrEmailWidget(
-                                                                username: profile.phone!.number,
+                                                              child: Padding(
+                                                                padding: context.viewInsets,
+                                                                child: VerifyPhoneOrEmailWidget(
+                                                                  username: profile.phone!.number,
+                                                                ),
                                                               ),
                                                             ),
                                                           );

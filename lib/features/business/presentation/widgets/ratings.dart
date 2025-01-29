@@ -51,7 +51,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                   child: BlocProvider(
                                     create: (context) => sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.profilePoints)),
                                     child: BlocBuilder<FindLookupBloc, FindLookupState>(
-                                      builder: (context, state) {
+                                      builder: (lookupContext, state) {
                                         if (state is FindLookupDone) {
                                           final checks = state.lookups;
                                           return RatingBar(
@@ -65,14 +65,15 @@ class BusinessRatingsWidget extends StatelessWidget {
                                             ),
                                             updateOnDrag: false,
                                             onRatingUpdate: (value) async {
-                                              final ratingBloc = context.read<FindRatingBloc>();
-                                              final reviewBloc = context.read<FindListingReviewsBloc>();
-                                              if (context.auth.profile == null) {
-                                                final ProfileModel? authorization = await context.pushNamed<ProfileModel>(
+                                              final ratingBloc = lookupContext.read<FindRatingBloc>();
+                                              final reviewBloc = lookupContext.read<FindListingReviewsBloc>();
+
+                                              if (lookupContext.auth.profile == null) {
+                                                final ProfileModel? authorization = await lookupContext.pushNamed<ProfileModel>(
                                                   CheckProfilePage.name,
                                                   queryParameters: {'authorize': 'true'},
                                                 );
-                                                if (!context.mounted) return;
+                                                if (!lookupContext.mounted) return;
 
                                                 if (authorization == null) {
                                                   return;
@@ -84,30 +85,38 @@ class BusinessRatingsWidget extends StatelessWidget {
                                                     ),
                                                   );
                                                   return;
-                                                } else if (authorization.progress(checks: checks) < 50) {
-                                                  await showModalBottomSheet(
-                                                    context: context,
+                                                } else if (authorization.progress(checks: checks) < 91) {
+                                                  final bool? progressed = await showModalBottomSheet<bool>(
+                                                    context: lookupContext,
                                                     isScrollControlled: true,
-                                                    barrierColor: context.barrierColor,
-                                                    builder: (_) => ProfileCheckAlert(
-                                                      checks: authorization.missing(checks: checks),
+                                                    barrierColor: lookupContext.barrierColor,
+                                                    builder: (_) => BlocProvider.value(
+                                                      value: lookupContext.read<FindLookupBloc>(),
+                                                      child: ProfileCheckAlert(
+                                                        checks: authorization.missing(checks: checks),
+                                                      ),
                                                     ),
                                                   );
-                                                  return;
+                                                  if (!lookupContext.mounted) return;
+                                                  if (!progressed!) return;
                                                 }
-                                              } else if (context.auth.profile!.progress(checks: checks) < 50) {
-                                                await showModalBottomSheet(
-                                                  context: context,
+                                              } else if (lookupContext.auth.profile!.progress(checks: checks) < 91) {
+                                                final bool? progressed = await showModalBottomSheet<bool>(
+                                                  context: lookupContext,
                                                   isScrollControlled: true,
-                                                  barrierColor: context.barrierColor,
-                                                  builder: (_) => ProfileCheckAlert(
-                                                    checks: context.auth.profile!.missing(checks: checks),
+                                                  barrierColor: lookupContext.barrierColor,
+                                                  builder: (_) => BlocProvider.value(
+                                                    value: lookupContext.read<FindLookupBloc>(),
+                                                    child: ProfileCheckAlert(
+                                                      checks: lookupContext.auth.profile!.missing(checks: checks),
+                                                    ),
                                                   ),
                                                 );
-                                                return;
+                                                if (!lookupContext.mounted) return;
+                                                if (!progressed!) return;
                                               }
 
-                                              final bool? added = await context.pushNamed(
+                                              final bool? added = await lookupContext.pushNamed(
                                                 NewReviewPage.name,
                                                 pathParameters: {
                                                   'urlSlug': business.urlSlug,
@@ -127,7 +136,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                             itemCount: 5,
                                             glow: false,
                                             unratedColor: theme.primary,
-                                            itemSize: context.width / 6,
+                                            itemSize: lookupContext.width / 6,
                                           );
                                         } else {
                                           return SizedBox.shrink();
