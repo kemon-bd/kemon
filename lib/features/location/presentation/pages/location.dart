@@ -34,9 +34,7 @@ class _LocationPageState extends State<LocationPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <=
-        (context.topInset - (Platform.isAndroid ? Dimension.padding.vertical.small : 0) + Dimension.size.vertical.oneTwelve) -
-            kToolbarHeight;
+    final isExpanded = controller.offset <= context.topInset + kToolbarHeight + Dimension.padding.vertical.medium;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -90,14 +88,8 @@ class _LocationPageState extends State<LocationPage> {
                 builder: (context, isExpanded, _) {
                   final appBar = SliverAppBar(
                     pinned: true,
-                    collapsedHeight: context.topInset +
-                        kToolbarHeight +
-                        Dimension.padding.vertical.min -
-                        (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
-                    expandedHeight: context.topInset +
-                        kToolbarHeight +
-                        (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
-                        Dimension.size.vertical.oneTwelve,
+                    collapsedHeight: context.topInset + kToolbarHeight - Dimension.padding.vertical.medium,
+                    expandedHeight: context.topInset + kToolbarHeight + Dimension.size.vertical.oneFortyFour,
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back, color: theme.primary),
                       onPressed: () {

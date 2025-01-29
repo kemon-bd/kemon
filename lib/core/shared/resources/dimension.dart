@@ -121,6 +121,7 @@ class _VerticalSize {
   final double oneTwelve = 112.0;
   final double oneTwentyEight = 128.0;
   final double oneFortyFour = 144.0;
+  final double oneSixtyFour = 164.0;
   final double carousel = 144.0;
   final double min = 0.0;
 } //? ------------------- Size -------------------
