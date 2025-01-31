@@ -40,7 +40,7 @@ abstract class BusinessRemoteDataSource {
     required String urlSlug,
   });
 
-  FutureOr<String> publish({
+  FutureOr<void> publish({
     required String token,
     required Identity user,
     required String name,

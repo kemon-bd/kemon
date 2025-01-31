@@ -78,7 +78,7 @@ abstract class BusinessRepository {
     required String urlSlug,
   });
 
-  FutureOr<Either<Failure, String>> publish({
+  FutureOr<Either<Failure, void>> publish({
     required String name,
     required String urlSlug,
     required String about,

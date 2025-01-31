@@ -39,7 +39,7 @@ class NewListingBloc extends Bloc<NewListingEvent, NewListingState> {
 
       result.fold(
         (failure) => emit(NewListingError(failure: failure)),
-        (urlSlug) => emit(NewListingDone(urlSlug: urlSlug)),
+        (_) => emit(NewListingDone()),
       );
     });
   }

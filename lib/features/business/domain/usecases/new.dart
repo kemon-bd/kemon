@@ -12,7 +12,7 @@ class NewListingUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, String>> call({
+  FutureOr<Either<Failure, void>> call({
     required String name,
     required String urlSlug,
     required String about,

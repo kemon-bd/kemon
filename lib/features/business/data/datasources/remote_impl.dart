@@ -173,7 +173,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }
 
   @override
-  FutureOr<String> publish({
+  FutureOr<void> publish({
     required String token,
     required Identity user,
     required String name,
@@ -223,7 +223,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     if (response.statusCode == HttpStatus.ok) {
       final networkResponse = RemoteResponse.parse(response: response);
       if (networkResponse.success) {
-        return networkResponse.result!["urlSlug"] ;
+        return;
       } else {
         throw RemoteFailure(message: networkResponse.error ?? response.reasonPhrase ?? "Something went wrong.");
       }

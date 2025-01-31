@@ -361,7 +361,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   }
 
   @override
-  FutureOr<Either<Failure, String>> publish({
+  FutureOr<Either<Failure, void>> publish({
     required String name,
     required String urlSlug,
     required String about,
@@ -380,7 +380,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
     required LookupEntity? thana,
   }) async {
     try {
-      final slug = await remote.publish(
+      await remote.publish(
         token: auth.token!,
         user: auth.identity!,
         name: name,
@@ -401,7 +401,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
         thana: thana,
       );
 
-      return Right(slug);
+      return Right(null);
     } on Failure catch (failure) {
       return Left(failure);
     }

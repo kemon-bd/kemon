@@ -19,8 +19,5 @@ final class NewListingError extends NewListingState {
 final class NewListingLoading extends NewListingState {}
 
 final class NewListingDone extends NewListingState {
-  final String urlSlug;
-  const NewListingDone({
-    required this.urlSlug,
-  });
+  const NewListingDone();
 }
