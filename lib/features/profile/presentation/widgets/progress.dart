@@ -108,9 +108,10 @@ class ProfileProgressWidget extends StatelessWidget {
                                                     create: (_) => sl<RequestOtpForPasswordChangeBloc>()
                                                       ..add(
                                                         RequestOtpForPhoneOrEmailVerification(
-                                                            username: checkpoint.text.match(like: "phone")
-                                                                ? profile.phone!.number
-                                                                : profile.email!.address),
+                                                          username: checkpoint.text.match(like: "phone")
+                                                              ? profile.phone!.number
+                                                              : profile.email!.address,
+                                                        ),
                                                       ),
                                                   ),
                                                   BlocProvider(create: (_) => sl<UpdateProfileBloc>()),

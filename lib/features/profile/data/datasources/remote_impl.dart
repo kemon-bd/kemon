@@ -207,7 +207,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     try {
       final Map<String, String> headers = {
         "username": username,
-        "verificationOnly": verificationOnly.toString(),
+        "verificationOnly": verificationOnly ? "true" : "",
       };
 
       final Response response = await post(

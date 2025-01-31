@@ -4,8 +4,7 @@ import '../../profile.dart';
 part 'request_password_change_event.dart';
 part 'request_password_change_state.dart';
 
-class RequestOtpForPasswordChangeBloc extends Bloc<
-    RequestOtpForPasswordChangeEvent, RequestOtpForPasswordChangeState> {
+class RequestOtpForPasswordChangeBloc extends Bloc<RequestOtpForPasswordChangeEvent, RequestOtpForPasswordChangeState> {
   final RequestOtpForPasswordChangeUseCase useCase;
 
   RequestOtpForPasswordChangeBloc({
