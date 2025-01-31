@@ -55,10 +55,10 @@ class _LoginPageState extends State<LoginPage> {
         return BlocListener<AuthenticationBloc, AuthenticationState?>(
           listener: (context, state) {
             if (state != null) {
-              if (widget.authorize ?? false) {
                 context.pop(state.profile);
+              if (widget.authorize ?? false) {
               } else {
-                context.pushReplacementNamed(ProfilePage.name);
+                context.goNamed(ProfilePage.name);
               }
             }
           },
