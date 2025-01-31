@@ -8,6 +8,21 @@ Future<void> get lookupDependencies async {
       search: sl(),
     ),
   );
+  sl.registerFactory(
+    () => DivisionsBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => DistrictsBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ThanasBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(

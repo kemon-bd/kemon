@@ -76,4 +76,8 @@ extension BuildContextExtension on BuildContext {
   FindBusinessBloc get businessBloc => this.read<FindBusinessBloc>();
   FindBusinessState get businessState => businessBloc.state;
   BusinessEntity get business => (businessState as FindBusinessDone).business;
+
+  void dismissKeyboard (){
+    FocusScope.of(this).requestFocus(FocusNode());
+  }
 }

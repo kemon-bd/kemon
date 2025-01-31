@@ -462,32 +462,25 @@ class _IconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return Container(
-      padding: EdgeInsets.all(Dimension.radius.eight),
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: theme.backgroundTertiary),
-        borderRadius: BorderRadius.circular(Dimension.radius.twelve),
-      ),
-      child: BlocBuilder<FindCategoryBloc, FindCategoryState>(
-        builder: (context, state) {
-          final fallback = Icon(
-            Icons.label_rounded,
-            size: Dimension.radius.twenty,
-            color: theme.backgroundTertiary,
+    return BlocBuilder<FindCategoryBloc, FindCategoryState>(
+      builder: (context, state) {
+        final fallback = Icon(
+          Icons.label_rounded,
+          size: Dimension.radius.twenty,
+          color: theme.backgroundTertiary,
+        );
+        if (state is FindCategoryDone) {
+          return CachedNetworkImage(
+            imageUrl: state.category.icon.url,
+            width: Dimension.radius.thirtyTwo,
+            height: Dimension.radius.thirtyTwo,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => fallback,
+            errorWidget: (context, url, error) => fallback,
           );
-          if (state is FindCategoryDone) {
-            return CachedNetworkImage(
-              imageUrl: state.category.icon.url,
-              width: Dimension.radius.twenty,
-              height: Dimension.radius.twenty,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => fallback,
-              errorWidget: (context, url, error) => fallback,
-            );
-          }
-          return fallback;
-        },
-      ),
+        }
+        return fallback;
+      },
     );
   }
 }

@@ -1,4 +1,7 @@
+import 'package:kemon/features/industry/domain/entities/industry.dart';
+
 import '../../../../core/shared/shared.dart';
+import '../../../authentication/authentication.dart';
 import '../../../category/category.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -6,12 +9,14 @@ import '../../business.dart';
 
 class BusinessRepositoryImpl extends BusinessRepository {
   final NetworkInfo network;
+  final AuthenticationBloc auth;
   final BusinessLocalDataSource local;
   final SubCategoryLocalDataSource subCategory;
   final BusinessRemoteDataSource remote;
 
   BusinessRepositoryImpl({
     required this.network,
+    required this.auth,
     required this.local,
     required this.remote,
     required this.subCategory,
@@ -335,6 +340,70 @@ class BusinessRepositoryImpl extends BusinessRepository {
       }
     } on Failure catch (e) {
       return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, void>> validateUrlSlug({
+    required String urlSlug,
+  }) async {
+    try {
+      await local.removeAll();
+      if (await network.online) {
+        await remote.validateUrlSlug(urlSlug: urlSlug);
+        return Right(null);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, String>> publish({
+    required String name,
+    required String urlSlug,
+    required String about,
+    required XFile? logo,
+    required ListingType type,
+    required String phone,
+    required String email,
+    required String website,
+    required String social,
+    required IndustryEntity industry,
+    required CategoryEntity? category,
+    required SubCategoryEntity? subCategory,
+    required String address,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
+  }) async {
+    try {
+      final slug = await remote.publish(
+        token: auth.token!,
+        user: auth.identity!,
+        name: name,
+        urlSlug: urlSlug,
+        about: about,
+        logo: logo,
+        type: type,
+        phone: phone,
+        email: email,
+        website: website,
+        social: social,
+        industry: industry,
+        category: category,
+        subCategory: subCategory,
+        address: address,
+        division: division,
+        district: district,
+        thana: thana,
+      );
+
+      return Right(slug);
+    } on Failure catch (failure) {
+      return Left(failure);
     }
   }
 }

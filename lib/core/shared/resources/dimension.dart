@@ -11,6 +11,9 @@ class Dimension {
 //* ------------------- Radius -------------------
 class _Radius {
   final double max = 100.0;
+  final double twoFiftySix = 256.0;
+  final double oneFortyFour = 144.0;
+  final double ninetyTwo = 92.0;
   final double seventyTwo = 72.0;
   final double sixty = 60.0;
   final double fortyEight = 48.0;

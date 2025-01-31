@@ -15,3 +15,4 @@ export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/category_bloc.dart';
 export 'presentation/pages/sub_category.dart';
 export 'presentation/widgets/filter.dart';
+export 'presentation/widgets/field.dart';

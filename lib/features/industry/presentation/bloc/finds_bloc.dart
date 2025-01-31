@@ -4,11 +4,9 @@ import '../../industry.dart';
 part 'finds_event.dart';
 part 'finds_state.dart';
 
-class FindIndustriesBloc
-    extends Bloc<FindIndustriesEvent, FindIndustriesState> {
+class FindIndustriesBloc extends Bloc<FindIndustriesEvent, FindIndustriesState> {
   final FindIndustriesUseCase useCase;
-  FindIndustriesBloc({required this.useCase})
-      : super(const FindIndustriesInitial()) {
+  FindIndustriesBloc({required this.useCase}) : super(const FindIndustriesInitial()) {
     on<FindIndustries>((event, emit) async {
       emit(const FindIndustriesLoading());
       final result = await useCase();

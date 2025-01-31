@@ -20,8 +20,23 @@ Future<void> get businessDependencies async {
       refresh: sl(),
     ),
   );
+  sl.registerFactory(
+    () => ValidateUrlSlugBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => NewListingBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
+  sl.registerFactory(
+    () => ValidateUrlSlugUseCase(
+      repository: sl(),
+    ),
+  );
   sl.registerFactory(
     () => FindBusinessUseCase(
       repository: sl(),
@@ -52,11 +67,17 @@ Future<void> get businessDependencies async {
       repository: sl(),
     ),
   );
+  sl.registerFactory(
+    () => NewListingUseCase(
+      repository: sl(),
+    ),
+  );
 
   //! ----------------- Repository -----------------
   sl.registerLazySingleton<BusinessRepository>(
     () => BusinessRepositoryImpl(
       network: sl(),
+      auth: sl(),
       remote: sl(),
       local: sl(),
       subCategory: sl(),

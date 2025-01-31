@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
 import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -71,5 +72,28 @@ abstract class BusinessRepository {
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
+  });
+
+  FutureOr<Either<Failure, void>> validateUrlSlug({
+    required String urlSlug,
+  });
+
+  FutureOr<Either<Failure, String>> publish({
+    required String name,
+    required String urlSlug,
+    required String about,
+    required XFile? logo,
+    required ListingType type,
+    required String phone,
+    required String email,
+    required String website,
+    required String social,
+    required IndustryEntity industry,
+    required CategoryEntity? category,
+    required SubCategoryEntity? subCategory,
+    required String address,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
   });
 }

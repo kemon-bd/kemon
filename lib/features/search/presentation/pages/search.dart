@@ -31,13 +31,13 @@ class _SearchPageState extends State<SearchPage> {
             surfaceTintColor: theme.backgroundPrimary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             title: TextField(
               key: Keys.search.suggestion.field,
@@ -162,9 +162,9 @@ class _SearchPageState extends State<SearchPage> {
                 final subCategories = state.subCategories;
 
                 return ListView(
-                  shrinkWrap: true,
+                  shrinkWrap: false,
                   padding: EdgeInsets.zero.copyWith(
-                    bottom: context.bottomInset + (2*Dimension.padding.vertical.max) + kToolbarHeight,
+                    bottom: context.bottomInset + (2 * Dimension.padding.vertical.max) + kToolbarHeight,
                   ),
                   children: [
                     if (businesses.isNotEmpty) ...[
@@ -366,23 +366,71 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ),
                     ],
+                    if (businesses.isEmpty && industries.isEmpty && categories.isEmpty && subCategories.isEmpty) ...[
+                      const SizedBox(height: 100),
+                      InkWell(
+                        onTap: () {
+                          context.pushNamed(
+                            NewListingPage.name,
+                            queryParameters: {
+                              'suggestion': controller.text.titleCase,
+                            },
+                          );
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add_home_work_outlined, size: Dimension.radius.seventyTwo, color: theme.textSecondary),
+                            const SizedBox(height: 16),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Add ",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: controller.text,
+                                    style: TextStyles.subTitle(context: context, color: theme.primary),
+                                  ),
+                                  TextSpan(
+                                    text: " as new business?",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ],
                 );
               } else if (state is SearchSuggestionError) {
                 return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
-                        size: Dimension.size.horizontal.seventyTwo,
-                        color: theme.textSecondary,
-                      ),
-                      Text(
-                        state.failure.message,
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
-                      ),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      context.pushNamed(
+                        NewListingPage.name,
+                        queryParameters: {
+                          'suggestion': controller.text.titleCase,
+                        },
+                      );
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
+                          size: Dimension.size.horizontal.seventyTwo,
+                          color: theme.textSecondary,
+                        ),
+                        Text(
+                          state.failure.message,
+                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

@@ -23,3 +23,4 @@ export 'presentation/widgets/featured_shimmer.dart';
 export 'presentation/widgets/filter_listings.dart';
 export 'presentation/widgets/filter.dart';
 export 'presentation/widgets/sort.dart';
+export 'presentation/widgets/field.dart';

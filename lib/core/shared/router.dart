@@ -265,6 +265,25 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: NewListingPage.path,
+      name: NewListingPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<ValidateUrlSlugBloc>()),
+          BlocProvider(create: (context) => sl<FindIndustriesBloc>()..add(FindIndustries())),
+          BlocProvider(create: (context) => sl<FindAllCategoriesBloc>()),
+          BlocProvider(create: (context) => sl<SubCategoriesByCategoryBloc>()),
+          BlocProvider(create: (context) => sl<DivisionsBloc>()..add(FindDivisions())),
+          BlocProvider(create: (context) => sl<DistrictsBloc>()),
+          BlocProvider(create: (context) => sl<ThanasBloc>()),
+          BlocProvider(create: (context) => sl<NewListingBloc>()),
+        ],
+        child: NewListingPage(
+          suggestion: state.uri.queryParameters['suggestion'],
+        ),
+      ),
+    ),
+    GoRoute(
       path: NewReviewPage.path,
       name: NewReviewPage.name,
       builder: (context, state) => MultiBlocProvider(

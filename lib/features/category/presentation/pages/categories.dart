@@ -266,25 +266,19 @@ class _CategoriesWidget extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                              ),
-                              child: industry.icon.url.isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: industry.icon.url,
-                                      fit: BoxFit.cover,
+                            industry.icon.url.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: industry.icon.url,
+                                    fit: BoxFit.cover,
+                                    width: Dimension.radius.thirtyTwo,
+                                    height: Dimension.radius.thirtyTwo,
+                                    placeholder: (_, __) => ShimmerLabel(
                                       width: Dimension.radius.thirtyTwo,
                                       height: Dimension.radius.thirtyTwo,
-                                      placeholder: (_, __) => ShimmerLabel(
-                                        width: Dimension.radius.thirtyTwo,
-                                        height: Dimension.radius.thirtyTwo,
-                                      ),
-                                      errorWidget: (_, __, ___) => icon,
-                                    )
-                                  : icon,
-                            ),
+                                    ),
+                                    errorWidget: (_, __, ___) => icon,
+                                  )
+                                : icon,
                             SizedBox(width: Dimension.padding.horizontal.large),
                             Expanded(
                               child: Text.rich(
@@ -369,27 +363,19 @@ class _CategoriesWidget extends StatelessWidget {
                                     overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
                                     child: Row(
                                       children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: theme.backgroundSecondary,
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                                          ),
-                                          clipBehavior: Clip.hardEdge,
-                                          child: category.icon.url.isNotEmpty
-                                              ? CachedNetworkImage(
-                                                  imageUrl: category.icon.url,
+                                        category.icon.url.isNotEmpty
+                                            ? CachedNetworkImage(
+                                                imageUrl: category.icon.url,
+                                                width: Dimension.radius.sixteen,
+                                                height: Dimension.radius.sixteen,
+                                                fit: BoxFit.cover,
+                                                placeholder: (_, __) => ShimmerLabel(
                                                   width: Dimension.radius.twentyFour,
                                                   height: Dimension.radius.twentyFour,
-                                                  fit: BoxFit.cover,
-                                                  placeholder: (_, __) => ShimmerLabel(
-                                                    width: Dimension.radius.twentyFour,
-                                                    height: Dimension.radius.twentyFour,
-                                                  ),
-                                                  errorWidget: (_, __, ___) => icon,
-                                                )
-                                              : icon,
-                                        ),
+                                                ),
+                                                errorWidget: (_, __, ___) => icon,
+                                              )
+                                            : icon,
                                         SizedBox(width: Dimension.padding.horizontal.medium),
                                         Expanded(
                                           child: Text(

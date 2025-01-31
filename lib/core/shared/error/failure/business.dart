@@ -20,3 +20,10 @@ class BusinessNotFoundByCategoryInLocalCacheFailure extends Failure {
           message: 'Business not found by category in local cache.${reason?.isNotEmpty ?? false ? '\nReason: $reason' : ''}',
         );
 }
+
+class InvalidUrlSlugFailure extends Failure {
+  InvalidUrlSlugFailure([String? reason])
+      : super(
+          message: 'Change Listing name / URLSlug',
+        );
+}

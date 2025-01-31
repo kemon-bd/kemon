@@ -5,6 +5,8 @@ class RemoteEndpoints {
   //! business
   static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');
   static Uri get findListing => Uri.parse('$_baseUrl/listing-by-urlslug');
+  static Uri get validateUrlSlug => Uri.parse('$_baseUrl/get-valid-urlslug');
+  static Uri get addListing => Uri.parse('$_baseUrl/add-update-listing');
 
   //! category
   static Uri get featuredCategories => Uri.parse('$_baseUrl/featured-categories');

@@ -98,28 +98,24 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: Dimension.radius.four),
                             child: Row(
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: theme.backgroundTertiary,
-                                  radius: Dimension.radius.twelve,
-                                  child: category.icon.url.isNotEmpty
-                                      ? CachedNetworkImage(
-                                          imageUrl: category.icon.url,
-                                          width: Dimension.radius.twelve,
-                                          height: Dimension.radius.twelve,
-                                          placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.twelve),
-                                          errorWidget: (context, url, error) => Icon(
-                                            Icons.layers_outlined,
-                                            color: theme.textSecondary,
-                                            size: Dimension.radius.twelve,
-                                          ),
-                                        )
-                                      : Icon(
+                                category.icon.url.isNotEmpty
+                                    ? CachedNetworkImage(
+                                        imageUrl: category.icon.url,
+                                        width: Dimension.radius.sixteen,
+                                        height: Dimension.radius.sixteen,
+                                        placeholder: (context, url) => ShimmerIcon(radius: Dimension.radius.sixteen),
+                                        errorWidget: (context, url, error) => Icon(
                                           Icons.layers_outlined,
                                           color: theme.textSecondary,
-                                          size: Dimension.radius.twelve,
+                                          size: Dimension.radius.sixteen,
                                         ),
-                                ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
+                                      )
+                                    : Icon(
+                                        Icons.layers_outlined,
+                                        color: theme.textSecondary,
+                                        size: Dimension.radius.sixteen,
+                                      ),
+                                SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(
                                   category.name.full,
                                   style: TextStyles.body(context: context, color: theme.textPrimary),
