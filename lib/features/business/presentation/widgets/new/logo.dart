@@ -35,7 +35,7 @@ class _NewListingLogoWidgetState extends State<NewListingLogoWidget> {
         return ListView(
           padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(bottom: context.bottomInset + Dimension.radius.sixteen),
           children: [
-              SizedBox(height: Dimension.padding.vertical.ultraMax),
+            SizedBox(height: Dimension.padding.vertical.ultraMax),
             Text.rich(
               TextSpan(
                 children: [
@@ -47,10 +47,7 @@ class _NewListingLogoWidgetState extends State<NewListingLogoWidget> {
                   WidgetSpan(
                     baseline: TextBaseline.alphabetic,
                     alignment: PlaceholderAlignment.aboveBaseline,
-                    child: Text(
-                      "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                    ),
+                    child: Icon(Icons.emergency_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                   ),
                 ],
               ),
@@ -101,28 +98,16 @@ class _NewListingLogoWidgetState extends State<NewListingLogoWidget> {
             ),
             SizedBox(height: Dimension.padding.vertical.ultraProMax),
             SizedBox(height: Dimension.padding.vertical.ultraProMax),
-            TextButton(
-              onPressed: () {
-                if (widget.edit) {
-                  widget.onUpdate(logo);
-                } else {
-                  widget.onNext(logo);
-                }
-              },
-              child: Text(
-                'Skip',
-                style: TextStyles.button(context: context).copyWith(color: theme.textPrimary),
-              ),
-            ),
-            SizedBox(height: Dimension.padding.vertical.max),
             ElevatedButton(
-              onPressed: () {
-                if (widget.edit) {
-                  widget.onUpdate(logo);
-                } else {
-                  widget.onNext(logo);
-                }
-              },
+              onPressed: logo == null
+                  ? null
+                  : () {
+                      if (widget.edit) {
+                        widget.onUpdate(logo);
+                      } else {
+                        widget.onNext(logo);
+                      }
+                    },
               child: Text(
                 'Next',
                 style: TextStyles.button(context: context),

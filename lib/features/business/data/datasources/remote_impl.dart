@@ -215,7 +215,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       HttpHeaders.contentTypeHeader: 'multipart/form-data',
     });
     if (logo != null) {
-      request.files.add(await MultipartFile.fromPath('File', logo.path));
+      request.files.add(await MultipartFile.fromPath('Files', logo.path));
     }
     final StreamedResponse streamedResponse = await request.send();
     final response = await Response.fromStream(streamedResponse);
