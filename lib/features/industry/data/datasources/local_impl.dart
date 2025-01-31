@@ -2,6 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../industry.dart';
 
 class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
+  List<IndustryEntity>? _all;
   final Map<String, IndustryEntity> _cache = {};
 
   @override
@@ -19,6 +20,7 @@ class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
     for (final item in industries) {
       _cache[item.urlSlug] = item;
     }
+    _all = industries;
     return Future.value();
   }
 
@@ -30,11 +32,10 @@ class IndustryLocalDataSourceImpl extends IndustryLocalDataSource {
 
   @override
   FutureOr<List<IndustryEntity>> findAll() async {
-    final item = _cache.values.toList();
-    if (item.isEmpty) {
+    if (_all == null) {
       throw IndustryNotFoundInLocalCacheFailure();
     }
-    return item;
+    return _all!;
   }
 
   @override

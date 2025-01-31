@@ -11,9 +11,11 @@ export 'domain/usecases/featured.dart';
 export 'domain/usecases/find.dart';
 export 'domain/usecases/all.dart';
 export 'domain/usecases/refresh_all.dart';
+export 'domain/usecases/industry.dart';
 
 export 'presentation/bloc/featured_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
+export 'presentation/bloc/industry_bloc.dart';
 export 'presentation/bloc/find_all_bloc.dart';
 export 'presentation/bloc/filter_bloc.dart';
 export 'presentation/pages/categories.dart';

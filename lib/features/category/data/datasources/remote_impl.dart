@@ -44,7 +44,7 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       'pageno': page.toString(),
     };
     final Response response = await client.get(
-      RemoteEndpoints.industries,
+      RemoteEndpoints.categories,
       headers: headers,
     );
 
@@ -64,6 +64,39 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
             .toList();
 
         return (total: total, results: result);
+      } else {
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
+      }
+    } else {
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+    }
+  }
+
+  @override
+  FutureOr<List<CategoryModel>> industry({
+    required String urlSlug,
+  }) async {
+    final Map<String, String> headers = {
+      'industryslug': urlSlug,
+      'pageno': "1",
+    };
+    final Response response = await client.get(
+      RemoteEndpoints.categories,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+
+      if (networkResponse.success) {
+        final List<dynamic> data = networkResponse.result!["categoryModelCombinedList"];
+        final result = data
+            .map(
+              (map) => List<dynamic>.from(map['categories']).map((cat) => CategoryModel.parse(map: cat)).toList(),
+            )
+            .toList();
+
+        return result.expand((list)=>list).toList();
       } else {
         throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }

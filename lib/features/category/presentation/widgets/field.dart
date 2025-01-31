@@ -37,17 +37,17 @@ class _CategoryFieldState extends State<CategoryField> {
       builder: (context, state) {
         final theme = state.scheme;
 
-        return BlocConsumer<FindAllCategoriesBloc, FindAllCategoriesState>(
+        return BlocConsumer<FindCategoriesByIndustryBloc, FindCategoriesByIndustryState>(
           listener: (context, state) {
-            if (state is FindAllCategoriesDone) {
+            if (state is FindCategoriesByIndustryDone) {
               setState(() {
                 suggestionBoxController.refresh();
               });
             }
           },
           builder: (context, state) {
-            if (state is FindAllCategoriesDone) {
-              final categories = state.results.expand((e) => e.categories).toList();
+            if (state is FindCategoriesByIndustryDone) {
+              final categories = state.categories;
               return TypeAheadField<CategoryEntity>(
                 controller: controller,
                 suggestionsController: suggestionBoxController,
@@ -109,7 +109,7 @@ class _CategoryFieldState extends State<CategoryField> {
                 ),
                 offset: Offset.zero,
               );
-            } else if (state is FindAllCategoriesLoading) {
+            } else if (state is FindCategoriesByIndustryLoading) {
               return TextField(
                 enabled: false,
                 readOnly: true,

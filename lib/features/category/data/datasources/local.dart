@@ -12,8 +12,18 @@ abstract class CategoryLocalDataSource {
     required String urlSlug,
     required CategoryEntity category,
   });
+
+  FutureOr<void> addIndustry({
+    required String industry,
+    required List<CategoryEntity> categories,
+  });
+
   FutureOr<void> featured({
     required List<CategoryEntity> categories,
+  });
+
+  FutureOr<List<CategoryEntity>> findIndustry({
+    required String industry,
   });
 
   FutureOr<CategoryEntity> find({

@@ -59,7 +59,9 @@ class SearchRepositoryImpl extends SearchRepository {
         if (await network.online) {
           final suggestions = await remote.suggestion(query: query);
           await local.addSuggestion(query: query, suggestions: suggestions);
-          await industry.addAll(industries: suggestions.industries);
+          for (var i in suggestions.industries) {
+            await industry.add(industry: i);
+          }
           await category.featured(categories: suggestions.categories);
           await subCategory.addAll(subCategories: suggestions.subCategories);
           return Right(suggestions);

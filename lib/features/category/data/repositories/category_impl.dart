@@ -101,4 +101,20 @@ class CategoryRepositoryImpl extends CategoryRepository {
       return Left(failure);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, List<CategoryEntity>>> industry({
+    required String urlSlug,
+  }) async {
+    try {
+      final result = await local.findIndustry(industry: urlSlug);
+      return Right(result);
+    } on IndustryNotFoundInLocalCacheFailure {
+      final result = await remote.industry(urlSlug: urlSlug);
+      await local.addIndustry(categories: result, industry: urlSlug);
+      return Right(result);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
 }

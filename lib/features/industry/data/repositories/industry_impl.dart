@@ -1,16 +1,13 @@
 import '../../../../core/shared/shared.dart';
-import '../../../category/category.dart';
 import '../../industry.dart';
 
 class IndustryRepositoryImpl extends IndustryRepository {
   final NetworkInfo network;
-  final CategoryLocalDataSource category;
   final IndustryLocalDataSource local;
   final IndustryRemoteDataSource remote;
 
   IndustryRepositoryImpl({
     required this.network,
-    required this.category,
     required this.local,
     required this.remote,
   });
@@ -25,8 +22,7 @@ class IndustryRepositoryImpl extends IndustryRepository {
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
-        final industries = result.map((item) => item.industry).toList();
-        await local.addAll(industries: industries);
+        await local.addAll(industries: result);
         final item = await local.find(urlSlug: urlSlug);
         return Right(item);
       } else {
@@ -40,26 +36,13 @@ class IndustryRepositoryImpl extends IndustryRepository {
   @override
   FutureOr<Either<Failure, List<IndustryEntity>>> all() async {
     try {
+      final result = await local.findAll();
+      return Right(result);
+    } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
-        for (var row in result) {
-          await category.cachePagination(
-            key: (
-              page: 1,
-              query: null,
-              industry: row.industry.urlSlug,
-            ),
-            result: (
-              results: [(industry: row.industry, categories: row.categories)],
-              total: 0,
-            ),
-          );
-        }
-        final industries = result.map((item) => item.industry).toList();
-        final Set<IndustryEntity> industriesSet = {};
-        industriesSet.addAll(industries);
-        await local.addAll(industries: industriesSet.toList());
-        return Right(industriesSet.toList());
+        await local.addAll(industries: result);
+        return Right(result);
       } else {
         return Left(NoInternetFailure());
       }

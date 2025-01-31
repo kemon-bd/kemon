@@ -114,7 +114,9 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
                   category = null;
                   subCategory = null;
                   categoryFocusNode.requestFocus();
-                  context.read<FindAllCategoriesBloc>().add(FindAllCategories(industry: selection.urlSlug, query: null));
+                  context.read<FindCategoriesByIndustryBloc>().add(FindCategoriesByIndustry(
+                        industry: selection.urlSlug,
+                      ));
                   setState(() {});
                 },
               ),

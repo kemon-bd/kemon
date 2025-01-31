@@ -271,7 +271,7 @@ final router = GoRouter(
         providers: [
           BlocProvider(create: (context) => sl<ValidateUrlSlugBloc>()),
           BlocProvider(create: (context) => sl<FindIndustriesBloc>()..add(FindIndustries())),
-          BlocProvider(create: (context) => sl<FindAllCategoriesBloc>()),
+          BlocProvider(create: (context) => sl<FindCategoriesByIndustryBloc>()),
           BlocProvider(create: (context) => sl<SubCategoriesByCategoryBloc>()),
           BlocProvider(create: (context) => sl<DivisionsBloc>()..add(FindDivisions())),
           BlocProvider(create: (context) => sl<DistrictsBloc>()),
