@@ -278,7 +278,13 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                     );
                                   }
                                   return IconButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      if ((context.auth.username ?? "").isEmpty) {
+                                        final acknowledged =
+                                            await showDialog(context: context, builder: (_) => AcknowledgementAlert());
+                                        if (!acknowledged) return;
+                                        if (!context.mounted) return;
+                                      }
                                       context.read<GoogleSignInBloc>().add(SignInWithGoogle());
                                     },
                                     padding: EdgeInsets.all(0),
@@ -326,7 +332,13 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                     );
                                   }
                                   return IconButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      if ((context.auth.username ?? "").isEmpty) {
+                                        final acknowledged =
+                                            await showDialog(context: context, builder: (_) => AcknowledgementAlert());
+                                        if (!acknowledged) return;
+                                        if (!context.mounted) return;
+                                      }
                                       context.read<FacebookLoginBloc>().add(LoginWithFacebook());
                                     },
                                     padding: EdgeInsets.all(0),

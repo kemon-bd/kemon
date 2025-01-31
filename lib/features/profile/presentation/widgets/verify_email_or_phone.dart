@@ -40,9 +40,12 @@ class _VerifyPhoneOrEmailWidgetState extends State<VerifyPhoneOrEmailWidget> {
       builder: (context, state) {
         final theme = state.scheme;
         return Container(
+          width: context.width,
+          padding: context.viewInsets,
           color: theme.backgroundPrimary,
           child: verified
-              ? Center(
+              ? Padding(
+                  padding: EdgeInsets.all(Dimension.radius.oneFortyFour),
                   child: BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
                     listener: (context, state) {
                       if (state is UpdateProfileError) {

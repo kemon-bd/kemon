@@ -178,15 +178,14 @@ class _HomePageState extends State<HomePage> {
             ),
             body: ListView(
               shrinkWrap: false,
-              padding: EdgeInsets.zero.copyWith(
-                bottom: context.bottomInset + Dimension.padding.vertical.max,
-              ),
+              padding: EdgeInsets.zero,
               children: const [
                 DashboardSearchWidget(),
                 DashboardForYouWidget(),
                 FeaturedCategoriesWidget(),
                 FeaturedLocationsWidget(),
                 FeaturedReviewsWidget(),
+                HomeFooterWidget(),
               ],
             ),
           ),

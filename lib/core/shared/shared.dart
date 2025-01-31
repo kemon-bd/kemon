@@ -10,6 +10,7 @@ export 'alert/choose_contact_method.dart';
 export 'alert/choose_upload_method.dart';
 export 'alert/delete.dart';
 export 'alert/discard.dart';
+export 'alert/acknowledgement.dart';
 export 'alert/verify.dart';
 export 'alert/whats_new.dart';
 export 'alert/profile_checks.dart';

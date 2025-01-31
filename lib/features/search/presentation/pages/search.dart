@@ -4,6 +4,7 @@ import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../home/home.dart';
 import '../../../industry/industry.dart';
+import '../../../profile/profile.dart';
 import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
@@ -369,7 +370,15 @@ class _SearchPageState extends State<SearchPage> {
                     if (businesses.isEmpty && industries.isEmpty && categories.isEmpty && subCategories.isEmpty) ...[
                       const SizedBox(height: 100),
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          final ProfileModel? authorization = context.auth.profile ??
+                              await context.pushNamed<ProfileModel>(
+                                CheckProfilePage.name,
+                                queryParameters: {'authorize': 'true'},
+                              );
+                          if (!context.mounted) return;
+                          if (authorization == null) return;
+
                           context.pushNamed(
                             NewListingPage.name,
                             queryParameters: {

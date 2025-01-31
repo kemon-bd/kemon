@@ -10,8 +10,9 @@ class ReviewModel extends ReviewEntity {
     required super.title,
     required super.description,
     required super.date,
-    required super.likes,
     required super.photos,
+    required super.deleted,
+    required super.flagged,
   });
 
   factory ReviewModel.parse({
@@ -88,16 +89,6 @@ class ReviewModel extends ReviewEntity {
       );
       final String date = map['date'] as String;
 
-      assert(
-        map.containsKey('likes'),
-        'ReviewModel.parse: "likes" not found.',
-      );
-      assert(
-        map['likes'] is int,
-        'ReviewModel.parse: "likes" is not a int.',
-      );
-      final int likes = map['likes'] as int;
-
       return ReviewModel(
         identity: Identity(id: map['id'] ?? -1, guid: guid),
         user: Identity.guid(guid: userGuid),
@@ -106,13 +97,14 @@ class ReviewModel extends ReviewEntity {
         title: title,
         description: parse(description).body?.text,
         date: DateTime.parse(date),
-        likes: likes,
         photos: map['reviewImages']
             .toString()
             .split(',')
             .map((url) => url.split('|').last)
             .where((url) => url.contains('.'))
             .toList(),
+        deleted: map['isDelete'] ?? false,
+        flagged: map['isFlag'] ?? false,
       );
     } catch (e, stackTrace) {
       throw ReviewModelParseFailure(

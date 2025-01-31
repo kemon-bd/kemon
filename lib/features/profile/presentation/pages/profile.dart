@@ -49,18 +49,23 @@ class ProfilePage extends StatelessWidget {
               ],
               centerTitle: true,
             ),
-            body: ListView(
-              shrinkWrap: false,
-              padding: EdgeInsets.zero.copyWith(
-                bottom: context.bottomInset + 16,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<FindProfileBloc>().add(RefreshProfile(identity: context.auth.identity!));
+              },
+              child: ListView(
+                shrinkWrap: false,
+                padding: EdgeInsets.zero.copyWith(
+                  bottom: context.bottomInset + 16,
+                ),
+                children: const [
+                  ProfileInformationWidget(edit: true),
+                  ProfileProgressWidget(),
+                  ProfileFeatureOptionsWidget(),
+                  ProfilePreferenceWidget(),
+                  ProfileDangerZoneWidget(),
+                ],
               ),
-              children: const [
-                ProfileInformationWidget(edit: true),
-                ProfileProgressWidget(),
-                ProfileFeatureOptionsWidget(),
-                ProfilePreferenceWidget(),
-                ProfileDangerZoneWidget(),
-              ],
             ),
           ),
         );

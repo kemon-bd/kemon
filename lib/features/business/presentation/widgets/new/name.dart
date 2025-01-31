@@ -165,14 +165,7 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                         },
                       ),
                     ),
-                    BlocConsumer<ValidateUrlSlugBloc, ValidateUrlSlugState>(
-                      listener: (context, state) {
-                        if (state is ValidateUrlSlugDone) {
-                          setState(() {
-                            urlSlug.text = urlSlug.text.paramCase;
-                          });
-                        }
-                      },
+                    BlocBuilder<ValidateUrlSlugBloc, ValidateUrlSlugState>(
                       builder: (context, state) {
                         if (state is ValidateUrlSlugLoading) {
                           return NetworkingIndicator(dimension: 20, color: theme.primary);

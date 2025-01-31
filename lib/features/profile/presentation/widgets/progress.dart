@@ -19,7 +19,7 @@ class ProfileProgressWidget extends StatelessWidget {
                 builder: (checks) {
                   final progress = (state.profile.progress(checks: checks)) / 100;
                   final missing = state.profile.missing(checks: checks);
-                  return progress == 100
+                  return progress == 1
                       ? SizedBox.shrink()
                       : Container(
                           margin: EdgeInsets.symmetric(
