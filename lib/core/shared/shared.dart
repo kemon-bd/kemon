@@ -121,3 +121,4 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:smooth_highlight/smooth_highlight.dart';
 export 'package:flutter_typeahead/flutter_typeahead.dart';
+export 'package:firebase_crashlytics/firebase_crashlytics.dart';

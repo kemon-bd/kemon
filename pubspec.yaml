@@ -1,6 +1,6 @@
 name: kemon
 description: "A new Flutter project."
-version: 0.2.9+29
+version: 0.3.2+32
 publish_to: none
 
 environment:
@@ -16,6 +16,7 @@ dependencies:
   expandable: ^5.0.1
   firebase_analytics: ^11.4.0
   firebase_core: ^3.8.0
+  firebase_crashlytics: ^4.3.1
   firebase_messaging: ^15.1.5
   flutter:
     sdk: flutter

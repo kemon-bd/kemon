@@ -1,7 +1,9 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../category/category.dart';
 import '../../../home/home.dart';
+import '../../../industry/industry.dart';
 import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
@@ -76,6 +78,7 @@ class _LocationPageState extends State<LocationPage> {
                       district: state.district,
                       thana: state.thana,
                       sub: state.subCategory,
+                      industry: state.industry,
                       category: state.category,
                       ratings: state.rating.stars,
                       location: widget.urlSlug,
@@ -108,7 +111,7 @@ class _LocationPageState extends State<LocationPage> {
                             division: widget.division,
                             district: widget.district,
                             thana: widget.thana,
-                            fontSize: Dimension.radius.sixteen,
+                            fontSize: Dimension.radius.twenty,
                             maxLines: 2,
                           ).animate().fade(),
                     centerTitle: false,
@@ -243,6 +246,9 @@ class _LocationPageState extends State<LocationPage> {
                                     district: filter.district,
                                     thana: filter.thana,
                                     category: filter.category,
+                                    industry: filter.industry,
+                                    sub: filter.subCategory,
+   
                                   ),
                                 );
                           }
@@ -385,6 +391,8 @@ class _FilterButton extends StatelessWidget {
               BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<LocationListingsFilterBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
+              BlocProvider(create: (_) => sl<FindIndustriesBloc>()..add(FindIndustries())),
+              BlocProvider(create: (_) => sl<FindCategoriesByIndustryBloc>()),
             ],
             child: LocationListingsFilter(
               division: division,

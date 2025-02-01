@@ -217,6 +217,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required IndustryEntity? industry,
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
@@ -243,6 +244,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
           query: query,
           sort: sort,
           ratings: ratings,
+          industry: industry,
           category: category,
           sub: sub,
         );
@@ -292,6 +294,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
   @override
   FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> refreshLocation({
     required String location,
+    required IndustryEntity? industry,
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required String? division,
@@ -313,6 +316,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
           query: query,
           sort: sort,
           ratings: ratings,
+          industry: industry,
           category: category,
           sub: sub,
         );

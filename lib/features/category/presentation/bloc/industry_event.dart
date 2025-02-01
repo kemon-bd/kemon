@@ -9,6 +9,10 @@ sealed class FindCategoriesByIndustryEvent extends Equatable {
 
 class FindCategoriesByIndustry extends FindCategoriesByIndustryEvent {
   final String industry;
+  final String query;
 
-  const FindCategoriesByIndustry({required this.industry});
+  const FindCategoriesByIndustry({
+    required this.industry,
+    this.query = '',
+  });
 }

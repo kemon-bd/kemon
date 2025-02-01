@@ -76,6 +76,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
+    required IndustryEntity? industry,
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
   }) async {
@@ -88,6 +89,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'pageno': '$page',
       'sortby': sort.value,
       'rating': ratings.join(','),
+      'industryslug': industry?.urlSlug ?? '',
       'categoryslug': category?.urlSlug ?? '',
       'subcategoryslug': sub?.urlSlug ?? '',
     };

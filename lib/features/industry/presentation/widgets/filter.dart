@@ -1,6 +1,5 @@
 import '../../../../../../core/shared/shared.dart';
 import '../../../../../core/config/config.dart';
-import '../../../category/category.dart';
 import '../../industry.dart';
 
 class IndustryFilter extends StatefulWidget {
@@ -28,7 +27,7 @@ class _IndustryFilterState extends State<IndustryFilter> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<FindAllCategoriesBloc>()..add(FindAllCategories(industry: '', query: '')),
+      create: (context) => sl<FindIndustriesBloc>()..add(FindIndustries()),
       child: Padding(
         padding: context.viewInsets,
         child: Material(
@@ -72,9 +71,7 @@ class _IndustryFilterState extends State<IndustryFilter> {
                     TextField(
                       controller: controller,
                       onChanged: (value) {
-                        themeContext.read<FindAllCategoriesBloc>().add(
-                              FindAllCategories(query: value, industry: ''),
-                            );
+                        themeContext.read<FindIndustriesBloc>().add(FindIndustries());
                       },
                       style: TextStyles.body(context: themeContext, color: theme.textPrimary),
                       decoration: InputDecoration(
@@ -85,9 +82,7 @@ class _IndustryFilterState extends State<IndustryFilter> {
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.clear();
-                            themeContext.read<FindAllCategoriesBloc>().add(
-                                  FindAllCategories(query: '', industry: ''),
-                                );
+                            themeContext.read<FindIndustriesBloc>().add(FindIndustries());
                           },
                           child: Icon(
                             Icons.cancel_rounded,
@@ -97,17 +92,15 @@ class _IndustryFilterState extends State<IndustryFilter> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<FindAllCategoriesBloc, FindAllCategoriesState>(
+                    BlocBuilder<FindIndustriesBloc, FindIndustriesState>(
                       builder: (builderContext, state) {
-                        if (state is FindAllCategoriesDone) {
-                          final industries = state.results.map((e) => e.industry).toList();
-                          final categories = state.results.expand((e) => e.categories).toList();
-                          final bool hasMore = state.total > categories.length;
+                        if (state is FindIndustriesDone) {
+                          final industries = state.industries;
 
                           return PhysicalModel(
                             color: theme.backgroundSecondary,
                             borderRadius: BorderRadius.circular(16),
-                            child: categories.isNotEmpty
+                            child: industries.isNotEmpty
                                 ? Container(
                                     constraints: BoxConstraints(
                                       maxHeight: context.height * .5,
@@ -116,18 +109,6 @@ class _IndustryFilterState extends State<IndustryFilter> {
                                       separatorBuilder: (context, index) =>
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
-                                        if (index * 20 >= categories.length && hasMore) {
-                                          if (state is! FindAllCategoriesPaginating) {
-                                            context.read<FindAllCategoriesBloc>().add(
-                                                  PaginateAllCategories(
-                                                    page: state.page + 1,
-                                                    industry: '',
-                                                    query: controller.text,
-                                                  ),
-                                                );
-                                          }
-                                          return const LinearProgressIndicator();
-                                        }
                                         final item = industries[index];
                                         final bool selected = item.name.full.same(as: category?.name.full);
                                         return InkWell(
@@ -160,7 +141,7 @@ class _IndustryFilterState extends State<IndustryFilter> {
                                           ),
                                         );
                                       },
-                                      itemCount: industries.length + (hasMore ? 1 : 0),
+                                      itemCount: industries.length,
                                       shrinkWrap: true,
                                       padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
                                       physics: const ScrollPhysics(),

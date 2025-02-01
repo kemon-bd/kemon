@@ -30,8 +30,8 @@ class _CategoryFilterState extends State<CategoryFilter> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          sl<FindAllCategoriesBloc>()..add(FindAllCategories(industry: widget.industry?.urlSlug ?? '', query: '')),
+      create: (context) => sl<FindCategoriesByIndustryBloc>()
+        ..add(FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? '')),
       child: Padding(
         padding: context.viewInsets,
         child: Material(
@@ -56,21 +56,6 @@ class _CategoryFilterState extends State<CategoryFilter> {
                           "Category",
                           style: TextStyles.title(context: themeContext, color: theme.textPrimary),
                         ),
-                        BlocBuilder<FindAllCategoriesBloc, FindAllCategoriesState>(
-                          builder: (context, state) {
-                            if (state is FindAllCategoriesDone) {
-                              final categories = state.results.expand((e) => e.categories).toList();
-                              return Padding(
-                                padding: EdgeInsets.only(left: Dimension.padding.horizontal.max),
-                                child: Text(
-                                  "${categories.length} of ${state.total}",
-                                  style: TextStyles.body(context: themeContext, color: theme.textSecondary),
-                                ),
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
                         Spacer(),
                         IconButton(
                           onPressed: () {
@@ -90,8 +75,8 @@ class _CategoryFilterState extends State<CategoryFilter> {
                     TextField(
                       controller: controller,
                       onChanged: (value) {
-                        themeContext.read<FindAllCategoriesBloc>().add(
-                              FindAllCategories(industry: widget.industry?.urlSlug ?? '', query: value),
+                        themeContext.read<FindCategoriesByIndustryBloc>().add(
+                              FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? '', query: value),
                             );
                       },
                       style: TextStyles.body(context: themeContext, color: theme.textPrimary),
@@ -103,8 +88,8 @@ class _CategoryFilterState extends State<CategoryFilter> {
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.clear();
-                            themeContext.read<FindAllCategoriesBloc>().add(
-                                  FindAllCategories(industry: widget.industry?.urlSlug ?? '', query: ''),
+                            themeContext.read<FindCategoriesByIndustryBloc>().add(
+                                  FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? ''),
                                 );
                           },
                           child: Icon(
@@ -115,11 +100,10 @@ class _CategoryFilterState extends State<CategoryFilter> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<FindAllCategoriesBloc, FindAllCategoriesState>(
+                    BlocBuilder<FindCategoriesByIndustryBloc, FindCategoriesByIndustryState>(
                       builder: (builderContext, state) {
-                        if (state is FindAllCategoriesDone) {
-                          final categories = state.results.expand((e) => e.categories).toList();
-                          final bool hasMore = state.total > categories.length;
+                        if (state is FindCategoriesByIndustryDone) {
+                          final categories = state.categories;
 
                           return PhysicalModel(
                             color: theme.backgroundSecondary,
@@ -133,18 +117,6 @@ class _CategoryFilterState extends State<CategoryFilter> {
                                       separatorBuilder: (context, index) =>
                                           Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
-                                        if (index == categories.length && hasMore) {
-                                          if (state is! FindAllCategoriesPaginating) {
-                                            context.read<FindAllCategoriesBloc>().add(
-                                                  PaginateAllCategories(
-                                                    page: state.page + 1,
-                                                    industry: widget.industry?.urlSlug ?? '',
-                                                    query: controller.text,
-                                                  ),
-                                                );
-                                          }
-                                          return const LinearProgressIndicator();
-                                        }
                                         final item = categories[index];
                                         final bool selected = item.name.full.same(as: category?.name.full);
                                         return InkWell(
@@ -177,7 +149,7 @@ class _CategoryFilterState extends State<CategoryFilter> {
                                           ),
                                         );
                                       },
-                                      itemCount: categories.length + (hasMore ? 1 : 0),
+                                      itemCount: categories.length,
                                       shrinkWrap: true,
                                       padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
                                       physics: const ScrollPhysics(),

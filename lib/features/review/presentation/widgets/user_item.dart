@@ -87,13 +87,14 @@ class UserReviewItemWidget extends StatelessWidget {
                       ),
                       if (review.deleted || review.flagged) ...[
                         const SizedBox(width: 8),
-                        Chip(
+                        RawChip(
                           elevation: 0,
+                          side: BorderSide.none,
+                          padding: EdgeInsets.all(0),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                           backgroundColor: review.deleted ? theme.negative : Colors.deepPurple,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          padding: EdgeInsets.all(0),
-                          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                           label: Text(
                             review.deleted ? "Deleted" : "Flagged",
                             style: TextStyles.caption(context: context, color: theme.backgroundPrimary),

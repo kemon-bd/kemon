@@ -32,6 +32,7 @@ abstract class BusinessRemoteDataSource {
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
+    required IndustryEntity? industry,
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
   });

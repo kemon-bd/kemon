@@ -389,9 +389,16 @@ final router = GoRouter(
               ),
           ),
           BlocProvider(
+            create: (context) => sl<FindLocationBloc>()
+              ..add(
+                FindLocation(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(
             create: (context) => sl<LocationListingsFilterBloc>()
               ..add(
                 ApplyLocationListingsFilter(
+                  industry: null,
                   category: null,
                   subCategory: null,
                   rating: RatingRange.all,

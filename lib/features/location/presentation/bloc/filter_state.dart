@@ -1,6 +1,7 @@
 part of 'filter_bloc.dart';
 
 sealed class LocationListingsFilterState extends Equatable {
+  final IndustryEntity? industry;
   final CategoryEntity? category;
   final SubCategoryEntity? subCategory;
   final String? division;
@@ -8,6 +9,7 @@ sealed class LocationListingsFilterState extends Equatable {
   final String? thana;
   final RatingRange rating;
   const LocationListingsFilterState({
+    required this.industry,
     required this.category,
     required this.subCategory,
     required this.division,
@@ -18,6 +20,7 @@ sealed class LocationListingsFilterState extends Equatable {
 
   @override
   List<Object?> get props => [
+        industry,
         category,
         subCategory,
         division,
@@ -30,6 +33,7 @@ sealed class LocationListingsFilterState extends Equatable {
 final class DefaultLocationListingsFilterState extends LocationListingsFilterState {
   const DefaultLocationListingsFilterState()
       : super(
+          industry: null,
           category: null,
           subCategory: null,
           division: null,
@@ -40,6 +44,7 @@ final class DefaultLocationListingsFilterState extends LocationListingsFilterSta
 
   @override
   List<Object?> get props => [
+        industry,
         category,
         subCategory,
         division,
@@ -51,6 +56,7 @@ final class DefaultLocationListingsFilterState extends LocationListingsFilterSta
 
 final class CustomLocationListingsFilterState extends LocationListingsFilterState {
   const CustomLocationListingsFilterState({
+    required super.industry,
     required super.category,
     required super.subCategory,
     required super.division,
@@ -60,6 +66,7 @@ final class CustomLocationListingsFilterState extends LocationListingsFilterStat
   });
   @override
   List<Object?> get props => [
+        industry,
         category,
         subCategory,
         division,

@@ -94,6 +94,12 @@ class ProfileCheckAlert extends StatelessWidget {
                                       padding: EdgeInsets.all(0),
                                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                       onPressed: () async {
+                                        if (checkpoint.text.match(like: "phone") && (profile.phone?.number ?? "").isEmpty) {
+                                          context.pushNamed(EditProfilePage.name);
+                                        } else if (checkpoint.text.match(like: "email") &&
+                                            (profile.email?.address ?? "").isEmpty) {
+                                          context.pushNamed(EditProfilePage.name);
+                                        }
                                         final confirmed = await showDialog(
                                           context: context,
                                           builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),

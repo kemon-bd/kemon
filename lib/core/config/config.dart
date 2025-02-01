@@ -53,7 +53,22 @@ class AppConfig {
     await setupFirebaseMessaging();
 
     await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
-    
+
+    FlutterError.onError = (errorDetails) {
+      if (kReleaseMode) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      } else {
+        FlutterError.dumpErrorToConsole(errorDetails);
+      }
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      if (kReleaseMode) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      } else {
+        FlutterError.dumpErrorToConsole(FlutterErrorDetails(exception: error, stack: stack));
+      }
+      return true;
+    };
   }
 
   static ThemeData themeData({

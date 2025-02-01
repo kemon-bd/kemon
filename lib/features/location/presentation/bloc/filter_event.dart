@@ -8,6 +8,7 @@ sealed class LocationListingsFilterEvent extends Equatable {
 }
 
 class ApplyLocationListingsFilter extends LocationListingsFilterEvent {
+  final IndustryEntity? industry;
   final CategoryEntity? category;
   final SubCategoryEntity? subCategory;
   final String? division;
@@ -16,6 +17,7 @@ class ApplyLocationListingsFilter extends LocationListingsFilterEvent {
   final RatingRange rating;
 
   const ApplyLocationListingsFilter({
+    required this.industry,
     required this.category,
     required this.subCategory,
     required this.division,
@@ -26,6 +28,7 @@ class ApplyLocationListingsFilter extends LocationListingsFilterEvent {
 
   @override
   List<Object?> get props => [
+        industry,
         category,
         subCategory,
         division,

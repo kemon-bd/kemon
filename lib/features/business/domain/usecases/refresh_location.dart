@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -17,6 +18,7 @@ class RefreshBusinessesByLocationUseCase {
     required String? thana,
     required String? query,
     required SortBy? sort,
+    required IndustryEntity? industry,
     required CategoryEntity? category,
     required SubCategoryEntity? sub,
     required List<int> ratings,
@@ -27,6 +29,7 @@ class RefreshBusinessesByLocationUseCase {
         district: district,
         thana: thana,
         query: query,
+        industry: industry,
         category: category,
         sub: sub,
         sort: sort,

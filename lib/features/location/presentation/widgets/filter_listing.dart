@@ -1,6 +1,7 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../location.dart';
 
@@ -20,6 +21,7 @@ class LocationListingsFilter extends StatefulWidget {
 }
 
 class _LocationListingsFilterState extends State<LocationListingsFilter> {
+  IndustryEntity? industry;
   CategoryEntity? category;
   SubCategoryEntity? subCategory;
   RatingRange rating = RatingRange.all;
@@ -29,6 +31,7 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
     super.initState();
     final filter = context.read<LocationListingsFilterBloc>().state;
     rating = filter.rating;
+    industry = filter.industry;
     category = filter.category;
     subCategory = filter.subCategory;
   }
@@ -78,21 +81,40 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  DropdownWidget<CategoryEntity>(
-                    label: 'Category',
+                  DropdownWidget<IndustryEntity>(
+                    label: 'Industry',
                     labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                    text: category?.name.full ?? 'Select one',
+                    text: industry?.name.full ?? 'Select one',
                     textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                     iconColor: theme.link,
-                    popup: CategoryFilter(industry: null, selection: category),
+                    popup: IndustryFilter(selection: industry),
                     onSelect: (selection) {
                       setState(() {
-                        category = selection;
+                        industry = selection;
+                        category = null;
+                        subCategory = null;
                       });
                     },
                   ),
+                  if (industry != null)
+                    DropdownWidget<CategoryEntity>(
+                      label: 'Category',
+                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                      text: category?.name.full ?? 'Select one',
+                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      iconColor: theme.link,
+                      popup: CategoryFilter(industry: industry, selection: category),
+                      onSelect: (selection) {
+                        setState(() {
+                          category = selection;
+                          subCategory = null;
+                        });
+                      },
+                    ),
                   if (category != null)
                     DropdownWidget<SubCategoryEntity>(
                       label: 'Sub-category',
@@ -267,31 +289,38 @@ class _LocationListingsFilterState extends State<LocationListingsFilter> {
               },
             ),
             const Divider(height: 42),
-            BlocBuilder<FindLocationBloc, FindLocationState>(
-              builder: (context, state) {
-                if (state is FindLocationDone) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      context.read<LocationListingsFilterBloc>().add(
-                            ApplyLocationListingsFilter(
-                              rating: rating,
-                              division: widget.division,
-                              district: widget.district,
-                              thana: widget.thana,
-                              category: category,
-                              subCategory: subCategory,
-                            ),
-                          );
-                      context.pop();
-                    },
-                    child: Text(
-                      'Apply'.toUpperCase(),
-                      style: TextStyles.button(context: context),
-                    ),
-                  );
-                }
-                return Container();
+            TextButton(
+              onPressed: () {
+                context.read<LocationListingsFilterBloc>().add(
+                      ResetLocationListingsFilter(),
+                    );
+                context.pop();
               },
+              child: Text(
+                'Reset'.toUpperCase(),
+                style: TextStyles.button(context: context).copyWith(color: theme.textPrimary),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                context.read<LocationListingsFilterBloc>().add(
+                      ApplyLocationListingsFilter(
+                        rating: rating,
+                        division: widget.division,
+                        district: widget.district,
+                        thana: widget.thana,
+                        industry: industry,
+                        category: category,
+                        subCategory: subCategory,
+                      ),
+                    );
+                context.pop();
+              },
+              child: Text(
+                'Apply'.toUpperCase(),
+                style: TextStyles.button(context: context),
+              ),
             ),
           ],
         );

@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
 import '../../../sub_category/sub_category.dart';
 
 part 'filter_event.dart';
@@ -14,6 +15,7 @@ class LocationListingsFilterBloc extends Bloc<LocationListingsFilterEvent, Locat
       await analytics.logEvent(name: 'listings_by_location_filter_apply');
       emit(
         CustomLocationListingsFilterState(
+          industry: event.industry,
           category: event.category,
           subCategory: event.subCategory,
           division: event.division,
