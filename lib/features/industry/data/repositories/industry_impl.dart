@@ -34,15 +34,21 @@ class IndustryRepositoryImpl extends IndustryRepository {
   }
 
   @override
-  FutureOr<Either<Failure, List<IndustryEntity>>> all() async {
+  FutureOr<Either<Failure, List<IndustryEntity>>> all({
+    required String query,
+  }) async {
     try {
       final result = await local.findAll();
-      return Right(result);
+      return Right(
+        query.isEmpty ? result : result.where((i) => i.name.full.match(like: query)).toList(),
+      );
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
         await local.addAll(industries: result);
-        return Right(result);
+        return Right(
+          query.isEmpty ? result : result.where((i) => i.name.full.match(like: query)).toList(),
+        );
       } else {
         return Left(NoInternetFailure());
       }

@@ -85,7 +85,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                                     ),
                                                   );
                                                   return;
-                                                } else if (authorization.progress(checks: checks) < 91) {
+                                                } else if (authorization.progress(checks: checks) < 50) {
                                                   final bool? progressed = await showModalBottomSheet<bool>(
                                                     context: lookupContext,
                                                     isScrollControlled: true,
@@ -100,7 +100,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                                   if (!lookupContext.mounted) return;
                                                   if (!progressed!) return;
                                                 }
-                                              } else if (lookupContext.auth.profile!.progress(checks: checks) < 91) {
+                                              } else if (lookupContext.auth.profile!.progress(checks: checks) < 50) {
                                                 final bool? progressed = await showModalBottomSheet<bool>(
                                                   context: lookupContext,
                                                   isScrollControlled: true,

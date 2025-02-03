@@ -26,6 +26,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
+  DateTime date = DateTime.now();
 
   final List<XFile> attachments = [];
 
@@ -33,7 +34,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
   void initState() {
     super.initState();
     rating = widget.rating;
-    dateController.text = DateTime.now().dMMMMyyyy;
+    dateController.text = date.dMMMMyyyy;
   }
 
   @override
@@ -133,15 +134,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                         helperText: '',
                       ),
-                      onChanged: (review) {
-                        final String firstSentence = review.split('.').first.trim();
-                        if (titleController.text.isEmpty ||
-                            firstSentence.toLowerCase().trim().startsWith(titleController.text.toLowerCase().trim())) {
-                          setState(() {
-                            titleController.text = firstSentence;
-                          });
-                        }
-                      },
                     ),
                     const SizedBox(height: 16),
                     Text.rich(
@@ -203,7 +195,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                       ),
                       onTap: () async {
-                        final DateTime? date = await showDatePicker(
+                        final DateTime? selection = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
@@ -218,9 +210,10 @@ class _NewReviewPageState extends State<NewReviewPage> {
                             child: child!,
                           ),
                         );
-                        if (date != null) {
+                        if (selection != null) {
                           setState(() {
-                            dateController.text = date.dMMMMyyyy;
+                            date = selection;
+                            dateController.text = selection.dMMMMyyyy;
                           });
                         }
                       },
@@ -434,7 +427,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                           rating: rating,
                                           title: titleController.text,
                                           description: descriptionController.text,
-                                          date: dateController.text,
+                                          date: date.toIso8601String(),
                                           attachments: attachments,
                                         ));
                                   }

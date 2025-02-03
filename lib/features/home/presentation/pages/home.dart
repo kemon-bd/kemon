@@ -92,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                       width: Dimension.radius.twentyFour,
                       height: Dimension.radius.twentyFour,
                       fit: BoxFit.contain,
+                      color: theme.white,
                     ),
                     SizedBox(width: Dimension.size.horizontal.eight),
                     Text(

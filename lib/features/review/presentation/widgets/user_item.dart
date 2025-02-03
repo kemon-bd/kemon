@@ -104,11 +104,13 @@ class UserReviewItemWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  review.title,
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                ),
+                if (review.title.isNotEmpty) ...[
+                  SizedBox(height: Dimension.padding.vertical.large),
+                  Text(
+                    review.title,
+                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  ),
+                ],
                 if (review.description != null) ...[
                   const SizedBox(height: 6),
                   ReadMoreText(

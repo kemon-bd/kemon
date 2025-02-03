@@ -147,14 +147,16 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(height: Dimension.padding.vertical.small),
-                Text(
-                  review.title,
-                  style: TextStyles.body(context: context, color: theme.textPrimary),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                if (review.description != null) ...[
+                if (review.title.isNotEmpty) ...[
+                  SizedBox(height: Dimension.padding.vertical.small),
+                  Text(
+                    review.title,
+                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
+                if ((review.description ?? "").isNotEmpty) ...[
                   SizedBox(height: Dimension.padding.vertical.small),
                   Text(
                     review.description ?? "",

@@ -62,11 +62,11 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                               ? NetworkingIndicator(dimension: Dimension.radius.sixteen, color: Colors.deepPurple)
                               : Icon(Icons.open_in_new_rounded, color: Colors.deepPurple, size: Dimension.radius.sixteen),
                           onTap: () async {
-                            final confirmed = await showDialog(
+                            final confirmed = await showDialog<bool>(
                               context: context,
                               builder: (_) => DeleteConfirmationWidget(affirm: 'Yes, Deactivate'),
                             );
-                            if (!confirmed) return;
+                            if (!(confirmed ?? false)) return;
                             if (!context.mounted) return;
                             deactivateContext.read<DeactivateAccountBloc>().add(GenerateOtpForAccountDeactivation());
                           },

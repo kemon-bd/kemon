@@ -9,7 +9,7 @@ class FindIndustriesBloc extends Bloc<FindIndustriesEvent, FindIndustriesState> 
   FindIndustriesBloc({required this.useCase}) : super(const FindIndustriesInitial()) {
     on<FindIndustries>((event, emit) async {
       emit(const FindIndustriesLoading());
-      final result = await useCase();
+      final result = await useCase(query: event.query);
       result.fold(
         (failure) => emit(FindIndustriesError(failure: failure)),
         (industries) => emit(FindIndustriesDone(industries: industries)),

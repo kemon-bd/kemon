@@ -85,12 +85,14 @@ class BusinessReviewItemWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: Dimension.padding.vertical.large),
-                Text(
-                  review.title,
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                ),
-                if (review.description != null) ...[
+                if (review.title.isNotEmpty) ...[
+                  SizedBox(height: Dimension.padding.vertical.large),
+                  Text(
+                    review.title,
+                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  ),
+                ],
+                if ((review.description ?? "").isNotEmpty) ...[
                   const SizedBox(height: 6),
                   ReadMoreText(
                     review.description ?? "",

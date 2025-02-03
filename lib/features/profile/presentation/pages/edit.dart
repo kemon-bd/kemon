@@ -153,12 +153,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               fit: BoxFit.cover,
                                               placeholder: (_, __) => ShimmerIcon(radius: Dimension.radius.max),
                                               errorWidget: (_, __, ___) => Center(
-                                                child: Text(
-                                                  state.profile.name.symbol,
-                                                  style: TextStyles.body(context: context, color: theme.primary).copyWith(
-                                                    fontSize: 64,
-                                                  ),
-                                                ),
+                                                child: state.profile.name.symbol.isNotEmpty
+                                                    ? Text(
+                                                        state.profile.name.symbol,
+                                                        style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                                                          fontSize: 64,
+                                                        ),
+                                                      )
+                                                    : Icon(Icons.account_circle_outlined, color: theme.primary, size: 64),
                                               ),
                                             ),
                                     ),
@@ -312,9 +314,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Email *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                          Text.rich(
+                                            TextSpan(
+                                              text: "Email",
+                                              style: TextStyles.body(context: context, color: theme.textSecondary),
+                                              children: context.auth.username.same(as: profile.email?.address)
+                                                  ? <InlineSpan>[
+                                                      WidgetSpan(child: SizedBox(width: 4)),
+                                                      WidgetSpan(
+                                                        child: Icon(
+                                                          Icons.lock_rounded,
+                                                          color: theme.textPrimary.withAlpha(100),
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ]
+                                                  : null,
+                                            ),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
@@ -325,17 +341,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               textAlignVertical: TextAlignVertical.center,
                                               textInputAction: TextInputAction.next,
                                               autofillHints: const [AutofillHints.email],
-                                              validator: (value) => emailController.validEmail ? null : "",
+                                              validator: (value) => context.auth.username.same(as: profile.email?.address)
+                                                  ? null
+                                                  : ((value ?? "").isNotEmpty
+                                                      ? (emailController.validEmail ? null : "")
+                                                      : null),
                                               onChanged: (value) {
                                                 setState(() {});
                                               },
+                                              readOnly: context.auth.username.same(as: profile.email?.address),
                                               decoration: InputDecoration(
-                                                hintText: 'required',
+                                                hintText: context.auth.username.same(as: profile.email?.address)
+                                                    ? 'required'
+                                                    : 'optional',
                                                 isDense: true,
                                                 hintStyle: TextStyles.body(
                                                   context: context,
                                                   color: theme.textSecondary.withAlpha(150),
                                                 ),
+                                                helperStyle: TextStyle(fontSize: 0),
                                                 contentPadding: EdgeInsets.zero,
                                                 border: InputBorder.none,
                                                 errorBorder: InputBorder.none,
@@ -350,11 +374,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                         padding: EdgeInsets.all(0),
                                                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                                         onPressed: () async {
-                                                          final confirmed = await showDialog(
+                                                          final confirmed = await showDialog<bool>(
                                                             context: context,
                                                             builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
                                                           );
-                                                          if (!confirmed) return;
+
+                                                          if (!(confirmed ?? false)) return;
                                                           if (!context.mounted) return;
 
                                                           final verified = await showModalBottomSheet<bool>(
@@ -395,6 +420,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 context: context,
                                                 color: emailController.validEmail ? theme.textPrimary : theme.negative,
                                               ),
+                                              onTap: () {
+                                                if (context.auth.username.same(as: profile.email?.address)) {
+                                                  context.warningNotification(
+                                                    message: "Kemon doesn't allow modifying username!!!",
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ),
                                         ],
@@ -407,18 +439,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Phone',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
+                                          Text.rich(
+                                            TextSpan(
+                                              text: "Phone",
+                                              style: TextStyles.body(context: context, color: theme.textSecondary),
+                                              children: context.auth.username.same(as: profile.phone?.number)
+                                                  ? <InlineSpan>[
+                                                      WidgetSpan(child: SizedBox(width: 4)),
+                                                      WidgetSpan(
+                                                        child: Icon(
+                                                          Icons.lock_rounded,
+                                                          color: theme.textPrimary.withAlpha(100),
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ]
+                                                  : null,
+                                            ),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
-                                            child: TextField(
+                                            child: TextFormField(
                                               controller: phoneController,
                                               keyboardType: TextInputType.phone,
                                               textAlign: TextAlign.end,
                                               textAlignVertical: TextAlignVertical.center,
                                               textInputAction: TextInputAction.next,
+                                              validator: (value) => context.auth.username.same(as: profile.phone?.number)
+                                                  ? null
+                                                  : ((value ?? "").isNotEmpty
+                                                      ? (phoneController.validPhone ? null : "")
+                                                      : null),
                                               autofillHints: const [
                                                 AutofillHints.telephoneNumber,
                                                 AutofillHints.telephoneNumberDevice,
@@ -428,8 +479,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               onChanged: (value) {
                                                 setState(() {});
                                               },
+                                              readOnly: context.auth.username.same(as: profile.phone?.number),
                                               decoration: InputDecoration(
-                                                hintText: 'required',
+                                                hintText: context.auth.username.same(as: profile.phone?.number)
+                                                    ? 'required'
+                                                    : 'optional',
                                                 isDense: true,
                                                 hintStyle: TextStyles.body(
                                                   context: context,
@@ -449,11 +503,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                         padding: EdgeInsets.all(0),
                                                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                                         onPressed: () async {
-                                                          final confirmed = await showDialog(
+                                                          final confirmed = await showDialog<bool>(
                                                             context: context,
                                                             builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
                                                           );
-                                                          if (!confirmed) return;
+
+                                                          if (!(confirmed ?? false)) return;
                                                           if (!context.mounted) return;
 
                                                           final verified = await showModalBottomSheet<bool>(
@@ -492,8 +547,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               ),
                                               style: TextStyles.body(
                                                 context: context,
-                                                color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                                color: context.auth.username.same(as: profile.phone?.number)
+                                                    ? theme.textSecondary
+                                                    : phoneController.validPhone
+                                                        ? theme.textPrimary
+                                                        : theme.negative,
                                               ),
+                                              onTap: () {
+                                                if (context.auth.username.same(as: profile.phone?.number)) {
+                                                  context.warningNotification(
+                                                    message: "Kemon doesn't allow modifying username!!!",
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ),
                                         ],

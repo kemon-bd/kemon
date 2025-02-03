@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../authentication/authentication.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../home/home.dart';
@@ -371,7 +372,8 @@ class _SearchPageState extends State<SearchPage> {
                       const SizedBox(height: 100),
                       InkWell(
                         onTap: () async {
-                          final ProfileModel? authorization = context.auth.profile ??
+                          final AuthenticationBloc bloc = context.auth;
+                          final ProfileModel? authorization = bloc.profile ??
                               await context.pushNamed<ProfileModel>(
                                 CheckProfilePage.name,
                                 queryParameters: {'authorize': 'true'},

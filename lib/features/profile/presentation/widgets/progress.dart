@@ -97,11 +97,11 @@ class ProfileProgressWidget extends StatelessWidget {
                                                 (profile.email?.address ?? "").isEmpty) {
                                               context.pushNamed(EditProfilePage.name);
                                             }
-                                            final confirmed = await showDialog(
+                                            final confirmed = await showDialog<bool>(
                                               context: context,
                                               builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
                                             );
-                                            if (!confirmed) return;
+                                            if (!(confirmed  ?? false)) return;
                                             if (!context.mounted) return;
 
                                             final verified = await showModalBottomSheet<bool>(

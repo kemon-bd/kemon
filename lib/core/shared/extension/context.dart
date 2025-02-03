@@ -57,7 +57,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.black),
+        style: TextStyles.body(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.warning,
     );

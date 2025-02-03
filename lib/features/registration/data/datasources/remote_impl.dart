@@ -21,8 +21,8 @@ class RegistrationRemoteDataSourceImpl extends RegistrationRemoteDataSource {
       "refference": refference,
       "firstName": '',
       "lastName": '',
-      "email": '',
-      "phone": '',
+      "email": username.match(like: "@") ? username : '',
+      "phone": !username.match(like: "@") ? username : '',
       "dob": '',
       "gender": '-1',
     };

@@ -2,7 +2,7 @@ import '../shared.dart';
 
 extension DateTimeExtension on DateTime {
   String get duration {
-    final DateTime now = DateTime.now().toUtc().add(Duration(hours: 6));
+    final DateTime now = DateTime.now();
 
     final Duration diff = now.difference(this);
 

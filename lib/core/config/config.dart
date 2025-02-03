@@ -51,7 +51,6 @@ class AppConfig {
 
     // Firebase Messaging
     await setupFirebaseMessaging();
-
     await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
 
     FlutterError.onError = (errorDetails) {

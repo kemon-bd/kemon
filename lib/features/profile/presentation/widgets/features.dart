@@ -137,11 +137,11 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                       size: Dimension.radius.sixteen,
                                     ),
                                     onTap: () async {
-                                      final confirmed = await showDialog(
+                                      final confirmed = await showDialog<bool>(
                                         context: context,
                                         builder: (_) => DeleteConfirmationWidget(affirm: 'Continue'),
                                       );
-                                      if (!confirmed) return;
+                                      if (!(confirmed ?? false)) return;
                                       if (!context.mounted) return;
 
                                       context.pushNamed(ChangePasswordPage.name);
