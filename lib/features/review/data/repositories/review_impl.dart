@@ -125,8 +125,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }) async {
     try {
       if (await network.online) {
-        await remote.update(
-            token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(token: auth.token!, user: auth.identity!, review: review);
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);
@@ -174,6 +173,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
     try {
       if (await network.online) {
         final reviews = await remote.recent();
+        reviews.sort((a, b) => b.reviewedAt.compareTo(a.reviewedAt));
 
         return Right(reviews);
       } else {

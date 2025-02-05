@@ -350,6 +350,60 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   }
                                 },
                               ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: TextEditingController(text: dob?.dMMMMyyyy),
+                                keyboardType: TextInputType.phone,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.telephoneNumber],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Date of birth",
+                                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () async {
+                                  final date = await showDatePicker(
+                                    context: context,
+                                    initialDate: dob ?? DateTime(2000),
+                                    firstDate: DateTime(1920),
+                                    lastDate: DateTime.now().copyWith(year: DateTime.now().year - 16),
+                                    initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                    initialDatePickerMode: DatePickerMode.day,
+                                    builder: (_, child) => Theme(
+                                      data: Theme.of(context).copyWith(
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    ),
+                                  );
+
+                                  if (date != null) {
+                                    setState(() {
+                                      dob = date;
+                                    });
+                                  }
+                                },
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: theme.backgroundSecondary,
@@ -359,61 +413,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     width: .25,
                                   ),
                                 ),
+                                margin: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.medium),
                                 child: ListView(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.zero.copyWith(top: 4, bottom: 4),
+                                  padding: EdgeInsets.zero,
                                   physics: const NeverScrollableScrollPhysics(),
                                   cacheExtent: double.maxFinite,
                                   children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        final date = await showDatePicker(
-                                          context: context,
-                                          initialDate: dob ?? DateTime(2000),
-                                          firstDate: DateTime(1920),
-                                          lastDate: DateTime.now().copyWith(year: DateTime.now().year - 16),
-                                          initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                          initialDatePickerMode: DatePickerMode.day,
-                                          builder: (_, child) => Theme(
-                                            data: Theme.of(context).copyWith(
-                                              textButtonTheme: TextButtonThemeData(
-                                                style: TextButton.styleFrom(),
-                                              ),
-                                            ),
-                                            child: child!,
-                                          ),
-                                        );
-
-                                        if (date != null) {
-                                          setState(() {
-                                            dob = date;
-                                          });
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Date of birth',
-                                              style: TextStyles.body(context: context, color: theme.textSecondary),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text(
-                                                dob?.dMMMMyyyy ?? 'Select one',
-                                                style: TextStyles.body(context: context, color: theme.textPrimary),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Icon(Icons.arrow_drop_down_rounded, color: theme.textPrimary),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
                                     DropdownWidget<Gender>(
                                       label: 'Gender',
                                       labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
