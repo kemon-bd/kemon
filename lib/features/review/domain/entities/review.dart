@@ -7,7 +7,8 @@ class ReviewEntity extends Equatable {
   final int rating;
   final String title;
   final String? description;
-  final DateTime date;
+  final DateTime experiencedAt;
+  final DateTime reviewedAt;
   final bool deleted;
   final bool flagged;
   final List<String> photos;
@@ -19,7 +20,8 @@ class ReviewEntity extends Equatable {
     required this.rating,
     required this.title,
     required this.description,
-    required this.date,
+    required this.experiencedAt,
+    required this.reviewedAt,
     required this.photos,
     required this.deleted,
     required this.flagged,
@@ -33,7 +35,8 @@ class ReviewEntity extends Equatable {
         rating,
         title,
         description,
-        date,
+        experiencedAt,
+        reviewedAt,
         photos,
       ];
 }

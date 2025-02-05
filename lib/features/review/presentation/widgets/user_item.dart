@@ -75,7 +75,7 @@ class UserReviewItemWidget extends StatelessWidget {
                                   stream: Stream.periodic(const Duration(seconds: 1)),
                                   builder: (context, snapshot) {
                                     return Text(
-                                      review.date.duration,
+                                      review.reviewedAt.duration,
                                       style: TextStyles.caption(context: context, color: theme.textSecondary),
                                     );
                                   },

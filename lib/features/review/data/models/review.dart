@@ -9,7 +9,8 @@ class ReviewModel extends ReviewEntity {
     required super.rating,
     required super.title,
     required super.description,
-    required super.date,
+    required super.experiencedAt,
+    required super.reviewedAt,
     required super.photos,
     required super.deleted,
     required super.flagged,
@@ -87,7 +88,17 @@ class ReviewModel extends ReviewEntity {
         map['date'] is String,
         'ReviewModel.parse: "date" is not a String.',
       );
-      final String date = map['date'] as String;
+      final String experiencedAt = map['date'] as String;
+
+      assert(
+        map.containsKey('createdDate'),
+        'ReviewModel.parse: "createdDate" not found.',
+      );
+      assert(
+        map['createdDate'] is String,
+        'ReviewModel.parse: "createdDate" is not a String.',
+      );
+      final String reviewedAt = map['createdDate'] as String;
 
       return ReviewModel(
         identity: Identity(id: map['id'] ?? -1, guid: guid),
@@ -96,7 +107,8 @@ class ReviewModel extends ReviewEntity {
         rating: rating,
         title: title,
         description: parse(description).body?.text,
-        date: DateTime.parse(date),
+        experiencedAt: DateTime.parse(experiencedAt),
+        reviewedAt: DateTime.parse(reviewedAt),
         photos: map['reviewImages']
             .toString()
             .split(',')

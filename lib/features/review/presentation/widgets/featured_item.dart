@@ -1,6 +1,7 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -77,7 +78,20 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ProfilePictureWidget(size: Dimension.radius.twentyFour),
+                        BlocBuilder<FindProfileBloc, FindProfileState>(
+                          builder: (context, state) {
+                            if (state is FindProfileDone) {
+                              return ProfilePointsBuilder(builder: (checks) {
+                                return ProfilePictureWidget(
+                                  size: Dimension.radius.twentyFour,
+                                  showBadge: state.profile.progress(checks: checks)==100,
+                                );
+                              });
+                            } else {
+                              return ProfilePictureWidget(size: Dimension.radius.twentyFour);
+                            }
+                          },
+                        ),
                         SizedBox(width: Dimension.padding.horizontal.medium),
                         Expanded(
                           child: Column(
@@ -103,7 +117,7 @@ class FeaturedReviewItemWidget extends StatelessWidget {
                                       stream: Stream.periodic(const Duration(seconds: 1)),
                                       builder: (context, snapshot) {
                                         return Text(
-                                          review.date.duration,
+                                          review.reviewedAt.duration,
                                           style:
                                               TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
                                           maxLines: 1,

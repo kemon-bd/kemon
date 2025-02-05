@@ -187,6 +187,7 @@ class AppConfig {
         primary: theme.primary,
         brightness: mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
       ),
+      textTheme: GoogleFonts.solwayTextTheme(),
       useMaterial3: true,
     );
   }

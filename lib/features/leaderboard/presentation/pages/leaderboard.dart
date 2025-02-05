@@ -1,6 +1,7 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
+import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../leaderboard.dart';
 
@@ -73,13 +74,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           Dimension.size.vertical.oneTwelve,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.goNamed(HomePage.name);
+                          }
+                        },
                       ),
                       title: isExpanded
                           ? null
@@ -366,7 +367,20 @@ class ListingsWidget extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
-                            ProfilePictureWidget(size: Dimension.radius.twentyFour),
+                            BlocBuilder<FindProfileBloc, FindProfileState>(
+                              builder: (context, state) {
+                                if (state is FindProfileDone) {
+                                  return ProfilePointsBuilder(builder: (checks) {
+                                    return ProfilePictureWidget(
+                                      size: Dimension.radius.twentyFour,
+                                      showBadge: state.profile.progress(checks: checks) == 100,
+                                    );
+                                  });
+                                } else {
+                                  return ProfilePictureWidget(size: Dimension.radius.twentyFour);
+                                }
+                              },
+                            ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
                               child: ProfileNameWidget(

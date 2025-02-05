@@ -91,17 +91,18 @@ class ProfileProgressWidget extends StatelessWidget {
                                           padding: EdgeInsets.all(0),
                                           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                           onPressed: () async {
+                                            final bloc = context.read<FindProfileBloc>();
                                             if (checkpoint.text.match(like: "phone") && (profile.phone?.number ?? "").isEmpty) {
-                                              context.pushNamed(EditProfilePage.name);
+                                              context.pushNamed(EditProfilePage.name, extra: bloc);
                                             } else if (checkpoint.text.match(like: "email") &&
                                                 (profile.email?.address ?? "").isEmpty) {
-                                              context.pushNamed(EditProfilePage.name);
+                                              context.pushNamed(EditProfilePage.name, extra: bloc);
                                             }
                                             final confirmed = await showDialog<bool>(
                                               context: context,
                                               builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
                                             );
-                                            if (!(confirmed  ?? false)) return;
+                                            if (!(confirmed ?? false)) return;
                                             if (!context.mounted) return;
 
                                             final verified = await showModalBottomSheet<bool>(

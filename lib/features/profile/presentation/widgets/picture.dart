@@ -9,6 +9,8 @@ class ProfilePictureWidget extends StatelessWidget {
   final double border;
   final Color? borderColor;
   final VoidCallback? onTap;
+  final bool showFlare;
+  final bool showBadge;
 
   const ProfilePictureWidget({
     super.key,
@@ -18,6 +20,8 @@ class ProfilePictureWidget extends StatelessWidget {
     this.backgroundColor,
     this.placeholderColor,
     this.onTap,
+    this.showFlare = false,
+    this.showBadge = false,
   });
 
   @override
@@ -47,31 +51,102 @@ class ProfilePictureWidget extends StatelessWidget {
                     ),
                   ),
                 );
+                final child = Container(
+                  decoration: BoxDecoration(
+                    color: backgroundColor ?? theme.primary,
+                    borderRadius: BorderRadius.circular(size),
+                    border: Border.all(
+                      color: borderColor ?? Colors.transparent,
+                      width: border,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: url.isEmpty
+                      ? fallback
+                      : CachedNetworkImage(
+                          imageUrl: url,
+                          width: size,
+                          height: size,
+                          fit: BoxFit.cover,
+                          placeholder: (_, __) => ShimmerIcon(radius: size),
+                          errorWidget: (_, __, ___) => fallback,
+                        ),
+                );
                 return Center(
                   child: SizedBox(
                     width: size,
                     height: size,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: backgroundColor ?? theme.primary,
-                        borderRadius: BorderRadius.circular(size),
-                        border: Border.all(
-                          color: borderColor ?? Colors.transparent,
-                          width: border,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: url.isEmpty
-                          ? fallback
-                          : CachedNetworkImage(
-                              imageUrl: url,
-                              width: size,
-                              height: size,
-                              fit: BoxFit.cover,
-                              placeholder: (_, __) => ShimmerIcon(radius: size),
-                              errorWidget: (_, __, ___) => fallback,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        showFlare
+                            ? child
+                                .animate(
+                                  onComplete: (controller) => controller.repeat(reverse: true),
+                                )
+                                .boxShadow(
+                                  borderRadius: BorderRadius.circular(size),
+                                  duration: 3.seconds,
+                                  begin: BoxShadow(
+                                    color: theme.white,
+                                    spreadRadius: border * 3,
+                                    blurRadius: border * 3,
+                                  ),
+                                  end: BoxShadow(
+                                    color: theme.semiWhite,
+                                    spreadRadius: border,
+                                    blurRadius: border,
+                                  ),
+                                )
+                            : child,
+                        if (showFlare)
+                          Positioned(
+                            bottom: -(border * 3.5),
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: PhysicalModel(
+                                color: borderColor ?? theme.white,
+                                borderRadius: BorderRadius.circular(size),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border),
+                                  child: Icon(
+                                    Icons.verified_rounded,
+                                    color: theme.primary,
+                                    size: border * 5,
+                                    weight: 700,
+                                    grade: 200,
+                                    fill: 1.0,
+                                    opticalSize: border,
+                                  ),
+                                ),
+                              ),
                             ),
+                          ),
+                        if (showBadge)
+                          Positioned(
+                            bottom: -size * .2,
+                            right: -size * .2,
+                            child: Center(
+                              child: PhysicalModel(
+                                color: borderColor ?? theme.backgroundPrimary,
+                                borderRadius: BorderRadius.circular(size),
+                                child: Padding(
+                                  padding: EdgeInsets.all(size * .05),
+                                  child: Icon(
+                                    Icons.verified_rounded,
+                                    color: theme.primary,
+                                    size: size * .5,
+                                    weight: 700,
+                                    grade: 200,
+                                    fill: 1.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 );
@@ -153,11 +228,11 @@ class MyProfilePictureWidget extends StatelessWidget {
             );
           } else if (showWhenUnAuthorized) {
             return CircleAvatar(
-              radius: size/2,
+              radius: size / 2,
               backgroundColor: theme.white,
               child: Icon(
                 Icons.account_circle_outlined,
-                size: size *.85,
+                size: size * .85,
                 color: theme.primary,
               ),
             );

@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
-
     if (kReleaseMode) {
       InAppUpdate.checkForUpdate().then(
         (event) async {
@@ -177,17 +176,30 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 16),
               ],
             ),
-            body: ListView(
-              shrinkWrap: false,
-              padding: EdgeInsets.zero,
-              children: const [
-                DashboardSearchWidget(),
-                DashboardForYouWidget(),
-                FeaturedCategoriesWidget(),
-                FeaturedLocationsWidget(),
-                FeaturedReviewsWidget(),
-                HomeFooterWidget(),
-              ],
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
+                context.read<RecentReviewsBloc>().add(const RecentReviews());
+                await sl<FirebaseAnalytics>().logEvent(
+                  name: 'home_refresh',
+                  parameters: {
+                    'id': context.auth.profile?.identity.id ?? 'anonymous',
+                    'name': context.auth.profile?.name.full ?? 'Guest',
+                  },
+                );
+              },
+              child: ListView(
+                shrinkWrap: false,
+                padding: EdgeInsets.zero,
+                children: const [
+                  DashboardSearchWidget(),
+                  DashboardForYouWidget(),
+                  FeaturedCategoriesWidget(),
+                  FeaturedLocationsWidget(),
+                  FeaturedReviewsWidget(),
+                  HomeFooterWidget(),
+                ],
+              ),
             ),
           ),
         );

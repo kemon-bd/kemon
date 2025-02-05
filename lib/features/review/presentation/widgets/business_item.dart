@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -30,13 +31,32 @@ class BusinessReviewItemWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ProfilePictureWidget(
-                      size: Dimension.radius.thirtyTwo,
-                      onTap: () {
-                        context.pushNamed(
-                          PublicProfilePage.name,
-                          pathParameters: {'user': review.user.guid},
-                        );
+                    BlocBuilder<FindProfileBloc, FindProfileState>(
+                      builder: (context, state) {
+                        if (state is FindProfileDone) {
+                          return ProfilePointsBuilder(builder: (checks) {
+                            return ProfilePictureWidget(
+                              size: Dimension.radius.thirtyTwo,
+                              showBadge: state.profile.progress(checks: checks) == 100,
+                              onTap: () {
+                                context.pushNamed(
+                                  PublicProfilePage.name,
+                                  pathParameters: {'user': review.user.guid},
+                                );
+                              },
+                            );
+                          });
+                        } else {
+                          return ProfilePictureWidget(
+                            size: Dimension.radius.thirtyTwo,
+                            onTap: () {
+                              context.pushNamed(
+                                PublicProfilePage.name,
+                                pathParameters: {'user': review.user.guid},
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                     const SizedBox(width: 8),
@@ -73,7 +93,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                 stream: Stream.periodic(const Duration(seconds: 1)),
                                 builder: (context, snapshot) {
                                   return Text(
-                                    review.date.duration,
+                                    review.reviewedAt.duration,
                                     style: TextStyles.body(context: context, color: theme.textSecondary),
                                   );
                                 },
@@ -143,6 +163,13 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         );
                       },
                     ),
+                  ),
+                ],
+                if (review.reviewedAt.dMMMMyyyy != review.experiencedAt.dMMMMyyyy) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    "Experienced at ${review.experiencedAt.dMMMMyyyy}",
+                    style: context.text.labelSmall?.copyWith(color: theme.textSecondary),
                   ),
                 ],
                 Container(

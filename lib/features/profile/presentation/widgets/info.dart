@@ -1,4 +1,5 @@
 import '../../../../../core/shared/shared.dart';
+import '../../../lookup/lookup.dart';
 import '../../profile.dart';
 
 class ProfileInformationWidget extends StatelessWidget {
@@ -36,12 +37,28 @@ class ProfileInformationWidget extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             children: [
-              ProfilePictureWidget(
-                size: Dimension.radius.max,
-                backgroundColor: theme.positiveBackgroundSecondary,
-                placeholderColor: theme.primary,
-                border: Dimension.radius.three,
-                borderColor: theme.primary,
+              BlocBuilder<FindProfileBloc, FindProfileState>(
+                builder: (context, state) {
+                  if (state is FindProfileDone) {
+                    return ProfilePointsBuilder(builder: (checks) {
+                      return ProfilePictureWidget(
+                        size: Dimension.radius.max,
+                        backgroundColor: theme.positiveBackgroundSecondary,
+                        placeholderColor: theme.primary,
+                        border: Dimension.radius.four,
+                        borderColor: theme.white,
+                        showFlare: state.profile.progress(checks: checks) == 100,
+                      );
+                    });
+                  }
+                  return ProfilePictureWidget(
+                    size: Dimension.radius.max,
+                    backgroundColor: theme.positiveBackgroundSecondary,
+                    placeholderColor: theme.primary,
+                    border: Dimension.radius.four,
+                    borderColor: theme.white,
+                  );
+                },
               ),
               const SizedBox(height: 16),
               ProfileNameWidget(
@@ -73,7 +90,7 @@ class ProfileInformationWidget extends StatelessWidget {
                   onPressed: () async {
                     final identity = context.auth.identity!;
                     final bloc = context.read<FindProfileBloc>();
-                    final bool? updated = await context.pushNamed(EditProfilePage.name);
+                    final bool? updated = await context.pushNamed(EditProfilePage.name, extra: bloc);
                     if (updated ?? false) {
                       bloc.add(RefreshProfile(identity: identity));
                     }

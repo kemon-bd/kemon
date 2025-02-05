@@ -158,7 +158,8 @@ final router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: context.auth.identity!)),
+            create: (context) => ((state.extra as FindProfileBloc?) ?? sl<FindProfileBloc>())
+              ..add(FindProfile(identity: context.auth.identity!)),
           ),
           BlocProvider(create: (context) => sl<UpdateProfileBloc>()),
         ],

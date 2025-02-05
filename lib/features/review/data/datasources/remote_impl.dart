@@ -137,7 +137,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       'reviewGuid': review.identity.guid,
       'title': review.title,
       'description': review.description ?? '',
-      'date': review.date.toUtc().toIso8601String(),
+      'date': review.experiencedAt.toUtc().toIso8601String(),
     };
 
     final Response response = await client.post(

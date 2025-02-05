@@ -70,6 +70,7 @@ extension BuildContextExtension on BuildContext {
     return theme.scheme.textPrimary.withAlpha(theme.mode == ThemeMode.dark ? 25 : 125);
   }
 
+  TextTheme get text => Theme.of(this).textTheme;
   ThemeState get theme => this.read<ThemeBloc>().state;
 
   AuthenticationBloc get auth => this.read<AuthenticationBloc>();

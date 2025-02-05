@@ -1,4 +1,3 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
 import '../../profile.dart';
@@ -196,6 +195,161 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                               ),
                               const SizedBox(height: 32),
+                              TextFormField(
+                                controller: firstNameController,
+                                keyboardType: TextInputType.name,
+                                textCapitalization: TextCapitalization.words,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [
+                                  AutofillHints.givenName,
+                                  AutofillHints.name,
+                                  AutofillHints.namePrefix,
+                                ],
+                                validator: (value) => firstNameController.validName ? null : "",
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'First Name *',
+                                  labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                  hintText: 'required',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: firstNameController.validName ? theme.textPrimary : theme.negative,
+                                ),
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: lastNameController,
+                                keyboardType: TextInputType.name,
+                                textCapitalization: TextCapitalization.words,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [
+                                  AutofillHints.familyName,
+                                  AutofillHints.nameSuffix,
+                                ],
+                                decoration: InputDecoration(
+                                  labelText: 'Last Name',
+                                  labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                ),
+                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.email],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: context.auth.username.same(as: profile.email?.address),
+                                decoration: InputDecoration(
+                                  label: Text.rich(
+                                    TextSpan(
+                                      text: "Email",
+                                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                                      children: context.auth.username.same(as: profile.email?.address)
+                                          ? <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 4)),
+                                              WidgetSpan(child: Icon(Icons.lock_rounded, color: theme.textSecondary, size: 16)),
+                                            ]
+                                          : null,
+                                    ),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
+                                  suffixIcon: (profile.email?.verified ?? false)
+                                      ? Icon(Icons.verified_rounded, color: theme.primary)
+                                      : VerifyEmailButton(email: emailController),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: emailController.validEmail ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () {
+                                  if (context.auth.username.same(as: profile.email?.address)) {
+                                    context.warningNotification(
+                                      message: "Kemon doesn't allow modifying username!!!",
+                                    );
+                                  }
+                                },
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: phoneController,
+                                keyboardType: TextInputType.phone,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.telephoneNumber],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: context.auth.username.same(as: profile.phone?.number),
+                                decoration: InputDecoration(
+                                  label: Text.rich(
+                                    TextSpan(
+                                      text: "Phone",
+                                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                                      children: context.auth.username.same(as: profile.phone?.number)
+                                          ? <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 4)),
+                                              WidgetSpan(child: Icon(Icons.lock_rounded, color: theme.textSecondary, size: 16)),
+                                            ]
+                                          : null,
+                                    ),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
+                                  suffixIcon: (profile.phone?.verified ?? false)
+                                      ? Icon(Icons.verified_rounded, color: theme.primary)
+                                      : VerifyPhoneButton(phone: phoneController),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () {
+                                  if (context.auth.username.same(as: profile.phone?.number)) {
+                                    context.warningNotification(
+                                      message: "Kemon doesn't allow modifying username!!!",
+                                    );
+                                  }
+                                },
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: theme.backgroundSecondary,
@@ -211,361 +365,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   cacheExtent: double.maxFinite,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'First name *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: firstNameController,
-                                              keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [
-                                                AutofillHints.givenName,
-                                                AutofillHints.name,
-                                                AutofillHints.namePrefix,
-                                              ],
-                                              validator: (value) => firstNameController.validName ? null : "",
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              decoration: InputDecoration(
-                                                hintText: 'required',
-                                                hintStyle: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.body(
-                                                context: context,
-                                                color: firstNameController.validName ? theme.textPrimary : theme.negative,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Last',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextField(
-                                              controller: lastNameController,
-                                              keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [
-                                                AutofillHints.familyName,
-                                                AutofillHints.nameSuffix,
-                                              ],
-                                              decoration: InputDecoration(
-                                                hintText: 'optional',
-                                                isDense: true,
-                                                hintStyle: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.body(context: context, color: theme.textPrimary),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text.rich(
-                                            TextSpan(
-                                              text: "Email",
-                                              style: TextStyles.body(context: context, color: theme.textSecondary),
-                                              children: context.auth.username.same(as: profile.email?.address)
-                                                  ? <InlineSpan>[
-                                                      WidgetSpan(child: SizedBox(width: 4)),
-                                                      WidgetSpan(
-                                                        child: Icon(
-                                                          Icons.lock_rounded,
-                                                          color: theme.textPrimary.withAlpha(100),
-                                                          size: 16,
-                                                        ),
-                                                      ),
-                                                    ]
-                                                  : null,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: emailController,
-                                              keyboardType: TextInputType.emailAddress,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [AutofillHints.email],
-                                              validator: (value) => context.auth.username.same(as: profile.email?.address)
-                                                  ? null
-                                                  : ((value ?? "").isNotEmpty
-                                                      ? (emailController.validEmail ? null : "")
-                                                      : null),
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              readOnly: context.auth.username.same(as: profile.email?.address),
-                                              decoration: InputDecoration(
-                                                hintText: context.auth.username.same(as: profile.email?.address)
-                                                    ? 'required'
-                                                    : 'optional',
-                                                isDense: true,
-                                                hintStyle: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                helperStyle: TextStyle(fontSize: 0),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                                suffixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
-                                                suffixIcon: !(profile.email?.verified ?? false) ||
-                                                        !emailController.text.same(as: profile.email?.address)
-                                                    ? IconButton(
-                                                        padding: EdgeInsets.all(0),
-                                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                                        onPressed: () async {
-                                                          final confirmed = await showDialog<bool>(
-                                                            context: context,
-                                                            builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
-                                                          );
-
-                                                          if (!(confirmed ?? false)) return;
-                                                          if (!context.mounted) return;
-
-                                                          final verified = await showModalBottomSheet<bool>(
-                                                            context: context,
-                                                            isScrollControlled: true,
-                                                            barrierColor: context.barrierColor,
-                                                            builder: (_) => MultiBlocProvider(
-                                                              providers: [
-                                                                BlocProvider(
-                                                                  create: (_) => sl<RequestOtpForPasswordChangeBloc>()
-                                                                    ..add(
-                                                                      RequestOtpForPhoneOrEmailVerification(
-                                                                        username: profile.email!.address,
-                                                                      ),
-                                                                    ),
-                                                                ),
-                                                                BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
-                                                              ],
-                                                              child: Padding(
-                                                                padding: context.viewInsets,
-                                                                child: VerifyPhoneOrEmailWidget(
-                                                                  username: profile.phone!.number,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                          if (!(verified ?? true)) return;
-                                                          if (!context.mounted) return;
-                                                          context
-                                                              .read<FindProfileBloc>()
-                                                              .add(RefreshProfile(identity: context.auth.profile!.identity));
-                                                        },
-                                                        icon: Icon(Icons.verified_outlined, color: theme.link),
-                                                      )
-                                                    : null,
-                                              ),
-                                              style: TextStyles.body(
-                                                context: context,
-                                                color: emailController.validEmail ? theme.textPrimary : theme.negative,
-                                              ),
-                                              onTap: () {
-                                                if (context.auth.username.same(as: profile.email?.address)) {
-                                                  context.warningNotification(
-                                                    message: "Kemon doesn't allow modifying username!!!",
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text.rich(
-                                            TextSpan(
-                                              text: "Phone",
-                                              style: TextStyles.body(context: context, color: theme.textSecondary),
-                                              children: context.auth.username.same(as: profile.phone?.number)
-                                                  ? <InlineSpan>[
-                                                      WidgetSpan(child: SizedBox(width: 4)),
-                                                      WidgetSpan(
-                                                        child: Icon(
-                                                          Icons.lock_rounded,
-                                                          color: theme.textPrimary.withAlpha(100),
-                                                          size: 16,
-                                                        ),
-                                                      ),
-                                                    ]
-                                                  : null,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: phoneController,
-                                              keyboardType: TextInputType.phone,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              validator: (value) => context.auth.username.same(as: profile.phone?.number)
-                                                  ? null
-                                                  : ((value ?? "").isNotEmpty
-                                                      ? (phoneController.validPhone ? null : "")
-                                                      : null),
-                                              autofillHints: const [
-                                                AutofillHints.telephoneNumber,
-                                                AutofillHints.telephoneNumberDevice,
-                                                AutofillHints.telephoneNumberNational,
-                                                AutofillHints.telephoneNumberLocal,
-                                              ],
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              readOnly: context.auth.username.same(as: profile.phone?.number),
-                                              decoration: InputDecoration(
-                                                hintText: context.auth.username.same(as: profile.phone?.number)
-                                                    ? 'required'
-                                                    : 'optional',
-                                                isDense: true,
-                                                hintStyle: TextStyles.body(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                                suffixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
-                                                suffixIcon: !(profile.phone?.verified ?? false) ||
-                                                        !phoneController.text.same(as: profile.phone?.number)
-                                                    ? IconButton(
-                                                        padding: EdgeInsets.all(0),
-                                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                                        onPressed: () async {
-                                                          final confirmed = await showDialog<bool>(
-                                                            context: context,
-                                                            builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
-                                                          );
-
-                                                          if (!(confirmed ?? false)) return;
-                                                          if (!context.mounted) return;
-
-                                                          final verified = await showModalBottomSheet<bool>(
-                                                            context: context,
-                                                            isScrollControlled: true,
-                                                            barrierColor: context.barrierColor,
-                                                            builder: (_) => MultiBlocProvider(
-                                                              providers: [
-                                                                BlocProvider(
-                                                                  create: (_) => sl<RequestOtpForPasswordChangeBloc>()
-                                                                    ..add(
-                                                                      RequestOtpForPhoneOrEmailVerification(
-                                                                        username: profile.phone!.number,
-                                                                      ),
-                                                                    ),
-                                                                ),
-                                                                BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
-                                                              ],
-                                                              child: Padding(
-                                                                padding: context.viewInsets,
-                                                                child: VerifyPhoneOrEmailWidget(
-                                                                  username: profile.phone!.number,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                          if (!(verified ?? true)) return;
-                                                          if (!context.mounted) return;
-                                                          context
-                                                              .read<FindProfileBloc>()
-                                                              .add(RefreshProfile(identity: context.auth.profile!.identity));
-                                                        },
-                                                        icon: Icon(Icons.verified_outlined, color: theme.link),
-                                                      )
-                                                    : null,
-                                              ),
-                                              style: TextStyles.body(
-                                                context: context,
-                                                color: context.auth.username.same(as: profile.phone?.number)
-                                                    ? theme.textSecondary
-                                                    : phoneController.validPhone
-                                                        ? theme.textPrimary
-                                                        : theme.negative,
-                                              ),
-                                              onTap: () {
-                                                if (context.auth.username.same(as: profile.phone?.number)) {
-                                                  context.warningNotification(
-                                                    message: "Kemon doesn't allow modifying username!!!",
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
                                     InkWell(
                                       onTap: () async {
                                         final date = await showDatePicker(
@@ -606,7 +405,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               child: Text(
                                                 dob?.dMMMMyyyy ?? 'Select one',
                                                 style: TextStyles.body(context: context, color: theme.textPrimary),
-                                                textAlign: TextAlign.end,
                                               ),
                                             ),
                                             const SizedBox(width: 4),

@@ -82,6 +82,8 @@ extension ProfileModelExtension on ProfileModel {
       "gender": gender?.index ?? -1,
       "point": kemonIdentity.point,
       "referrar": kemonIdentity.referrer,
+      "isPhoneVerified": phone?.verified ?? false,
+      "isEmailVerified": email?.verified ?? false,
     };
   }
 

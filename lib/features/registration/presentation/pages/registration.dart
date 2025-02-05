@@ -130,163 +130,95 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           const SizedBox(height: 42),
-                          Text(
-                            'Password',
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: theme.backgroundSecondary,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: theme.backgroundTertiary,
-                                width: .25,
+                          TextFormField(
+                            controller: passwordController,
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            textInputAction: TextInputAction.next,
+                            autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
+                            validator: (value) => passwordController.validPassword ? null : "",
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Password *',
+                              labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintText: 'required',
+                              isDense: true,
+                              hintStyle: TextStyles.body(
+                                context: context,
+                                color: theme.textSecondary.withAlpha(150),
+                              ),
+                              helperText: '',
+                              helperStyle: const TextStyle(fontSize: 0, height: 0),
+                              errorStyle: const TextStyle(fontSize: 0, height: 0),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                icon: Icon(
+                                  isObscured ? Icons.visibility : Icons.visibility_off,
+                                  color: passwordController.validPassword ? theme.textPrimary : theme.negative,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscured = !isObscured;
+                                  });
+                                },
                               ),
                             ),
-                            child: ListView(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero.copyWith(top: 4, bottom: 4),
-                              physics: const NeverScrollableScrollPhysics(),
-                              cacheExtent: double.maxFinite,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(right: 4),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Password *',
-                                        style: TextStyles.body(context: context, color: theme.textSecondary),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: TextFormField(
-                                          controller: passwordController,
-                                          keyboardType: TextInputType.text,
-                                          textAlign: TextAlign.end,
-                                          textAlignVertical: TextAlignVertical.center,
-                                          textInputAction: TextInputAction.next,
-                                          autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
-                                          validator: (value) => passwordController.validPassword ? null : "",
-                                          onChanged: (value) {
-                                            setState(() {});
-                                          },
-                                          decoration: InputDecoration(
-                                            hintText: 'required',
-                                            isDense: true,
-                                            hintStyle: TextStyles.body(
-                                              context: context,
-                                              color: theme.textSecondary.withAlpha(150),
-                                            ),
-                                            errorStyle: const TextStyle(fontSize: 0, height: 0),
-                                            contentPadding: EdgeInsets.zero,
-                                            border: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            focusedErrorBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
-                                            suffixIcon: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              highlightColor: Colors.transparent,
-                                              splashColor: Colors.transparent,
-                                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                              icon: Icon(
-                                                isObscured ? Icons.visibility : Icons.visibility_off,
-                                                color: passwordController.validPassword ? theme.textPrimary : theme.negative,
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  isObscured = !isObscured;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          obscureText: isObscured,
-                                          style: TextStyles.body(
-                                            context: context,
-                                            color: passwordController.validPassword ? theme.textPrimary : theme.negative,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (passwordController.validPassword) ...[
-                                  Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(right: 4),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Confirm password *',
-                                          style: TextStyles.body(context: context, color: theme.textSecondary),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: TextFormField(
-                                            controller: confirmPasswordController,
-                                            keyboardType: TextInputType.text,
-                                            textAlign: TextAlign.end,
-                                            textAlignVertical: TextAlignVertical.center,
-                                            textInputAction: TextInputAction.done,
-                                            validator: (value) => confirmPasswordController.validPassword ? null : "",
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
-                                            decoration: InputDecoration(
-                                              hintText: 'required',
-                                              isDense: true,
-                                              hintStyle: TextStyles.body(
-                                                context: context,
-                                                color: theme.textSecondary.withAlpha(150),
-                                              ),
-                                              errorStyle: const TextStyle(fontSize: 0, height: 0),
-                                              contentPadding: EdgeInsets.zero,
-                                              border: InputBorder.none,
-                                              errorBorder: InputBorder.none,
-                                              focusedErrorBorder: InputBorder.none,
-                                              enabledBorder: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              disabledBorder: InputBorder.none,
-                                              suffixIcon: IconButton(
-                                                padding: EdgeInsets.zero,
-                                                highlightColor: Colors.transparent,
-                                                splashColor: Colors.transparent,
-                                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                                icon: Icon(
-                                                  isConfirmPasswordObscured ? Icons.visibility : Icons.visibility_off,
-                                                  color: confirmPasswordController.validPassword
-                                                      ? theme.textPrimary
-                                                      : theme.negative,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isConfirmPasswordObscured = !isConfirmPasswordObscured;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                            obscureText: isConfirmPasswordObscured,
-                                            style: TextStyles.body(
-                                              context: context,
-                                              color:
-                                                  confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ],
+                            obscureText: isObscured,
+                            style: TextStyles.body(
+                              context: context,
+                              color: passwordController.validPassword ? theme.textPrimary : theme.negative,
                             ),
                           ),
-                          SizedBox(height: Dimension.padding.vertical.medium),
+                          SizedBox(height: 24),
+                          TextFormField(
+                            controller: confirmPasswordController,
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) => confirmPasswordController.validPassword ? null : "",
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password *',
+                              labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintText: 'required',
+                              isDense: true,
+                              hintStyle: TextStyles.body(
+                                context: context,
+                                color: theme.textSecondary.withAlpha(150),
+                              ),
+                              helperText: '',
+                              helperStyle: const TextStyle(fontSize: 0, height: 0),
+                              errorStyle: const TextStyle(fontSize: 0, height: 0),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                icon: Icon(
+                                  isConfirmPasswordObscured ? Icons.visibility : Icons.visibility_off,
+                                  color: confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isConfirmPasswordObscured = !isConfirmPasswordObscured;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: isConfirmPasswordObscured,
+                            style: TextStyles.body(
+                              context: context,
+                              color: confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
+                            ),
+                          ),
+                          SizedBox(height: Dimension.padding.vertical.max),
                           Row(
                             children: [
                               Icon(
@@ -350,101 +282,99 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ],
                             ),
                           ],
-                          if (validPassword) ...[
-                            const SizedBox(height: 16),
-                            CheckboxListTile(
-                              dense: true,
-                              value: acknowledged,
-                              contentPadding: EdgeInsets.all(0),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                              onChanged: (flag) {
-                                setState(() {
-                                  acknowledged = flag ?? false;
-                                });
-                              },
-                              title: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "I have read and agree ",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                                    ),
-                                    TextSpan(
-                                      text: "Terms of Service",
-                                      style: TextStyles.body(context: context, color: theme.link),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          launchUrlString(ExternalLinks.termsAndConditions);
-                                        },
-                                    ),
-                                    TextSpan(
-                                      text: " and ",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                                    ),
-                                    TextSpan(
-                                      text: "Privacy Policy",
-                                      style: TextStyles.body(context: context, color: theme.link),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          launchUrlString(ExternalLinks.privacyPolicy);
-                                        },
-                                    ),
-                                    TextSpan(
-                                      text: ".",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: BlocConsumer<RegistrationBloc, RegistrationState>(
-                                listener: (context, state) {
-                                  if (state is RegistrationError) {
-                                    context.errorNotification(message: state.failure.message);
-                                  } else if (state is RegistrationDone) {
-                                    context.successNotification(
-                                      message: 'Congratulations. You have successfully registered. Have a nice one :)',
-                                    );
-                                  }
-                                },
-                                builder: (context, state) {
-                                  if (state is RegistrationLoading) {
-                                    return ElevatedButton(
-                                      onPressed: () {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                          const SizedBox(height: 16),
+                          CheckboxListTile(
+                            dense: true,
+                            value: acknowledged,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            onChanged: (flag) {
+                              setState(() {
+                                acknowledged = flag ?? false;
+                              });
+                            },
+                            title: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "I have read and agree ",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: "Terms of Service",
+                                    style: TextStyles.body(context: context, color: theme.link),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(ExternalLinks.termsAndConditions);
                                       },
-                                      child: NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.white),
-                                    );
-                                  }
-                                  return ElevatedButton(
-                                    onPressed: acknowledged
-                                        ? () {
-                                            FocusScope.of(context).requestFocus(FocusNode());
-                                            if (formKey.currentState?.validate() ?? false) {
-                                              context.read<RegistrationBloc>().add(
-                                                    CreateAccount(
-                                                      username: widget.username,
-                                                      password: passwordController.text,
-                                                      refference: '',
-                                                    ),
-                                                  );
-                                            }
-                                          }
-                                        : null,
-                                    child: Text(
-                                      "Sign up".toUpperCase(),
-                                      style: TextStyles.button(context: context),
-                                    ),
-                                  );
-                                },
+                                  ),
+                                  TextSpan(
+                                    text: " and ",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: "Privacy Policy",
+                                    style: TextStyles.body(context: context, color: theme.link),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(ExternalLinks.privacyPolicy);
+                                      },
+                                  ),
+                                  TextSpan(
+                                    text: ".",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: BlocConsumer<RegistrationBloc, RegistrationState>(
+                              listener: (context, state) {
+                                if (state is RegistrationError) {
+                                  context.errorNotification(message: state.failure.message);
+                                } else if (state is RegistrationDone) {
+                                  context.successNotification(
+                                    message: 'Congratulations. You have successfully registered. Have a nice one :)',
+                                  );
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is RegistrationLoading) {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      FocusScope.of(context).requestFocus(FocusNode());
+                                    },
+                                    child: NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.white),
+                                  );
+                                }
+                                return ElevatedButton(
+                                  onPressed: acknowledged
+                                      ? () {
+                                          FocusScope.of(context).requestFocus(FocusNode());
+                                          if (formKey.currentState?.validate() ?? false) {
+                                            context.read<RegistrationBloc>().add(
+                                                  CreateAccount(
+                                                    username: widget.username,
+                                                    password: passwordController.text,
+                                                    refference: '',
+                                                  ),
+                                                );
+                                          }
+                                        }
+                                      : null,
+                                  child: Text(
+                                    "Sign up".toUpperCase(),
+                                    style: TextStyles.button(context: context),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
