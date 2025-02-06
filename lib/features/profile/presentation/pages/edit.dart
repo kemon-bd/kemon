@@ -24,6 +24,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   DateTime? dob;
   Gender? gender;
   XFile? profilePicture;
+  bool forceProgressUpdate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               listener: (context, state) {
                 if (state is FindProfileDone) {
                   final profile = state.profile;
+                  if(firstNameController.text.isNotEmpty || lastNameController.text.isNotEmpty) {
+                    forceProgressUpdate = true;
+                  }
                   setState(() {
                     firstNameController.text = profile.name.first;
                     lastNameController.text = profile.name.last;
@@ -76,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                       onPressed: () {
                                         if (context.canPop()) {
-                                          context.pop();
+                                          context.pop(forceProgressUpdate);
                                         } else {
                                           context.goNamed(HomePage.name);
                                         }
@@ -285,9 +289,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     color: theme.textSecondary.withAlpha(150),
                                   ),
                                   suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
-                                  suffixIcon: (profile.email?.verified ?? false)
-                                      ? Icon(Icons.verified_rounded, color: theme.primary)
-                                      : VerifyEmailButton(email: emailController),
+                                  suffixIcon: VerifyEmailButton(email: emailController),
                                 ),
                                 style: TextStyles.body(
                                   context: context,
@@ -334,9 +336,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     color: theme.textSecondary.withAlpha(150),
                                   ),
                                   suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
-                                  suffixIcon: (profile.phone?.verified ?? false)
-                                      ? Icon(Icons.verified_rounded, color: theme.primary)
-                                      : VerifyPhoneButton(phone: phoneController),
+                                  suffixIcon: VerifyPhoneButton(phone: phoneController),
                                 ),
                                 style: TextStyles.body(
                                   context: context,
@@ -472,6 +472,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                     phone: phoneController.text,
                                                     dob: dob,
                                                     gender: gender,
+                                                    phoneVerified: (profile.phone?.verified ?? false) &&
+                                                        phoneController.text.same(as: profile.phone?.number),
+                                                    emailVerified: (profile.email?.verified ?? false) &&
+                                                        emailController.text.same(as: profile.email?.address),
                                                   ),
                                                   avatar: profilePicture,
                                                 ),

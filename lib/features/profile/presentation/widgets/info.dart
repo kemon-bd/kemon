@@ -90,7 +90,7 @@ class ProfileInformationWidget extends StatelessWidget {
                   onPressed: () async {
                     final identity = context.auth.identity!;
                     final bloc = context.read<FindProfileBloc>();
-                    final bool? updated = await context.pushNamed(EditProfilePage.name, extra: bloc);
+                    final bool? updated = await context.pushNamed(EditProfilePage.name);
                     if (updated ?? false) {
                       bloc.add(RefreshProfile(identity: identity));
                     }
