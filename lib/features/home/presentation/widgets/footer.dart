@@ -74,7 +74,10 @@ class HomeFooterWidget extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      launchUrlString(ExternalLinks.termsAndConditions);
+                      launchUrlString(
+                        ExternalLinks.termsAndConditions,
+                        mode: LaunchMode.externalApplication,
+                      );
                     },
                     child: Text(
                       'Terms & Conditions',
@@ -86,7 +89,10 @@ class HomeFooterWidget extends StatelessWidget {
                   Icon(Icons.circle, size: Dimension.radius.four, color: theme.backgroundTertiary),
                   InkWell(
                     onTap: () {
-                      launchUrlString(ExternalLinks.privacyPolicy);
+                      launchUrlString(
+                        ExternalLinks.privacyPolicy,
+                        mode: LaunchMode.externalApplication,
+                      );
                     },
                     child: Text(
                       'Privacy Policy',

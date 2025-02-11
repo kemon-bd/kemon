@@ -4,7 +4,7 @@ extension DateTimeExtension on DateTime {
   String get duration {
     final DateTime now = DateTime.now();
 
-    final Duration diff = now.difference(this);
+    final Duration diff = now.difference(copyWith(isUtc: true));
 
     if (diff.inSeconds < 60) {
       return "${diff.inSeconds} second${diff.inSeconds > 1 ? "s" : ""} ago";

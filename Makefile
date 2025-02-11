@@ -15,7 +15,7 @@ deploy:
 
 deploy-android:
 	@echo "Publishing android to production..."
-	cd android && fastlane production && cd ..
+	cd android && fastlane internal && cd ..
 
 	@clear
 

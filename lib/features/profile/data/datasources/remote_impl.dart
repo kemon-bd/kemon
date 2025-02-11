@@ -95,8 +95,8 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     request.headers.addAll({
       'authorization': token,
       'userId': profile.identity.guid,
-      'firstName': profile.name.first,
-      'lastName': profile.name.last,
+      'firstName': Uri.encodeComponent(profile.name.first),
+      'lastName': Uri.encodeComponent(profile.name.last),
       'phone': profile.phone?.number ?? '',
       'email': profile.email?.address ?? '',
       'dob': profile.dob?.toIso8601String() ?? '',

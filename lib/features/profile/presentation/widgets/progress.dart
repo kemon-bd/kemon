@@ -1,4 +1,3 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../lookup/lookup.dart';
 import '../../profile.dart';
@@ -62,7 +61,7 @@ class ProfileProgressWidget extends StatelessWidget {
                               SizedBox(height: Dimension.padding.vertical.small),
                               LinearProgressIndicator(
                                 value: progress,
-                                backgroundColor: theme.backgroundTertiary,
+                                backgroundColor: theme.backgroundPrimary,
                                 valueColor: AlwaysStoppedAnimation(progress < 50 ? theme.warning : theme.primary),
                                 borderRadius: BorderRadius.circular(Dimension.radius.max),
                               ),
@@ -85,61 +84,19 @@ class ProfileProgressWidget extends StatelessWidget {
                                         checkpoint.text.sentenceCase,
                                         style: TextStyles.body(context: context, color: theme.warning),
                                       ),
-                                      if (checkpoint.text.match(like: "verified")) ...[
+                                      if (checkpoint.text.match(like: "email")) ...[
                                         SizedBox(width: Dimension.padding.horizontal.small),
-                                        IconButton(
-                                          padding: EdgeInsets.all(0),
-                                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                          onPressed: () async {
-                                            if (checkpoint.text.match(like: "phone") && (profile.phone?.number ?? "").isEmpty) {
-                                              context.pushNamed(EditProfilePage.name);
-                                            } else if (checkpoint.text.match(like: "email") &&
-                                                (profile.email?.address ?? "").isEmpty) {
-                                              context.pushNamed(EditProfilePage.name);
-                                            }
-                                            final confirmed = await showDialog<bool>(
-                                              context: context,
-                                              builder: (_) => VerificationConfirmationWidget(affirm: 'Continue'),
-                                            );
-                                            if (!(confirmed ?? false)) return;
-                                            if (!context.mounted) return;
-
-                                            final verified = await showModalBottomSheet<bool>(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              barrierColor: context.barrierColor,
-                                              builder: (_) => MultiBlocProvider(
-                                                providers: [
-                                                  BlocProvider(
-                                                    create: (_) => sl<RequestOtpForPasswordChangeBloc>()
-                                                      ..add(
-                                                        RequestOtpForPhoneOrEmailVerification(
-                                                          username: checkpoint.text.match(like: "phone")
-                                                              ? profile.phone!.number
-                                                              : profile.email!.address,
-                                                        ),
-                                                      ),
-                                                  ),
-                                                  BlocProvider(create: (_) => sl<UpdateProfileBloc>()),
-                                                ],
-                                                child: Padding(
-                                                  padding: context.viewInsets,
-                                                  child: VerifyPhoneOrEmailWidget(
-                                                    username: checkpoint.text.match(like: "phone")
-                                                        ? profile.phone!.number
-                                                        : profile.email!.address,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                            if (!(verified ?? true)) return;
-                                            if (!context.mounted) return;
-                                            context
-                                                .read<FindProfileBloc>()
-                                                .add(RefreshProfile(identity: context.auth.profile!.identity));
-                                          },
-                                          icon: Icon(Icons.verified_outlined, color: theme.link),
-                                        ),
+                                        if (checkpoint.text.match(like: "verif") && (profile.email?.address ?? "").isNotEmpty)
+                                          VerifyEmailButton(email: TextEditingController(text: profile.email!.address)),
+                                        if (!checkpoint.text.match(like: "verif") && (profile.email?.address ?? "").isEmpty)
+                                          MissingEmailButton(),
+                                      ],
+                                      if (checkpoint.text.match(like: "phone")) ...[
+                                        SizedBox(width: Dimension.padding.horizontal.small),
+                                        if (checkpoint.text.match(like: "verif") && (profile.phone?.number ?? "").isNotEmpty)
+                                          VerifyPhoneButton(phone: TextEditingController(text: profile.phone!.number)),
+                                        if (!checkpoint.text.match(like: "verif") && (profile.phone?.number ?? "").isEmpty)
+                                          MissingPhoneButton(),
                                       ],
                                     ],
                                   ),

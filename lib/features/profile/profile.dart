@@ -44,4 +44,6 @@ export 'presentation/widgets/change_password_otp_verification.dart';
 export 'presentation/widgets/reset_password.dart';
 export 'presentation/widgets/verification.dart';
 export 'presentation/widgets/verify_email.dart';
+export 'presentation/widgets/missing_email.dart';
 export 'presentation/widgets/verify_phone.dart';
+export 'presentation/widgets/missing_phone.dart';
