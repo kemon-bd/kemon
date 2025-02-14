@@ -1,1 +1,0 @@
-/Users/omar/Documents/Kemon/kemon/build/app/intermediates/cxx/RelWithDebInfo/l1ol11u4/obj/arm64-v8a
