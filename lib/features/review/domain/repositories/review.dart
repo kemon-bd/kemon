@@ -22,6 +22,7 @@ abstract class ReviewRepository {
 
   FutureOr<Either<Failure, List<ReviewEntity>>> find({
     required Identity user,
+    required bool refresh,
   });
 
   FutureOr<Either<Failure, List<ReviewEntity>>> recent();
@@ -31,9 +32,8 @@ abstract class ReviewRepository {
     bool refresh = false,
   });
 
-  FutureOr<Either<Failure, void>> update({
-    required ReviewEntity review,
-  });
+  FutureOr<Either<Failure, void>> update(
+      {required Identity listing, required ReviewEntity review, required List<XFile> attachments});
 
   FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
     required Identity review,

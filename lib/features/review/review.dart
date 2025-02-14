@@ -34,6 +34,7 @@ export 'presentation/bloc/reaction_bloc.dart';
 export 'presentation/bloc/react_bloc.dart';
 
 export 'presentation/pages/new.dart';
+export 'presentation/pages/edit.dart';
 export 'presentation/pages/user.dart';
 export 'presentation/widgets/featured.dart';
 export 'presentation/widgets/featured_item.dart';

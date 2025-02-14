@@ -28,7 +28,7 @@ class ProfileInformationWidget extends StatelessWidget {
             image: const DecorationImage(
               image: AssetImage('images/logo/full.png'),
               opacity: .025,
-              scale: 50,
+              scale: 500,
               repeat: ImageRepeat.repeat,
             ),
           ),

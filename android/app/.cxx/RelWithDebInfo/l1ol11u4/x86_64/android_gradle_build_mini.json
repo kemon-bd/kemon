@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/omar/Development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/omar/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/omar/Documents/Kemon/kemon/android/app/.cxx/RelWithDebInfo/l1ol11u4/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/omar/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/omar/Documents/Kemon/kemon/android/app/.cxx/RelWithDebInfo/l1ol11u4/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

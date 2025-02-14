@@ -72,4 +72,9 @@ class ReviewLocalDataSourceImpl extends ReviewLocalDataSource {
       _cache[key]![index] = review;
     }
   }
+  
+  @override
+  FutureOr<void> removeUser({required String user}) {
+    _cache.remove(user);
+  }
 }

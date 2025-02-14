@@ -1,4 +1,4 @@
-import '../../../../core/shared/shared.dart';
+import '../../../../core/shared/shared.dart' ;
 
 class FeaturedReviewsShimmerWidget extends StatelessWidget {
   const FeaturedReviewsShimmerWidget({super.key});

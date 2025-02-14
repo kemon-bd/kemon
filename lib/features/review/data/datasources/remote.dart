@@ -32,7 +32,9 @@ abstract class ReviewRemoteDataSource {
   FutureOr<void> update({
     required String token,
     required Identity user,
+    required Identity listing,
     required ReviewEntity review,
+    required List<XFile> attachments,
   });
 
   FutureOr<List<ReactionModel>> reactions({

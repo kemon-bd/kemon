@@ -47,7 +47,6 @@ class ReviewShareButton extends StatelessWidget {
                     ),
                     visualDensity: VisualDensity.compact,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
-                    overlayColor: theme.textPrimary,
                   ),
                   icon: Icon(
                     Icons.share_rounded,

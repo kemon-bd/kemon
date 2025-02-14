@@ -2,7 +2,28 @@ import '../shared.dart';
 
 import '../../../features/review/review.dart';
 
-extension ReviewEntityExtension on ReviewEntity {}
+extension ReviewEntityExtension on ReviewEntity {
+  ReviewEntity copyWith({
+    int? rating,
+    String? title,
+    String? description,
+    List<String>? photos,
+    DateTime? experiencedAt,
+  }) =>
+      ReviewEntity(
+        identity: identity,
+        user: user,
+        listing: listing,
+        rating: rating ?? this.rating,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        experiencedAt: experiencedAt ?? this.experiencedAt,
+        reviewedAt: DateTime.now(),
+        photos: photos ?? this.photos,
+        deleted: deleted,
+        flagged: flagged,
+      );
+}
 
 extension ReviewListExtension on List<ReviewEntity> {
   bool hasMyReview({

@@ -1,0 +1,45 @@
+import '../../../../core/shared/shared.dart';
+import '../../home.dart';
+
+class PrivacyPolicyPage extends StatelessWidget {
+  static const String path = '/privacy-policy';
+  static const String name = 'PrivacyPolicyPage';
+  const PrivacyPolicyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (_, state) {
+        final theme = state.scheme;
+        return Scaffold(
+          backgroundColor: theme.backgroundPrimary,
+          appBar: AppBar(
+            backgroundColor: theme.backgroundSecondary,
+            surfaceTintColor: theme.backgroundSecondary,
+            titleSpacing: Dimension.size.horizontal.sixteen,
+            leading: IconButton(
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
+              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
+            ),
+            title: Text(
+              'Privacy Policy'.titleCase,
+              style: TextStyles.title(context: context, color: theme.textPrimary),
+            ),
+            centerTitle: false,
+          ),
+          body: WebViewWidget(
+            controller: WebViewController()
+              ..setJavaScriptMode(JavaScriptMode.unrestricted)
+              ..loadRequest(Uri.parse(ExternalLinks.privacyPolicy)),
+          ),
+        );
+      },
+    );
+  }
+}

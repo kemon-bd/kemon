@@ -102,7 +102,7 @@ class ProfilePictureWidget extends StatelessWidget {
                             : child,
                         if (showFlare)
                           Positioned(
-                            bottom: -(border * 3.5),
+                            bottom: -(border * 4),
                             left: 0,
                             right: 0,
                             child: Center(
@@ -110,11 +110,11 @@ class ProfilePictureWidget extends StatelessWidget {
                                 color: borderColor ?? theme.white,
                                 borderRadius: BorderRadius.circular(size),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border),
+                                  padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border*2),
                                   child: Icon(
-                                    Icons.verified_rounded,
+                                    Icons.shield_rounded,
                                     color: theme.primary,
-                                    size: border * 5,
+                                    size: border * 4,
                                     weight: 700,
                                     grade: 200,
                                     fill: 1.0,
@@ -135,7 +135,7 @@ class ProfilePictureWidget extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.all(size * .05),
                                   child: Icon(
-                                    Icons.verified_rounded,
+                                    Icons.shield_rounded,
                                     color: theme.primary,
                                     size: size * .5,
                                     weight: 700,

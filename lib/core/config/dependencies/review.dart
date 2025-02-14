@@ -14,7 +14,7 @@ Future<void> get reviewDependencies async {
   );
   sl.registerFactory(
     () => FindUserReviewsBloc(
-      useCase: sl(),
+      find: sl(),
     ),
   );
   sl.registerFactory(

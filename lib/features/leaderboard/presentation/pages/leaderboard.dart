@@ -361,10 +361,15 @@ class ListingsWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             if (index >= 3)
-                              Text(
-                                '#${index + 1}',
-                                style: TextStyles.body(context: context, color: theme.black),
-                                textAlign: TextAlign.start,
+                              Container(
+                                width: Dimension.radius.twentyFour,
+                                height: Dimension.radius.twentyFour,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '${index + 1}',
+                                  style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  textAlign: TextAlign.start,
+                                ),
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             BlocBuilder<FindProfileBloc, FindProfileState>(
@@ -384,13 +389,13 @@ class ListingsWidget extends StatelessWidget {
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
                               child: ProfileNameWidget(
-                                style: TextStyles.body(context: context, color: theme.black),
+                                style: TextStyles.body(context: context, color: theme.textPrimary),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Text(
                               NumberFormat('###,###,###,###').format(leader.point),
-                              style: TextStyles.body(context: context, color: theme.black),
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
                             ),
                           ],
                         ),

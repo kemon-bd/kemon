@@ -17,7 +17,7 @@ extension BuildContextExtension on BuildContext {
 
   double get height => MediaQuery.of(this).size.height;
 
-  ScaffoldMessengerState successNotification({
+  void successNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
@@ -28,12 +28,12 @@ extension BuildContextExtension on BuildContext {
       ),
       backgroundColor: scheme.positive,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
-  ScaffoldMessengerState errorNotification({
+  void errorNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
@@ -44,13 +44,12 @@ extension BuildContextExtension on BuildContext {
       ),
       backgroundColor: scheme.negative,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar)
-      ..build(this);
+      ..showSnackBar(snackBar);
   }
 
-  ScaffoldMessengerState warningNotification({
+  void warningNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
@@ -61,7 +60,7 @@ extension BuildContextExtension on BuildContext {
       ),
       backgroundColor: scheme.warning,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
@@ -78,7 +77,7 @@ extension BuildContextExtension on BuildContext {
   FindBusinessState get businessState => businessBloc.state;
   BusinessEntity get business => (businessState as FindBusinessDone).business;
 
-  void dismissKeyboard (){
+  void dismissKeyboard() {
     FocusScope.of(this).requestFocus(FocusNode());
   }
 }

@@ -199,10 +199,10 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     request.headers.addAll({
       'authorization': token,
       'UserId': user.guid,
-      'Name': name,
-      'URLSlug': urlSlug,
+      'Name': Uri.encodeComponent(name),
+      'URLSlug': Uri.encodeComponent(urlSlug),
       'Type': type.name,
-      'Description': about,
+      'Description': Uri.encodeComponent(about),
       'Website': website,
       'Email': email,
       'Phone': phone,

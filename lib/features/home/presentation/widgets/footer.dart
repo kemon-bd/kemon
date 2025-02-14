@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../home.dart';
 
 class HomeFooterWidget extends StatelessWidget {
   const HomeFooterWidget({super.key});
@@ -74,10 +75,11 @@ class HomeFooterWidget extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      launchUrlString(
-                        ExternalLinks.termsAndConditions,
-                        mode: LaunchMode.externalApplication,
-                      );
+                      // launchUrlString(
+                      //   ExternalLinks.termsAndConditions,
+                      //   mode: LaunchMode.externalApplication,
+                      // );
+                      context.pushNamed(TermsAndConditionsPage.name);
                     },
                     child: Text(
                       'Terms & Conditions',
@@ -89,10 +91,11 @@ class HomeFooterWidget extends StatelessWidget {
                   Icon(Icons.circle, size: Dimension.radius.four, color: theme.backgroundTertiary),
                   InkWell(
                     onTap: () {
-                      launchUrlString(
-                        ExternalLinks.privacyPolicy,
-                        mode: LaunchMode.externalApplication,
-                      );
+                      // launchUrlString(
+                      //   ExternalLinks.privacyPolicy,
+                      //   mode: LaunchMode.externalApplication,
+                      // );
+                      context.pushNamed(PrivacyPolicyPage.name);
                     },
                     child: Text(
                       'Privacy Policy',

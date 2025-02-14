@@ -50,6 +50,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     final Map<String, String> headers = {
       'userGuid': user.guid,
       'reviewGuid': review.guid,
+      'id': review.id.toString(),
     };
 
     final Response response = await client.delete(
@@ -131,28 +132,27 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required String token,
     required Identity user,
     required ReviewEntity review,
+    required Identity listing,
+    required List<XFile> attachments,
   }) async {
-    final Map<String, String> headers = {
-      'userGuid': user.guid,
-      'reviewGuid': review.identity.guid,
-      'title': review.title,
-      'description': review.description ?? '',
-      'date': review.experiencedAt.toUtc().toIso8601String(),
-    };
-
-    final Response response = await client.post(
-      RemoteEndpoints.addReview,
-      headers: headers,
-    );
+    final request = MultipartRequest('POST', RemoteEndpoints.addReview);
+    request.headers.addAll({
+      'id': review.identity.id.toString(),
+      'UserId': user.guid,
+      'ListingGuid': listing.guid,
+      'Rating': review.rating.round().toString(),
+      'Title': Uri.encodeComponent(review.title),
+      'Description': Uri.encodeComponent(review.description ?? ''),
+      'DateOfExperience': review.experiencedAt.toIso8601String(),
+    });
+    for (XFile file in attachments) {
+      request.files.add(await MultipartFile.fromPath('files', file.path));
+    }
+    final StreamedResponse streamedResponse = await request.send();
+    final response = await Response.fromStream(streamedResponse);
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<void> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        return;
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to add review');
-      }
+      return;
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }
@@ -223,7 +223,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       'userId': user.guid,
       'reviewId': review.guid,
       'listingGuid': listing.guid,
-      'ratingType': (reaction==Reaction.like).toString(),
+      'ratingType': (reaction == Reaction.like).toString(),
     };
 
     final Response response = await client.post(

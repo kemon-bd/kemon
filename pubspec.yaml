@@ -1,6 +1,6 @@
 name: kemon
 description: "A new Flutter project."
-version: 0.5.5+55
+version: 0.6.1+61
 publish_to: none
 
 environment:
@@ -61,6 +61,7 @@ dependencies:
   simple_animations: ^5.1.0
   smooth_highlight: ^0.1.2
   url_launcher: ^6.3.0
+  webview_flutter: ^4.10.0
 
 dev_dependencies:
   change_app_package_name: ^1.1.0

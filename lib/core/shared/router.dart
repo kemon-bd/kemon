@@ -303,6 +303,25 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: EditReviewPage.path,
+      name: EditReviewPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindBusinessBloc>()
+              ..add(
+                FindBusiness(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(create: (context) => sl<UpdateReviewBloc>()),
+        ],
+        child: EditReviewPage(
+          urlSlug: state.pathParameters['urlSlug']!,
+          review: state.extra as ReviewEntity,
+        ),
+      ),
+    ),
+    GoRoute(
       path: PhotoPreviewPage.path,
       name: PhotoPreviewPage.name,
       builder: (context, state) => PhotoPreviewPage(
@@ -464,6 +483,16 @@ final router = GoRouter(
         create: (context) => sl<FindLeaderboardBloc>()..add(FindLeaderboard(query: '')),
         child: const LeaderboardPage(),
       ),
+    ),
+    GoRoute(
+      path: PrivacyPolicyPage.path,
+      name: PrivacyPolicyPage.name,
+      builder: (context, state) => const PrivacyPolicyPage(),
+    ),
+    GoRoute(
+      path: TermsAndConditionsPage.path,
+      name: TermsAndConditionsPage.name,
+      builder: (context, state) => const TermsAndConditionsPage(),
     ),
   ],
 );

@@ -55,7 +55,6 @@ class ReviewDislikeButton extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                     ),
-                    overlayColor: theme.positive,
                   ),
                   icon: Icon(
                     disliked ? Icons.thumb_down_rounded : Icons.thumb_down_off_alt_outlined,

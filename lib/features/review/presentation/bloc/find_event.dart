@@ -16,3 +16,13 @@ class FindUserReviews extends FindUserReviewsEvent {
   @override
   List<Object> get props => [user];
 }
+
+class RefreshUserReviews extends FindUserReviewsEvent {
+  final Identity user;
+
+  const RefreshUserReviews({
+    required this.user,
+  });
+  @override
+  List<Object> get props => [user];
+}

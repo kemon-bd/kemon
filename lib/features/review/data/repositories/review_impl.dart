@@ -101,8 +101,12 @@ class ReviewRepositoryImpl extends ReviewRepository {
   @override
   FutureOr<Either<Failure, List<ReviewEntity>>> find({
     required Identity user,
+    required bool refresh,
   }) async {
     try {
+      if (refresh) {
+        await local.removeUser(user: user.guid);
+      }
       final reviews = await local.find(key: user.guid);
       return Right(reviews);
     } on ReviewNotFoundInLocalCacheFailure {
@@ -121,11 +125,19 @@ class ReviewRepositoryImpl extends ReviewRepository {
 
   @override
   FutureOr<Either<Failure, void>> update({
+    required Identity listing,
     required ReviewEntity review,
+    required List<XFile> attachments,
   }) async {
     try {
       if (await network.online) {
-        await remote.update(token: auth.token!, user: auth.identity!, review: review);
+        await remote.update(
+          token: auth.token!,
+          user: auth.identity!,
+          review: review,
+          listing: listing,
+          attachments: attachments,
+        );
         await local.update(key: auth.guid!, review: review);
 
         return const Right(null);

@@ -442,7 +442,7 @@ class _DistrictItem extends StatelessWidget {
                               );
                             },
                             borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                            overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
+                            overlayColor: WidgetStateProperty.all(theme.backgroundSecondary),
                             child: Row(
                               children: [
                                 Container(

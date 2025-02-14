@@ -4,10 +4,12 @@ import '../../../business/business.dart';
 import '../../review.dart';
 
 class UserReviewItemWidget extends StatelessWidget {
+  final Identity user;
   final ReviewEntity review;
   const UserReviewItemWidget({
     super.key,
     required this.review,
+    required this.user,
   });
 
   @override
@@ -15,6 +17,7 @@ class UserReviewItemWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final mine = user.guid.same(as: context.auth.guid);
         return InkWell(
           onTap: () {
             context.pushNamed(
@@ -164,33 +167,78 @@ class UserReviewItemWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-                /* const Divider(height: 24, thickness: .075),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton.icon(
+                if (mine) ...[
+                  const Divider(height: 24, thickness: .075),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          backgroundColor: theme.link.withAlpha(15),
+                          side: BorderSide(color: theme.link, width: .75),
+                        ),
+                        icon: Icon(Icons.edit_outlined, color: theme.link),
+                        label: Text(
+                          "Edit".toUpperCase(),
+                          style: TextStyles.subTitle(context: context, color: theme.link),
+                        ),
+                        onPressed: () async {
+                          final updated = await context.pushNamed<bool>(
+                            EditReviewPage.name,
+                            pathParameters: {'urlSlug': review.listing},
+                            extra: review,
+                          );
+                          if (!(updated ?? false)) return;
+                          if (!context.mounted) return;
+                          context.successNotification(message: "Review updated successfully.");
+                          context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      BlocProvider(
+                        create: (_) => sl<DeleteReviewBloc>(),
+                        child: BlocConsumer<DeleteReviewBloc, DeleteReviewState>(
+                          listener: (_, state) {
+                            if (state is DeleteReviewDone) {
+                              context.successNotification(message: "Review deleted successfully.");
+                              context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
+                            }
+                          },
+                          builder: (deleteContext, state) {
+                            if (state is DeleteReviewLoading) {
+                              return TextButton(
                                 style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                  disabledBackgroundColor: theme.negative.withAlpha(15),
+                                  side: BorderSide(color: theme.negative, width: .75),
                                 ),
-                                icon: Icon(Icons.thumb_up_rounded, color: theme.primary),
-                                label: Text(
-                                  review.likes.toString(),
-                                  style: TextStyles.subTitle(context: context, color: theme.primary),
-                                ),
-                                onPressed: () {},
+                                onPressed: null,
+                                child: NetworkingIndicator(dimension: 28, color: theme.negative),
+                              );
+                            }
+                            return TextButton.icon(
+                              style: TextButton.styleFrom(
+                                backgroundColor: theme.negative.withAlpha(15),
+                                side: BorderSide(color: theme.negative, width: .75),
                               ),
-                              TextButton.icon(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                ),
-                                icon: const Icon(Icons.report_rounded),
-                                label: const Text("Report"),
+                              icon: Icon(Icons.delete_rounded, color: theme.negative),
+                              label: Text(
+                                "Delete".toUpperCase(),
+                                style: TextStyles.subTitle(context: context, color: theme.negative),
                               ),
-                            ],
-                          ), */
+                              onPressed: () async {
+                                final confirmed =
+                                    await showDialog(context: context, builder: (_) => DeleteConfirmationWidget());
+                                if (!confirmed) return;
+                                if (!context.mounted) return;
+                                deleteContext.read<DeleteReviewBloc>().add(DeleteReview(review: review.identity));
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
