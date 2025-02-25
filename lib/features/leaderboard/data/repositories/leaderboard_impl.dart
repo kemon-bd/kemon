@@ -3,11 +3,13 @@ import '../../leaderboard.dart';
 
 class LeaderboardRepositoryImpl extends LeaderboardRepository {
   final NetworkInfo network;
+  final LeaderboardFilterBloc filter;
   final LeaderboardLocalDataSource local;
   final LeaderboardRemoteDataSource remote;
 
   LeaderboardRepositoryImpl({
     required this.network,
+    required this.filter,
     required this.local,
     required this.remote,
   });
@@ -16,15 +18,13 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   FutureOr<Either<Failure, LeaderboardResponse>> find({
     required int page,
     required String query,
-    required DateTime from,
-    required DateTime to,
   }) async {
     try {
       final result = await local.find(
         page: page,
         query: query,
-        from: from,
-        to: to,
+        from: filter.state.range.start,
+        to: filter.state.range.end,
       );
       return Right(result);
     } on LeaderboardNotFoundInLocalCacheFailure catch (_) {
@@ -32,17 +32,25 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
         final result = await remote.find(
           page: page,
           query: query,
-          from: from,
-          to: to,
+          from: filter.state.range.start,
+          to: filter.state.range.end,
         );
         await local.add(
           page: page,
           query: query,
-          from: from,
-          to: to,
+          from: filter.state.range.start,
+          to: filter.state.range.end,
           leaderboard: result,
         );
-        return Right(result);
+        final total = page == 1
+            ? result
+            : await local.find(
+                page: page,
+                query: query,
+                from: filter.state.range.start,
+                to: filter.state.range.end,
+              );
+        return Right(total);
       } else {
         return Left(NoInternetFailure());
       }
@@ -52,10 +60,7 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   }
 
   @override
-  FutureOr<Either<Failure, LeaderboardResponse>> refresh({
-    required DateTime from,
-    required DateTime to,
-  }) async {
+  FutureOr<Either<Failure, LeaderboardResponse>> refresh() async {
     try {
       if (await network.online) {
         await local.removeAll();
@@ -63,12 +68,17 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
         final result = await remote.find(
           page: 1,
           query: '',
-          from: from,
-          to: to,
+          from: filter.state.range.start,
+          to: filter.state.range.end,
         );
 
         await local.add(
-            page: 1, query: '', from: from, to: to, leaderboard: result);
+          page: 1,
+          query: '',
+          from: filter.state.range.start,
+          to: filter.state.range.end,
+          leaderboard: result,
+        );
 
         return Right(result);
       } else {

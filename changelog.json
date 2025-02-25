@@ -1,13 +1,13 @@
 {
-    "hash": "version13releasedOn10thJanuary2025",
+    "hash": "version14releasedOn14thJanuary2025",
     "changes": [
         {
-            "type": "feature",
-            "title": "Social login integrated."
+            "type": "ui",
+            "title": "Responsive UI implemented."
         },
         {
             "type": "ux",
-            "title": "Profile completeness requirement refactored."
+            "title": "Overall user experience improved."
         }
     ]
 }

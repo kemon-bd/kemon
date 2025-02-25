@@ -1,9 +1,18 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
-import '../../location.dart';
 
 class SortBusinessesByLocationWidget extends StatelessWidget {
-  const SortBusinessesByLocationWidget({super.key});
+  final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
+  const SortBusinessesByLocationWidget({
+    super.key,
+    required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +33,7 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
               children: [
                 Text(
                   "Sort By",
-                  style: TextStyles.headline(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
                 IconButton(
                   onPressed: () {
@@ -48,76 +56,58 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: theme.backgroundTertiary, width: .25),
               ),
-              child: BlocBuilder<FindLocationBloc, FindLocationState>(
+              child: BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
                 builder: (context, state) {
-                  if (state is FindLocationDone) {
-                    final location = state.location.urlSlug;
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (_, index) {
+                      final item = SortBy.values[index];
+                      final selected = state.sortBy == item;
 
-                    return BlocBuilder<FindBusinessesByLocationBloc,
-                        FindBusinessesByLocationState>(
-                      builder: (context, state) {
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemBuilder: (_, index) {
-                            final item = SortBy.values[index];
-                            final selected = state.sortBy == item;
-
-                            return InkWell(
-                              onTap: () {
-                                context
-                                    .read<FindBusinessesByLocationBloc>()
-                                    .add(
-                                      FindBusinessesByLocation(
-                                        location: location,
-                                        sort: SortBy.values[index],
-                                        ratings: state.ratings,
-                                      ),
-                                    );
-                                context.pop();
-                              },
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.all(Dimension.radius.sixteen),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      selected
-                                          ? Icons.check_circle_rounded
-                                          : Icons.circle_outlined,
-                                      size: Dimension.radius.twenty,
-                                      color: selected
-                                          ? theme.primary
-                                          : theme.textPrimary,
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            Dimension.padding.horizontal.max),
-                                    Expanded(
-                                      child: Text(
-                                        item.text,
-                                        style: TextStyles.subTitle(
-                                          context: context,
-                                          color: selected
-                                              ? theme.primary
-                                              : theme.textPrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                      return InkWell(
+                        onTap: () {
+                          context.read<FindBusinessesByLocationBloc>().add(
+                                FindBusinessesByLocation(
+                                  location: urlSlug,
+                                  sort: SortBy.values[index],
+                                  ratings: state.ratings,
+                                  division: division,
+                                  district: district,
+                                  thana: thana,
+                                ),
+                              );
+                          context.pop();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(Dimension.radius.sixteen),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                size: Dimension.radius.twenty,
+                                color: selected ? theme.primary : theme.textPrimary,
+                              ),
+                              SizedBox(width: Dimension.padding.horizontal.max),
+                              Expanded(
+                                child: Text(
+                                  item.text,
+                                  style: TextStyles.subTitle(
+                                    context: context,
+                                    color: selected ? theme.primary : theme.textPrimary,
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                          itemCount: SortBy.values.length,
-                        );
-                      },
-                    );
-                  }
-                  return Container();
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: SortBy.values.length,
+                  );
                 },
               ),
             ),

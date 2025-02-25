@@ -31,6 +31,14 @@ Submit a new draft Build to Google Play Internal test
 
 Submit a new draft Build to Google Play production test
 
+### android alpha
+
+```sh
+[bundle exec] fastlane android alpha
+```
+
+Submit a new Beta Build to Crashlytics Beta
+
 ### android beta
 
 ```sh

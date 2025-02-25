@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../profile.dart';
 
 class PublicProfilePage extends StatelessWidget {
@@ -24,13 +25,18 @@ class PublicProfilePage extends StatelessWidget {
             backgroundColor: theme.primary,
             surfaceTintColor: theme.primary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             title: ProfileUsernameWidget(
-              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+              style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                 fontWeight: FontWeight.bold,
-                height: 1,
               ),
             ),
             centerTitle: true,

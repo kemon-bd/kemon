@@ -8,7 +8,10 @@ sealed class FindIndustriesEvent extends Equatable {
 }
 
 class FindIndustries extends FindIndustriesEvent {
-  const FindIndustries();
+  final String query;
+  const FindIndustries({
+    this.query = '',
+  });
   @override
-  List<Object> get props => [];
+  List<Object> get props => [query];
 }

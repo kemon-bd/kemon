@@ -55,7 +55,6 @@ class ReviewLikeButton extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                     ),
-                    overlayColor: theme.positive,
                   ),
                   icon: Icon(
                     liked ? Icons.thumb_up_off_alt_rounded : Icons.thumb_up_off_alt_outlined,

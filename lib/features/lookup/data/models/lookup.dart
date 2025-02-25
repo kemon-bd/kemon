@@ -17,14 +17,10 @@ class LookupModel extends LookupEntity {
   }) {
     try {
       assert(
-        map.containsKey('displayText'),
-        'LookupModel.parse: "displayText" not found.',
-      );
-      assert(
-        map['displayText'] is String,
+        map['displayText'] is String?,
         'LookupModel.parse: "displayText" is not a String.',
       );
-      final String text = map['displayText'] as String;
+      final String text = (map['displayText'] as String?) ?? '';
 
       assert(
         map.containsKey('dataValue'),
@@ -37,24 +33,16 @@ class LookupModel extends LookupEntity {
       final String value = map['dataValue'] as String;
 
       assert(
-        map.containsKey('dataOrder'),
-        'LookupModel.parse: "dataOrder" not found.',
-      );
-      assert(
-        map['dataOrder'] is int,
+        map['dataOrder'] is int?,
         'LookupModel.parse: "dataOrder" is not a int.',
       );
-      final int order = map['dataOrder'] as int;
+      final int order = (map['dataOrder'] as int?) ?? 0;
 
       assert(
-        map.containsKey('isActive'),
-        'LookupModel.parse: "isActive" not found.',
-      );
-      assert(
-        map['isActive'] is bool,
+        map['isActive'] is bool?,
         'LookupModel.parse: "isActive" is not a bool.',
       );
-      final bool active = map['isActive'] as bool;
+      final bool active = (map['isActive'] as bool?) ?? false;
 
       return LookupModel(
         text: text,

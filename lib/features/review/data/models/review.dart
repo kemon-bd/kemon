@@ -9,9 +9,11 @@ class ReviewModel extends ReviewEntity {
     required super.rating,
     required super.title,
     required super.description,
-    required super.date,
-    required super.likes,
+    required super.experiencedAt,
+    required super.reviewedAt,
     required super.photos,
+    required super.deleted,
+    required super.flagged,
   });
 
   factory ReviewModel.parse({
@@ -86,17 +88,17 @@ class ReviewModel extends ReviewEntity {
         map['date'] is String,
         'ReviewModel.parse: "date" is not a String.',
       );
-      final String date = map['date'] as String;
+      final String experiencedAt = map['date'] as String;
 
       assert(
-        map.containsKey('likes'),
-        'ReviewModel.parse: "likes" not found.',
+        map.containsKey('createdDate'),
+        'ReviewModel.parse: "createdDate" not found.',
       );
       assert(
-        map['likes'] is int,
-        'ReviewModel.parse: "likes" is not a int.',
+        map['createdDate'] is String,
+        'ReviewModel.parse: "createdDate" is not a String.',
       );
-      final int likes = map['likes'] as int;
+      final String reviewedAt = map['createdDate'] as String;
 
       return ReviewModel(
         identity: Identity(id: map['id'] ?? -1, guid: guid),
@@ -105,14 +107,16 @@ class ReviewModel extends ReviewEntity {
         rating: rating,
         title: title,
         description: parse(description).body?.text,
-        date: DateTime.parse(date),
-        likes: likes,
+        experiencedAt: DateTime.parse(experiencedAt),
+        reviewedAt: DateTime.parse(reviewedAt),
         photos: map['reviewImages']
             .toString()
             .split(',')
             .map((url) => url.split('|').last)
             .where((url) => url.contains('.'))
             .toList(),
+        deleted: map['isDelete'] ?? false,
+        flagged: map['isFlag'] ?? false,
       );
     } catch (e, stackTrace) {
       throw ReviewModelParseFailure(

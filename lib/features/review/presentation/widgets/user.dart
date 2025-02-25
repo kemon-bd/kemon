@@ -2,7 +2,11 @@ import '../../../../core/shared/shared.dart';
 import '../../review.dart';
 
 class UserReviewsWidget extends StatelessWidget {
-  const UserReviewsWidget({super.key});
+  final Identity user;
+  const UserReviewsWidget({
+    super.key,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +26,21 @@ class UserReviewsWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 )
-              : ListView.separated(
-                  itemBuilder: (_, index) {
-                    final review = reviews[index];
-                    return UserReviewItemWidget(review: review);
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
                   },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
-                  physics: const ScrollPhysics(),
-                  itemCount: reviews.length,
-                  padding: const EdgeInsets.all(16.0)
-                      .copyWith(bottom: 16 + context.bottomInset),
-                  shrinkWrap: true,
+                  child: ListView.separated(
+                    itemBuilder: (_, index) {
+                      final review = reviews[index];
+                      return UserReviewItemWidget(review: review, user: user);
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 16),
+                    physics: const ScrollPhysics(),
+                    itemCount: reviews.length,
+                    padding: const EdgeInsets.all(16.0).copyWith(bottom: 16 + context.bottomInset),
+                    shrinkWrap: true,
+                  ),
                 );
         }
         return const SizedBox();

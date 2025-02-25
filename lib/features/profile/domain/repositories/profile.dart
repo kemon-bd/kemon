@@ -31,6 +31,7 @@ abstract class ProfileRepository {
 
   FutureOr<Either<Failure, String>> requestOtpForPasswordChange({
     required String username,
+    required bool verificationOnly,
   });
 
   FutureOr<Either<Failure, void>> resetPassword({

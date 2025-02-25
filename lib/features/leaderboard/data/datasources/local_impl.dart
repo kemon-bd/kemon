@@ -39,17 +39,35 @@ class LeaderboardLocalDataSourceImpl extends LeaderboardLocalDataSource {
     required String query,
     required DateTime from,
     required DateTime to,
-  }) {
-    final key = (
-      page: page,
-      query: query,
-      from: from,
-      to: to,
-    );
-    final item = _cache[key];
-    if (item == null) {
-      throw LeaderboardNotFoundInLocalCacheFailure();
+  }) async {
+    int total = 0;
+    DateTime deadline = DateTime.now();
+    List<LeaderEntity> results = [];
+
+    for (int p = 1; p <= page; p++) {
+      final tempKey = (
+        page: p,
+        query: query,
+        from: from,
+        to: to,
+      );
+
+      if (!_cache.containsKey(tempKey)) {
+        throw LeaderboardNotFoundInLocalCacheFailure();
+      }
+
+      final item = _cache[tempKey]; // Use tempKey here
+      if (item != null) {
+        deadline = item.deadline;
+        total = item.total;
+        results.addAll(item.leaders);
+      }
     }
-    return item;
+
+    return (
+      deadline: deadline,
+      leaders: results,
+      total: total,
+    );
   }
 }

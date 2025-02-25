@@ -21,6 +21,10 @@ abstract class ReviewLocalDataSource {
     required String urlSlug,
   });
 
+  FutureOr<void> removeUser({
+    required String user,
+  });
+
   FutureOr<void> removeAll();
 
   FutureOr<List<ReviewEntity>> find({

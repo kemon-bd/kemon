@@ -32,6 +32,7 @@ Future<void> get _core async {
   sl.registerLazySingleton(() => Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
+  sl.registerLazySingleton<FirebaseAnalytics>(() => FirebaseAnalytics.instance);
   sl.registerLazySingleton<GoogleSignIn>(
     () => GoogleSignIn(
       scopes: [

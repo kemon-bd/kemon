@@ -16,6 +16,9 @@ class RemoteResponse<T> {
   factory RemoteResponse.parse({
     required Response response,
   }) {
+    if (response.body.isEmpty) {
+      return RemoteResponse._error(error: response.reasonPhrase ?? '');
+    }
     final Map<String, dynamic> payload = json.decode(response.body);
 
     assert(

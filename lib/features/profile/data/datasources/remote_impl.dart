@@ -63,6 +63,9 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       "userId": identity.guid,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -95,12 +98,14 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     request.headers.addAll({
       'authorization': token,
       'userId': profile.identity.guid,
-      'firstName': profile.name.first,
-      'lastName': profile.name.last,
-      'email': profile.phone?.number ?? '',
-      'phone': profile.email?.address ?? '',
+      'firstName': Uri.encodeComponent(profile.name.first),
+      'lastName': Uri.encodeComponent(profile.name.last),
+      'phone': profile.phone?.number ?? '',
+      'email': profile.email?.address ?? '',
       'dob': profile.dob?.toIso8601String() ?? '',
       'gender': profile.gender?.index.toString() ?? '-1',
+      'isphoneverified': profile.phone?.verified.toString() ?? 'false',
+      'isemailverified': profile.email?.verified.toString() ?? 'false',
       'isupload': avatar != null ? 'true' : 'false',
     });
     if (avatar != null) {
@@ -200,10 +205,12 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   @override
   FutureOr<String> requestOtpForPasswordChange({
     required String username,
+    required bool verificationOnly,
   }) async {
     try {
       final Map<String, String> headers = {
         "username": username,
+        "verificationOnly": verificationOnly ? "true" : "",
       };
 
       final Response response = await post(

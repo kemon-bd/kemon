@@ -7,8 +7,10 @@ class ReviewEntity extends Equatable {
   final int rating;
   final String title;
   final String? description;
-  final DateTime date;
-  final int likes;
+  final DateTime experiencedAt;
+  final DateTime reviewedAt;
+  final bool deleted;
+  final bool flagged;
   final List<String> photos;
 
   const ReviewEntity({
@@ -18,9 +20,11 @@ class ReviewEntity extends Equatable {
     required this.rating,
     required this.title,
     required this.description,
-    required this.date,
-    required this.likes,
+    required this.experiencedAt,
+    required this.reviewedAt,
     required this.photos,
+    required this.deleted,
+    required this.flagged,
   });
 
   @override
@@ -31,8 +35,8 @@ class ReviewEntity extends Equatable {
         rating,
         title,
         description,
-        date,
-        likes,
+        experiencedAt,
+        reviewedAt,
         photos,
       ];
 }

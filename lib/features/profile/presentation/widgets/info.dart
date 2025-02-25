@@ -1,4 +1,5 @@
 import '../../../../../core/shared/shared.dart';
+import '../../../lookup/lookup.dart';
 import '../../profile.dart';
 
 class ProfileInformationWidget extends StatelessWidget {
@@ -27,43 +28,47 @@ class ProfileInformationWidget extends StatelessWidget {
             image: const DecorationImage(
               image: AssetImage('images/logo/full.png'),
               opacity: .025,
-              scale: 50,
+              scale: 500,
               repeat: ImageRepeat.repeat,
             ),
           ),
           child: ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             children: [
-              ProfilePictureWidget(
-                size: 112,
-                backgroundColor: theme.positiveBackgroundSecondary,
-                placeholderColor: theme.primary,
-                border: 4,
-                borderColor: theme.primary,
+              BlocBuilder<FindProfileBloc, FindProfileState>(
+                builder: (context, state) {
+                  if (state is FindProfileDone) {
+                    return ProfilePointsBuilder(builder: (checks) {
+                      return ProfilePictureWidget(
+                        size: Dimension.radius.max,
+                        backgroundColor: theme.positiveBackgroundSecondary,
+                        placeholderColor: theme.primary,
+                        border: Dimension.radius.four,
+                        borderColor: theme.white,
+                        showFlare: state.profile.progress(checks: checks) == 100,
+                      );
+                    });
+                  }
+                  return ProfilePictureWidget(
+                    size: Dimension.radius.max,
+                    backgroundColor: theme.positiveBackgroundSecondary,
+                    placeholderColor: theme.primary,
+                    border: Dimension.radius.four,
+                    borderColor: theme.white,
+                  );
+                },
               ),
               const SizedBox(height: 16),
               ProfileNameWidget(
                 align: TextAlign.center,
-                style: TextStyles.headline(
-                        context: context, color: theme.textPrimary)
-                    .copyWith(
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                ),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                 shimmerAlignment: Alignment.center,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               ProfileSinceWidget(
-                style: TextStyles.body(
-                        context: context,
-                        color: theme.textSecondary.withAlpha(150))
-                    .copyWith(
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                ),
+                style: TextStyles.body(context: context, color: theme.textSecondary),
                 align: TextAlign.center,
                 shimmerAlignment: Alignment.center,
               ),
@@ -74,20 +79,18 @@ class ProfileInformationWidget extends StatelessWidget {
                   side: BorderSide.none,
                   shadowColor: theme.semiWhite,
                   backgroundColor: theme.textPrimary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   label: Text(
                     'Edit profile',
-                    style: TextStyles.title(
-                        context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.button(context: context).copyWith(
+                      color: theme.backgroundPrimary,
+                    ),
                   ),
                   onPressed: () async {
                     final identity = context.auth.identity!;
                     final bloc = context.read<FindProfileBloc>();
-                    final bool? updated =
-                        await context.pushNamed(EditProfilePage.name);
+                    final bool? updated = await context.pushNamed(EditProfilePage.name);
                     if (updated ?? false) {
                       bloc.add(RefreshProfile(identity: identity));
                     }

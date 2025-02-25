@@ -12,3 +12,4 @@ GeneratedPluginRegistrant.java
 # **/*.keystore
 # **/*.jks
 **/fastlane-supply.json
+**/.cxx/

@@ -17,7 +17,7 @@ extension BuildContextExtension on BuildContext {
 
   double get height => MediaQuery.of(this).size.height;
 
-  ScaffoldMessengerState successNotification({
+  void successNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
@@ -28,12 +28,12 @@ extension BuildContextExtension on BuildContext {
       ),
       backgroundColor: scheme.positive,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
-  ScaffoldMessengerState errorNotification({
+  void errorNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
@@ -44,37 +44,40 @@ extension BuildContextExtension on BuildContext {
       ),
       backgroundColor: scheme.negative,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar)
-      ..build(this);
+      ..showSnackBar(snackBar);
   }
 
-  ScaffoldMessengerState warningNotification({
+  void warningNotification({
     required String message,
   }) {
     final scheme = theme.scheme;
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: scheme.black),
+        style: TextStyles.body(context: this, color: scheme.white),
       ),
       backgroundColor: scheme.warning,
     );
-    return ScaffoldMessenger.of(this)
+    ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
   Color get barrierColor {
-    return theme.scheme.textPrimary
-        .withOpacity(theme.mode == ThemeMode.dark ? .1 : .5);
+    return theme.scheme.textPrimary.withAlpha(theme.mode == ThemeMode.dark ? 25 : 125);
   }
 
+  TextTheme get text => Theme.of(this).textTheme;
   ThemeState get theme => this.read<ThemeBloc>().state;
 
   AuthenticationBloc get auth => this.read<AuthenticationBloc>();
   FindBusinessBloc get businessBloc => this.read<FindBusinessBloc>();
   FindBusinessState get businessState => businessBloc.state;
   BusinessEntity get business => (businessState as FindBusinessDone).business;
+
+  void dismissKeyboard() {
+    FocusScope.of(this).requestFocus(FocusNode());
+  }
 }

@@ -6,5 +6,7 @@ abstract class IndustryRepository {
     required String urlSlug,
   });
 
-  FutureOr<Either<Failure, List<IndustryEntity>>> all();
+  FutureOr<Either<Failure, List<IndustryEntity>>> all({
+    required String query,
+  });
 }

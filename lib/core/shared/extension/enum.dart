@@ -1,5 +1,94 @@
 import '../shared.dart';
 
+extension DateRangeOptionEnumExtension on DateRangeOption {
+  String get name {
+    switch (this) {
+      case DateRangeOption.today:
+        return 'Today';
+      case DateRangeOption.yesterday:
+        return 'Yesterday';
+      case DateRangeOption.thisWeek:
+        return 'This week';
+      case DateRangeOption.lastWeek:
+        return 'Last week';
+      case DateRangeOption.thisMonth:
+        return 'This month';
+      case DateRangeOption.lastMonth:
+        return 'Last month';
+      case DateRangeOption.thisYear:
+        return 'This year';
+      case DateRangeOption.lastYear:
+        return 'Last year';
+      case DateRangeOption.last30days:
+        return 'Last 30 days';
+      case DateRangeOption.last90days:
+        return 'Last 90 days';
+      case DateRangeOption.allTime:
+        return 'All time';
+      case DateRangeOption.custom:
+        return 'Custom';
+      }
+  }
+
+  DateTimeRange get evaluate {
+    final DateTime now = DateTime.now();
+    late final DateTime start, end;
+    switch (this) {
+      case DateRangeOption.today:
+        start = now;
+        end = now;
+        break;
+      case DateRangeOption.yesterday:
+        start = now.subtract(const Duration(days: 1));
+        end = now.subtract(const Duration(days: 1));
+      case DateRangeOption.thisWeek:
+        start = now.subtract(Duration(days: now.weekday - 1));
+        end = now.add(Duration(days: 7 - now.weekday));
+        break;
+      case DateRangeOption.lastWeek:
+        start = now.subtract(Duration(days: now.weekday + 6));
+        end = now.subtract(Duration(days: now.weekday));
+        break;
+      case DateRangeOption.thisMonth:
+        start = DateTime(now.year, now.month, 1);
+        end = DateTime(now.year, now.month + 1, 1).subtract(const Duration(days: 1));
+        break;
+      case DateRangeOption.lastMonth:
+        start = DateTime(now.year, now.month - 1, 1);
+        end = DateTime(now.year, now.month, 1).subtract(const Duration(days: 1));
+        break;
+      case DateRangeOption.thisYear:
+        start = DateTime(now.year, 1, 1);
+        end = DateTime(now.year + 1, 1, 1).subtract(const Duration(days: 1));
+        break;
+      case DateRangeOption.lastYear:
+        start = DateTime(now.year - 1, 1, 1);
+        end = DateTime(now.year, 1, 1).subtract(const Duration(days: 1));
+        break;
+      case DateRangeOption.last30days:
+        start = now.subtract(const Duration(days: 30));
+        end = now;
+        break;
+      case DateRangeOption.last90days:
+        start = now.subtract(const Duration(days: 90));
+        end = now;
+        break;
+      case DateRangeOption.allTime:
+        start = DateTime(2020, 1, 1);
+        end = DateTime(2100);
+        break;
+      case DateRangeOption.custom:
+      start = DateTime(2010, 1, 1);
+        end = now;
+    }
+
+    return DateTimeRange(
+      start: start.startOfTheDay,
+      end: end.endOfTheDay,
+    );
+  }
+}
+
 extension LookupsExtension on Lookups {
   String get dataKey {
     switch (this) {
@@ -26,9 +115,7 @@ extension GenderExtension on Gender {
         return 'Female';
       case Gender.other:
         return 'Other';
-      default:
-        return '';
-    }
+      }
   }
 }
 
@@ -45,6 +132,21 @@ extension AnalyticSourceExtension on AnalyticSource {
         return "Address";
       case AnalyticSource.website:
         return "Website";
+    }
+  }
+}
+
+extension RatingRangeExtension on RatingRange {
+  List<int> get stars {
+    switch (this) {
+      case RatingRange.all:
+        return [];
+      case RatingRange.worst:
+        return [0, 1, 2];
+      case RatingRange.average:
+        return [2, 3, 4];
+      case RatingRange.best:
+        return [4, 5];
     }
   }
 }

@@ -1,6 +1,5 @@
-import 'package:sa3_liquid/sa3_liquid.dart';
-
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../login/login.dart';
 import '../../profile.dart';
 
@@ -70,7 +69,13 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              onPressed: context.pop,
+                              onPressed: () {
+                                if (context.canPop()) {
+                                  context.pop();
+                                } else {
+                                  context.goNamed(HomePage.name);
+                                }
+                              },
                               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                             )
                           : Column(
@@ -80,13 +85,19 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
                                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                  onPressed: context.pop,
+                                  onPressed: () {
+                                    if (context.canPop()) {
+                                      context.pop();
+                                    } else {
+                                      context.goNamed(HomePage.name);
+                                    }
+                                  },
                                   icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
                                 const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
-                                  style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                  style: TextStyles.title(context: context, color: theme.white).copyWith(
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2,
                                   ),
@@ -94,7 +105,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Sign in to your account to continue',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                  style: TextStyles.caption(context: context, color: theme.semiWhite).copyWith(
                                     height: 1,
                                   ),
                                 ),
@@ -105,250 +116,245 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Stack(
-                    children: [
-                      PlasmaRenderer(
-                        type: PlasmaType.infinity,
-                        particles: 5,
-                        color: theme.backgroundTertiary,
-                        blur: 0.95,
-                        size: 0.5,
-                        speed: 0.9,
-                        offset: 0,
-                        blendMode: BlendMode.srcOver,
-                        variation1: 0,
-                        variation2: 0,
-                        variation3: 0,
-                        rotation: 0,
-                      ),
-                      Form(
-                        key: formKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
-                          children: [
-                            const SizedBox(height: 42),
-                            Semantics(
-                              label: 'Email/Phone',
-                              child: TextFormField(
+                  child: Form(
+                    key: formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
+                      children: [
+                        const SizedBox(height: 42),
+                        Semantics(
+                          label: 'Email/Phone',
+                          child: TextFormField(
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            controller: usernameController,
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                            decoration: InputDecoration(
+                              hintText: "required",
+                              hintStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              helperText: '',
+                              helperStyle: TextStyle(fontSize: 0),
+                              errorStyle: TextStyle(fontSize: 0),
+                              label: Text(
+                                'Email/Phone',
                                 style: TextStyles.body(context: context, color: theme.textPrimary),
-                                controller: usernameController,
-                                keyboardType: TextInputType.emailAddress,
-                                autocorrect: false,
-                                validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                                decoration: InputDecoration(
-                                  hintText: "required",
-                                  helperText: '',
-                                  helperStyle: TextStyle(fontSize: 0),
-                                  errorStyle: TextStyle(fontSize: 0),
-                                  label: Text(
-                                    'Email/Phone',
-                                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                                  ),
-                                  alignLabelWithHint: true,
+                              ),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: BlocConsumer<CheckProfileBloc, CheckProfileState>(
+                            listener: (context, state) async {
+                              if (state is CheckProfileError) {
+                                context.errorNotification(message: state.failure.message);
+                              } else if (state is CheckProfileExistingUser) {
+                                final ProfileModel? profile = await context.pushNamed(
+                                  LoginPage.name,
+                                  queryParameters: {
+                                    'guid': state.profile.identity.guid,
+                                    'username': usernameController.text,
+                                    'authorize': widget.authorize.toString(),
+                                  },
+                                );
+                                if (!context.mounted) return;
+                                context.pop(profile);
+                              } else if (state is CheckProfileNewUser) {
+                                final ProfileModel? profile = await context.pushNamed(
+                                  VerifyOTPPage.name,
+                                  queryParameters: {
+                                    'username': usernameController.text,
+                                    'otp': state.otp,
+                                    'authorize': widget.authorize.toString(),
+                                  },
+                                );
+                                if (!context.mounted) return;
+                                context.pop(profile);
+                              }
+                            },
+                            builder: (context, state) {
+                              if (state is CheckProfileLoading) {
+                                return ElevatedButton(
+                                  onPressed: () {
+                                    FocusScope.of(context).requestFocus(FocusNode());
+                                  },
+                                  child: NetworkingIndicator(dimension: Dimension.radius.eighteen, color: theme.white),
+                                );
+                              }
+                              return ElevatedButton(
+                                onPressed: () {
+                                  FocusScope.of(context).requestFocus(FocusNode());
+                                  if (formKey.currentState?.validate() ?? false) {
+                                    context.read<CheckProfileBloc>().add(CheckProfile(username: usernameController.text));
+                                  }
+                                },
+                                child: Text(
+                                  "Continue".toUpperCase(),
+                                  style: TextStyles.button(context: context),
                                 ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: Dimension.padding.vertical.max),
+                        KeyboardVisibilityBuilder(
+                          builder: (_, visible) => visible
+                              ? Container()
+                              : Align(
+                                  alignment: Alignment.centerRight,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await context.pushNamed(ForgotPasswordPage.name);
+                                    },
+                                    child: Text(
+                                      'Forgot Password',
+                                      style: TextStyles.subTitle(context: context, color: theme.link),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                height: Dimension.size.vertical.fortyEight,
+                                endIndent: Dimension.padding.horizontal.large,
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: BlocConsumer<CheckProfileBloc, CheckProfileState>(
+                            Text(
+                              'or',
+                              style: TextStyles.caption(context: context, color: theme.backgroundTertiary),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                height: Dimension.size.vertical.fortyEight,
+                                indent: Dimension.padding.horizontal.large,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: theme.backgroundPrimary,
+                                border: Border.all(
+                                  color: theme.backgroundTertiary,
+                                  width: .5,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
+                              ),
+                              child: BlocConsumer<GoogleSignInBloc, GoogleSignInState>(
                                 listener: (context, state) async {
-                                  if (state is CheckProfileError) {
+                                  if (state is GoogleSignInDone) {
+                                    if (widget.authorize) {
+                                      context.pop(state.profile);
+                                    } else {
+                                      context.pushReplacementNamed(ProfilePage.name);
+                                    }
+                                  } else if (state is GoogleSignInError) {
                                     context.errorNotification(message: state.failure.message);
-                                  } else if (state is CheckProfileExistingUser) {
-                                    final ProfileModel? profile = await context.pushNamed(
-                                      LoginPage.name,
-                                      queryParameters: {
-                                        'guid': state.profile.identity.guid,
-                                        'username': usernameController.text,
-                                        'authorize': widget.authorize.toString(),
-                                      },
-                                    );
-                                    if (!context.mounted) return;
-                                    context.pop(profile);
-                                  } else if (state is CheckProfileNewUser) {
-                                    final ProfileModel? profile = await context.pushNamed(
-                                      VerifyOTPPage.name,
-                                      queryParameters: {
-                                        'username': usernameController.text,
-                                        'otp': state.otp,
-                                        'authorize': widget.authorize.toString(),
-                                      },
-                                    );
-                                    if (!context.mounted) return;
-                                    context.pop(profile);
                                   }
                                 },
                                 builder: (context, state) {
-                                  if (state is CheckProfileLoading) {
-                                    return ElevatedButton(
-                                      onPressed: () {
-                                        FocusScope.of(context).requestFocus(FocusNode());
-                                      },
-                                      child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                  if (state is GoogleSignInLoading) {
+                                    return IconButton(
+                                      onPressed: () {},
+                                      padding: EdgeInsets.all(0),
+                                      icon: NetworkingIndicator(
+                                        dimension: Dimension.radius.eighteen,
+                                        color: theme.google,
+                                      ),
                                     );
                                   }
-                                  return ElevatedButton(
-                                    onPressed: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
-                                      if (formKey.currentState?.validate() ?? false) {
-                                        context.read<CheckProfileBloc>().add(CheckProfile(username: usernameController.text));
+                                  return IconButton(
+                                    onPressed: () async {
+                                      if ((context.auth.username ?? "").isEmpty) {
+                                        final acknowledged =
+                                            await showDialog(context: context, builder: (_) => AcknowledgementAlert());
+                                        if (!acknowledged) return;
+                                        if (!context.mounted) return;
                                       }
+                                      context.read<GoogleSignInBloc>().add(SignInWithGoogle());
                                     },
-                                    child: Text(
-                                      "Continue".toUpperCase(),
-                                      style: TextStyles.button(context: context),
+                                    padding: EdgeInsets.all(0),
+                                    icon: SvgPicture.asset(
+                                      'images/logo/google.svg',
+                                      width: Dimension.radius.eighteen,
+                                      height: Dimension.radius.eighteen,
                                     ),
                                   );
                                 },
                               ),
                             ),
-                            SizedBox(height: Dimension.padding.vertical.max),
-                            KeyboardVisibilityBuilder(
-                              builder: (_, visible) => visible
-                                  ? Container()
-                                  : Align(
-                                      alignment: Alignment.centerRight,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          await context.pushNamed(ForgotPasswordPage.name);
-                                        },
-                                        child: Text(
-                                          'Forgot Password',
-                                          style: TextStyles.title(context: context, color: theme.link),
-                                        ),
+                            SizedBox(width: Dimension.padding.horizontal.max),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: theme.backgroundPrimary,
+                                border: Border.all(
+                                  color: theme.backgroundTertiary,
+                                  width: .5,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
+                              ),
+                              child: BlocConsumer<FacebookLoginBloc, FacebookLoginState>(
+                                listener: (context, state) async {
+                                  if (state is FacebookLoginDone) {
+                                    if (widget.authorize) {
+                                      context.pop(state.profile);
+                                    } else {
+                                      context.pushReplacementNamed(ProfilePage.name);
+                                    }
+                                  } else if (state is FacebookLoginError) {
+                                    context.errorNotification(message: state.failure.message);
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is FacebookLoginLoading) {
+                                    return IconButton(
+                                      onPressed: () {},
+                                      padding: EdgeInsets.all(0),
+                                      icon: NetworkingIndicator(
+                                        dimension: Dimension.radius.eighteen,
+                                        color: theme.google,
                                       ),
+                                    );
+                                  }
+                                  return IconButton(
+                                    onPressed: () async {
+                                      if ((context.auth.username ?? "").isEmpty) {
+                                        final acknowledged =
+                                            await showDialog(context: context, builder: (_) => AcknowledgementAlert());
+                                        if (!acknowledged) return;
+                                        if (!context.mounted) return;
+                                      }
+                                      context.read<FacebookLoginBloc>().add(LoginWithFacebook());
+                                    },
+                                    padding: EdgeInsets.all(0),
+                                    icon: Icon(
+                                      FontAwesomeIcons.facebook,
+                                      size: Dimension.radius.eighteen,
+                                      color: theme.facebook,
                                     ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    height: Dimension.size.vertical.fortyEight,
-                                    endIndent: Dimension.padding.horizontal.large,
-                                  ),
-                                ),
-                                Text(
-                                  'or',
-                                  style: TextStyles.caption(context: context, color: theme.backgroundTertiary),
-                                ),
-                                Expanded(
-                                  child: Divider(
-                                    height: Dimension.size.vertical.fortyEight,
-                                    indent: Dimension.padding.horizontal.large,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: theme.backgroundPrimary,
-                                    border: Border.all(
-                                      color: theme.backgroundTertiary,
-                                      width: .5,
-                                      strokeAlign: BorderSide.strokeAlignOutside,
-                                    ),
-                                  ),
-                                  child: BlocConsumer<GoogleSignInBloc, GoogleSignInState>(
-                                    listener: (context, state) async {
-                                      if (state is GoogleSignInDone) {
-                                        if (widget.authorize) {
-                                          context.pop(state.profile);
-                                        } else {
-                                          context.pushReplacementNamed(ProfilePage.name);
-                                        }
-                                      } else if (state is GoogleSignInError) {
-                                        context.errorNotification(message: state.failure.message);
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state is GoogleSignInLoading) {
-                                        return IconButton(
-                                          onPressed: () {},
-                                          padding: EdgeInsets.all(0),
-                                          icon: NetworkingIndicator(
-                                            dimension: Dimension.radius.eighteen,
-                                            color: theme.google,
-                                          ),
-                                        );
-                                      }
-                                      return IconButton(
-                                        onPressed: () {
-                                          context.read<GoogleSignInBloc>().add(SignInWithGoogle());
-                                        },
-                                        padding: EdgeInsets.all(0),
-                                        icon: SvgPicture.asset(
-                                          'images/logo/google.svg',
-                                          width: Dimension.radius.eighteen,
-                                          height: Dimension.radius.eighteen,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(width: Dimension.padding.horizontal.max),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: theme.backgroundPrimary,
-                                    border: Border.all(
-                                      color: theme.backgroundTertiary,
-                                      width: .5,
-                                      strokeAlign: BorderSide.strokeAlignOutside,
-                                    ),
-                                  ),
-                                  child: BlocConsumer<FacebookLoginBloc, FacebookLoginState>(
-                                    listener: (context, state) async {
-                                      if (state is FacebookLoginDone) {
-                                        if (widget.authorize) {
-                                          context.pop(state.profile);
-                                        } else {
-                                          context.pushReplacementNamed(ProfilePage.name);
-                                        }
-                                      } else if (state is FacebookLoginError) {
-                                        context.errorNotification(message: state.failure.message);
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state is FacebookLoginLoading) {
-                                        return IconButton(
-                                          onPressed: () {},
-                                          padding: EdgeInsets.all(0),
-                                          icon: NetworkingIndicator(
-                                            dimension: Dimension.radius.eighteen,
-                                            color: theme.google,
-                                          ),
-                                        );
-                                      }
-                                      return IconButton(
-                                        onPressed: () {
-                                          context.read<FacebookLoginBloc>().add(LoginWithFacebook());
-                                        },
-                                        padding: EdgeInsets.all(0),
-                                        icon: Icon(
-                                          FontAwesomeIcons.facebook,
-                                          size: Dimension.radius.eighteen,
-                                          color: theme.facebook,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

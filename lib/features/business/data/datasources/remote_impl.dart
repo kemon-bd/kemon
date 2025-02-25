@@ -1,4 +1,7 @@
+import 'package:kemon/features/industry/domain/entities/industry.dart';
+
 import '../../../../core/shared/shared.dart';
+import '../../../category/category.dart';
 import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
 import '../../../sub_category/sub_category.dart';
@@ -20,6 +23,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required LookupEntity? division,
     required LookupEntity? district,
     required LookupEntity? thana,
+    required CategoryEntity? category,
     required SubCategoryEntity? subCategory,
     required List<int> ratings,
   }) async {
@@ -30,9 +34,13 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'division': division?.value ?? '',
       'district': district?.value ?? '',
       'thana': thana?.value ?? '',
+      'categoryslug': category?.urlSlug ?? '',
       'subcategoryslug': subCategory?.urlSlug ?? '',
       'sortby': sort.value,
       'rating': ratings.join(','),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -65,16 +73,31 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   FutureOr<BusinessesByLocationPaginatedResponse> location({
     required int page,
     required String location,
+    required String? division,
+    required String? district,
+    required String? thana,
     required String? query,
     required SortBy? sort,
     required List<int> ratings,
+    required IndustryEntity? industry,
+    required CategoryEntity? category,
+    required SubCategoryEntity? sub,
   }) async {
     final Map<String, String> headers = {
       'urlSlug': location.toLowerCase().trim(),
+      'division': division?.toLowerCase().trim() ?? '',
+      'district': district?.toLowerCase().trim() ?? '',
+      'thana': thana?.toLowerCase().trim() ?? '',
       'query': query ?? '',
       'pageno': '$page',
       'sortby': sort.value,
       'rating': ratings.join(','),
+      'industryslug': industry?.urlSlug ?? '',
+      'categoryslug': category?.urlSlug ?? '',
+      'subcategoryslug': sub?.urlSlug ?? '',
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -109,6 +132,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlslug': Uri.encodeComponent(urlSlug),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -128,6 +154,95 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       }
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
+    }
+  }
+
+  @override
+  FutureOr<void> validateUrlSlug({
+    required String urlSlug,
+  }) async {
+    final Map<String, String> headers = {
+      'url': urlSlug.paramCase,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
+
+    final Response response = await client.get(
+      RemoteEndpoints.validateUrlSlug,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final RemoteResponse<dynamic> networkResponse = RemoteResponse.parse(response: response);
+
+      if (networkResponse.success) {
+        return;
+      } else {
+        throw InvalidUrlSlugFailure(networkResponse.error);
+      }
+    } else {
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
+    }
+  }
+
+  @override
+  FutureOr<void> publish({
+    required String token,
+    required Identity user,
+    required String name,
+    required String urlSlug,
+    required String about,
+    required XFile? logo,
+    required ListingType type,
+    required String phone,
+    required String email,
+    required String website,
+    required String social,
+    required IndustryEntity industry,
+    required CategoryEntity? category,
+    required SubCategoryEntity? subCategory,
+    required String address,
+    required LookupEntity? division,
+    required LookupEntity? district,
+    required LookupEntity? thana,
+  }) async {
+    final request = MultipartRequest('POST', RemoteEndpoints.addListing);
+    request.headers.addAll({
+      'authorization': token,
+      'UserId': user.guid,
+      'Name': Uri.encodeComponent(name),
+      'URLSlug': Uri.encodeComponent(urlSlug),
+      'Type': type.name,
+      'Description': Uri.encodeComponent(about),
+      'Website': website,
+      'Email': email,
+      'Phone': phone,
+      'Division': division?.value ?? '',
+      'District': district?.value ?? '',
+      'Thana': thana?.value ?? '',
+      'Address': address,
+      'IndustryGuid': industry.identity.guid,
+      'CategoryGuid': category?.identity.guid ?? '',
+      'SubCategoryGuid': subCategory?.identity.guid ?? '',
+      'SocialProfile': social,
+      HttpHeaders.contentTypeHeader: 'multipart/form-data',
+    });
+    if (logo != null) {
+      request.files.add(await MultipartFile.fromPath('Files', logo.path));
+    }
+    final StreamedResponse streamedResponse = await request.send();
+    final response = await Response.fromStream(streamedResponse);
+
+    if (response.statusCode == HttpStatus.ok) {
+      final networkResponse = RemoteResponse.parse(response: response);
+      if (networkResponse.success) {
+        return;
+      } else {
+        throw RemoteFailure(message: networkResponse.error ?? response.reasonPhrase ?? "Something went wrong.");
+      }
+    } else {
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
     }
   }
 }

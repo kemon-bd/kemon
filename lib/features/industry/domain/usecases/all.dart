@@ -8,7 +8,9 @@ class FindIndustriesUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, List<IndustryEntity>>> call() async {
-    return await repository.all();
+  FutureOr<Either<Failure, List<IndustryEntity>>> call({
+    required String query,
+  }) async {
+    return await repository.all(query: query);
   }
 }

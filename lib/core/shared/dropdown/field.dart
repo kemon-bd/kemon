@@ -3,9 +3,12 @@ import '../shared.dart';
 class DropdownWidget<T> extends StatelessWidget {
   final Widget? popup;
   final Function(T)? onSelect;
+  final VoidCallback? onTap;
+  final Widget? labelWidget;
   final String label;
   final String text;
   final bool showIcon;
+  final Color? iconColor;
   final TextStyle? labelStyle;
   final TextStyle? textStyle;
   final EdgeInsets? padding;
@@ -15,11 +18,14 @@ class DropdownWidget<T> extends StatelessWidget {
     this.popup,
     this.onSelect,
     this.showIcon = true,
+    this.labelWidget,
     required this.label,
     required this.text,
     this.labelStyle,
     this.textStyle,
     this.padding,
+    this.iconColor,
+    this.onTap,
   }) : assert(onSelect != null ? popup != null : popup == null);
 
   @override
@@ -27,18 +33,17 @@ class DropdownWidget<T> extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
-        final labelWidget = Text(
-          label,
-          style: labelStyle ??
-              TextStyles.subTitle(context: context, color: theme.textSecondary),
-        );
+        final labelChild = labelWidget ??
+            Text(
+              label,
+              style: labelStyle ?? TextStyles.subTitle(context: context, color: theme.textSecondary),
+            );
         final textWidget = Text(
           text,
           style: textStyle ??
               TextStyles.title(
                 context: context,
-                color:
-                    onSelect != null ? theme.textPrimary : theme.textSecondary,
+                color: onSelect != null ? theme.textPrimary : theme.textSecondary,
               ),
           maxLines: 2,
           textAlign: TextAlign.end,
@@ -61,13 +66,13 @@ class DropdownWidget<T> extends StatelessWidget {
                     onSelect!(selection);
                   }
                 }
-              : null,
+              : onTap,
           child: Padding(
             padding: padding ?? const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                labelWidget,
+                labelChild,
                 const SizedBox(width: 12),
                 Expanded(
                   child: Row(
@@ -77,9 +82,7 @@ class DropdownWidget<T> extends StatelessWidget {
                       Expanded(
                         child: textWidget,
                       ),
-                      if (showIcon)
-                        Icon(Icons.arrow_drop_down_rounded,
-                            size: 20, color: theme.textPrimary),
+                      if (showIcon) Icon(Icons.arrow_drop_down_rounded, size: 20, color: iconColor ?? theme.textPrimary),
                     ],
                   ),
                 ),

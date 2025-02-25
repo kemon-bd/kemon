@@ -1,5 +1,7 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
+import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../leaderboard.dart';
 
@@ -29,6 +31,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   @override
   void initState() {
     super.initState();
+    sl<FirebaseAnalytics>().logScreenView(
+      screenName: 'Leaderboard',
+      parameters: {
+        'id': context.auth.profile?.identity.id ?? 'anonymous',
+        'name': context.auth.profile?.name.full ?? 'Guest',
+      },
+    );
     controller.addListener(_scrollListener);
   }
 
@@ -65,13 +74,19 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           Dimension.size.vertical.oneTwelve,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.goNamed(HomePage.name);
+                          }
+                        },
                       ),
                       title: isExpanded
                           ? null
                           : Text(
                               "Leaderboard",
-                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
+                              style: TextStyles.title(context: context, color: theme.textPrimary)
                                   .copyWith(fontSize: Dimension.radius.twenty),
                             ).animate().fade(),
                       actions: [
@@ -88,16 +103,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             controller: search,
                             style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
-                              final bloc = context.read<FindLeaderboardBloc>();
-                              final filter = bloc.state;
-
-                              bloc.add(
-                                FindLeaderboard(
-                                  query: query,
-                                  from: filter.from,
-                                  to: filter.to,
-                                ),
-                              );
+                              context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: query));
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -105,7 +111,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 size: Dimension.radius.sixteen,
                                 color: theme.textSecondary,
                               ),
-                              hintText: 'Find company or products...',
+                              hintText: 'Search by name or email',
                               hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: Dimension.padding.horizontal.max,
@@ -128,7 +134,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                       children: [
                                         Text(
                                           "Leaderboard",
-                                          style: TextStyles.bigHeadline(context: context, color: theme.textPrimary)
+                                          style: TextStyles.title(context: context, color: theme.textPrimary)
                                               .copyWith(fontSize: Dimension.radius.twentyFour),
                                         ).animate().fade(),
                                         IconWidget(),
@@ -137,7 +143,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                     const SizedBox(height: 16),
                                     Row(
                                       children: [
-                                        SortButton(),
+                                        _FilterButton(search: search),
                                         const SizedBox(width: 16),
                                         const Spacer(),
                                         TotalCount(),
@@ -208,53 +214,6 @@ class ShareButton extends StatelessWidget {
   }
 }
 
-class SortButton extends StatelessWidget {
-  const SortButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return InkWell(
-      onTap: () {
-        /* showModalBottomSheet(
-          context: context,
-          backgroundColor: theme.backgroundPrimary,
-          barrierColor: context.barrierColor,
-          isScrollControlled: true,
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindLeaderboardBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-            ],
-            child: const SortBusinessesByCategoryWidget(),
-          ),
-        ); */
-      },
-      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimension.padding.horizontal.ultraMax,
-          vertical: Dimension.padding.vertical.medium,
-        ),
-        decoration: BoxDecoration(
-          color: theme.link.withAlpha(50),
-          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
-            Text(
-              'Sort',
-              style: TextStyles.caption(context: context, color: theme.link),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class IconWidget extends StatelessWidget {
   const IconWidget({
     super.key,
@@ -292,7 +251,7 @@ class TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Participants",
@@ -324,7 +283,35 @@ class ListingsWidget extends StatelessWidget {
         if (state is FindLeaderboardLoading) {
           return ListView.separated(
             itemBuilder: (_, index) {
-              return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
+              return Container(
+                decoration: BoxDecoration(
+                  color: theme.backgroundSecondary,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimension.padding.horizontal.max,
+                  vertical: Dimension.padding.vertical.medium,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ShimmerIcon(radius: Dimension.radius.twelve),
+                    SizedBox(width: Dimension.padding.horizontal.medium),
+                    ShimmerIcon(radius: Dimension.radius.twentyFour),
+                    SizedBox(width: Dimension.padding.horizontal.medium),
+                    ShimmerLabel(
+                      width: Dimension.size.horizontal.sixtyFour,
+                      height: Dimension.size.vertical.twelve,
+                    ),
+                    Spacer(),
+                    const SizedBox(width: 16),
+                    ShimmerLabel(
+                      width: Dimension.size.horizontal.twentyFour,
+                      height: Dimension.size.vertical.twelve,
+                    ),
+                  ],
+                ),
+              );
             },
             separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
             itemCount: 10,
@@ -346,8 +333,6 @@ class ListingsWidget extends StatelessWidget {
                               PaginateLeaderboard(
                                 page: state.page + 1,
                                 query: search.text,
-                                from: DateTime.now(),
-                                to: DateTime.now(),
                               ),
                             );
                       }
@@ -376,23 +361,41 @@ class ListingsWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             if (index >= 3)
-                              Text(
-                                '#${index + 1}',
-                                style: TextStyles.title(context: context, color: theme.black),
-                                textAlign: TextAlign.start,
+                              Container(
+                                width: Dimension.radius.twentyFour,
+                                height: Dimension.radius.twentyFour,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '${index + 1}',
+                                  style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  textAlign: TextAlign.start,
+                                ),
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
-                            ProfilePictureWidget(size: Dimension.radius.twentyFour),
+                            BlocBuilder<FindProfileBloc, FindProfileState>(
+                              builder: (context, state) {
+                                if (state is FindProfileDone) {
+                                  return ProfilePointsBuilder(builder: (checks) {
+                                    return ProfilePictureWidget(
+                                      size: Dimension.radius.twentyFour,
+                                      showBadge: state.profile.progress(checks: checks) == 100,
+                                    );
+                                  });
+                                } else {
+                                  return ProfilePictureWidget(size: Dimension.radius.twentyFour);
+                                }
+                              },
+                            ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
                               child: ProfileNameWidget(
-                                style: TextStyles.title(context: context, color: theme.black),
+                                style: TextStyles.body(context: context, color: theme.textPrimary),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Text(
                               NumberFormat('###,###,###,###').format(leader.point),
-                              style: TextStyles.title(context: context, color: theme.black),
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
                             ),
                           ],
                         ),
@@ -412,7 +415,7 @@ class ListingsWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No leaders found :(",
-                      style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                     ),
                   ),
                 );
@@ -425,6 +428,57 @@ class ListingsWidget extends StatelessWidget {
           return const SizedBox();
         }
       },
+    );
+  }
+}
+
+class _FilterButton extends StatelessWidget {
+  final TextEditingController search;
+
+  const _FilterButton({
+    required this.search,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
+    return InkWell(
+      onTap: () async {
+        final bool? applied = await showModalBottomSheet(
+          context: context,
+          backgroundColor: theme.backgroundPrimary,
+          barrierColor: context.barrierColor,
+          isScrollControlled: true,
+          builder: (_) => const LeaderboardFilterWidget(),
+        );
+
+        if (!context.mounted) return;
+
+        if (applied ?? false) {
+          context.read<FindLeaderboardBloc>().add(RefreshLeaderboard(query: search.text));
+        }
+      },
+      borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimension.padding.horizontal.ultraMax,
+          vertical: Dimension.padding.vertical.medium,
+        ),
+        decoration: BoxDecoration(
+          color: theme.link,
+          borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Text(
+              'Filter',
+              style: TextStyles.caption(context: context, color: theme.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

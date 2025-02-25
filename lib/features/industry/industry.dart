@@ -13,3 +13,5 @@ export 'domain/usecases/find.dart';
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/finds_bloc.dart';
 export 'presentation/pages/industry.dart';
+export 'presentation/widgets/filter.dart';
+export 'presentation/widgets/field.dart';

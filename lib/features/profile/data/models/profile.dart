@@ -59,19 +59,11 @@ class ProfileModel extends ProfileEntity {
       final String username = map['kemonID'] ?? '';
 
       assert(
-        map.containsKey('email'),
-        'ProfileModel.parse: "email" not found.',
+        map['email'] is String?,
+        'ProfileModel.parse: "email" is not a String?.',
       );
-      assert(
-        map['email'] is String,
-        'ProfileModel.parse: "email" is not a String.',
-      );
-      final String email = map['email'] as String;
+      final String email = map['email'] ?? "";
 
-      assert(
-        map.containsKey('phone'),
-        'ProfileModel.parse: "phone" not found.',
-      );
       assert(
         map['phone'] is String?,
         'ProfileModel.parse: "phone" is not a String.',
@@ -117,8 +109,7 @@ class ProfileModel extends ProfileEntity {
         'ProfileModel.parse: "gender" is not a int?.',
       );
       final int genderIndex = (map['gender'] as int?) ?? 0;
-      final Gender? gender =
-          genderIndex.isNegative ? null : Gender.values.elementAt(genderIndex);
+      final Gender? gender = genderIndex.isNegative ? null : Gender.values.elementAt(genderIndex);
 
       // assert(
       //   map.containsKey('point'),
@@ -166,8 +157,7 @@ class ProfileModel extends ProfileEntity {
         dob: dob,
       );
     } catch (e, stackTrace) {
-      throw ProfileModelParseFailure(
-          message: e.toString(), stackTrace: stackTrace);
+      throw ProfileModelParseFailure(message: e.toString(), stackTrace: stackTrace);
     }
   }
 

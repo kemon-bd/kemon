@@ -2,10 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
 import '../../industry.dart';
 
-typedef IndustryResponse = ({
-  IndustryModel industry,
-  List<CategoryModel> categories
-});
+typedef IndustryResponse = ({IndustryModel industry, List<CategoryModel> categories});
 
 class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   final Client client;
@@ -15,41 +12,23 @@ class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   });
 
   @override
-  FutureOr<List<IndustryResponse>> find() async {
-    final Map<String, String> headers = {};
-
+  FutureOr<List<IndustryModel>> find() async {
     final Response response = await client.get(
       RemoteEndpoints.industries,
-      headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse =
-          RemoteResponse.parse(response: response);
+      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
 
       if (networkResponse.success) {
-        final List<dynamic> data =
-            networkResponse.result!["categoryModelCombinedList"];
+        final List<dynamic> data = networkResponse.result!["industries"];
 
-        return data.map(
-          (i) {
-            final List<dynamic> categories = i['categories'];
-            final Map<String, dynamic> map = i['industry'];
-            map['categories'] = categories;
-            return (
-              industry: IndustryModel.parse(map: map),
-              categories:
-                  categories.map((c) => CategoryModel.parse(map: c)).toList()
-            );
-          },
-        ).toList();
+        return data.map((map) => IndustryModel.parse(map: map)).toList();
       } else {
-        throw RemoteFailure(
-            message: networkResponse.error ?? 'Failed to load categories');
+        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
     } else {
-      throw RemoteFailure(
-          message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
 }

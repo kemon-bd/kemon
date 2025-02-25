@@ -15,7 +15,7 @@ class ChooseContactMethodWidget extends StatelessWidget {
           title: Text(
             "Choose a method",
             style:
-                TextStyles.headline(context: context, color: theme.textPrimary),
+                TextStyles.subTitle(context: context, color: theme.textPrimary),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,

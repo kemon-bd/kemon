@@ -11,12 +11,7 @@ abstract class LeaderboardRepository {
   FutureOr<Either<Failure, LeaderboardResponse>> find({
     required int page,
     required String query,
-    required DateTime from,
-    required DateTime to,
   });
 
-  FutureOr<Either<Failure, LeaderboardResponse>> refresh({
-    required DateTime from,
-    required DateTime to,
-  });
+  FutureOr<Either<Failure, LeaderboardResponse>> refresh();
 }

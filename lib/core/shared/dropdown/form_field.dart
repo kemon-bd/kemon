@@ -37,7 +37,7 @@ class DropdownFormWidget<T> extends DropdownWidget<T> {
             text,
             style: textStyle?.copyWith(
                     color: valid ? theme.textPrimary : theme.negative) ??
-                TextStyles.title(
+                TextStyles.overline(
                     context: context,
                     color: valid ? theme.textPrimary : theme.negative),
             maxLines: 1,

@@ -82,12 +82,16 @@ extension ProfileModelExtension on ProfileModel {
       "gender": gender?.index ?? -1,
       "point": kemonIdentity.point,
       "referrar": kemonIdentity.referrer,
+      "isPhoneVerified": phone?.verified ?? false,
+      "isEmailVerified": email?.verified ?? false,
     };
   }
 
   ProfileModel copyWith({
     String? firstName,
     String? lastName,
+    bool? emailVerified,
+    bool? phoneVerified,
     String? email,
     String? phone,
     DateTime? dob,
@@ -101,11 +105,11 @@ extension ProfileModelExtension on ProfileModel {
       ),
       phone: Phone(
         number: phone ?? this.phone?.number ?? '',
-        verified: this.phone?.verified ?? false,
+        verified: phoneVerified ?? this.phone?.verified ?? false,
       ),
       email: Email(
         address: email ?? this.email?.address ?? '',
-        verified: this.email?.verified ?? false,
+        verified: emailVerified ?? this.email?.verified ?? false,
       ),
       dob: dob ?? this.dob,
       gender: gender ?? this.gender,

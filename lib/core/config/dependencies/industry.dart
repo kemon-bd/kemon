@@ -29,7 +29,6 @@ Future<void> get industryDependencies async {
   sl.registerLazySingleton<IndustryRepository>(
     () => IndustryRepositoryImpl(
       network: sl(),
-      category: sl(),
       remote: sl(),
       local: sl(),
     ),

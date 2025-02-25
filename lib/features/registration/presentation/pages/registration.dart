@@ -26,9 +26,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
+  bool acknowledged = false;
   bool isObscured = true;
   bool isConfirmPasswordObscured = true;
 
@@ -37,10 +37,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
-        final validPassword = (
-          password: passwordController,
-          confirmPassword: confirmPasswordController
-        ).valid;
+        final validPassword = (password: passwordController, confirmPassword: confirmPasswordController).valid;
         return KeyboardDismissOnTap(
           child: Scaffold(
             backgroundColor: theme.backgroundPrimary,
@@ -58,299 +55,184 @@ class _RegistrationPageState extends State<RegistrationPage> {
               },
               child: Column(
                 children: [
-                  Container(
-                    width: double.maxFinite,
-                    alignment: Alignment.bottomLeft,
-                    padding: EdgeInsets.only(
-                        left: 24, bottom: 16, top: context.topInset + 16),
-                    decoration: BoxDecoration(
-                      color: theme.primary,
-                      image: const DecorationImage(
-                        image: AssetImage('images/logo/full.png'),
-                        opacity: .05,
-                        scale: 50,
-                        repeat: ImageRepeat.repeat,
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      width: double.maxFinite,
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        bottom: 16,
+                      ).copyWith(top: context.topInset + 8),
+                      decoration: BoxDecoration(
+                        color: theme.primary,
+                        image: const DecorationImage(
+                          image: AssetImage('images/logo/full.png'),
+                          opacity: .05,
+                          scale: 50,
+                          repeat: ImageRepeat.repeat,
+                        ),
                       ),
-                    ),
-                    child: KeyboardVisibilityBuilder(
-                      builder: (_, visible) => visible
-                          ? Container(height: 2)
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Create an account',
-                                  style: TextStyles.headline(
-                                          context: context, color: theme.white)
-                                      .copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2,
+                      child: KeyboardVisibilityBuilder(
+                        builder: (_, visible) => visible
+                            ? IconButton(
+                                padding: const EdgeInsets.all(0),
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                onPressed: () {
+                                  if (context.canPop()) {
+                                    context.pop();
+                                  } else {
+                                    context.goNamed(HomePage.name);
+                                  }
+                                },
+                                icon: Icon(Icons.arrow_back_rounded, color: theme.white),
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    padding: const EdgeInsets.all(0),
+                                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                    onPressed: () {
+                                      if (context.canPop()) {
+                                        context.pop();
+                                      } else {
+                                        context.goNamed(HomePage.name);
+                                      }
+                                    },
+                                    icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Please fill all the required fields to create an account.',
-                                  style: TextStyles.body(
-                                          context: context,
-                                          color: theme.semiWhite)
-                                      .copyWith(
-                                    height: 1,
+                                  const Spacer(),
+                                  Text(
+                                    'Create Account',
+                                    style: TextStyles.title(context: context, color: theme.white),
                                   ),
-                                ),
-                              ],
-                            ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Fill up your password to finish setup of your account',
+                                    style: TextStyles.body(context: context, color: theme.semiWhite),
+                                  ),
+                                ],
+                              ),
+                      ),
                     ),
                   ),
                   Expanded(
+                    flex: 3,
                     child: Form(
                       key: formKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: ListView(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        padding: const EdgeInsets.all(16)
-                            .copyWith(bottom: 16 + context.bottomInset),
+                        padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                         children: [
-                          Text(
-                            'Password',
-                            style: TextStyles.miniHeadline(
-                                context: context, color: theme.textPrimary),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: theme.backgroundSecondary,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: theme.backgroundTertiary,
-                                width: .25,
+                          const SizedBox(height: 42),
+                          TextFormField(
+                            controller: passwordController,
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            textInputAction: TextInputAction.next,
+                            autofillHints: const [AutofillHints.password, AutofillHints.newPassword],
+                            validator: (value) => passwordController.validPassword ? null : "",
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Password *',
+                              labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintText: 'required',
+                              isDense: true,
+                              hintStyle: TextStyles.body(
+                                context: context,
+                                color: theme.textSecondary.withAlpha(150),
+                              ),
+                              helperText: '',
+                              helperStyle: const TextStyle(fontSize: 0, height: 0),
+                              errorStyle: const TextStyle(fontSize: 0, height: 0),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                icon: Icon(
+                                  isObscured ? Icons.visibility : Icons.visibility_off,
+                                  color: passwordController.validPassword ? theme.textPrimary : theme.negative,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscured = !isObscured;
+                                  });
+                                },
                               ),
                             ),
-                            child: ListView(
-                              shrinkWrap: true,
-                              padding:
-                                  EdgeInsets.zero.copyWith(top: 4, bottom: 4),
-                              physics: const NeverScrollableScrollPhysics(),
-                              cacheExtent: double.maxFinite,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16)
-                                          .copyWith(right: 4),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Password *',
-                                        style: TextStyles.body(
-                                            context: context,
-                                            color: theme.textSecondary),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: TextFormField(
-                                          controller: passwordController,
-                                          keyboardType: TextInputType.text,
-                                          textAlign: TextAlign.end,
-                                          textAlignVertical:
-                                              TextAlignVertical.center,
-                                          textInputAction: TextInputAction.next,
-                                          autofillHints: const [
-                                            AutofillHints.password,
-                                            AutofillHints.newPassword
-                                          ],
-                                          validator: (value) =>
-                                              passwordController.validPassword
-                                                  ? null
-                                                  : "",
-                                          onChanged: (value) {
-                                            setState(() {});
-                                          },
-                                          decoration: InputDecoration(
-                                            hintText: 'required',
-                                            isDense: true,
-                                            hintStyle: TextStyles.subTitle(
-                                              context: context,
-                                              color: theme.textSecondary
-                                                  .withAlpha(150),
-                                            ),
-                                            errorStyle: const TextStyle(
-                                                fontSize: 0, height: 0),
-                                            contentPadding: EdgeInsets.zero,
-                                            border: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            focusedErrorBorder:
-                                                InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
-                                            suffixIcon: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              splashColor: Colors.transparent,
-                                              visualDensity:
-                                                  const VisualDensity(
-                                                      horizontal: -4,
-                                                      vertical: -4),
-                                              icon: Icon(
-                                                isObscured
-                                                    ? Icons.visibility
-                                                    : Icons.visibility_off,
-                                                color: passwordController
-                                                        .validPassword
-                                                    ? theme.textPrimary
-                                                    : theme.negative,
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  isObscured = !isObscured;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          obscureText: isObscured,
-                                          style: TextStyles.title(
-                                            context: context,
-                                            color:
-                                                passwordController.validPassword
-                                                    ? theme.textPrimary
-                                                    : theme.negative,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (passwordController.validPassword) ...[
-                                  Divider(
-                                      thickness: .15,
-                                      height: .15,
-                                      color: theme.backgroundTertiary),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                            horizontal: 16)
-                                        .copyWith(right: 4),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Confirm password *',
-                                          style: TextStyles.body(
-                                              context: context,
-                                              color: theme.textSecondary),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: TextFormField(
-                                            controller:
-                                                confirmPasswordController,
-                                            keyboardType: TextInputType.text,
-                                            textAlign: TextAlign.end,
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            validator: (value) =>
-                                                confirmPasswordController
-                                                        .validPassword
-                                                    ? null
-                                                    : "",
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
-                                            decoration: InputDecoration(
-                                              hintText: 'required',
-                                              isDense: true,
-                                              hintStyle: TextStyles.subTitle(
-                                                context: context,
-                                                color: theme.textSecondary
-                                                    .withAlpha(150),
-                                              ),
-                                              errorStyle: const TextStyle(
-                                                  fontSize: 0, height: 0),
-                                              contentPadding: EdgeInsets.zero,
-                                              border: InputBorder.none,
-                                              errorBorder: InputBorder.none,
-                                              focusedErrorBorder:
-                                                  InputBorder.none,
-                                              enabledBorder: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              disabledBorder: InputBorder.none,
-                                              suffixIcon: IconButton(
-                                                padding: EdgeInsets.zero,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                splashColor: Colors.transparent,
-                                                visualDensity:
-                                                    const VisualDensity(
-                                                        horizontal: -4,
-                                                        vertical: -4),
-                                                icon: Icon(
-                                                  isConfirmPasswordObscured
-                                                      ? Icons.visibility
-                                                      : Icons.visibility_off,
-                                                  color:
-                                                      confirmPasswordController
-                                                              .validPassword
-                                                          ? theme.textPrimary
-                                                          : theme.negative,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isConfirmPasswordObscured =
-                                                        !isConfirmPasswordObscured;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                            obscureText:
-                                                isConfirmPasswordObscured,
-                                            style: TextStyles.title(
-                                              context: context,
-                                              color: confirmPasswordController
-                                                      .validPassword
-                                                  ? theme.textPrimary
-                                                  : theme.negative,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ],
+                            obscureText: isObscured,
+                            style: TextStyles.body(
+                              context: context,
+                              color: passwordController.validPassword ? theme.textPrimary : theme.negative,
                             ),
                           ),
-                          SizedBox(height: Dimension.padding.vertical.medium),
+                          SizedBox(height: 24),
+                          TextFormField(
+                            controller: confirmPasswordController,
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) => confirmPasswordController.validPassword ? null : "",
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password *',
+                              labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintText: 'required',
+                              isDense: true,
+                              hintStyle: TextStyles.body(
+                                context: context,
+                                color: theme.textSecondary.withAlpha(150),
+                              ),
+                              helperText: '',
+                              helperStyle: const TextStyle(fontSize: 0, height: 0),
+                              errorStyle: const TextStyle(fontSize: 0, height: 0),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                icon: Icon(
+                                  isConfirmPasswordObscured ? Icons.visibility : Icons.visibility_off,
+                                  color: confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isConfirmPasswordObscured = !isConfirmPasswordObscured;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: isConfirmPasswordObscured,
+                            style: TextStyles.body(
+                              context: context,
+                              color: confirmPasswordController.validPassword ? theme.textPrimary : theme.negative,
+                            ),
+                          ),
+                          SizedBox(height: Dimension.padding.vertical.max),
                           Row(
                             children: [
                               Icon(
-                                passwordController.validPassword
-                                    ? Icons.check_circle_rounded
-                                    : Icons.circle_outlined,
-                                color: passwordController.validPassword
-                                    ? theme.positive
-                                    : theme.negative,
+                                passwordController.validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                color: passwordController.validPassword ? theme.positive : theme.negative,
                                 size: Dimension.radius.twelve,
                               ),
-                              SizedBox(
-                                  width: Dimension.padding.horizontal.large),
+                              SizedBox(width: Dimension.padding.horizontal.medium),
                               Expanded(
                                 child: Text(
                                   "Password must be at least 6 characters long.",
                                   style: TextStyles.caption(
                                     context: context,
-                                    color: passwordController.validPassword
-                                        ? theme.positive
-                                        : theme.negative,
+                                    color: passwordController.validPassword ? theme.positive : theme.negative,
                                   ),
                                 ),
                               ),
@@ -361,25 +243,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             Row(
                               children: [
                                 Icon(
-                                  confirmPasswordController.validPassword
-                                      ? Icons.check_circle_rounded
-                                      : Icons.circle_outlined,
-                                  color: confirmPasswordController.validPassword
-                                      ? theme.positive
-                                      : theme.negative,
+                                  confirmPasswordController.validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                  color: confirmPasswordController.validPassword ? theme.positive : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(
-                                    width: Dimension.padding.horizontal.large),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
                                 Expanded(
                                   child: Text(
                                     "Confirm Password must be at least 6 characters long.",
                                     style: TextStyles.caption(
                                       context: context,
-                                      color: confirmPasswordController
-                                              .validPassword
-                                          ? theme.positive
-                                          : theme.negative,
+                                      color: confirmPasswordController.validPassword ? theme.positive : theme.negative,
                                     ),
                                   ),
                                 ),
@@ -391,84 +265,116 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             Row(
                               children: [
                                 Icon(
-                                  validPassword
-                                      ? Icons.check_circle_rounded
-                                      : Icons.circle_outlined,
-                                  color: validPassword
-                                      ? theme.positive
-                                      : theme.negative,
+                                  validPassword ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                  color: validPassword ? theme.positive : theme.negative,
                                   size: Dimension.radius.twelve,
                                 ),
-                                SizedBox(
-                                    width: Dimension.padding.horizontal.large),
+                                SizedBox(width: Dimension.padding.horizontal.medium),
                                 Expanded(
                                   child: Text(
                                     "Password and Confirm Password must be the same.",
                                     style: TextStyles.caption(
                                       context: context,
-                                      color: validPassword
-                                          ? theme.positive
-                                          : theme.negative,
+                                      color: validPassword ? theme.positive : theme.negative,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ],
-                          if (validPassword) ...[
-                            const SizedBox(height: 16),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: BlocConsumer<RegistrationBloc,
-                                  RegistrationState>(
-                                listener: (context, state) {
-                                  if (state is RegistrationError) {
-                                    context.errorNotification(
-                                        message: state.failure.message);
-                                  } else if (state is RegistrationDone) {
-                                    context.successNotification(
-                                      message:
-                                          'Congratulations. You have successfully registered. Have a nice one :)',
-                                    );
-                                  }
-                                },
-                                builder: (context, state) {
-                                  if (state is RegistrationLoading) {
-                                    return ElevatedButton(
-                                      onPressed: () {
-                                        FocusScope.of(context)
-                                            .requestFocus(FocusNode());
+                          const SizedBox(height: 16),
+                          CheckboxListTile(
+                            dense: true,
+                            value: acknowledged,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            onChanged: (flag) {
+                              setState(() {
+                                acknowledged = flag ?? false;
+                              });
+                            },
+                            title: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "I have read and agree ",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: "Terms of Service",
+                                    style: TextStyles.body(context: context, color: theme.link),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(ExternalLinks.termsAndConditions);
                                       },
-                                      child: NetworkingIndicator(
-                                          dimension: 28, color: theme.white),
-                                    );
-                                  }
-                                  return ElevatedButton(
-                                    onPressed: () {
-                                      FocusScope.of(context)
-                                          .requestFocus(FocusNode());
-                                      if (formKey.currentState?.validate() ??
-                                          false) {
-                                        context.read<RegistrationBloc>().add(
-                                              CreateAccount(
-                                                username: widget.username,
-                                                password:
-                                                    passwordController.text,
-                                                refference: '',
-                                              ),
-                                            );
-                                      }
-                                    },
-                                    child: Text(
-                                      "Sign up".toUpperCase(),
-                                      style:
-                                          TextStyles.button(context: context),
-                                    ),
-                                  );
-                                },
+                                  ),
+                                  TextSpan(
+                                    text: " and ",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: "Privacy Policy",
+                                    style: TextStyles.body(context: context, color: theme.link),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(ExternalLinks.privacyPolicy);
+                                      },
+                                  ),
+                                  TextSpan(
+                                    text: ".",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: BlocConsumer<RegistrationBloc, RegistrationState>(
+                              listener: (context, state) {
+                                if (state is RegistrationError) {
+                                  context.errorNotification(message: state.failure.message);
+                                } else if (state is RegistrationDone) {
+                                  context.successNotification(
+                                    message: 'Congratulations. You have successfully registered. Have a nice one :)',
+                                  );
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is RegistrationLoading) {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      FocusScope.of(context).requestFocus(FocusNode());
+                                    },
+                                    child: NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.white),
+                                  );
+                                }
+                                return ElevatedButton(
+                                  onPressed: acknowledged
+                                      ? () {
+                                          FocusScope.of(context).requestFocus(FocusNode());
+                                          if (formKey.currentState?.validate() ?? false) {
+                                            context.read<RegistrationBloc>().add(
+                                                  CreateAccount(
+                                                    username: widget.username,
+                                                    password: passwordController.text,
+                                                    refference: '',
+                                                  ),
+                                                );
+                                          }
+                                        }
+                                      : null,
+                                  child: Text(
+                                    "Sign up".toUpperCase(),
+                                    style: TextStyles.button(context: context),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),

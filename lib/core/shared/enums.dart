@@ -13,3 +13,25 @@ enum WhatsNewType { bug, feature, ui, ux, performance, security }
 enum Reaction { dislike, like }
 
 enum AnalyticSource { socialProfile, phone, email, address, website }
+
+enum RatingRange {
+  all,
+  worst,
+  average,
+  best,
+}
+
+enum DateRangeOption {
+  today,
+  yesterday,
+  thisWeek,
+  lastWeek,
+  thisMonth,
+  lastMonth,
+  thisYear,
+  lastYear,
+  last30days,
+  last90days,
+  allTime,
+  custom,
+}

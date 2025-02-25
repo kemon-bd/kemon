@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
@@ -22,7 +23,7 @@ class _LocationsPageState extends State<LocationsPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    final isExpanded = controller.offset <= kToolbarHeight - (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -52,7 +53,8 @@ class _LocationsPageState extends State<LocationsPage> {
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
                 final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
-                final double expandedHeight = context.topInset + kToolbarHeight;
+                final double expandedHeight =
+                    context.topInset + kToolbarHeight + (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,
@@ -65,13 +67,19 @@ class _LocationsPageState extends State<LocationsPage> {
                       expandedHeight: expandedHeight,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
+                        onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                       ),
                       title: isExpanded
                           ? null
                           : Text(
                               'Locations',
-                              style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Dimension.radius.sixteen,
                               ),
@@ -94,7 +102,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                         Expanded(
                                           child: Text(
                                             'Locations',
-                                            style: TextStyles.bigHeadline(context: context, color: theme.textPrimary).copyWith(
+                                            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: Dimension.radius.twentyFour,
                                             ),
@@ -147,7 +155,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                         padding: EdgeInsets.symmetric(vertical: context.height * .25),
                                         child: Text(
                                           "No category found :(",
-                                          style: TextStyles.title(context: context, color: theme.backgroundTertiary),
+                                          style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                                         ),
                                       ),
                                     );
@@ -223,14 +231,50 @@ class _DivisionItem extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(
-        division.text,
-        style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: Dimension.radius.sixteen,
+      title: Text.rich(
+        TextSpan(
+          text: '',
+          children: [
+            WidgetSpan(
+              alignment: PlaceholderAlignment.aboveBaseline,
+              baseline: TextBaseline.alphabetic,
+              child: Text(
+                division.text,
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimension.radius.sixteen,
+                ),
+              ),
+            ),
+            WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+            WidgetSpan(
+              child: IconButton(
+                padding: EdgeInsets.all(4),
+                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                iconSize: Dimension.radius.twenty,
+                constraints: BoxConstraints(
+                  maxHeight: Dimension.radius.twenty,
+                  maxWidth: Dimension.radius.twenty,
+                ),
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+
+                  context.pushNamed(
+                    LocationPage.name,
+                    extra: division,
+                    pathParameters: {
+                      'urlSlug': division.value,
+                    },
+                    queryParameters: {
+                      'division': division.value,
+                    },
+                  );
+                },
+                icon: Icon(Icons.open_in_new_rounded, size: Dimension.radius.sixteen),
+              ),
+            )
+          ],
         ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
       ),
       children: [
         Row(
@@ -256,7 +300,7 @@ class _DivisionItem extends StatelessWidget {
                         cacheExtent: 0,
                         itemBuilder: (_, index) {
                           final district = districts.elementAt(index);
-                          return _DistrictItem(district: district);
+                          return _DistrictItem(district: district, division: division);
                         },
                         separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.small),
                         itemCount: districts.length,
@@ -282,8 +326,10 @@ class _DivisionItem extends StatelessWidget {
 }
 
 class _DistrictItem extends StatelessWidget {
+  final LookupEntity division;
   final LookupEntity district;
   const _DistrictItem({
+    required this.division,
     required this.district,
   });
 
@@ -308,14 +354,51 @@ class _DistrictItem extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(
-        district.text,
-        style: TextStyles.headline(context: context, color: theme.textPrimary).copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: Dimension.radius.fourteen,
+      title: Text.rich(
+        TextSpan(
+          text: '',
+          children: [
+            WidgetSpan(
+              alignment: PlaceholderAlignment.aboveBaseline,
+              baseline: TextBaseline.alphabetic,
+              child: Text(
+                district.text,
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimension.radius.fourteen,
+                ),
+              ),
+            ),
+            WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+            WidgetSpan(
+              child: IconButton(
+                padding: EdgeInsets.all(4),
+                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                iconSize: Dimension.radius.twenty,
+                constraints: BoxConstraints(
+                  maxHeight: Dimension.radius.twenty,
+                  maxWidth: Dimension.radius.twenty,
+                ),
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+
+                  context.pushNamed(
+                    LocationPage.name,
+                    extra: district,
+                    pathParameters: {
+                      'urlSlug': district.value,
+                    },
+                    queryParameters: {
+                      'division': division.value,
+                      'district': district.value,
+                    },
+                  );
+                },
+                icon: Icon(Icons.open_in_new_rounded, size: Dimension.radius.fourteen),
+              ),
+            )
+          ],
         ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
       ),
       children: [
         Row(
@@ -347,13 +430,19 @@ class _DistrictItem extends StatelessWidget {
 
                               context.pushNamed(
                                 LocationPage.name,
+                                extra: thana,
                                 pathParameters: {
                                   'urlSlug': thana.value,
+                                },
+                                queryParameters: {
+                                  'division': division.value,
+                                  'district': district.value,
+                                  'thana': thana.value,
                                 },
                               );
                             },
                             borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                            overlayColor: WidgetStatePropertyAll(theme.backgroundSecondary),
+                            overlayColor: WidgetStateProperty.all(theme.backgroundSecondary),
                             child: Row(
                               children: [
                                 Container(

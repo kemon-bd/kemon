@@ -9,10 +9,14 @@ class UpdateReviewUseCase {
   });
 
   FutureOr<Either<Failure, void>> call({
+    required Identity listing,
     required ReviewEntity review,
+    required List<XFile> attachments
   }) async {
     return await repository.update(
       review: review,
+      listing: listing,
+      attachments: attachments,
     );
   }
 }

@@ -40,8 +40,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
               ),
               child: ListView(
                 shrinkWrap: true,
-                padding: const EdgeInsets.all(16)
-                    .copyWith(bottom: context.bottomInset + 16),
+                padding: const EdgeInsets.all(16).copyWith(bottom: context.bottomInset + 16),
                 physics: const ScrollPhysics(),
                 children: [
                   Row(
@@ -49,8 +48,7 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                     children: [
                       Text(
                         "Division",
-                        style: TextStyles.headline(
-                            context: context, color: theme.textPrimary),
+                        style: TextStyles.title(context: context, color: theme.textPrimary),
                       ),
                       IconButton(
                         onPressed: () {
@@ -78,23 +76,20 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                             TextField(
                               controller: controller,
                               onChanged: (value) {
-                                divisionContext.read<FindLookupBloc>().add(
-                                    SearchLookup(
-                                        query: value,
-                                        lookup: Lookups.division));
+                                divisionContext
+                                    .read<FindLookupBloc>()
+                                    .add(SearchLookup(query: value, lookup: Lookups.division));
                               },
-                              style: TextStyles.subTitle(
-                                  context: context, color: theme.textPrimary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: theme.backgroundSecondary,
                                 hintText: "Search division ...",
+                                hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     controller.clear();
-                                    divisionContext.read<FindLookupBloc>().add(
-                                        const FindLookup(
-                                            lookup: Lookups.division));
+                                    divisionContext.read<FindLookupBloc>().add(const FindLookup(lookup: Lookups.division));
                                   },
                                   child: Icon(
                                     Icons.cancel_rounded,
@@ -110,13 +105,10 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                               child: state.lookups.isNotEmpty
                                   ? ListView.separated(
                                       separatorBuilder: (context, index) =>
-                                          Divider(
-                                              height: .25,
-                                              color: theme.backgroundTertiary),
+                                          Divider(height: .25, color: theme.backgroundTertiary),
                                       itemBuilder: (context, index) {
                                         final place = state.lookups[index];
-                                        final bool selected = place.value
-                                            .same(as: widget.division?.value);
+                                        final bool selected = place.value.same(as: widget.division?.value);
 
                                         return InkWell(
                                           onTap: () {
@@ -127,13 +119,8 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                             child: Row(
                                               children: [
                                                 Icon(
-                                                  selected
-                                                      ? Icons
-                                                          .check_circle_rounded
-                                                      : Icons.circle_outlined,
-                                                  color: selected
-                                                      ? theme.positive
-                                                      : theme.textPrimary,
+                                                  selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                                  color: selected ? theme.positive : theme.textPrimary,
                                                   size: 24,
                                                   grade: 200,
                                                   weight: 700,
@@ -142,11 +129,9 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                                 Expanded(
                                                   child: Text(
                                                     place.text,
-                                                    style: TextStyles.subTitle(
+                                                    style: TextStyles.body(
                                                       context: context,
-                                                      color: selected
-                                                          ? theme.positive
-                                                          : theme.textPrimary,
+                                                      color: selected ? theme.positive : theme.textPrimary,
                                                     ),
                                                   ),
                                                 ),
@@ -157,18 +142,14 @@ class _DivisionFilterWidgetState extends State<DivisionFilterWidget> {
                                       },
                                       itemCount: state.lookups.length,
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.zero
-                                          .copyWith(top: 8, bottom: 8),
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
+                                      physics: const NeverScrollableScrollPhysics(),
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         "No division found",
-                                        style: TextStyles.subTitle(
-                                            context: context,
-                                            color: theme.textPrimary),
+                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),

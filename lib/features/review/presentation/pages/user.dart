@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -18,6 +19,7 @@ class UserReviewsPage extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final mine = identity.guid.same(as: context.auth.guid ?? '');
         return Scaffold(
           backgroundColor: theme.backgroundPrimary,
           appBar: AppBar(
@@ -26,25 +28,29 @@ class UserReviewsPage extends StatelessWidget {
             title: BlocBuilder<FindProfileBloc, FindProfileState>(
               builder: (context, state) {
                 if (state is FindProfileDone) {
-                  final identity = state.profile.identity;
                   final name = state.profile.name.first;
                   return Text(
-                    '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                    style: TextStyles.title(
-                        context: context, color: theme.textPrimary),
+                    '${mine ? 'My' : '$name’s'} reviews',
+                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                   );
                 } else {
-                  return const Text('reviews');
+                  return const Text('Reviews');
                 }
               },
             ),
             centerTitle: false,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
           ),
-          body: const UserReviewsWidget(),
+          body: UserReviewsWidget(user: identity),
         );
       },
     );

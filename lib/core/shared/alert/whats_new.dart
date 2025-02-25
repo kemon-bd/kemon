@@ -1,3 +1,4 @@
+import '../../../features/home/home.dart';
 import '../../../features/whats_new/whats_new.dart';
 import '../shared.dart';
 
@@ -46,7 +47,7 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               const SizedBox(height: 8),
               Text(
                 'Whats\' New',
-                style: TextStyles.bigHeadline(context: context, color: theme.positive),
+                style: TextStyles.title(context: context, color: theme.positive),
               ),
               Divider(height: 16, thickness: .25, color: theme.backgroundTertiary),
               Container(
@@ -87,12 +88,16 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               SizedBox(
                 width: context.width,
                 child: ElevatedButton(
-                  onPressed: context.pop,
+                  onPressed: (){
+                        if(context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
                   child: Text(
                     'Continue',
-                    style: TextStyles.miniHeadline(context: context, color: theme.white).copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: TextStyles.button(context: context),
                   ),
                 ),
               ),

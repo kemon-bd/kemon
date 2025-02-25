@@ -51,8 +51,23 @@ class AppConfig {
 
     // Firebase Messaging
     await setupFirebaseMessaging();
+    await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
 
-    await ScreenUtil.ensureScreenSize();
+    FlutterError.onError = (errorDetails) {
+      if (kReleaseMode) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      } else {
+        FlutterError.dumpErrorToConsole(errorDetails);
+      }
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      if (kReleaseMode) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      } else {
+        FlutterError.dumpErrorToConsole(FlutterErrorDetails(exception: error, stack: stack));
+      }
+      return true;
+    };
   }
 
   static ThemeData themeData({
@@ -131,8 +146,15 @@ class AppConfig {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           elevation: Dimension.radius.three,
-          backgroundColor: theme.backgroundPrimary,
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: theme.backgroundSecondary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
+            side: BorderSide(
+              color: theme.textSecondary.withAlpha(150),
+              width: Dimension.padding.horizontal.min,
+              strokeAlign: BorderSide.strokeAlignCenter,
+            ),
+          ),
           padding: EdgeInsets.symmetric(
             horizontal: Dimension.padding.horizontal.max,
             vertical: Dimension.padding.vertical.large,
@@ -165,6 +187,7 @@ class AppConfig {
         primary: theme.primary,
         brightness: mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
       ),
+      textTheme: GoogleFonts.solwayTextTheme(),
       useMaterial3: true,
     );
   }

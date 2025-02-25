@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../profile.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -23,6 +24,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   DateTime? dob;
   Gender? gender;
   XFile? profilePicture;
+  bool forceProgressUpdate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               listener: (context, state) {
                 if (state is FindProfileDone) {
                   final profile = state.profile;
+                  if(firstNameController.text.isNotEmpty || lastNameController.text.isNotEmpty) {
+                    forceProgressUpdate = true;
+                  }
                   setState(() {
                     firstNameController.text = profile.name.first;
                     lastNameController.text = profile.name.last;
@@ -48,6 +53,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               builder: (context, state) {
                 if (state is FindProfileDone) {
+                  final profile = state.profile;
                   return Column(
                     children: [
                       Container(
@@ -72,7 +78,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     IconButton(
                                       padding: const EdgeInsets.all(0),
                                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                      onPressed: context.pop,
+                                      onPressed: () {
+                                        if (context.canPop()) {
+                                          context.pop(forceProgressUpdate);
+                                        } else {
+                                          context.goNamed(HomePage.name);
+                                        }
+                                      },
                                       icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                     ),
                                     const SizedBox(width: 16),
@@ -82,15 +94,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Getting a new skin :p',
-                                            style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                            'Edit Profile',
+                                            style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                                               fontWeight: FontWeight.w900,
                                               letterSpacing: 2,
                                             ),
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            'Let us know about you, more precisely.',
+                                            'Let us know more about you.',
                                             style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
                                               height: 1,
                                             ),
@@ -133,23 +145,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       child: profilePicture != null
                                           ? Image.file(
                                               File(profilePicture!.path),
-                                              width: 112,
-                                              height: 112,
+                                              width: Dimension.radius.max,
+                                              height: Dimension.radius.max,
                                               fit: BoxFit.cover,
                                             )
                                           : CachedNetworkImage(
                                               imageUrl: state.profile.profilePicture?.url ?? '',
-                                              width: 112,
-                                              height: 112,
+                                              width: Dimension.radius.max,
+                                              height: Dimension.radius.max,
                                               fit: BoxFit.cover,
-                                              placeholder: (_, __) => const ShimmerIcon(radius: 112),
+                                              placeholder: (_, __) => ShimmerIcon(radius: Dimension.radius.max),
                                               errorWidget: (_, __, ___) => Center(
-                                                child: Text(
-                                                  state.profile.name.symbol,
-                                                  style: TextStyles.body(context: context, color: theme.primary).copyWith(
-                                                    fontSize: 64,
-                                                  ),
-                                                ),
+                                                child: state.profile.name.symbol.isNotEmpty
+                                                    ? Text(
+                                                        state.profile.name.symbol,
+                                                        style: TextStyles.body(context: context, color: theme.primary).copyWith(
+                                                          fontSize: 64,
+                                                        ),
+                                                      )
+                                                    : Icon(Icons.account_circle_outlined, color: theme.primary, size: 64),
                                               ),
                                             ),
                                     ),
@@ -173,10 +187,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             }
                                           }
                                         },
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(Dimension.radius.max),
                                         child: CircleAvatar(
                                           backgroundColor: theme.primary,
-                                          radius: 20,
+                                          radius: Dimension.radius.sixteen,
                                           child: Icon(Icons.edit_outlined, color: theme.white),
                                         ),
                                       ),
@@ -185,6 +199,211 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                               ),
                               const SizedBox(height: 32),
+                              TextFormField(
+                                controller: firstNameController,
+                                keyboardType: TextInputType.name,
+                                textCapitalization: TextCapitalization.words,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [
+                                  AutofillHints.givenName,
+                                  AutofillHints.name,
+                                  AutofillHints.namePrefix,
+                                ],
+                                validator: (value) => firstNameController.validName ? null : "",
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'First Name *',
+                                  labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                  hintText: 'required',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: firstNameController.validName ? theme.textPrimary : theme.negative,
+                                ),
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: lastNameController,
+                                keyboardType: TextInputType.name,
+                                textCapitalization: TextCapitalization.words,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [
+                                  AutofillHints.familyName,
+                                  AutofillHints.nameSuffix,
+                                ],
+                                decoration: InputDecoration(
+                                  labelText: 'Last Name',
+                                  labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                ),
+                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.email],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: context.auth.username.same(as: profile.email?.address),
+                                decoration: InputDecoration(
+                                  label: Text.rich(
+                                    TextSpan(
+                                      text: "Email",
+                                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                                      children: context.auth.username.same(as: profile.email?.address)
+                                          ? <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 4)),
+                                              WidgetSpan(child: Icon(Icons.lock_rounded, color: theme.textSecondary, size: 16)),
+                                            ]
+                                          : null,
+                                    ),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
+                                  suffixIcon: VerifyEmailButton(email: emailController),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: emailController.validEmail ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () {
+                                  if (context.auth.username.same(as: profile.email?.address)) {
+                                    context.warningNotification(
+                                      message: "Kemon doesn't allow modifying username!!!",
+                                    );
+                                  }
+                                },
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: phoneController,
+                                keyboardType: TextInputType.phone,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.telephoneNumber],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: context.auth.username.same(as: profile.phone?.number),
+                                decoration: InputDecoration(
+                                  label: Text.rich(
+                                    TextSpan(
+                                      text: "Phone",
+                                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                                      children: context.auth.username.same(as: profile.phone?.number)
+                                          ? <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 4)),
+                                              WidgetSpan(child: Icon(Icons.lock_rounded, color: theme.textSecondary, size: 16)),
+                                            ]
+                                          : null,
+                                    ),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                  suffixIconConstraints: BoxConstraints(minWidth: 48, maxHeight: 24),
+                                  suffixIcon: VerifyPhoneButton(phone: phoneController),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () {
+                                  if (context.auth.username.same(as: profile.phone?.number)) {
+                                    context.warningNotification(
+                                      message: "Kemon doesn't allow modifying username!!!",
+                                    );
+                                  }
+                                },
+                              ),
+                              SizedBox(height: Dimension.padding.vertical.large),
+                              TextField(
+                                controller: TextEditingController(text: dob?.dMMMMyyyy),
+                                keyboardType: TextInputType.phone,
+                                textAlignVertical: TextAlignVertical.center,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.telephoneNumber],
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Date of birth",
+                                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  ),
+                                  helperText: '',
+                                  helperStyle: const TextStyle(fontSize: 0, height: 0),
+                                  errorStyle: const TextStyle(fontSize: 0, height: 0),
+                                  hintText: 'optional',
+                                  hintStyle: TextStyles.body(
+                                    context: context,
+                                    color: theme.textSecondary.withAlpha(150),
+                                  ),
+                                ),
+                                style: TextStyles.body(
+                                  context: context,
+                                  color: phoneController.validPhone ? theme.textPrimary : theme.negative,
+                                ),
+                                onTap: () async {
+                                  final date = await showDatePicker(
+                                    context: context,
+                                    initialDate: dob ?? DateTime(2000),
+                                    firstDate: DateTime(1920),
+                                    lastDate: DateTime.now().copyWith(year: DateTime.now().year - 16),
+                                    initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                    initialDatePickerMode: DatePickerMode.day,
+                                    builder: (_, child) => Theme(
+                                      data: Theme.of(context).copyWith(
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    ),
+                                  );
+
+                                  if (date != null) {
+                                    setState(() {
+                                      dob = date;
+                                    });
+                                  }
+                                },
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: theme.backgroundSecondary,
@@ -194,268 +413,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     width: .25,
                                   ),
                                 ),
+                                margin: EdgeInsets.symmetric(vertical: Dimension.padding.vertical.medium),
                                 child: ListView(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.zero.copyWith(top: 4, bottom: 4),
+                                  padding: EdgeInsets.zero,
                                   physics: const NeverScrollableScrollPhysics(),
                                   cacheExtent: double.maxFinite,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'First name *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: firstNameController,
-                                              keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [
-                                                AutofillHints.givenName,
-                                                AutofillHints.name,
-                                                AutofillHints.namePrefix,
-                                              ],
-                                              validator: (value) => firstNameController.validName ? null : "",
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              decoration: InputDecoration(
-                                                hintText: 'required',
-                                                hintStyle: TextStyles.subTitle(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.title(
-                                                context: context,
-                                                color: firstNameController.validName ? theme.textPrimary : theme.negative,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Last',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextField(
-                                              controller: lastNameController,
-                                              keyboardType: TextInputType.name,
-                                              textCapitalization: TextCapitalization.words,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [
-                                                AutofillHints.familyName,
-                                                AutofillHints.nameSuffix,
-                                              ],
-                                              decoration: InputDecoration(
-                                                hintText: 'optional',
-                                                isDense: true,
-                                                hintStyle: TextStyles.subTitle(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.title(context: context, color: theme.textPrimary),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Email *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: emailController,
-                                              keyboardType: TextInputType.emailAddress,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [AutofillHints.email],
-                                              validator: (value) => emailController.validEmail ? null : "",
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              decoration: InputDecoration(
-                                                hintText: 'required',
-                                                isDense: true,
-                                                hintStyle: TextStyles.subTitle(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.title(
-                                                context: context,
-                                                color: emailController.validEmail ? theme.textPrimary : theme.negative,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Phone *',
-                                            style: TextStyles.body(context: context, color: theme.textSecondary),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: phoneController,
-                                              keyboardType: TextInputType.phone,
-                                              textAlign: TextAlign.end,
-                                              textAlignVertical: TextAlignVertical.center,
-                                              textInputAction: TextInputAction.next,
-                                              autofillHints: const [
-                                                AutofillHints.telephoneNumber,
-                                                AutofillHints.telephoneNumberDevice,
-                                                AutofillHints.telephoneNumberNational,
-                                                AutofillHints.telephoneNumberLocal,
-                                              ],
-                                              validator: (value) => phoneController.validPhone ? null : "",
-                                              onChanged: (value) {
-                                                setState(() {});
-                                              },
-                                              decoration: InputDecoration(
-                                                hintText: 'required',
-                                                isDense: true,
-                                                hintStyle: TextStyles.subTitle(
-                                                  context: context,
-                                                  color: theme.textSecondary.withAlpha(150),
-                                                ),
-                                                contentPadding: EdgeInsets.zero,
-                                                border: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                focusedErrorBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                              ),
-                                              style: TextStyles.title(
-                                                context: context,
-                                                color: phoneController.validPhone ? theme.textPrimary : theme.negative,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
-                                    InkWell(
-                                      onTap: () async {
-                                        final date = await showDatePicker(
-                                          context: context,
-                                          initialDate: dob ?? DateTime(2000),
-                                          firstDate: DateTime(1920),
-                                          lastDate: DateTime.now().copyWith(year: DateTime.now().year - 16),
-                                          initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                          initialDatePickerMode: DatePickerMode.day,
-                                          builder: (_, child) => Theme(
-                                            data: Theme.of(context).copyWith(
-                                              textButtonTheme: TextButtonThemeData(
-                                                style: TextButton.styleFrom(),
-                                              ),
-                                            ),
-                                            child: child!,
-                                          ),
-                                        );
-
-                                        if (date != null) {
-                                          setState(() {
-                                            dob = date;
-                                          });
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Date of birth',
-                                              style: TextStyles.body(context: context, color: theme.textSecondary),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text(
-                                                dob?.dMMMMyyyy ?? 'Select one',
-                                                style: TextStyles.title(context: context, color: theme.textPrimary),
-                                                textAlign: TextAlign.end,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Icon(Icons.arrow_drop_down_rounded, color: theme.textPrimary),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(thickness: .15, height: .15, color: theme.backgroundTertiary),
                                     DropdownWidget<Gender>(
                                       label: 'Gender',
+                                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
                                       onSelect: (selection) {
                                         setState(() {
                                           gender = selection;
                                         });
                                       },
                                       text: gender?.text ?? 'Select one',
+                                      textStyle: TextStyles.body(context: context, color: theme.textPrimary),
                                       popup: GenderFilterWidget(selection: gender),
                                     ),
                                   ],
@@ -470,7 +444,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       context.errorNotification(message: state.failure.message);
                                     } else if (state is UpdateProfileDone) {
                                       context.successNotification(
-                                        message: 'Congralutations. Your profile has been updated :)',
+                                        message: 'Congratulations. Your profile has been updated :)',
                                       );
                                       context.pop(true);
                                     }
@@ -481,7 +455,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         onPressed: () {
                                           FocusScope.of(context).requestFocus(FocusNode());
                                         },
-                                        child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                        child: NetworkingIndicator(dimension: Dimension.radius.eighteen, color: theme.white),
                                       );
                                     }
                                     return ElevatedButton(
@@ -498,6 +472,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                     phone: phoneController.text,
                                                     dob: dob,
                                                     gender: gender,
+                                                    phoneVerified: (profile.phone?.verified ?? false) &&
+                                                        phoneController.text.same(as: profile.phone?.number),
+                                                    emailVerified: (profile.email?.verified ?? false) &&
+                                                        emailController.text.same(as: profile.email?.address),
                                                   ),
                                                   avatar: profilePicture,
                                                 ),

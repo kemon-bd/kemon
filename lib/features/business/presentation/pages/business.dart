@@ -1,9 +1,10 @@
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../business.dart';
 import '../../../review/review.dart';
 
 class BusinessPage extends StatelessWidget {
-  static const String path = '/business/:urlSlug';
+  static const String path = '/review/:urlSlug';
   static const String name = 'BusinessPage';
 
   final String urlSlug;
@@ -26,11 +27,18 @@ class BusinessPage extends StatelessWidget {
             backgroundColor: theme.backgroundSecondary,
             surfaceTintColor: theme.backgroundSecondary,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              icon: Icon(Icons.arrow_back_rounded, color: theme.primary),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             centerTitle: false,
             actions: [
+              BusinessShareButton(),
               IconButton(
                 onPressed: () {
                   showCupertinoModalPopup(
@@ -43,23 +51,17 @@ class BusinessPage extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.info_outline_rounded,
-                    color: theme.primary, size: 24),
+                icon: Icon(Icons.info_outline_rounded, color: theme.primary, size: 24),
                 iconSize: 24,
               ),
             ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              context
-                  .read<FindBusinessBloc>()
-                  .add(RefreshBusiness(urlSlug: urlSlug));
-              context
-                  .read<FindRatingBloc>()
-                  .add(RefreshRating(urlSlug: urlSlug));
+              context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: urlSlug));
+              context.read<FindRatingBloc>().add(RefreshRating(urlSlug: urlSlug));
               final reviewBloc = context.read<FindListingReviewsBloc>();
-              reviewBloc.add(RefreshListingReviews(
-                  urlSlug: urlSlug, filter: reviewBloc.state.filter));
+              reviewBloc.add(RefreshListingReviews(urlSlug: urlSlug, filter: reviewBloc.state.filter));
             },
             child: ListView(
               padding: EdgeInsets.zero,
@@ -71,45 +73,6 @@ class BusinessPage extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
-  }
-}
-
-class ShareButton extends StatelessWidget {
-  const ShareButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessBloc, FindBusinessState>(
-      builder: (context, state) {
-        if (state is FindBusinessDone) {
-          final business = state.business;
-          return IconButton(
-            icon: Icon(Icons.share, color: theme.primary),
-            onPressed: () async {
-              final result = await Share.share(
-                """🌟 Discover the Best, Rated by the Rest! 🌟
-🚀 Explore authentic reviews and ratings on Kemon!
-💬 Real People. Real Reviews. Make smarter decisions today.
-👀 Check out ${business.name.full}(https://kemon.com.bd/review/${business.urlSlug}) now and share your experience with the community!
-
-📲 Join the conversation on Kemon – Bangladesh's Premier Review Platform!
-
-#KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
-              );
-
-              if (result.status == ShareResultStatus.success &&
-                  context.mounted) {
-                result.raw;
-                context.successNotification(
-                    message: 'Thank you for sharing ${business.name.full}');
-              }
-            },
-          );
-        }
-        return const SizedBox();
       },
     );
   }

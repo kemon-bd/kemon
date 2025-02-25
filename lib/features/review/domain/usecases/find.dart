@@ -12,6 +12,6 @@ class FindUserReviewsUseCase {
     required Identity user,
     bool refresh = false,
   }) async {
-    return await repository.find(user: user);
+    return await repository.find(user: user, refresh: refresh);
   }
 }

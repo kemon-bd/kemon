@@ -21,6 +21,9 @@ class LeaderboardRemoteDataSourceImpl extends LeaderboardRemoteDataSource {
       "query": query,
       "startdate": from.MMddyyyy,
       "enddate": to.MMddyyyy,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final response = await client.get(RemoteEndpoints.leaderboard, headers: headers);
 

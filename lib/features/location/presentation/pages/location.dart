@@ -1,16 +1,28 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
+import '../../../category/category.dart';
+import '../../../home/home.dart';
+import '../../../industry/industry.dart';
+import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
 class LocationPage extends StatefulWidget {
   static const String path = '/location/:urlSlug';
   static const String name = 'LocationPage';
   final String urlSlug;
+  final LookupEntity? location;
+  final String? division;
+  final String? district;
+  final String? thana;
 
   const LocationPage({
     super.key,
     required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
+    required this.location,
   });
 
   @override
@@ -24,7 +36,7 @@ class _LocationPageState extends State<LocationPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    final isExpanded = controller.offset <= context.topInset + kToolbarHeight + Dimension.padding.vertical.medium;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -34,6 +46,15 @@ class _LocationPageState extends State<LocationPage> {
   void initState() {
     super.initState();
     controller.addListener(_scrollListener);
+    sl<FirebaseAnalytics>().logScreenView(
+      screenClass: 'LocationPage',
+      screenName: 'LocationPage',
+      parameters: {
+        'id': context.auth.profile?.identity.id ?? 'anonymous',
+        'name': context.auth.profile?.name.full ?? 'Guest',
+        'urlSlug': widget.urlSlug,
+      },
+    );
   }
 
   @override
@@ -49,129 +70,244 @@ class _LocationPageState extends State<LocationPage> {
       builder: (_, state) {
         final theme = state.scheme;
         return KeyboardDismissOnTap(
-          child: Scaffold(
-            body: ValueListenableBuilder<bool>(
-              valueListenable: expanded,
-              builder: (context, isExpanded, _) {
-                return CustomScrollView(
-                  cacheExtent: 0,
-                  controller: controller,
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      collapsedHeight: context.topInset +
-                          kToolbarHeight +
-                          Dimension.padding.vertical.min -
-                          /* (Platform.isIOS ?  */ Dimension
-                              .size.vertical.twenty /*  : 0) */,
-                      expandedHeight: context.topInset +
-                          kToolbarHeight +
-                          /* (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) + */
-                          Dimension.size.vertical.oneTwelve,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: context.pop,
-                      ),
-                      title: isExpanded
-                          ? null
-                          : _NameWidget(
-                              urlSlug: widget.urlSlug,
-                              fontSize: Dimension.radius.sixteen,
-                              maxLines: 2,
-                            ).animate().fade(),
-                      centerTitle: false,
-                      actions: [
-                        const _ShareButton(),
-                      ],
-                      bottom: PreferredSize(
-                        preferredSize:
-                            Size.fromHeight(Dimension.size.vertical.twenty),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.max,
-                            vertical: Dimension.padding.vertical.large,
-                          ).copyWith(top: 0),
-                          child: TextField(
-                            controller: search,
-                            style: TextStyles.body(
-                                context: context, color: theme.textPrimary),
-                            onChanged: (query) {
-                              final bloc =
-                                  context.read<FindBusinessesByLocationBloc>();
-                              final filter = bloc.state;
+          child: BlocListener<LocationListingsFilterBloc, LocationListingsFilterState>(
+            listener: (context, state) {
+              context.read<FindBusinessesByLocationBloc>().add(
+                    RefreshBusinessesByLocation(
+                      division: state.division,
+                      district: state.district,
+                      thana: state.thana,
+                      sub: state.subCategory,
+                      industry: state.industry,
+                      category: state.category,
+                      ratings: state.rating.stars,
+                      location: widget.urlSlug,
+                    ),
+                  );
+            },
+            child: Scaffold(
+              body: ValueListenableBuilder<bool>(
+                valueListenable: expanded,
+                builder: (context, isExpanded, _) {
+                  final appBar = SliverAppBar(
+                    pinned: true,
+                    collapsedHeight: context.topInset + kToolbarHeight - Dimension.padding.vertical.medium,
+                    expandedHeight: context.topInset + kToolbarHeight + Dimension.size.vertical.oneFortyFour,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back, color: theme.primary),
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.goNamed(HomePage.name);
+                        }
+                      },
+                    ),
+                    title: isExpanded
+                        ? null
+                        : _NameWidget(
+                            urlSlug: widget.urlSlug,
+                            location: widget.location,
+                            division: widget.division,
+                            district: widget.district,
+                            thana: widget.thana,
+                            fontSize: Dimension.radius.twenty,
+                            maxLines: 2,
+                          ).animate().fade(),
+                    centerTitle: false,
+                    actions: [
+                      const _ShareButton(),
+                    ],
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimension.padding.horizontal.max,
+                          vertical: Dimension.padding.vertical.large,
+                        ).copyWith(top: 0),
+                        child: TextField(
+                          controller: search,
+                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          onChanged: (query) {
+                            final bloc = context.read<FindBusinessesByLocationBloc>();
+                            final filter = bloc.state;
 
-                              bloc.add(FindBusinessesByLocation(
-                                location: widget.urlSlug,
-                                query: query,
-                                sort: filter.sortBy,
-                                ratings: filter.ratings,
-                              ));
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search_rounded,
-                                size: Dimension.radius.sixteen,
-                                color: theme.textSecondary,
-                              ),
-                              hintText: 'Find company or products...',
-                              hintStyle: TextStyles.body(
-                                  context: context, color: theme.textSecondary),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                                vertical: Dimension.padding.vertical.large,
-                              ),
+                            bloc.add(FindBusinessesByLocation(
+                              location: widget.urlSlug,
+                              query: query,
+                              sort: filter.sortBy,
+                              ratings: filter.ratings,
+                              division: widget.division,
+                              district: widget.district,
+                              thana: widget.thana,
+                            ));
+                          },
+                          onEditingComplete: () async {
+                            await sl<FirebaseAnalytics>().logEvent(
+                              name: 'listing_search_within_location',
+                              parameters: {
+                                'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                'name': context.auth.profile?.name.full ?? 'Guest',
+                                'urlSlug': widget.urlSlug,
+                              },
+                            );
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              size: Dimension.radius.sixteen,
+                              color: theme.textSecondary,
+                            ),
+                            hintText: 'Looking for something specific?',
+                            hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: Dimension.padding.horizontal.max,
+                              vertical: Dimension.padding.vertical.large,
                             ),
                           ),
                         ),
                       ),
-                      flexibleSpace: isExpanded
-                          ? FlexibleSpaceBar(
-                              background: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(
-                                    top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: _NameWidget(
-                                                  urlSlug: widget.urlSlug,
-                                                  fontSize: Dimension
-                                                      .radius.twentyFour)
-                                              .animate()
-                                              .fade(),
-                                        ),
-                                        _IconWidget(urlSlug: widget.urlSlug),
-                                      ],
+                    ),
+                    flexibleSpace: isExpanded
+                        ? FlexibleSpaceBar(
+                            background: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Dimension.padding.horizontal.max,
+                              ).copyWith(top: context.topInset + kToolbarHeight),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: _NameWidget(
+                                          urlSlug: widget.urlSlug,
+                                          location: widget.location,
+                                          division: widget.division,
+                                          district: widget.district,
+                                          thana: widget.thana,
+                                          fontSize: Dimension.radius.twentyFour,
+                                        ).animate().fade(),
+                                      ),
+                                      _IconWidget(urlSlug: widget.urlSlug),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      _FilterButton(
+                                        urlSlug: widget.urlSlug,
+                                        division: widget.division,
+                                        district: widget.district,
+                                        thana: widget.thana,
+                                      ),
+                                      const SizedBox(width: 16),
+                                      _SortButton(
+                                        urlSlug: widget.urlSlug,
+                                        division: widget.division,
+                                        district: widget.district,
+                                        thana: widget.thana,
+                                      ),
+                                      const Spacer(),
+                                      _TotalCount(),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : null,
+                  );
+                  final shimmer = SliverList.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                    itemBuilder: (context, index) => const BusinessItemShimmerWidget(),
+                    itemCount: 10,
+                  );
+                  done(FindBusinessesByLocationDone state, urlSlug) {
+                    final businesses = state.businesses;
+                    final hasMore = state.total > businesses.length;
+
+                    return SliverList.separated(
+                      addAutomaticKeepAlives: false,
+                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.medium),
+                      itemBuilder: (context, index) {
+                        if (index == businesses.length && hasMore) {
+                          if (state is! FindBusinessesByLocationPaginating) {
+                            final filter = context.read<LocationListingsFilterBloc>().state;
+                            context.read<FindBusinessesByLocationBloc>().add(
+                                  PaginateBusinessesByLocation(
+                                    page: state.page + 1,
+                                    query: search.text,
+                                    location: urlSlug,
+                                    sort: state.sortBy,
+                                    ratings: filter.rating.stars,
+                                    division: filter.division,
+                                    district: filter.district,
+                                    thana: filter.thana,
+                                    category: filter.category,
+                                    industry: filter.industry,
+                                    sub: filter.subCategory,
+   
+                                  ),
+                                );
+                          }
+                          return const BusinessItemShimmerWidget();
+                        }
+                        final business = businesses[index];
+                        final child = BusinessItemWidget(urlSlug: business.urlSlug);
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            child,
+                            if (index + 1 == businesses.length && !hasMore) ...[
+                              SizedBox(height: Dimension.padding.vertical.max),
+                              Container(
+                                width: context.width,
+                                color: theme.backgroundSecondary,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(Dimension.radius.twelve),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline_rounded,
+                                      color: theme.textSecondary,
+                                      size: Dimension.radius.twelve,
                                     ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        _FilterButton(urlSlug: widget.urlSlug),
-                                        const SizedBox(width: 16),
-                                        _SortButton(),
-                                        const Spacer(),
-                                        _TotalCount(),
-                                      ],
+                                    SizedBox(width: Dimension.padding.horizontal.small),
+                                    Text(
+                                      "reached the bottom of the results.",
+                                      style: TextStyles.body(context: context, color: theme.textSecondary),
                                     ),
                                   ],
                                 ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    SliverToBoxAdapter(
-                        child: _ListingsWidget(
-                            search: search, urlSlug: widget.urlSlug)),
-                  ],
-                );
-              },
+                              )
+                            ],
+                          ],
+                        );
+                      },
+                      itemCount: businesses.length + (hasMore ? 1 : 0),
+                    );
+                  }
+
+                  return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
+                    builder: (context, state) {
+                      return CustomScrollView(
+                        cacheExtent: 0,
+                        controller: controller,
+                        slivers: [
+                          appBar,
+                          if (state is FindBusinessesByLocationLoading) shimmer,
+                          if (state is FindBusinessesByLocationLoading) shimmer,
+                          if (state is FindBusinessesByLocationDone) done(state, widget.urlSlug),
+                          SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );
@@ -193,6 +329,15 @@ class _ShareButton extends StatelessWidget {
           return IconButton(
             icon: Icon(Icons.share, color: theme.primary),
             onPressed: () async {
+              await sl<FirebaseAnalytics>().logEvent(
+                name: 'location_share',
+                parameters: {
+                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                  'name': context.auth.profile?.name.full ?? 'Guest',
+                  'location': location.name.full,
+                  'urlSlug': location.urlSlug,
+                },
+              );
               final result = await Share.share(
                 """🌟 Discover the Best, Rated by the Rest! 🌟
 🚀 Explore authentic reviews and ratings on Kemon!
@@ -204,11 +349,9 @@ class _ShareButton extends StatelessWidget {
 #KemonApp #TrustedReviews #CommunityFirst #RealOpinions""",
               );
 
-              if (result.status == ShareResultStatus.success &&
-                  context.mounted) {
+              if (result.status == ShareResultStatus.success && context.mounted) {
                 result.raw;
-                context.successNotification(
-                    message: 'Thank you for sharing ${location.name.full}');
+                context.successNotification(message: 'Thank you for sharing ${location.name.full}');
               }
             },
           );
@@ -221,27 +364,41 @@ class _ShareButton extends StatelessWidget {
 
 class _FilterButton extends StatelessWidget {
   final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
   const _FilterButton({
     required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        if (!context.mounted) return;
         showModalBottomSheet(
           context: context,
           backgroundColor: theme.backgroundPrimary,
           barrierColor: context.barrierColor,
           isScrollControlled: true,
+          shape: RoundedRectangleBorder(),
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(
-                  value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(value: context.read<LocationListingsFilterBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
+              BlocProvider(create: (_) => sl<FindIndustriesBloc>()..add(FindIndustries())),
+              BlocProvider(create: (_) => sl<FindCategoriesByIndustryBloc>()),
             ],
-            child: const FilterBusinessesByLocationWidget(),
+            child: LocationListingsFilter(
+              division: division,
+              district: district,
+              thana: thana,
+            ),
           ),
         );
       },
@@ -258,8 +415,7 @@ class _FilterButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.filter_alt_outlined,
-                size: Dimension.radius.twenty, color: theme.white),
+            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
               style: TextStyles.caption(context: context, color: theme.white),
@@ -272,13 +428,31 @@ class _FilterButton extends StatelessWidget {
 }
 
 class _SortButton extends StatelessWidget {
-  const _SortButton();
+  final String urlSlug;
+  final String? division;
+  final String? district;
+  final String? thana;
+  const _SortButton({
+    required this.urlSlug,
+    required this.division,
+    required this.district,
+    required this.thana,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        await sl<FirebaseAnalytics>().logEvent(
+          name: 'listings_by_location_sort',
+          parameters: {
+            'id': context.auth.profile?.identity.id ?? 'anonymous',
+            'name': context.auth.profile?.name.full ?? 'Guest',
+            'urlSlug': urlSlug,
+          },
+        );
+        if (!context.mounted) return;
         showModalBottomSheet(
           context: context,
           backgroundColor: theme.backgroundPrimary,
@@ -286,11 +460,15 @@ class _SortButton extends StatelessWidget {
           isScrollControlled: true,
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(
-                  value: context.read<FindBusinessesByLocationBloc>()),
+              BlocProvider.value(value: context.read<FindBusinessesByLocationBloc>()),
               BlocProvider.value(value: context.read<FindLocationBloc>()),
             ],
-            child: const SortBusinessesByLocationWidget(),
+            child: SortBusinessesByLocationWidget(
+              urlSlug: urlSlug,
+              division: division,
+              district: district,
+              thana: thana,
+            ),
           ),
         );
       },
@@ -307,8 +485,7 @@ class _SortButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.swap_vert_rounded,
-                size: Dimension.radius.twenty, color: theme.link),
+            Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
               style: TextStyles.caption(context: context, color: theme.link),
@@ -322,10 +499,18 @@ class _SortButton extends StatelessWidget {
 
 class _NameWidget extends StatelessWidget {
   final String urlSlug;
+  final LookupEntity? location;
+  final String? division;
+  final String? district;
+  final String? thana;
   final double? fontSize;
   final int? maxLines;
   const _NameWidget({
     required this.urlSlug,
+    required this.location,
+    required this.division,
+    required this.district,
+    required this.thana,
     this.fontSize,
     this.maxLines,
   });
@@ -339,9 +524,7 @@ class _NameWidget extends StatelessWidget {
           final location = state.location;
           return Text(
             location.name.full,
-            style: TextStyles.bigHeadline(
-                    context: context, color: theme.textPrimary)
-                .copyWith(
+            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
               fontWeight: FontWeight.bold,
               fontSize: fontSize ?? Dimension.radius.twelve,
             ),
@@ -349,7 +532,15 @@ class _NameWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           );
         }
-        return Container();
+        return Text(
+          location?.text ?? '',
+          style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize ?? Dimension.radius.twelve,
+          ),
+          maxLines: maxLines,
+          overflow: TextOverflow.ellipsis,
+        );
       },
     );
   }
@@ -385,8 +576,7 @@ class _TotalCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByLocationBloc,
-        FindBusinessesByLocationState>(
+    return BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
       builder: (context, state) {
         if (state is FindBusinessesByLocationDone) {
           return Column(
@@ -394,105 +584,13 @@ class _TotalCount extends StatelessWidget {
             children: [
               Text(
                 state.total.toString(),
-                style: TextStyles.title(
-                    context: context, color: theme.textPrimary),
+                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(
-                    context: context, color: theme.textSecondary),
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
-
-class _ListingsWidget extends StatelessWidget {
-  final String urlSlug;
-  final TextEditingController search;
-
-  const _ListingsWidget({
-    required this.urlSlug,
-    required this.search,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return BlocBuilder<FindBusinessesByLocationBloc,
-        FindBusinessesByLocationState>(
-      builder: (context, state) {
-        if (state is FindBusinessesByLocationLoading) {
-          return ListView.separated(
-            itemBuilder: (_, index) {
-              return const BusinessItemShimmerWidget();
-            },
-            separatorBuilder: (_, __) =>
-                SizedBox(height: Dimension.padding.vertical.medium),
-            itemCount: 10,
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            padding: EdgeInsets.zero.copyWith(
-                bottom: Dimension.padding.vertical.max + context.bottomInset),
-          );
-        } else if (state is FindBusinessesByLocationDone) {
-          final businesses = state.businesses;
-          final hasMore = state.total > businesses.length;
-
-          return businesses.isNotEmpty
-              ? ListView.separated(
-                  itemBuilder: (_, index) {
-                    if (index == businesses.length && hasMore) {
-                      if (state is! FindBusinessesByLocationPaginating) {
-                        context.read<FindBusinessesByLocationBloc>().add(
-                              PaginateBusinessesByLocation(
-                                page: state.page + 1,
-                                query: search.text,
-                                location: urlSlug,
-                                sort: state.sortBy,
-                                ratings: state.ratings,
-                              ),
-                            );
-                      }
-                      return const BusinessItemShimmerWidget();
-                    }
-                    final business = businesses[index];
-                    return BlocProvider(
-                      create: (_) => sl<FindBusinessBloc>()
-                        ..add(FindBusiness(urlSlug: business.urlSlug)),
-                      child: const BusinessItemWidget(),
-                    );
-                  },
-                  separatorBuilder: (_, __) =>
-                      SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: businesses.length + (hasMore ? 1 : 0),
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom:
-                        Dimension.padding.vertical.max + context.bottomInset,
-                  ),
-                )
-              : Center(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: context.height * .25),
-                    child: Text(
-                      "No listing found :(",
-                      style: TextStyles.title(
-                          context: context, color: theme.backgroundTertiary),
-                    ),
-                  ),
-                );
-        } else if (state is FindBusinessesByLocationError) {
-          return Text(
-            state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
           );
         } else {
           return const SizedBox();

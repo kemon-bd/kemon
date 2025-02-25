@@ -7,8 +7,7 @@ import '../../business.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class FindBusinessesByCategoryBloc
-    extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
+class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, FindBusinessesByCategoryState> {
   final BusinessesByCategoryUseCase find;
   final RefreshBusinessesByCategoryUseCase refresh;
   FindBusinessesByCategoryBloc({
@@ -19,20 +18,16 @@ class FindBusinessesByCategoryBloc
       emit(FindBusinessesByCategoryLoading(
         query: event.query ?? '',
         sortBy: event.sort ?? SortBy.recommended,
-        ratings: event.ratings,
-        division: event.division,
-        district: event.district,
-        thana: event.thana,
-        subCategory: event.subCategory,
       ));
       final result = await find(
-        category: event.category,
+        urlSlug: event.urlSlug,
         page: 1,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         division: event.division,
         district: event.district,
         thana: event.thana,
+        category: event.category,
         subCategory: event.subCategory,
         ratings: event.ratings,
       );
@@ -41,11 +36,6 @@ class FindBusinessesByCategoryBloc
           failure: failure,
           query: event.query ?? '',
           sortBy: event.sort ?? SortBy.recommended,
-          ratings: event.ratings,
-          division: event.division,
-          district: event.district,
-          thana: event.thana,
-          subCategory: event.subCategory,
         )),
         (response) => emit(
           FindBusinessesByCategoryDone(
@@ -55,11 +45,6 @@ class FindBusinessesByCategoryBloc
             related: response.related,
             query: event.query ?? '',
             sortBy: event.sort ?? SortBy.recommended,
-            ratings: event.ratings,
-            division: event.division,
-            district: event.district,
-            thana: event.thana,
-            subCategory: event.subCategory,
           ),
         ),
       );
@@ -68,14 +53,9 @@ class FindBusinessesByCategoryBloc
       emit(FindBusinessesByCategoryLoading(
         query: event.query ?? '',
         sortBy: event.sort ?? SortBy.recommended,
-        ratings: event.ratings,
-        division: event.division,
-        district: event.district,
-        thana: event.thana,
-        subCategory: event.subCategory,
       ));
       final result = await refresh(
-        category: event.category,
+        urlSlug: event.urlSlug,
         query: event.query ?? '',
         sort: event.sort ?? SortBy.recommended,
         division: event.division,
@@ -83,17 +63,13 @@ class FindBusinessesByCategoryBloc
         thana: event.thana,
         subCategory: event.subCategory,
         ratings: event.ratings,
+        category: event.category,
       );
       result.fold(
         (failure) => emit(FindBusinessesByCategoryError(
           failure: failure,
           query: event.query ?? '',
           sortBy: event.sort ?? SortBy.recommended,
-          ratings: event.ratings,
-          division: event.division,
-          district: event.district,
-          thana: event.thana,
-          subCategory: event.subCategory,
         )),
         (response) => emit(
           FindBusinessesByCategoryDone(
@@ -103,11 +79,6 @@ class FindBusinessesByCategoryBloc
             related: response.related,
             query: event.query ?? '',
             sortBy: event.sort ?? SortBy.recommended,
-            ratings: event.ratings,
-            division: event.division,
-            district: event.district,
-            thana: event.thana,
-            subCategory: event.subCategory,
           ),
         ),
       );
@@ -123,14 +94,9 @@ class FindBusinessesByCategoryBloc
           related: oldState.related,
           query: event.query ?? '',
           sortBy: event.sort ?? SortBy.recommended,
-          ratings: event.ratings,
-          division: event.division,
-          district: event.district,
-          thana: event.thana,
-          subCategory: event.subCategory,
         ));
         final result = await find(
-          category: event.category,
+          urlSlug: event.urlSlug,
           page: event.page,
           query: event.query ?? '',
           sort: event.sort ?? SortBy.recommended,
@@ -139,17 +105,13 @@ class FindBusinessesByCategoryBloc
           thana: event.thana,
           subCategory: event.subCategory,
           ratings: event.ratings,
+          category: event.category,
         );
         result.fold(
           (failure) => emit(FindBusinessesByCategoryError(
             failure: failure,
             query: event.query ?? '',
             sortBy: event.sort ?? SortBy.recommended,
-            ratings: event.ratings,
-            division: event.division,
-            district: event.district,
-            thana: event.thana,
-            subCategory: event.subCategory,
           )),
           (response) => emit(
             FindBusinessesByCategoryDone(
@@ -159,11 +121,6 @@ class FindBusinessesByCategoryBloc
               related: response.related,
               query: event.query ?? '',
               sortBy: event.sort ?? SortBy.recommended,
-              ratings: event.ratings,
-              division: event.division,
-              district: event.district,
-              thana: event.thana,
-              subCategory: event.subCategory,
             ),
           ),
         );

@@ -28,40 +28,44 @@ class ProfilePage extends StatelessWidget {
               surfaceTintColor: theme.primary,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_rounded, color: theme.white),
-                onPressed: context.pop,
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.goNamed(HomePage.name);
+                  }
+                },
               ),
               title: MyProfileUsernameWidget(
                 shimmerAlignment: Alignment.center,
-                style:
-                    TextStyles.title(context: context, color: theme.textPrimary)
-                        .copyWith(
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                ),
+                style: TextStyles.subTitle(context: context, color: theme.white),
               ),
               titleSpacing: 0,
               actions: [
                 IconButton(
                   icon: Icon(Icons.logout_rounded, color: theme.white),
-                  onPressed: () => context
-                      .read<AuthenticationBloc>()
-                      .add(const AuthenticationLogout()),
+                  onPressed: () => context.read<AuthenticationBloc>().add(const AuthenticationLogout()),
                 ),
               ],
               centerTitle: true,
             ),
-            body: ListView(
-              shrinkWrap: false,
-              padding: EdgeInsets.zero.copyWith(
-                bottom: context.bottomInset + 16,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<FindProfileBloc>().add(RefreshProfile(identity: context.auth.identity!));
+              },
+              child: ListView(
+                shrinkWrap: false,
+                padding: EdgeInsets.zero.copyWith(
+                  bottom: context.bottomInset + 16,
+                ),
+                children: const [
+                  ProfileInformationWidget(edit: true),
+                  ProfileProgressWidget(),
+                  ProfileFeatureOptionsWidget(),
+                  ProfilePreferenceWidget(),
+                  ProfileDangerZoneWidget(),
+                ],
               ),
-              children: const [
-                ProfileInformationWidget(edit: true),
-                ProfileProgressWidget(),
-                ProfileFeatureOptionsWidget(),
-                ProfilePreferenceWidget(),
-                ProfileDangerZoneWidget(),
-              ],
             ),
           ),
         );

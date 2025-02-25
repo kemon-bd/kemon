@@ -5,6 +5,7 @@ import '../../features/industry/industry.dart';
 import '../../features/leaderboard/leaderboard.dart';
 import '../../features/location/location.dart';
 import '../../features/login/login.dart';
+import '../../features/lookup/lookup.dart';
 import '../../features/profile/profile.dart';
 import '../../features/registration/registration.dart';
 import '../../features/review/review.dart';
@@ -250,12 +251,35 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindListingReviewsBloc>()
               ..add(
-                FindListingReviews(urlSlug: state.pathParameters['urlSlug']!, filter: []),
+                FindListingReviews(
+                  guid: state.uri.queryParameters['review'],
+                  urlSlug: state.pathParameters['urlSlug']!,
+                  filter: [],
+                ),
               ),
           ),
         ],
         child: BusinessPage(
           urlSlug: state.pathParameters['urlSlug']!,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: NewListingPage.path,
+      name: NewListingPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<ValidateUrlSlugBloc>()),
+          BlocProvider(create: (context) => sl<FindIndustriesBloc>()..add(FindIndustries())),
+          BlocProvider(create: (context) => sl<FindCategoriesByIndustryBloc>()),
+          BlocProvider(create: (context) => sl<SubCategoriesByCategoryBloc>()),
+          BlocProvider(create: (context) => sl<DivisionsBloc>()..add(FindDivisions())),
+          BlocProvider(create: (context) => sl<DistrictsBloc>()),
+          BlocProvider(create: (context) => sl<ThanasBloc>()),
+          BlocProvider(create: (context) => sl<NewListingBloc>()),
+        ],
+        child: NewListingPage(
+          suggestion: state.uri.queryParameters['suggestion'],
         ),
       ),
     ),
@@ -275,6 +299,25 @@ final router = GoRouter(
         child: NewReviewPage(
           urlSlug: state.pathParameters['urlSlug']!,
           rating: double.tryParse(state.uri.queryParameters['rating'] ?? '') ?? 0.0,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: EditReviewPage.path,
+      name: EditReviewPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindBusinessBloc>()
+              ..add(
+                FindBusiness(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(create: (context) => sl<UpdateReviewBloc>()),
+        ],
+        child: EditReviewPage(
+          urlSlug: state.pathParameters['urlSlug']!,
+          review: state.extra as ReviewEntity,
         ),
       ),
     ),
@@ -301,7 +344,7 @@ final router = GoRouter(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
                 FindBusinessesByCategory(
-                  category: state.pathParameters['urlSlug']!,
+                  urlSlug: state.pathParameters['urlSlug']!,
                 ),
               ),
           ),
@@ -340,11 +383,15 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
               ),
+          ),
+          BlocProvider(
+            create: (context) => sl<CategoryListingsFilterBloc>(),
           ),
         ],
         child: CategoryPage(
+          category: state.extra as CategoryEntity?,
           urlSlug: state.pathParameters['urlSlug']!,
         ),
       ),
@@ -361,14 +408,43 @@ final router = GoRouter(
               ),
           ),
           BlocProvider(
+            create: (context) => sl<FindLocationBloc>()
+              ..add(
+                FindLocation(urlSlug: state.pathParameters['urlSlug']!),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => sl<LocationListingsFilterBloc>()
+              ..add(
+                ApplyLocationListingsFilter(
+                  industry: null,
+                  category: null,
+                  subCategory: null,
+                  rating: RatingRange.all,
+                  division: state.uri.queryParameters['division'],
+                  district: state.uri.queryParameters['district'],
+                  thana: state.uri.queryParameters['thana'],
+                ),
+              ),
+          ),
+          BlocProvider(
             create: (context) => sl<FindBusinessesByLocationBloc>()
               ..add(
-                FindBusinessesByLocation(location: state.pathParameters['urlSlug']!),
+                FindBusinessesByLocation(
+                  location: state.pathParameters['urlSlug']!,
+                  division: state.uri.queryParameters['division'],
+                  district: state.uri.queryParameters['district'],
+                  thana: state.uri.queryParameters['thana'],
+                ),
               ),
           ),
         ],
         child: LocationPage(
           urlSlug: state.pathParameters['urlSlug']!,
+          location: state.extra as LookupEntity?,
+          division: state.uri.queryParameters['division'],
+          district: state.uri.queryParameters['district'],
+          thana: state.uri.queryParameters['thana'],
         ),
       ),
     ),
@@ -391,7 +467,7 @@ final router = GoRouter(
           BlocProvider(
             create: (context) => sl<FindBusinessesByCategoryBloc>()
               ..add(
-                FindBusinessesByCategory(category: state.pathParameters['urlSlug']!),
+                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
               ),
           ),
         ],
@@ -404,14 +480,19 @@ final router = GoRouter(
       path: LeaderboardPage.path,
       name: LeaderboardPage.name,
       builder: (context, state) => BlocProvider(
-        create: (context) => sl<FindLeaderboardBloc>()
-          ..add(FindLeaderboard(
-            query: '',
-            from: DateTime.now().startOfThisYear,
-            to: DateTime.now().endOfThisYear,
-          )),
+        create: (context) => sl<FindLeaderboardBloc>()..add(FindLeaderboard(query: '')),
         child: const LeaderboardPage(),
       ),
+    ),
+    GoRoute(
+      path: PrivacyPolicyPage.path,
+      name: PrivacyPolicyPage.name,
+      builder: (context, state) => const PrivacyPolicyPage(),
+    ),
+    GoRoute(
+      path: TermsAndConditionsPage.path,
+      name: TermsAndConditionsPage.name,
+      builder: (context, state) => const TermsAndConditionsPage(),
     ),
   ],
 );

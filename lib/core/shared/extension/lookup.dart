@@ -13,6 +13,13 @@ extension LookupEntityExtension on LookupEntity {
   bool get profilePicture => text.same(as: 'ProfilePicture');
 
   int get point => int.tryParse(value) ?? 0;
+
+  Map<String, dynamic> get toMap {
+    return {
+      "dataValue" : value,
+      "displayText" : text,
+    };
+  }
 }
 
 extension LookupModelExtension on LookupModel {}

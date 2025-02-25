@@ -127,7 +127,7 @@ class _DeactivateAccountPageState extends State<DeactivateAccountPage> {
                                 children: [
                                   Text(
                                     'Verify OTP',
-                                    style: TextStyles.headline(
+                                    style: TextStyles.subTitle(
                                             context: context,
                                             color: theme.white)
                                         .copyWith(

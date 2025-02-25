@@ -1,8 +1,11 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../authentication/authentication.dart';
 import '../../../business/business.dart';
 import '../../../category/category.dart';
+import '../../../home/home.dart';
 import '../../../industry/industry.dart';
+import '../../../profile/profile.dart';
 import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../search.dart';
@@ -30,7 +33,13 @@ class _SearchPageState extends State<SearchPage> {
             surfaceTintColor: theme.backgroundPrimary,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, color: theme.textPrimary),
-              onPressed: context.pop,
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
             ),
             title: TextField(
               key: Keys.search.suggestion.field,
@@ -75,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
           floatingActionButton: controller.text.isEmpty
               ? null
               : FloatingActionButton.extended(
-              key: Keys.search.suggestion.submit,
+                  key: Keys.search.suggestion.submit,
                   backgroundColor: theme.primary,
                   onPressed: () {
                     context.pushNamed(
@@ -89,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
                   icon: Icon(Icons.search_rounded, color: theme.backgroundPrimary),
                   label: Text(
                     'Search',
-                    style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+                    style: TextStyles.subTitle(context: context, color: theme.backgroundPrimary),
                   ),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                 ),
@@ -155,8 +164,10 @@ class _SearchPageState extends State<SearchPage> {
                 final subCategories = state.subCategories;
 
                 return ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero.copyWith(bottom: context.bottomInset + Dimension.padding.vertical.max),
+                  shrinkWrap: false,
+                  padding: EdgeInsets.zero.copyWith(
+                    bottom: context.bottomInset + (2 * Dimension.padding.vertical.max) + kToolbarHeight,
+                  ),
                   children: [
                     if (businesses.isNotEmpty) ...[
                       Container(
@@ -164,7 +175,7 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${businesses.length} Business${businesses.length > 1 ? "es" : ""}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -208,9 +219,11 @@ class _SearchPageState extends State<SearchPage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           BusinessNameWidget(
-                                            style: TextStyles.subTitle(context: context, color: theme.primary),
+                                            style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: 2),
                                           BusinessRatingWidget(urlSlug: urlSlug),
                                         ],
                                       ),
@@ -236,12 +249,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${industries.length} Industr${industries.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...industries.map(
                         (industry) {
                           return ListTile(
@@ -250,11 +263,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               industry.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {
@@ -276,12 +291,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${categories.length} Categor${categories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...categories.map(
                         (category) {
                           return ListTile(
@@ -290,11 +305,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               category.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {
@@ -316,12 +333,12 @@ class _SearchPageState extends State<SearchPage> {
                         color: theme.backgroundSecondary,
                         child: Text(
                           "${subCategories.length} Sub categor${subCategories.length > 1 ? "ies" : "y"}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary).copyWith(
+                          style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       ...subCategories.map(
                         (subCategory) {
                           return ListTile(
@@ -330,11 +347,13 @@ class _SearchPageState extends State<SearchPage> {
                             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                             title: Text(
                               subCategory.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                              style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.open_in_new_rounded,
-                              color: theme.primary,
+                              color: theme.backgroundTertiary,
                               size: 16,
                             ),
                             onTap: () {
@@ -349,23 +368,80 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ),
                     ],
+                    if (businesses.isEmpty && industries.isEmpty && categories.isEmpty && subCategories.isEmpty) ...[
+                      const SizedBox(height: 100),
+                      InkWell(
+                        onTap: () async {
+                          final AuthenticationBloc bloc = context.auth;
+                          final ProfileModel? authorization = bloc.profile ??
+                              await context.pushNamed<ProfileModel>(
+                                CheckProfilePage.name,
+                                queryParameters: {'authorize': 'true'},
+                              );
+                          if (!context.mounted) return;
+                          if (authorization == null) return;
+
+                          context.pushNamed(
+                            NewListingPage.name,
+                            queryParameters: {
+                              'suggestion': controller.text.titleCase,
+                            },
+                          );
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add_home_work_outlined, size: Dimension.radius.seventyTwo, color: theme.textSecondary),
+                            const SizedBox(height: 16),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Add ",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: controller.text,
+                                    style: TextStyles.subTitle(context: context, color: theme.primary),
+                                  ),
+                                  TextSpan(
+                                    text: " as new business?",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ],
                 );
               } else if (state is SearchSuggestionError) {
                 return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
-                        size: Dimension.size.horizontal.seventyTwo,
-                        color: theme.textSecondary,
-                      ),
-                      Text(
-                        state.failure.message,
-                        style: TextStyles.subHeadline(context: context, color: theme.textSecondary),
-                      ),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      context.pushNamed(
+                        NewListingPage.name,
+                        queryParameters: {
+                          'suggestion': controller.text.titleCase,
+                        },
+                      );
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
+                          size: Dimension.size.horizontal.seventyTwo,
+                          color: theme.textSecondary,
+                        ),
+                        Text(
+                          state.failure.message,
+                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

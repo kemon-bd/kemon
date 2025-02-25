@@ -7,7 +7,7 @@ abstract class FindListingReviewsState extends Equatable {
   });
 
   @override
-  List<Object> get props => [filter];
+  List<Object?> get props => [filter];
 }
 
 class FindListingReviewsInitial extends FindListingReviewsState {
@@ -39,13 +39,15 @@ class FindListingReviewsError extends FindListingReviewsState {
 }
 
 class FindListingReviewsDone extends FindListingReviewsState {
+  final String? guid;
   final List<ReviewEntity> reviews;
 
   const FindListingReviewsDone({
+    this.guid,
     required this.reviews,
     required super.filter,
   });
 
   @override
-  List<Object> get props => [reviews, filter];
+  List<Object?> get props => [guid, reviews, filter];
 }

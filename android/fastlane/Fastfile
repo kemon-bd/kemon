@@ -52,9 +52,19 @@ platform :android do
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
+  lane :alpha do
     upload_to_play_store(
       track: 'internal', 
+      track_promote_to: 'alpha',
+      version_code: get_local_property('flutter.versionCode'),
+      version_name: get_local_property('flutter.versionName'),
+    )
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    upload_to_play_store(
+      track: 'alpha', 
       track_promote_to: 'beta',
       version_code: get_local_property('flutter.versionCode'),
       version_name: get_local_property('flutter.versionName'),

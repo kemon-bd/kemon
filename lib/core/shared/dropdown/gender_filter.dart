@@ -23,8 +23,7 @@ class GenderFilterWidget extends StatelessWidget {
             ),
             child: ListView(
               shrinkWrap: true,
-              padding: const EdgeInsets.all(16)
-                  .copyWith(bottom: context.bottomInset + 16),
+              padding: const EdgeInsets.all(16).copyWith(bottom: context.bottomInset + 16),
               physics: const ScrollPhysics(),
               children: [
                 Row(
@@ -32,8 +31,7 @@ class GenderFilterWidget extends StatelessWidget {
                   children: [
                     Text(
                       "Gender",
-                      style: TextStyles.headline(
-                          context: context, color: theme.textPrimary),
+                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                     ),
                     IconButton(
                       onPressed: () {
@@ -54,12 +52,10 @@ class GenderFilterWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.backgroundSecondary,
                     borderRadius: BorderRadius.circular(16),
-                    border:
-                        Border.all(color: theme.backgroundTertiary, width: .25),
+                    border: Border.all(color: theme.backgroundTertiary, width: .25),
                   ),
                   child: ListView.separated(
-                    separatorBuilder: (context, index) =>
-                        Divider(height: .25, color: theme.backgroundTertiary),
+                    separatorBuilder: (context, index) => Divider(height: .25, color: theme.backgroundTertiary),
                     itemBuilder: (context, index) {
                       final item = Gender.values[index];
                       final bool selected = selection == item;
@@ -72,12 +68,8 @@ class GenderFilterWidget extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(
-                                selected
-                                    ? Icons.check_circle_rounded
-                                    : Icons.circle_outlined,
-                                color: selected
-                                    ? theme.positive
-                                    : theme.textPrimary,
+                                selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                color: selected ? theme.positive : theme.textPrimary,
                                 size: 24,
                                 grade: 200,
                                 weight: 700,
@@ -86,11 +78,9 @@ class GenderFilterWidget extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   item.text,
-                                  style: TextStyles.subTitle(
+                                  style: TextStyles.body(
                                     context: context,
-                                    color: selected
-                                        ? theme.positive
-                                        : theme.textPrimary,
+                                    color: selected ? theme.positive : theme.textPrimary,
                                   ),
                                 ),
                               ),

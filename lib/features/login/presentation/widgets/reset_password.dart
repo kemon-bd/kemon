@@ -41,7 +41,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
               children: [
                 Text(
                   'Reset Password',
-                  style: TextStyles.headline(
+                  style: TextStyles.subTitle(
                           context: context, color: theme.textPrimary)
                       .copyWith(
                     fontWeight: FontWeight.w900,

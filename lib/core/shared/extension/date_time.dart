@@ -2,9 +2,9 @@ import '../shared.dart';
 
 extension DateTimeExtension on DateTime {
   String get duration {
-    final DateTime now = DateTime.now().toUtc().add(Duration(hours: 6));
+    final DateTime now = DateTime.now();
 
-    final Duration diff = now.difference(this);
+    final Duration diff = now.difference(copyWith(isUtc: true));
 
     if (diff.inSeconds < 60) {
       return "${diff.inSeconds} second${diff.inSeconds > 1 ? "s" : ""} ago";
@@ -50,9 +50,8 @@ extension DateTimeExtension on DateTime {
         second: 0,
       );
 
-  DateTime get startOfThisYear =>
-      DateTime(DateTime.now().year - 1, 1, 1, 1).startOfTheDay;
-  DateTime get endOfThisYear => DateTime(DateTime.now().year + 1, 1, 1)
+  DateTime get startOfThisYear => copyWith(month: 1, day: 1).startOfTheDay;
+  DateTime get endOfThisYear => copyWith(year: DateTime.now().year + 1, month: 1, day: 1)
       .subtract(
         const Duration(days: 1),
       )

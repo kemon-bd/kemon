@@ -76,7 +76,12 @@ class LoginRepositoryImpl extends LoginRepository {
       if (await network.online) {
         await facebook.logout();
         final account = await facebook.login();
-        final profile = await remote.socialLogin(id: account['id']);
+        ProfileModel? profile = await remote.socialLogin(id: account['id']);
+
+        if (profile == null) {
+          await registration.registerWithFacebook(facebook: account);
+          profile = await remote.socialLogin(id: account['id']);
+        }
 
         if (profile != null) {
           final result = await remote.login(username: account['id'], password: account['id']);
@@ -93,25 +98,7 @@ class LoginRepositoryImpl extends LoginRepository {
           await Future.delayed(const Duration(milliseconds: 1));
           return Right(result.profile);
         } else {
-          final identity = await registration.registerWithFacebook(facebook: account);
-          final newProfile = await remote.socialLogin(id: identity.guid);
-          if (newProfile != null) {
-            final result = await remote.login(username: account['id'], password: account['id']);
-            auth.add(
-              AuthorizeAuthentication(
-                token: result.token,
-                profile: result.profile,
-                username: account['id'],
-                password: account['id'],
-                remember: true,
-              ),
-            );
-
-            await Future.delayed(const Duration(milliseconds: 1));
-            return Right(result.profile);
-          } else {
-            return Left(FacebookSignInFailure());
-          }
+          return Left(FacebookSignInFailure());
         }
       } else {
         return Left(NoInternetFailure());
@@ -127,8 +114,12 @@ class LoginRepositoryImpl extends LoginRepository {
       if (await network.online) {
         await google.logout();
         final account = await google.login();
-        final profile = await remote.socialLogin(id: account.id);
+        ProfileModel? profile = await remote.socialLogin(id: account.id);
 
+        if (profile == null) {
+          await registration.registerWithGoogle(google: account);
+          profile = await remote.socialLogin(id: account.id);
+        }
         if (profile != null) {
           final result = await remote.login(username: account.id, password: account.id);
           auth.add(
@@ -144,25 +135,7 @@ class LoginRepositoryImpl extends LoginRepository {
           await Future.delayed(const Duration(milliseconds: 1));
           return Right(result.profile);
         } else {
-          final identity = await registration.registerWithGoogle(google: account);
-          final newProfile = await remote.socialLogin(id: identity.guid);
-          if (newProfile != null) {
-            final result = await remote.login(username: account.id, password: account.id);
-            auth.add(
-              AuthorizeAuthentication(
-                token: result.token,
-                profile: result.profile,
-                username: account.id,
-                password: account.id,
-                remember: true,
-              ),
-            );
-
-            await Future.delayed(const Duration(milliseconds: 1));
-            return Right(result.profile);
-          } else {
-            return Left(GoogleSignInFailure());
-          }
+          return Left(GoogleSignInFailure());
         }
       } else {
         return Left(NoInternetFailure());

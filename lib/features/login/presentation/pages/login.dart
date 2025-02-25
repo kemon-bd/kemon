@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../authentication/authentication.dart';
+import '../../../home/home.dart';
 import '../../../profile/profile.dart';
 import '../../login.dart';
 
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               if (widget.authorize ?? false) {
                 context.pop(state.profile);
               } else {
-                context.pushReplacementNamed(ProfilePage.name);
+                context.goNamed(ProfilePage.name);
               }
             }
           },
@@ -84,7 +85,13 @@ class _LoginPageState extends State<LoginPage> {
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              onPressed: context.pop,
+                              onPressed: () {
+                                if (context.canPop()) {
+                                  context.pop();
+                                } else {
+                                  context.goNamed(HomePage.name);
+                                }
+                              },
                               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                             )
                           : Row(
@@ -93,7 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
                                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                  onPressed: context.pop,
+                                  onPressed: () {
+                                    if (context.canPop()) {
+                                      context.pop();
+                                    } else {
+                                      context.goNamed(HomePage.name);
+                                    }
+                                  },
                                   icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
                                 const SizedBox(width: 16),
@@ -104,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Text(
                                         'Hey, we know you.',
-                                        style: TextStyles.headline(context: context, color: theme.white).copyWith(
+                                        style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2,
                                         ),
@@ -134,49 +147,47 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           const SizedBox(height: 32),
                           ProfilePictureWidget(
-                            size: 144,
-                            border: 4,
+                            size: Dimension.radius.max,
+                            border: Dimension.radius.three,
                             borderColor: theme.positiveBackgroundTertiary,
                           ),
                           const SizedBox(height: 16),
                           ProfileNameWidget(
-                            style: TextStyles.miniHeadline(context: context, color: theme.textSecondary),
+                            style: TextStyles.body(context: context, color: theme.primary),
                             align: TextAlign.center,
                             shimmerAlignment: Alignment.center,
                           ),
                           const SizedBox(height: 32),
-                          Semantics(
-                            label: 'Password',
-                            child: TextFormField(
-                              style: TextStyles.body(context: context, color: theme.textPrimary),
-                              controller: passwordController,
-                              keyboardType: TextInputType.text,
-                              autocorrect: false,
-                              validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-                              decoration: InputDecoration(
-                                hintText: "required",
-                                helperText: '',
-                                helperStyle: TextStyle(fontSize: 0),
-                                errorStyle: TextStyle(fontSize: 0),
-                                label: Text(
-                                  'Password',
-                                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                                ),
-                                alignLabelWithHint: true,
-                                suffixIcon: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  highlightColor: Colors.transparent,
-                                  splashColor: Colors.transparent,
-                                  icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off, color: theme.textPrimary),
-                                  onPressed: () {
-                                    setState(() {
-                                      isObscured = !isObscured;
-                                    });
-                                  },
-                                ),
+                          TextFormField(
+                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            controller: passwordController,
+                            keyboardType: TextInputType.text,
+                            autocorrect: false,
+                            validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
+                            decoration: InputDecoration(
+                              hintText: "required",
+                              hintStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              helperText: '',
+                              helperStyle: TextStyle(fontSize: 0),
+                              errorStyle: TextStyle(fontSize: 0),
+                              label: Text(
+                                'Password',
+                                style: TextStyles.body(context: context, color: theme.textPrimary),
                               ),
-                              obscureText: isObscured,
+                              alignLabelWithHint: true,
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off, color: theme.textPrimary),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscured = !isObscured;
+                                  });
+                                },
+                              ),
                             ),
+                            obscureText: isObscured,
                           ),
                           const SizedBox(height: 12),
                           Row(
@@ -184,7 +195,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(
                                 "Remember me",
-                                style: TextStyles.title(context: context, color: theme.textPrimary),
+                                style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               Switch(
                                 activeColor: theme.backgroundSecondary,
@@ -217,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       FocusScope.of(context).requestFocus(FocusNode());
                                     },
-                                    child: NetworkingIndicator(dimension: 28, color: theme.white),
+                                    child: NetworkingIndicator(dimension: Dimension.radius.eighteen, color: theme.white),
                                   );
                                 }
                                 return ElevatedButton(

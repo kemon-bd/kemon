@@ -36,7 +36,7 @@ class BusinessInformationWidget extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   children: [
                     BusinessNameWidget(
-                      style: TextStyles.bigHeadline(
+                      style: TextStyles.title(
                         context: context,
                         color: theme.textPrimary,
                       ).copyWith(
@@ -110,7 +110,7 @@ class BusinessInformationWidget extends StatelessWidget {
                                       rating.total > 0
                                           ? "${rating.total} review${rating.total > 1 ? 's' : ''}  •  ${rating.remarks}"
                                           : 'No review yet',
-                                      style: TextStyles.caption(context: context, color: theme.textPrimary),
+                                      style: TextStyles.body(context: context, color: theme.textPrimary),
                                     ),
                                     const SizedBox(height: 4),
                                     Row(

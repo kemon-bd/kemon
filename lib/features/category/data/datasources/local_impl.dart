@@ -3,6 +3,7 @@ import '../../category.dart';
 
 class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   final Map<String, CategoryEntity> _cache = {};
+  final Map<String, List<CategoryEntity>> _industry = {};
   final Map<CategoriesPaginationKey, CategoryPaginatedResponse> _all = {};
 
   @override
@@ -81,5 +82,28 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   }) async {
     _cache[urlSlug] = category;
     return Future.value();
+  }
+
+  @override
+  FutureOr<void> addIndustry({
+    required String industry,
+    required List<CategoryEntity> categories,
+  }) async {
+    _industry[industry] = categories;
+    for (var cat in categories) {
+      _cache[cat.urlSlug] = cat;
+    }
+    return;
+  }
+
+  @override
+  FutureOr<List<CategoryEntity>> findIndustry({
+    required String industry,
+  }) async {
+    final categories = _industry[industry];
+    if (categories != null) {
+      return categories;
+    }
+    throw IndustryNotFoundInLocalCacheFailure();
   }
 }
