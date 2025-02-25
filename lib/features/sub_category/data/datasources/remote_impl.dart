@@ -14,6 +14,9 @@ class SubCategoryRemoteDataSourceImpl extends SubCategoryRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'categoryGuid': category,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(

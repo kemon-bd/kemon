@@ -10,7 +10,11 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
 
   @override
   FutureOr<List<LocationModel>> featured() async {
-    final Map<String, String> headers = {};
+    final Map<String, String> headers = {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
 
     final Response response = await client.get(RemoteEndpoints.featuredLocations, headers: headers);
 
@@ -35,6 +39,9 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlSlug': urlSlug,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final Response response = await client.get(
       RemoteEndpoints.findLocation,

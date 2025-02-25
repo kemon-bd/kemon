@@ -63,6 +63,9 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       "userId": identity.guid,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(

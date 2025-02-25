@@ -11,7 +11,12 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
 
   @override
   FutureOr<List<CategoryModel>> featured() async {
-    final Map<String, String> headers = {};
+    final Map<String, String> headers = {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+
+    };
     final Response response = await client.get(
       RemoteEndpoints.featuredCategories,
       headers: headers,
@@ -42,6 +47,9 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       'query': query ?? '',
       'industry': industry ?? '',
       'pageno': page.toString(),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final Response response = await client.get(
       RemoteEndpoints.categories,
@@ -79,6 +87,9 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
     final Map<String, String> headers = {
       'industryslug': urlSlug,
       'pageno': "1",
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final Response response = await client.get(
       RemoteEndpoints.categories,
@@ -111,6 +122,9 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlSlug': urlSlug,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final Response response = await client.get(
       RemoteEndpoints.findCategory,

@@ -14,6 +14,9 @@ class LookupRemoteDataSourceImpl extends LookupRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'datakey': key.key.dataKey,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     if (key.parent != null) {
       headers['parentkey'] = key.parent!;

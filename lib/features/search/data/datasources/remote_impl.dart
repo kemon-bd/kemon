@@ -19,6 +19,9 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'query': query,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     if (filter.sortBy != null) {
@@ -93,6 +96,9 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
     try {
       final Map<String, String> headers = {
         'Searchtext': query,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
       };
 
       final response = await client.get(

@@ -38,6 +38,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'subcategoryslug': subCategory?.urlSlug ?? '',
       'sortby': sort.value,
       'rating': ratings.join(','),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -92,6 +95,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       'industryslug': industry?.urlSlug ?? '',
       'categoryslug': category?.urlSlug ?? '',
       'subcategoryslug': sub?.urlSlug ?? '',
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -126,6 +132,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlslug': Uri.encodeComponent(urlSlug),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -154,6 +163,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'url': urlSlug.paramCase,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(

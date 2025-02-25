@@ -77,6 +77,9 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'urlslug': Uri.encodeComponent(urlSlug),
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -105,6 +108,9 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'userGuid': user.guid,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
@@ -160,7 +166,11 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
 
   @override
   Future<List<ReviewModel>> recent() async {
-    final Map<String, String> headers = {};
+    final Map<String, String> headers = {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
 
     final Response response = await client.get(
       RemoteEndpoints.recentReviews,
@@ -188,6 +198,9 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }) async {
     final Map<String, String> headers = {
       'reviewGuid': review.guid,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
