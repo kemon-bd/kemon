@@ -9,46 +9,29 @@ class LeaderboardRemoteDataSourceImpl extends LeaderboardRemoteDataSource {
   });
 
   @override
-  FutureOr<LeaderboardResponse> find({
-    required int page,
-    required String query,
+  FutureOr<List<LeaderModel>> find({
     required DateTime from,
     required DateTime to,
   }) async {
     /// ! Real API
     final Map<String, String> headers = {
-      "pageno": page.toString(),
-      "query": query,
-      "startdate": from.MMddyyyy,
-      "enddate": to.MMddyyyy,
+      "from": from.MMddyyyy,
+      "to": to.MMddyyyy,
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
-    final response = await client.get(RemoteEndpoints.leaderboard, headers: headers);
+    final response = await client.get(RemoteEndpoints.leaderboardStanding, headers: headers);
 
-    ///
-    /// ? MOCKED VERSION
-    // final content = await rootBundle.loadString('api/leaderboard.json');
-    // final response = Response(content, HttpStatus.ok);
-
-    final RemoteResponse<Map<String, dynamic>> remote = RemoteResponse.parse(response: response);
-
-    if (remote.success) {
-      final int total = remote.result!['totalCount'] ?? 0;
-      // final DateTime deadline = DateTime.parse(remote.result!['deadline']);
-      final List<LeaderEntity> leaders = List<dynamic>.from(remote.result!['leaderboards'] ?? [])
+    if (response.statusCode == HttpStatus.ok) {
+      final leaders = List<Map<String, dynamic>>.from(json.decode(response.body))
           .map(
             (e) => LeaderModel.parse(map: e),
           )
           .toList();
-      return (
-        total: total,
-        deadline: DateTime.now(),
-        leaders: leaders,
-      );
+      return leaders;
     } else {
-      throw RemoteFailure(message: remote.error ?? response.body);
+      throw RemoteFailure(message: response.body);
     }
   }
 }

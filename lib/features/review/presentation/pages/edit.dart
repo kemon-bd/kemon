@@ -8,7 +8,7 @@ class EditReviewPage extends StatefulWidget {
   static const String name = 'EditReviewPage';
 
   final String urlSlug;
-  final ReviewEntity review;
+  final ReviewCoreEntity review;
 
   const EditReviewPage({
     super.key,
@@ -33,9 +33,9 @@ class _EditReviewPageState extends State<EditReviewPage> {
   @override
   void initState() {
     super.initState();
-    rating = widget.review.rating.toDouble();
-    titleController.text = widget.review.title;
-    descriptionController.text = widget.review.description ?? "";
+    rating = widget.review.star.toDouble();
+    titleController.text = widget.review.summary;
+    descriptionController.text = widget.review.content;
     date = widget.review.experiencedAt;
     dateController.text = date.dMMMMyyyy;
   }

@@ -8,6 +8,11 @@ Future<void> get locationDependencies async {
     ),
   );
   sl.registerFactory(
+    () => FindAllLocationsBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => FindLocationBloc(find: sl(), refresh: sl()),
   );
   sl.registerFactory(
@@ -17,6 +22,11 @@ Future<void> get locationDependencies async {
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FeaturedLocationsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindAllLocationsUseCase(
       repository: sl(),
     ),
   );

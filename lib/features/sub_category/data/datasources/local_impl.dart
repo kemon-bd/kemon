@@ -3,6 +3,7 @@ import '../../sub_category.dart';
 
 class SubCategoryLocalDataSourceImpl extends SubCategoryLocalDataSource {
   final Map<String, SubCategoryEntity> _cache = {};
+  final Map<String, List<SubCategoryEntity>> location = {};
   final Map<String, List<SubCategoryEntity>> _category = {};
 
   @override
@@ -61,6 +62,67 @@ class SubCategoryLocalDataSourceImpl extends SubCategoryLocalDataSource {
   FutureOr<void> removeAll() async {
     _cache.clear();
     _category.clear();
+    location.clear();
     return Future.value();
   }
+
+  @override
+  void addByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required String category,
+    required List<SubCategoryEntity> subCategories,
+  }) {
+    final String key = buildLocationKey(
+      query: query,
+      division: division,
+      district: district,
+      thana: thana,
+      industry: industry,
+      category: category,
+    );
+    for (SubCategoryEntity category in subCategories) {
+      add(subCategory: category);
+    }
+    location[key] = subCategories;
+  }
+
+  @override
+  List<SubCategoryEntity> findByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required String category,
+  }) {
+    final String key = buildLocationKey(
+      query: query,
+      division: division,
+      district: district,
+      thana: thana,
+      industry: industry,
+      category: category,
+    );
+    final entities = location[key];
+
+    if (entities == null) {
+      throw SubCategoryNotFoundInLocalCacheFailure();
+    }
+
+    return entities;
+  }
+
+  String buildLocationKey({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required String category,
+  }) =>
+      '$query-$division-$district-$thana-$industry-$category';
 }

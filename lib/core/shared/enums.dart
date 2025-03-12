@@ -4,7 +4,7 @@ enum ListingType { business, product }
 
 enum Lookups { division, district, thana, profilePoints, none }
 
-enum SortBy { recommended, highestRated, mostReviewed }
+enum SortBy { recommended, highestRated, mostReviewed, newest, oldest, nameAtoZ, nameZtoA }
 
 enum LeaderboardFilter { monthly, yearly, allTime }
 
@@ -16,7 +16,7 @@ enum AnalyticSource { socialProfile, phone, email, address, website }
 
 enum RatingRange {
   all,
-  worst,
+  poor,
   average,
   best,
 }
@@ -35,3 +35,5 @@ enum DateRangeOption {
   allTime,
   custom,
 }
+
+enum SuggestionType { listing, industry, category, subCategory }

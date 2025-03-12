@@ -2,18 +2,35 @@ import '../../../../core/shared/shared.dart';
 import '../../location.dart';
 
 abstract class LocationLocalDataSource {
-  FutureOr<void> add({
+  void add({
     required String urlSlug,
     required LocationEntity location,
   });
 
-  FutureOr<void> addAll({
-    required List<LocationEntity> locations,
+  void addAll({
+    required String? query,
+    required List<DivisionWithListingCountEntity> divisions,
   });
 
-  FutureOr<void> removeAll();
+  void addByCategory({
+    required Identity industry,
+    required Identity? category,
+    required Identity? subCategory,
+    required List<DivisionWithListingCountEntity> divisions,
+  });
 
-  FutureOr<LocationEntity> find({
+  void removeAll();
+
+  LocationEntity find({
     required String urlSlug,
+  });
+
+  List<DivisionWithListingCountEntity> findAll({
+    required String? query,
+  });
+  List<DivisionWithListingCountEntity> findByCategory({
+    required Identity industry,
+    required Identity? category,
+    required Identity? subCategory,
   });
 }

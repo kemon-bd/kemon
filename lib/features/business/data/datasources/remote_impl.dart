@@ -2,8 +2,8 @@ import 'package:kemon/features/industry/domain/entities/industry.dart';
 
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
-import '../../../location/location.dart';
 import '../../../lookup/lookup.dart';
+import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
@@ -15,145 +15,112 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   });
 
   @override
-  FutureOr<BusinessesByCategoryPaginatedResponse> category({
-    required int page,
-    required String urlSlug,
-    required String? query,
-    required SortBy? sort,
-    required LookupEntity? division,
-    required LookupEntity? district,
-    required LookupEntity? thana,
-    required CategoryEntity? category,
-    required SubCategoryEntity? subCategory,
-    required List<int> ratings,
-  }) async {
-    final Map<String, String> headers = {
-      'urlSlug': urlSlug,
-      'query': query ?? '',
-      'pageno': '$page',
-      'division': division?.value ?? '',
-      'district': district?.value ?? '',
-      'thana': thana?.value ?? '',
-      'categoryslug': category?.urlSlug ?? '',
-      'subcategoryslug': subCategory?.urlSlug ?? '',
-      'sortby': sort.value,
-      'rating': ratings.join(','),
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptCharsetHeader: 'utf-8',
-    };
-
-    final Response response = await client.get(
-      RemoteEndpoints.listingsByCategory,
-      headers: headers,
-    );
-
-    if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        final List<dynamic> businesses = List<dynamic>.from(networkResponse.result!["listingDatas"]);
-        final List<dynamic> relatedCategories = List<dynamic>.from(networkResponse.result!["relatedDatas"]);
-        final int total = networkResponse.result!["totalCount"];
-
-        return (
-          businesses: businesses.map((e) => BusinessModel.parse(map: e)).toList(),
-          total: total,
-          related: relatedCategories.map((e) => SubCategoryModel.parse(map: e)).toList(),
-        );
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
-      }
-    } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
-    }
-  }
-
-  @override
-  FutureOr<BusinessesByLocationPaginatedResponse> location({
-    required int page,
-    required String location,
+  FutureOr<List<BusinessLiteModel>> category({
+    required Identity industry,
+    required Identity? category,
+    required Identity? subCategory,
     required String? division,
     required String? district,
     required String? thana,
     required String? query,
     required SortBy? sort,
-    required List<int> ratings,
-    required IndustryEntity? industry,
-    required CategoryEntity? category,
-    required SubCategoryEntity? sub,
+    required RatingRange ratings,
   }) async {
     final Map<String, String> headers = {
-      'urlSlug': location.toLowerCase().trim(),
-      'division': division?.toLowerCase().trim() ?? '',
-      'district': district?.toLowerCase().trim() ?? '',
-      'thana': thana?.toLowerCase().trim() ?? '',
-      'query': query ?? '',
-      'pageno': '$page',
-      'sortby': sort.value,
-      'rating': ratings.join(','),
-      'industryslug': industry?.urlSlug ?? '',
-      'categoryslug': category?.urlSlug ?? '',
-      'subcategoryslug': sub?.urlSlug ?? '',
+      'search': Uri.encodeComponent(query ?? ''),
+      'division': division ?? '',
+      'district': district ?? '',
+      'thana': thana ?? '',
+      'industry': industry.guid,
+      'category': category?.guid ?? '',
+      'subCategory': subCategory?.guid ?? '',
+      'sort': sort.value,
+      'rating': ratings.value,
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
-      RemoteEndpoints.listingsByLocation,
+      RemoteEndpoints.categoryBasedListings,
       headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+      final List<Map<String, dynamic>> payload = List<Map<String, dynamic>>.from(json.decode(response.body));
 
-      if (networkResponse.success) {
-        final List<dynamic> businesses = List<dynamic>.from(networkResponse.result!["listingDatas"] ?? []);
-        final List<dynamic> relatedCategories = List<dynamic>.from(networkResponse.result!["relatedDatas"] ?? []);
-        final int total = networkResponse.result!["totalCount"];
-
-        return (
-          businesses: businesses.map((e) => BusinessModel.parse(map: e)).toList(),
-          total: total,
-          related: relatedCategories.map((e) => LocationModel.parse(map: e)).toList(),
-        );
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
-      }
+      return payload.map((e) => BusinessLiteModel.parse(map: e)).toList();
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.body);
     }
   }
 
   @override
-  FutureOr<BusinessModel> find({
-    required String urlSlug,
+  FutureOr<List<BusinessLiteModel>> location({
+    required String division,
+    String? district,
+    String? thana,
+    required String? query,
+    required Identity? industry,
+    required Identity? category,
+    required Identity? subCategory,
+    required SortBy? sort,
+    required RatingRange ratings,
   }) async {
     final Map<String, String> headers = {
-      'urlslug': Uri.encodeComponent(urlSlug),
+      'division': Uri.encodeComponent(division),
+      'district': Uri.encodeComponent(district ?? ''),
+      'thana': Uri.encodeComponent(thana ?? ''),
+      'search': Uri.encodeComponent(query ?? ''),
+      'industry': industry?.guid ?? '',
+      'category': category?.guid ?? '',
+      'subCategory': subCategory?.guid ?? '',
+      'sort': sort.value,
+      'rating': ratings.value,
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
-      RemoteEndpoints.findListing,
+      RemoteEndpoints.locationBasedListings,
+      headers: headers,
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      final List<Map<String, dynamic>> payload = List<Map<String, dynamic>>.from(json.decode(response.body));
+
+      return payload.map((e) => BusinessLiteModel.parse(map: e)).toList();
+    } else {
+      throw RemoteFailure(message: response.body);
+    }
+  }
+
+  @override
+  FutureOr<ListingModel> find({
+    required String urlSlug,
+    required Identity? user,
+  }) async {
+    final Map<String, String> headers = {
+      'urlSlug': Uri.encodeComponent(urlSlug),
+      'user': user?.guid ?? '',
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
+
+    final Response response = await client.get(
+      RemoteEndpoints.listing,
       headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        final Map<String, dynamic> data = networkResponse.result as Map<String, dynamic>;
-
-        return BusinessModel.parse(map: data);
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load business');
-      }
+      final Map<String, dynamic> data = json.decode(response.body);
+      final BusinessModel business = BusinessModel.parse(map: data['listing']);
+      final reviews = (data['reviews'] as List).map((map) => ListingReviewModel.parse(map: map)).toList();
+      final ListingModel model = (business, reviews);
+      return model;
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
+      throw RemoteFailure(message: response.body);
     }
   }
 

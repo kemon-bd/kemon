@@ -22,11 +22,7 @@ final router = GoRouter(
       name: HomePage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => sl<FeaturedCategoriesBloc>()..add(const FeaturedCategories())),
-          BlocProvider(create: (context) => sl<FeaturedLocationsBloc>()..add(const FeaturedLocations())),
-          BlocProvider(create: (context) => sl<RecentReviewsBloc>()..add(const RecentReviews())),
-          BlocProvider(create: (context) => sl<CheckProfileBloc>()),
-          BlocProvider(create: (context) => sl<LoginBloc>()),
+          BlocProvider(create: (context) => sl<OverviewBloc>()..add(const FetchOverview())),
         ],
         child: const HomePage(),
       ),
@@ -242,22 +238,6 @@ final router = GoRouter(
                 FindBusiness(urlSlug: state.pathParameters['urlSlug']!),
               ),
           ),
-          BlocProvider(
-            create: (context) => sl<FindRatingBloc>()
-              ..add(
-                FindRating(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => sl<FindListingReviewsBloc>()
-              ..add(
-                FindListingReviews(
-                  guid: state.uri.queryParameters['review'],
-                  urlSlug: state.pathParameters['urlSlug']!,
-                  filter: [],
-                ),
-              ),
-          ),
         ],
         child: BusinessPage(
           urlSlug: state.pathParameters['urlSlug']!,
@@ -317,7 +297,7 @@ final router = GoRouter(
         ],
         child: EditReviewPage(
           urlSlug: state.pathParameters['urlSlug']!,
-          review: state.extra as ReviewEntity,
+          review: state.extra as ReviewCoreEntity,
         ),
       ),
     ),
@@ -332,27 +312,28 @@ final router = GoRouter(
     GoRoute(
       path: IndustryPage.path,
       name: IndustryPage.name,
-      builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => sl<FindIndustryBloc>()
-              ..add(
-                FindIndustry(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => sl<FindBusinessesByCategoryBloc>()
-              ..add(
-                FindBusinessesByCategory(
-                  urlSlug: state.pathParameters['urlSlug']!,
+      builder: (context, state) {
+        final industry = Identity.guid(guid: state.uri.queryParameters['industry']!);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<FindIndustryBloc>()
+                ..add(
+                  FindIndustry(urlSlug: state.pathParameters['urlSlug']!),
                 ),
-              ),
-          ),
-        ],
-        child: IndustryPage(
-          urlSlug: state.pathParameters['urlSlug']!,
-        ),
-      ),
+            ),
+            BlocProvider(
+              create: (context) => sl<FindBusinessesByCategoryBloc>()
+                ..add(
+                  FindBusinessesByCategory(
+                    industry: industry,
+                  ),
+                ),
+            ),
+          ],
+          child: IndustryPage(industry: industry),
+        );
+      },
     ),
     GoRoute(
       path: CategoriesPage.path,
@@ -360,10 +341,7 @@ final router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<FindAllCategoriesBloc>()
-              ..add(
-                FindAllCategories(industry: null, query: null),
-              ),
+            create: (context) => sl<FindAllCategoriesBloc>()..add(FindAllCategories(query: null)),
           ),
         ],
         child: CategoriesPage(),
@@ -372,109 +350,152 @@ final router = GoRouter(
     GoRoute(
       path: CategoryPage.path,
       name: CategoryPage.name,
-      builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => sl<FindCategoryBloc>()
-              ..add(
-                FindCategory(urlSlug: state.pathParameters['urlSlug']!),
-              ),
+      builder: (context, state) {
+        final industry = Identity.guid(guid: state.uri.queryParameters['industry']!);
+        final category = Identity.guid(guid: state.uri.queryParameters['category']!);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<FindCategoryBloc>()
+                ..add(
+                  FindCategory(urlSlug: state.pathParameters['urlSlug']!),
+                ),
+            ),
+            BlocProvider(
+              create: (context) => sl<FindBusinessesByCategoryBloc>()
+                ..add(
+                  FindBusinessesByCategory(industry: industry, category: category),
+                ),
+            ),
+          ],
+          child: CategoryPage(
+            category: category,
+            industry: industry,
           ),
-          BlocProvider(
-            create: (context) => sl<FindBusinessesByCategoryBloc>()
-              ..add(
-                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => sl<CategoryListingsFilterBloc>(),
-          ),
-        ],
-        child: CategoryPage(
-          category: state.extra as CategoryEntity?,
-          urlSlug: state.pathParameters['urlSlug']!,
-        ),
-      ),
+        );
+      },
     ),
     GoRoute(
-      path: LocationPage.path,
-      name: LocationPage.name,
+      path: DivisionPage.path,
+      name: DivisionPage.name,
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<FindLocationBloc>()
-              ..add(
-                FindLocation(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => sl<FindLocationBloc>()
-              ..add(
-                FindLocation(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => sl<LocationListingsFilterBloc>()
-              ..add(
-                ApplyLocationListingsFilter(
-                  industry: null,
-                  category: null,
-                  subCategory: null,
-                  rating: RatingRange.all,
-                  division: state.uri.queryParameters['division'],
-                  district: state.uri.queryParameters['district'],
-                  thana: state.uri.queryParameters['thana'],
-                ),
-              ),
+            create: (context) => sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.division)),
           ),
           BlocProvider(
             create: (context) => sl<FindBusinessesByLocationBloc>()
               ..add(
                 FindBusinessesByLocation(
-                  location: state.pathParameters['urlSlug']!,
-                  division: state.uri.queryParameters['division'],
-                  district: state.uri.queryParameters['district'],
-                  thana: state.uri.queryParameters['thana'],
+                  division: state.pathParameters['division']!,
                 ),
               ),
           ),
         ],
-        child: LocationPage(
-          urlSlug: state.pathParameters['urlSlug']!,
-          location: state.extra as LookupEntity?,
-          division: state.uri.queryParameters['division'],
-          district: state.uri.queryParameters['district'],
-          thana: state.uri.queryParameters['thana'],
+        child: DivisionPage(
+          division: state.pathParameters['division']!,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: DistrictPage.path,
+      name: DistrictPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindLookupBloc>()
+              ..add(FindLookupWithParent(
+                lookup: Lookups.district,
+                parent: state.pathParameters['division']!,
+              )),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindBusinessesByLocationBloc>()
+              ..add(
+                FindBusinessesByLocation(
+                  division: state.pathParameters['division']!,
+                  district: state.pathParameters['district'],
+                ),
+              ),
+          ),
+        ],
+        child: DistrictPage(
+          division: state.pathParameters['division']!,
+          district: state.pathParameters['district']!,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: ThanaPage.path,
+      name: ThanaPage.name,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<FindLookupBloc>()
+              ..add(FindLookupWithParent(
+                lookup: Lookups.thana,
+                parent: state.pathParameters['district']!,
+              )),
+          ),
+          BlocProvider(
+            create: (context) => sl<FindBusinessesByLocationBloc>()
+              ..add(
+                FindBusinessesByLocation(
+                  division: state.pathParameters['division']!,
+                  district: state.pathParameters['district']!,
+                  thana: state.pathParameters['thana']!,
+                ),
+              ),
+          ),
+        ],
+        child: ThanaPage(
+          division: state.pathParameters['division']!,
+          district: state.pathParameters['district']!,
+          thana: state.pathParameters['thana']!,
         ),
       ),
     ),
     GoRoute(
       path: LocationsPage.path,
       name: LocationsPage.name,
-      builder: (context, state) => LocationsPage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<FindAllLocationsBloc>()..add(FindAllLocations()),
+        child: LocationsPage(),
+      ),
     ),
     GoRoute(
       path: SubCategoryPage.path,
       name: SubCategoryPage.name,
-      builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => sl<FindSubCategoryBloc>()
-              ..add(
-                FindSubCategory(urlSlug: state.pathParameters['urlSlug']!),
-              ),
+      builder: (context, state) {
+        final industry = Identity.guid(guid: state.uri.queryParameters['industry']!);
+        final category = Identity.guid(guid: state.uri.queryParameters['category']!);
+        final subCategory = Identity.guid(guid: state.uri.queryParameters['subCategory']!);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<FindSubCategoryBloc>()
+                ..add(
+                  FindSubCategory(urlSlug: state.pathParameters['urlSlug']!),
+                ),
+            ),
+            BlocProvider(
+              create: (context) => sl<FindBusinessesByCategoryBloc>()
+                ..add(
+                  FindBusinessesByCategory(
+                    industry: industry,
+                    category: category,
+                    subCategory: subCategory,
+                  ),
+                ),
+            ),
+          ],
+          child: SubCategoryPage(
+            subCategory: subCategory,
+            category: category,
+            industry: industry,
           ),
-          BlocProvider(
-            create: (context) => sl<FindBusinessesByCategoryBloc>()
-              ..add(
-                FindBusinessesByCategory(urlSlug: state.pathParameters['urlSlug']!),
-              ),
-          ),
-        ],
-        child: SubCategoryPage(
-          urlSlug: state.pathParameters['urlSlug']!,
-        ),
-      ),
+        );
+      },
     ),
     GoRoute(
       path: LeaderboardPage.path,

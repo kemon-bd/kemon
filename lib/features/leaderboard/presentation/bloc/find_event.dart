@@ -27,15 +27,3 @@ class RefreshLeaderboard extends FindLeaderboardEvent {
   @override
   List<Object> get props => [query];
 }
-
-class PaginateLeaderboard extends FindLeaderboardEvent {
-  final int page;
-  final String query;
-
-  const PaginateLeaderboard({
-    required this.page,
-    required this.query,
-  });
-  @override
-  List<Object> get props => [page, query];
-}

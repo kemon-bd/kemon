@@ -12,6 +12,11 @@ Future<void> get industryDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => FindIndustriesByLocationBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
@@ -21,6 +26,11 @@ Future<void> get industryDependencies async {
   );
   sl.registerFactory(
     () => FindIndustriesUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindIndustriesByLocationUseCase(
       repository: sl(),
     ),
   );

@@ -15,28 +15,15 @@ abstract class ReviewRepository {
     required Identity review,
   });
 
-  Future<Either<Failure, RatingEntity>> rating({
-    required String urlSlug,
-    bool refresh = false,
-  });
-
-  FutureOr<Either<Failure, List<ReviewEntity>>> find({
+  FutureOr<Either<Failure, List<UserReviewEntity>>> find({
     required Identity user,
     required bool refresh,
   });
 
-  FutureOr<Either<Failure, List<ReviewEntity>>> recent();
-
-  FutureOr<Either<Failure, List<ReviewEntity>>> reviews({
-    required String urlSlug,
-    bool refresh = false,
-  });
-
-  FutureOr<Either<Failure, void>> update(
-      {required Identity listing, required ReviewEntity review, required List<XFile> attachments});
-
-  FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
-    required Identity review,
+  FutureOr<Either<Failure, void>> update({
+    required Identity listing,
+    required ReviewCoreEntity review,
+    required List<XFile> attachments,
   });
 
   FutureOr<Either<Failure, void>> react({

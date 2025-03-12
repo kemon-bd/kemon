@@ -5,7 +5,7 @@ import '../../review.dart';
 
 class UserReviewItemWidget extends StatelessWidget {
   final Identity user;
-  final ReviewEntity review;
+  final UserReviewEntity review;
   const UserReviewItemWidget({
     super.key,
     required this.review,
@@ -18,11 +18,19 @@ class UserReviewItemWidget extends StatelessWidget {
       builder: (context, state) {
         final theme = state.scheme;
         final mine = user.guid.same(as: context.auth.guid);
+        final fallback = Center(
+          child: Text(
+            review.listing.name.symbol,
+            style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+              fontSize: Dimension.radius.sixteen,
+            ),
+          ),
+        );
         return InkWell(
           onTap: () {
             context.pushNamed(
               BusinessPage.name,
-              pathParameters: {'urlSlug': review.listing},
+              pathParameters: {'urlSlug': review.listing.urlSlug},
             );
           },
           borderRadius: BorderRadius.circular(16.0),
@@ -37,35 +45,66 @@ class UserReviewItemWidget extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.all(16.0),
               children: [
-                BlocProvider(
-                  create: (context) => sl<FindBusinessBloc>()..add(FindBusiness(urlSlug: review.listing)),
+                InkWell(
+                  onTap: () {
+                    context.pushNamed(
+                      BusinessPage.name,
+                      pathParameters: {'urlSlug': review.listing.urlSlug},
+                    );
+                  },
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      BusinessLogoWidget(
-                        size: Dimension.radius.thirtyTwo,
-                        radius: Dimension.radius.thirtyTwo,
-                        onTap: () {
-                          context.pushNamed(
-                            BusinessPage.name,
-                            pathParameters: {'urlSlug': review.listing},
-                          );
-                        },
+                      SizedBox.square(
+                        dimension: Dimension.radius.thirtyTwo,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: theme.backgroundSecondary,
+                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                            border: Border.all(
+                              width: 1,
+                              color: theme.backgroundTertiary,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                            ),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: review.listing.logo.isEmpty
+                                ? fallback
+                                : CachedNetworkImage(
+                                    imageUrl: review.listing.logo.url,
+                                    width: Dimension.radius.thirtyTwo,
+                                    height: Dimension.radius.thirtyTwo,
+                                    fit: BoxFit.contain,
+                                    placeholder: (_, __) => ShimmerLabel(
+                                      radius: Dimension.radius.eight,
+                                      width: Dimension.radius.thirtyTwo,
+                                      height: Dimension.radius.thirtyTwo,
+                                    ),
+                                    errorWidget: (_, __, ___) => fallback,
+                                  ),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            BusinessNameWidget(
+                            Text(
+                              review.listing.name.full,
                               maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyles.subTitle(context: context, color: theme.primary),
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 RatingBarIndicator(
-                                  rating: review.rating.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.star_rounded, color: theme.primary),
+                                  rating: review.star.toDouble(),
+                                  itemBuilder: (context, index) => Icon(Icons.stars_rounded, color: theme.primary),
                                   unratedColor: theme.backgroundTertiary,
                                   itemCount: 5,
                                   itemSize: 16,
@@ -88,7 +127,7 @@ class UserReviewItemWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      if (review.deleted || review.flagged) ...[
+                      /* if (review.deleted || review.flagged) ...[
                         const SizedBox(width: 8),
                         RawChip(
                           elevation: 0,
@@ -103,21 +142,21 @@ class UserReviewItemWidget extends StatelessWidget {
                             style: TextStyles.caption(context: context, color: theme.backgroundPrimary),
                           ),
                         ),
-                      ],
+                      ], */
                     ],
                   ),
                 ),
-                if (review.title.isNotEmpty) ...[
+                if (review.summary.isNotEmpty) ...[
                   SizedBox(height: Dimension.padding.vertical.large),
                   Text(
-                    review.title,
+                    review.summary,
                     style: TextStyles.subTitle(context: context, color: theme.textPrimary),
                   ),
                 ],
-                if (review.description != null) ...[
+                if (review.content.isNotEmpty) ...[
                   const SizedBox(height: 6),
                   ReadMoreText(
-                    review.description ?? "",
+                    review.content,
                     style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(inherit: true),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
@@ -185,7 +224,7 @@ class UserReviewItemWidget extends StatelessWidget {
                         onPressed: () async {
                           final updated = await context.pushNamed<bool>(
                             EditReviewPage.name,
-                            pathParameters: {'urlSlug': review.listing},
+                            pathParameters: {'urlSlug': review.listing.urlSlug},
                             extra: review,
                           );
                           if (!(updated ?? false)) return;

@@ -27,7 +27,7 @@ class FindUserReviewsError extends FindUserReviewsState {
 }
 
 class FindUserReviewsDone extends FindUserReviewsState {
-  final List<ReviewEntity> reviews;
+  final List<UserReviewEntity> reviews;
 
   const FindUserReviewsDone({required this.reviews});
 

@@ -10,7 +10,7 @@ abstract class UpdateReviewEvent extends Equatable {
 class UpdateReview extends UpdateReviewEvent {
   final Identity listing;
   final List<XFile> attachments;
-  final ReviewEntity review;
+  final ReviewCoreEntity review;
 
   const UpdateReview({
     required this.review,

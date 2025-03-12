@@ -37,10 +37,7 @@ class BusinessLogoWidget extends StatelessWidget {
                 final fallback = Center(
                   child: Text(
                     state.business.name.symbol,
-                    style: TextStyles.body(
-                            context: context,
-                            color: placeholderColor ?? theme.textPrimary)
-                        .copyWith(
+                    style: TextStyles.body(context: context, color: placeholderColor ?? theme.textPrimary).copyWith(
                       fontSize: size / 2,
                     ),
                   ),
@@ -70,8 +67,7 @@ class BusinessLogoWidget extends StatelessWidget {
                                 width: size,
                                 height: size,
                                 fit: BoxFit.contain,
-                                placeholder: (_, __) => ShimmerLabel(
-                                    radius: radius, width: size, height: size),
+                                placeholder: (_, __) => ShimmerLabel(radius: radius, width: size, height: size),
                                 errorWidget: (_, __, ___) => fallback,
                               ),
                       ),
@@ -149,10 +145,7 @@ class MyBusinessLogoWidget extends StatelessWidget {
                     errorWidget: (_, __, ___) => Center(
                       child: Text(
                         symbol,
-                        style: TextStyles.body(
-                                context: context,
-                                color: placeholderColor ?? theme.white)
-                            .copyWith(
+                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
                           fontSize: size / 2,
                         ),
                       ),

@@ -72,64 +72,27 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }
 
   @override
-  Future<ReviewDetailsModel> rating({
-    required String urlSlug,
-  }) async {
-    final Map<String, String> headers = {
-      'urlslug': Uri.encodeComponent(urlSlug),
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptCharsetHeader: 'utf-8',
-    };
-
-    final Response response = await client.get(
-      RemoteEndpoints.reviewDetails,
-      headers: headers,
-    );
-
-    if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<dynamic> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        final Map<String, dynamic> data = networkResponse.result as Map<String, dynamic>;
-
-        return ReviewDetailsModel.parse(map: data);
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load review details');
-      }
-    } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load review details');
-    }
-  }
-
-  @override
-  FutureOr<List<ReviewModel>> find({
+  FutureOr<List<UserReviewModel>> find({
     required Identity user,
   }) async {
     final Map<String, String> headers = {
-      'userGuid': user.guid,
+      'user': user.guid,
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
-      RemoteEndpoints.userReviews,
+      RemoteEndpoints.specificUserReviews,
       headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkResponse = RemoteResponse.parse(response: response);
+      final List<Map<String, dynamic>> payload = List<Map<String, dynamic>>.from(json.decode(response.body));
 
-      if (networkResponse.success) {
-        final List<dynamic> data = networkResponse.result as List<dynamic>;
-
-        return data.map((e) => ReviewModel.parse(map: e)).toList();
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load business');
-      }
+      return payload.map((e) => UserReviewModel.parse(map: e)).toList();
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
+      throw RemoteFailure(message: response.body);
     }
   }
 
@@ -137,7 +100,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   FutureOr<void> update({
     required String token,
     required Identity user,
-    required ReviewEntity review,
+    required ReviewCoreEntity review,
     required Identity listing,
     required List<XFile> attachments,
   }) async {
@@ -146,9 +109,9 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       'id': review.identity.id.toString(),
       'UserId': user.guid,
       'ListingGuid': listing.guid,
-      'Rating': review.rating.round().toString(),
-      'Title': Uri.encodeComponent(review.title),
-      'Description': Uri.encodeComponent(review.description ?? ''),
+      'Rating': review.star.round().toString(),
+      'Title': Uri.encodeComponent(review.summary),
+      'Description': Uri.encodeComponent(review.content),
       'DateOfExperience': review.experiencedAt.toIso8601String(),
     });
     for (XFile file in attachments) {
@@ -161,65 +124,6 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       return;
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
-    }
-  }
-
-  @override
-  Future<List<ReviewModel>> recent() async {
-    final Map<String, String> headers = {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptCharsetHeader: 'utf-8',
-    };
-
-    final Response response = await client.get(
-      RemoteEndpoints.recentReviews,
-      headers: headers,
-    );
-
-    if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        final List<dynamic> data = networkResponse.result as List<dynamic>;
-
-        return data.map((e) => ReviewModel.parse(map: e)).toList();
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load business');
-      }
-    } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
-    }
-  }
-
-  @override
-  FutureOr<List<ReactionModel>> reactions({
-    required Identity review,
-  }) async {
-    final Map<String, String> headers = {
-      'reviewGuid': review.guid,
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptCharsetHeader: 'utf-8',
-    };
-
-    final Response response = await client.get(
-      RemoteEndpoints.reviewReactions,
-      headers: headers,
-    );
-
-    if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<List<dynamic>> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        final List<dynamic> data = networkResponse.result as List<dynamic>;
-
-        return data.map((e) => ReactionModel.parse(map: e)).toList();
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load business');
-      }
-    } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
     }
   }
 
@@ -243,9 +147,6 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       RemoteEndpoints.reactOnReview,
       headers: headers,
     );
-    /* final content = await rootBundle.loadString('api/success.json');
-    await Future.delayed(Durations.extralong4);
-    final response = Response(content, HttpStatus.ok); */
 
     if (response.statusCode == HttpStatus.ok) {
       final RemoteResponse<void> networkResponse = RemoteResponse.parse(response: response);

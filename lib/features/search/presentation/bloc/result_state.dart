@@ -29,7 +29,7 @@ class SearchResultError extends SearchResultState {
 }
 
 class SearchResultDone extends SearchResultState {
-  final List<String> businesses;
+  final List<BusinessLiteEntity> businesses;
   final List<SubCategoryEntity> subCategories;
   final List<LocationEntity> locations;
 

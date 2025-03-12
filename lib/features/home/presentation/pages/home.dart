@@ -2,6 +2,7 @@ import 'package:kemon/features/profile/profile.dart';
 
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../leaderboard/leaderboard.dart';
 import '../../../location/location.dart';
@@ -72,8 +73,7 @@ class _HomePageState extends State<HomePage> {
               titleSpacing: Dimension.size.horizontal.sixteen,
               title: InkWell(
                 onTap: () async {
-                  context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
-                  context.read<RecentReviewsBloc>().add(const RecentReviews());
+                  context.read<OverviewBloc>().add(FetchOverview());
                   await sl<FirebaseAnalytics>().logEvent(
                     name: 'home_logo',
                     parameters: {
@@ -178,8 +178,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: RefreshIndicator(
               onRefresh: () async {
-                context.read<FeaturedCategoriesBloc>().add(const FeaturedCategories());
-                context.read<RecentReviewsBloc>().add(const RecentReviews());
+                context.read<OverviewBloc>().add(FetchOverview());
                 await sl<FirebaseAnalytics>().logEvent(
                   name: 'home_refresh',
                   parameters: {
@@ -197,6 +196,7 @@ class _HomePageState extends State<HomePage> {
                   FeaturedCategoriesWidget(),
                   FeaturedLocationsWidget(),
                   FeaturedReviewsWidget(),
+                  FeaturedListingsWidget(),
                   HomeFooterWidget(),
                 ],
               ),

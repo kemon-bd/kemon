@@ -1,5 +1,7 @@
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
+import '../../../industry/industry.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../category.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -83,7 +85,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               'Categories',
                               style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontSize: Dimension.radius.sixteen,
+                                fontSize: Dimension.radius.twenty,
                               ),
                             ).animate().fade(),
                       centerTitle: false,
@@ -104,13 +106,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             controller: search,
                             style: TextStyles.body(context: context, color: theme.textPrimary),
                             onChanged: (query) {
-                              final bloc = context.read<FindAllCategoriesBloc>();
-                              final filter = bloc.state;
-
-                              bloc.add(FindAllCategories(
-                                query: query,
-                                industry: filter.industry,
-                              ));
+                              context.read<FindAllCategoriesBloc>().add(FindAllCategories(query: query));
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -134,25 +130,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Dimension.padding.horizontal.max,
                                 ).copyWith(top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            'Categories',
-                                            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: Dimension.radius.twentyFour,
-                                            ),
-                                          ).animate().fade(),
-                                        ),
-                                        _TotalCount(),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                child: Text(
+                                  'Categories',
+                                  style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Dimension.radius.twentyFour,
+                                  ),
+                                ).animate().fade(),
                               ),
                             )
                           : null,
@@ -198,36 +182,6 @@ class _ShareButton extends StatelessWidget {
   }
 }
 
-class _TotalCount extends StatelessWidget {
-  const _TotalCount();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
-    return BlocBuilder<FindAllCategoriesBloc, FindAllCategoriesState>(
-      builder: (context, state) {
-        if (state is FindAllCategoriesDone) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                state.total.toString(),
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-              ),
-              Text(
-                "Results",
-                style: TextStyles.caption(context: context, color: theme.textSecondary),
-              ),
-            ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
-
 class _CategoriesWidget extends StatelessWidget {
   final TextEditingController search;
 
@@ -243,15 +197,12 @@ class _CategoriesWidget extends StatelessWidget {
         if (state is FindAllCategoriesLoading) {
           return Center(child: const CircularProgressIndicator());
         } else if (state is FindAllCategoriesDone) {
-          final hasMore = state.total > state.results.count;
-
-          return state.results.isNotEmpty
+          return state.industries.isNotEmpty
               ? ListView.separated(
                   cacheExtent: 0,
                   itemBuilder: (_, index) {
-                    final row = state.results.elementAt(index);
-                    final industry = row.industry;
-                    final categories = row.categories;
+                    final industry = state.industries.elementAt(index);
+                    final categories = industry.categories;
                     final icon = Padding(
                       padding: EdgeInsets.all(Dimension.radius.eight),
                       child: Icon(
@@ -265,6 +216,7 @@ class _CategoriesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             industry.icon.url.isNotEmpty
                                 ? CachedNetworkImage(
@@ -298,6 +250,19 @@ class _CategoriesWidget extends StatelessWidget {
                                     ),
                                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                     WidgetSpan(
+                                      alignment: PlaceholderAlignment.aboveBaseline,
+                                      baseline: TextBaseline.ideographic,
+                                      child: Text(
+                                        " (${industry.listings})",
+                                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: Dimension.radius.twelve,
+                                          height: Dimension.radius.two,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                    WidgetSpan(
                                       child: IconButton(
                                         padding: EdgeInsets.all(4),
                                         visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -308,12 +273,13 @@ class _CategoriesWidget extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           FocusScope.of(context).requestFocus(FocusNode());
-
                                           context.pushNamed(
-                                            CategoryPage.name,
-                                            extra: industry,
+                                            IndustryPage.name,
                                             pathParameters: {
                                               'urlSlug': industry.urlSlug,
+                                            },
+                                            queryParameters: {
+                                              'industry': industry.industry.guid,
                                             },
                                           );
                                         },
@@ -326,42 +292,30 @@ class _CategoriesWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(width: Dimension.padding.horizontal.large),
-                            Icon(
-                              Icons.subdirectory_arrow_right_rounded,
-                              size: Dimension.radius.thirtyTwo,
-                              color: theme.backgroundSecondary,
-                            ),
-                            Expanded(
-                              child: ListView.separated(
-                                cacheExtent: 0,
-                                itemBuilder: (_, index) {
-                                  final category = categories.elementAt(index);
-                                  final icon = Padding(
-                                    padding: EdgeInsets.all(Dimension.radius.four),
-                                    child: Icon(
-                                      Icons.category_rounded,
-                                      size: Dimension.radius.sixteen,
-                                      color: theme.backgroundTertiary,
-                                    ),
-                                  );
-                                  final child = InkWell(
-                                    onTap: () {
-                                      FocusScope.of(context).requestFocus(FocusNode());
-
-                                      context.pushNamed(
-                                        CategoryPage.name,
-                                        pathParameters: {
-                                          'urlSlug': category.urlSlug,
-                                        },
-                                      );
-                                    },
-                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                                    overlayColor: WidgetStateProperty.all(theme.backgroundSecondary),
-                                    child: Row(
+                        if (industry.categories.isNotEmpty)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(width: Dimension.padding.horizontal.small),
+                              Icon(
+                                Icons.subdirectory_arrow_right_rounded,
+                                size: Dimension.radius.twentyFour,
+                                color: theme.backgroundSecondary,
+                              ),
+                              Expanded(
+                                child: ListView.separated(
+                                  cacheExtent: 0,
+                                  itemBuilder: (_, index) {
+                                    final category = categories.elementAt(index);
+                                    final icon = Padding(
+                                      padding: EdgeInsets.all(Dimension.radius.four),
+                                      child: Icon(
+                                        Icons.category_rounded,
+                                        size: Dimension.radius.sixteen,
+                                        color: theme.backgroundTertiary,
+                                      ),
+                                    );
+                                    final child = Row(
                                       children: [
                                         category.icon.url.isNotEmpty
                                             ? CachedNetworkImage(
@@ -378,64 +332,215 @@ class _CategoriesWidget extends StatelessWidget {
                                             : icon,
                                         SizedBox(width: Dimension.padding.horizontal.medium),
                                         Expanded(
-                                          child: Text(
-                                            category.name.full,
-                                            style: TextStyles.body(context: context, color: theme.textPrimary),
-                                          ),
-                                        ),
-                                        SizedBox(width: Dimension.padding.horizontal.medium),
-                                        Padding(
-                                          padding: EdgeInsets.all(Dimension.radius.four).copyWith(right: 0),
-                                          child: Icon(
-                                            Icons.open_in_new_rounded,
-                                            size: Dimension.radius.sixteen,
-                                            color: theme.backgroundTertiary,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                  if (state.results.lastItem(category: category) && hasMore) {
-                                    if (state is! FindAllCategoriesPaginating) {
-                                      final bloc = context.read<FindAllCategoriesBloc>();
-                                      final filter = bloc.state;
+                                          child: Text.rich(
+                                            TextSpan(
+                                              text: '',
+                                              children: [
+                                                WidgetSpan(
+                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                  baseline: TextBaseline.alphabetic,
+                                                  child: Text(
+                                                    category.name.full,
+                                                    style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                                      fontSize: Dimension.radius.fourteen,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                WidgetSpan(
+                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                  baseline: TextBaseline.ideographic,
+                                                  child: Text(
+                                                    " (${category.listings})",
+                                                    style:
+                                                        TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                                                      fontSize: Dimension.radius.twelve,
+                                                      height: Dimension.radius.two,
+                                                    ),
+                                                  ),
+                                                ),
+                                                WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                WidgetSpan(
+                                                  child: IconButton(
+                                                    padding: EdgeInsets.all(4),
+                                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                    iconSize: Dimension.radius.twenty,
+                                                    constraints: BoxConstraints(
+                                                      maxHeight: Dimension.radius.twenty,
+                                                      maxWidth: Dimension.radius.twenty,
+                                                    ),
+                                                    onPressed: () {
+                                                      FocusScope.of(context).requestFocus(FocusNode());
 
-                                      bloc.add(
-                                        PaginateAllCategories(
-                                          page: state.page + 1,
-                                          query: filter.query,
-                                          industry: filter.industry,
+                                                      context.pushNamed(
+                                                        CategoryPage.name,
+                                                        pathParameters: {
+                                                          'urlSlug': category.urlSlug,
+                                                        },
+                                                        queryParameters: {
+                                                          'industry': category.industry.guid,
+                                                          'category': category.identity.guid,
+                                                        },
+                                                      );
+                                                    },
+                                                    icon: Icon(Icons.open_in_new_rounded, size: Dimension.radius.sixteen),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      );
-                                    }
+                                      ],
+                                    );
                                     return Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         child,
-                                        const LinearProgressIndicator(),
+                                        if (category.subCategories.isNotEmpty)
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(width: Dimension.padding.horizontal.small),
+                                              Icon(
+                                                Icons.subdirectory_arrow_right_rounded,
+                                                size: Dimension.radius.twentyFour,
+                                                color: theme.backgroundSecondary,
+                                              ),
+                                              Expanded(
+                                                child: ListView.separated(
+                                                  cacheExtent: 0,
+                                                  itemBuilder: (_, index) {
+                                                    final subCategory = category.subCategories.elementAt(index);
+                                                    final icon = Padding(
+                                                      padding: EdgeInsets.all(Dimension.radius.four),
+                                                      child: Icon(
+                                                        Icons.category_rounded,
+                                                        size: Dimension.radius.sixteen,
+                                                        color: theme.backgroundTertiary,
+                                                      ),
+                                                    );
+                                                    final child = Row(
+                                                      children: [
+                                                        subCategory.icon.url.isNotEmpty
+                                                            ? CachedNetworkImage(
+                                                                imageUrl: subCategory.icon.url,
+                                                                width: Dimension.radius.sixteen,
+                                                                height: Dimension.radius.sixteen,
+                                                                fit: BoxFit.cover,
+                                                                placeholder: (_, __) => ShimmerLabel(
+                                                                  width: Dimension.radius.twentyFour,
+                                                                  height: Dimension.radius.twentyFour,
+                                                                ),
+                                                                errorWidget: (_, __, ___) => icon,
+                                                              )
+                                                            : icon,
+                                                        SizedBox(width: Dimension.padding.horizontal.medium),
+                                                        Expanded(
+                                                          child: Text.rich(
+                                                            TextSpan(
+                                                              text: '',
+                                                              children: [
+                                                                WidgetSpan(
+                                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                                  baseline: TextBaseline.alphabetic,
+                                                                  child: Text(
+                                                                    subCategory.name.full,
+                                                                    style: TextStyles.body(
+                                                                            context: context, color: theme.textPrimary)
+                                                                        .copyWith(
+                                                                      fontSize: Dimension.radius.fourteen,
+                                                                      fontWeight: FontWeight.bold,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                WidgetSpan(
+                                                                    child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                                WidgetSpan(
+                                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                                  baseline: TextBaseline.ideographic,
+                                                                  child: Text(
+                                                                    " (${subCategory.listings})",
+                                                                    style: TextStyles.body(
+                                                                            context: context, color: theme.textSecondary)
+                                                                        .copyWith(
+                                                                      fontSize: Dimension.radius.twelve,
+                                                                      height: Dimension.radius.two,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                WidgetSpan(
+                                                                    child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                                WidgetSpan(
+                                                                  child: IconButton(
+                                                                    padding: EdgeInsets.all(4),
+                                                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                                    iconSize: Dimension.radius.twenty,
+                                                                    constraints: BoxConstraints(
+                                                                      maxHeight: Dimension.radius.twenty,
+                                                                      maxWidth: Dimension.radius.twenty,
+                                                                    ),
+                                                                    onPressed: () {
+                                                                      FocusScope.of(context).requestFocus(FocusNode());
+                                                                      context.pushNamed(
+                                                                        SubCategoryPage.name,
+                                                                        pathParameters: {
+                                                                          'urlSlug': subCategory.urlSlug,
+                                                                        },
+                                                                        queryParameters: {
+                                                                          'industry': subCategory.industry.guid,
+                                                                          'category': subCategory.category.guid,
+                                                                          'subCategory': subCategory.identity.guid,
+                                                                        }
+                                                                      );
+                                                                    },
+                                                                    icon: Icon(Icons.open_in_new_rounded,
+                                                                        size: Dimension.radius.sixteen),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                    return child;
+                                                  },
+                                                  separatorBuilder: (_, __) =>
+                                                      Divider(height: Dimension.padding.vertical.large),
+                                                  itemCount: category.subCategories.length,
+                                                  shrinkWrap: true,
+                                                  physics: const ScrollPhysics(),
+                                                  padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                                                    left: Dimension.padding.horizontal.small,
+                                                    top: Dimension.padding.vertical.medium,
+                                                    right: 0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                       ],
                                     );
-                                  }
-                                  return child;
-                                },
-                                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
-                                itemCount: categories.length,
-                                shrinkWrap: true,
-                                physics: const ScrollPhysics(),
-                                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                                  left: Dimension.padding.horizontal.small,
-                                  top: Dimension.padding.vertical.medium,
-                                  right: 0,
+                                  },
+                                  separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                                  itemCount: categories.length,
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                                    left: Dimension.padding.horizontal.small,
+                                    top: Dimension.padding.vertical.medium,
+                                    right: 0,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ],
                     );
                   },
                   separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: state.results.length,
+                  itemCount: state.industries.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(

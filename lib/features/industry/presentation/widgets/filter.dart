@@ -3,11 +3,17 @@ import '../../../../../core/config/config.dart';
 import '../../industry.dart';
 
 class IndustryFilter extends StatefulWidget {
+  final String division;
+  final String? district;
+  final String? thana;
   final IndustryEntity? selection;
 
   const IndustryFilter({
     super.key,
     required this.selection,
+    required this.division,
+    this.district,
+    this.thana,
   });
 
   @override
@@ -27,7 +33,12 @@ class _IndustryFilterState extends State<IndustryFilter> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<FindIndustriesBloc>()..add(FindIndustries()),
+      create: (context) => sl<FindIndustriesByLocationBloc>()
+        ..add(FindIndustriesByLocation(
+          division: widget.division,
+          district: widget.district,
+          thana: widget.thana,
+        )),
       child: Padding(
         padding: context.viewInsets,
         child: Material(
@@ -71,7 +82,12 @@ class _IndustryFilterState extends State<IndustryFilter> {
                     TextField(
                       controller: controller,
                       onChanged: (value) {
-                        themeContext.read<FindIndustriesBloc>().add(FindIndustries());
+                        themeContext.read<FindIndustriesByLocationBloc>().add(SearchIndustriesByLocation(
+                              query: value,
+                              division: widget.division,
+                              district: widget.district,
+                              thana: widget.thana,
+                            ));
                       },
                       style: TextStyles.body(context: themeContext, color: theme.textPrimary),
                       decoration: InputDecoration(
@@ -82,7 +98,9 @@ class _IndustryFilterState extends State<IndustryFilter> {
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.clear();
-                            themeContext.read<FindIndustriesBloc>().add(FindIndustries());
+                            themeContext
+                                .read<FindIndustriesByLocationBloc>()
+                                .add(FindIndustriesByLocation(division: widget.division));
                           },
                           child: Icon(
                             Icons.cancel_rounded,
@@ -92,9 +110,9 @@ class _IndustryFilterState extends State<IndustryFilter> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<FindIndustriesBloc, FindIndustriesState>(
+                    BlocBuilder<FindIndustriesByLocationBloc, FindIndustriesByLocationState>(
                       builder: (builderContext, state) {
-                        if (state is FindIndustriesDone) {
+                        if (state is FindIndustriesByLocationDone) {
                           final industries = state.industries;
 
                           return PhysicalModel(
@@ -128,11 +146,34 @@ class _IndustryFilterState extends State<IndustryFilter> {
                                                 ),
                                                 const SizedBox(width: 12),
                                                 Expanded(
-                                                  child: Text(
-                                                    item.name.full,
-                                                    style: TextStyles.body(
-                                                      context: context,
-                                                      color: selected ? theme.positive : theme.textPrimary,
+                                                  child: Text.rich(
+                                                    TextSpan(
+                                                      text: '',
+                                                      children: [
+                                                        WidgetSpan(
+                                                          alignment: PlaceholderAlignment.aboveBaseline,
+                                                          baseline: TextBaseline.ideographic,
+                                                          child: Text(
+                                                            item.name.full,
+                                                            style: TextStyles.body(
+                                                              context: context,
+                                                              color: selected ? theme.positive : theme.textPrimary,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                        WidgetSpan(
+                                                          alignment: PlaceholderAlignment.aboveBaseline,
+                                                          baseline: TextBaseline.ideographic,
+                                                          child: Text(
+                                                            "(${item.listings})",
+                                                            style: TextStyles.body(
+                                                              context: context,
+                                                              color: selected ? theme.positive : theme.textPrimary,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

@@ -61,6 +61,22 @@ extension NullableStringExtension on String? {
     if (like == null) return false;
     return this!.toLowerCase().trim().contains(like.toLowerCase().trim());
   }
+  
+  bool begin({
+    required String? by,
+  }) {
+    if (this == null) return false;
+    if (by == null) return false;
+    return this!.toLowerCase().trim().startsWith(by.toLowerCase().trim());
+  }
+  
+  bool end({
+    required String? by,
+  }) {
+    if (this == null) return false;
+    if (by == null) return false;
+    return this!.toLowerCase().trim().endsWith(by.toLowerCase().trim());
+  }
 
   String join({
     required String? text,
@@ -73,4 +89,6 @@ extension NullableStringExtension on String? {
       return this!;
     }
   }
+
+  
 }

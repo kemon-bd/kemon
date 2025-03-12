@@ -77,8 +77,8 @@ class _ResultPageState extends State<ResultPage> {
                 return ListView.separated(
                   cacheExtent: double.maxFinite,
                   itemBuilder: (_, index) {
-                    final urlSlug = businesses[index];
-                    return BusinessItemWidget(urlSlug: urlSlug);
+                    final business = businesses[index];
+                    return BusinessItemWidget(business: business);
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemCount: businesses.length,

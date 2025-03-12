@@ -1,7 +1,5 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
-import '../../../lookup/lookup.dart';
 import '../../location.dart';
 
 class LocationsPage extends StatefulWidget {
@@ -17,8 +15,6 @@ class LocationsPage extends StatefulWidget {
 }
 
 class _LocationsPageState extends State<LocationsPage> {
-  final divisionBloc = sl<FindLookupBloc>()..add(FindLookup(lookup: Lookups.division));
-
   final controller = ScrollController();
   final expanded = ValueNotifier<bool>(true);
 
@@ -55,117 +51,115 @@ class _LocationsPageState extends State<LocationsPage> {
                 final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
                 final double expandedHeight =
                     context.topInset + kToolbarHeight + (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
-                return CustomScrollView(
-                  cacheExtent: 0,
-                  controller: controller,
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      scrolledUnderElevation: 1,
-                      shadowColor: theme.backgroundSecondary,
-                      collapsedHeight: collapsedHeight,
-                      expandedHeight: expandedHeight,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
-                      ),
-                      title: isExpanded
-                          ? null
-                          : Text(
-                              'Locations',
-                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Dimension.radius.sixteen,
-                              ),
-                            ).animate().fade(),
-                      centerTitle: false,
-                      actions: [
-                        const _ShareButton(),
-                      ],
-                      flexibleSpace: isExpanded
-                          ? FlexibleSpaceBar(
-                              background: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            'Locations',
-                                            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: Dimension.radius.twentyFour,
-                                            ),
-                                          ).animate().fade(),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.all(Dimension.radius.eight),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                            borderRadius: BorderRadius.circular(Dimension.radius.twelve),
-                                          ),
-                                          child: Icon(
-                                            Icons.push_pin_rounded,
-                                            size: Dimension.radius.twenty,
-                                            color: theme.backgroundTertiary,
-                                          ),
-                                        ),
-                                      ],
+                return BlocBuilder<FindAllLocationsBloc, FindAllLocationsState>(
+                  builder: (context, state) {
+                    if (state is FindAllLocationsDone) {
+                      return CustomScrollView(
+                        cacheExtent: 0,
+                        controller: controller,
+                        slivers: [
+                          SliverAppBar(
+                            pinned: true,
+                            scrolledUnderElevation: 1,
+                            shadowColor: theme.backgroundSecondary,
+                            collapsedHeight: collapsedHeight,
+                            expandedHeight: expandedHeight,
+                            leading: IconButton(
+                              icon: Icon(Icons.arrow_back, color: theme.primary),
+                              onPressed: () {
+                                if (context.canPop()) {
+                                  context.pop();
+                                } else {
+                                  context.goNamed(HomePage.name);
+                                }
+                              },
+                            ),
+                            title: isExpanded
+                                ? null
+                                : Text(
+                                    'Locations',
+                                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: Dimension.radius.sixteen,
                                     ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    SliverToBoxAdapter(
-                      child: BlocProvider.value(
-                        value: divisionBloc,
-                        child: BlocBuilder<FindLookupBloc, FindLookupState>(
-                          builder: (context, state) {
-                            if (state is FindLookupDone) {
-                              final divisions = state.lookups;
-                              return divisions.isNotEmpty
-                                  ? ListView.separated(
-                                      cacheExtent: 0,
-                                      itemBuilder: (_, index) {
-                                        final division = divisions.elementAt(index);
-                                        return _DivisionItem(division: division);
-                                      },
-                                      separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                                      itemCount: divisions.length,
-                                      shrinkWrap: true,
-                                      physics: const ScrollPhysics(),
-                                      padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                                        bottom: Dimension.radius.sixteen + context.bottomInset,
+                                  ).animate().fade(),
+                            centerTitle: false,
+                            actions: [
+                              const _ShareButton(),
+                            ],
+                            flexibleSpace: isExpanded
+                                ? FlexibleSpaceBar(
+                                    background: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: Dimension.padding.horizontal.max,
+                                      ).copyWith(top: context.topInset + kToolbarHeight),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  'Locations',
+                                                  style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: Dimension.radius.twentyFour,
+                                                  ),
+                                                ).animate().fade(),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.all(Dimension.radius.eight),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1, color: theme.backgroundTertiary),
+                                                  borderRadius: BorderRadius.circular(Dimension.radius.twelve),
+                                                ),
+                                                child: Icon(
+                                                  Icons.push_pin_rounded,
+                                                  size: Dimension.radius.twenty,
+                                                  color: theme.backgroundTertiary,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  : Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: context.height * .25),
-                                        child: Text(
-                                          "No category found :(",
-                                          style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
-                                        ),
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          SliverToBoxAdapter(
+                            child: state.divisions.isNotEmpty
+                                ? ListView.separated(
+                                    cacheExtent: 0,
+                                    itemBuilder: (_, index) {
+                                      final division = state.divisions.elementAt(index);
+                                      return _DivisionItem(division: division);
+                                    },
+                                    separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
+                                    itemCount: state.divisions.length,
+                                    shrinkWrap: true,
+                                    physics: const ScrollPhysics(),
+                                    padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                                      bottom: Dimension.radius.sixteen + context.bottomInset,
+                                    ),
+                                  )
+                                : Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: context.height * .25),
+                                      child: Text(
+                                        "No category found :(",
+                                        style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
                                       ),
-                                    );
-                            }
-                            return Container();
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      );
+                    } else if (state is FindAllLocationsLoading) {
+                      return Center(child: NetworkingIndicator(dimension: 20, color: theme.backgroundTertiary));
+                    }
+                    return Container();
+                  },
                 );
               },
             ),
@@ -206,7 +200,7 @@ class _ShareButton extends StatelessWidget {
 }
 
 class _DivisionItem extends StatelessWidget {
-  final LookupEntity division;
+  final DivisionWithListingCountEntity division;
   const _DivisionItem({
     required this.division,
   });
@@ -239,11 +233,20 @@ class _DivisionItem extends StatelessWidget {
               alignment: PlaceholderAlignment.aboveBaseline,
               baseline: TextBaseline.alphabetic,
               child: Text(
-                division.text,
+                division.name.full,
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: Dimension.radius.sixteen,
                 ),
+              ),
+            ),
+            WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+            WidgetSpan(
+              alignment: PlaceholderAlignment.aboveBaseline,
+              baseline: TextBaseline.alphabetic,
+              child: Text(
+                "(${division.count})",
+                style: TextStyles.body(context: context, color: theme.textSecondary),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
@@ -260,13 +263,9 @@ class _DivisionItem extends StatelessWidget {
                   FocusScope.of(context).requestFocus(FocusNode());
 
                   context.pushNamed(
-                    LocationPage.name,
-                    extra: division,
+                    DivisionPage.name,
                     pathParameters: {
-                      'urlSlug': division.value,
-                    },
-                    queryParameters: {
-                      'division': division.value,
+                      'division': division.urlSlug,
                     },
                   );
                 },
@@ -287,34 +286,20 @@ class _DivisionItem extends StatelessWidget {
               color: theme.backgroundSecondary,
             ),
             Expanded(
-              child: BlocProvider(
-                create: (_) => sl<FindLookupBloc>()
-                  ..add(
-                    FindLookupWithParent(lookup: Lookups.district, parent: division.value),
-                  ),
-                child: BlocBuilder<FindLookupBloc, FindLookupState>(
-                  builder: (context, state) {
-                    if (state is FindLookupDone) {
-                      final districts = state.lookups;
-                      return ListView.separated(
-                        cacheExtent: 0,
-                        itemBuilder: (_, index) {
-                          final district = districts.elementAt(index);
-                          return _DistrictItem(district: district, division: division);
-                        },
-                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.small),
-                        itemCount: districts.length,
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                          left: Dimension.padding.horizontal.small,
-                          top: 0,
-                          right: 0,
-                        ),
-                      );
-                    }
-                    return Container();
-                  },
+              child: ListView.separated(
+                cacheExtent: 0,
+                itemBuilder: (_, index) {
+                  final district = division.districts.elementAt(index);
+                  return _DistrictItem(district: district, division: division);
+                },
+                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.small),
+                itemCount: division.districts.length,
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                  left: Dimension.padding.horizontal.small,
+                  top: 0,
+                  right: 0,
                 ),
               ),
             ),
@@ -326,8 +311,8 @@ class _DivisionItem extends StatelessWidget {
 }
 
 class _DistrictItem extends StatelessWidget {
-  final LookupEntity division;
-  final LookupEntity district;
+  final DivisionWithListingCountEntity division;
+  final DistrictWithListingCountEntity district;
   const _DistrictItem({
     required this.division,
     required this.district,
@@ -360,19 +345,31 @@ class _DistrictItem extends StatelessWidget {
           children: [
             WidgetSpan(
               alignment: PlaceholderAlignment.aboveBaseline,
-              baseline: TextBaseline.alphabetic,
+              baseline: TextBaseline.ideographic,
               child: Text(
-                district.text,
+                district.name.full,
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: Dimension.radius.fourteen,
+                  height: Dimension.radius.two,
+                ),
+              ),
+            ),
+            WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+            WidgetSpan(
+              alignment: PlaceholderAlignment.aboveBaseline,
+              baseline: TextBaseline.ideographic,
+              child: Text(
+                "(${district.count})",
+                style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                  height: Dimension.radius.two,
                 ),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
             WidgetSpan(
               child: IconButton(
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(0),
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                 iconSize: Dimension.radius.twenty,
                 constraints: BoxConstraints(
@@ -383,18 +380,18 @@ class _DistrictItem extends StatelessWidget {
                   FocusScope.of(context).requestFocus(FocusNode());
 
                   context.pushNamed(
-                    LocationPage.name,
-                    extra: district,
+                    DistrictPage.name,
                     pathParameters: {
-                      'urlSlug': district.value,
-                    },
-                    queryParameters: {
-                      'division': division.value,
-                      'district': district.value,
+                      'division': division.urlSlug,
+                      'district': district.urlSlug,
                     },
                   );
                 },
-                icon: Icon(Icons.open_in_new_rounded, size: Dimension.radius.fourteen),
+                icon: Icon(
+                  Icons.open_in_new_rounded,
+                  size: Dimension.radius.fourteen,
+                  color: theme.primary,
+                ),
               ),
             )
           ],
@@ -411,90 +408,100 @@ class _DistrictItem extends StatelessWidget {
               color: theme.backgroundSecondary,
             ),
             Expanded(
-              child: BlocProvider(
-                create: (_) => sl<FindLookupBloc>()
-                  ..add(
-                    FindLookupWithParent(lookup: Lookups.thana, parent: district.value),
-                  ),
-                child: BlocBuilder<FindLookupBloc, FindLookupState>(
-                  builder: (context, state) {
-                    if (state is FindLookupDone) {
-                      final thanas = state.lookups;
-                      return ListView.separated(
-                        cacheExtent: 0,
-                        itemBuilder: (_, index) {
-                          final thana = thanas.elementAt(index);
-                          final child = InkWell(
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-
-                              context.pushNamed(
-                                LocationPage.name,
-                                extra: thana,
-                                pathParameters: {
-                                  'urlSlug': thana.value,
-                                },
-                                queryParameters: {
-                                  'division': division.value,
-                                  'district': district.value,
-                                  'thana': thana.value,
-                                },
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                            overlayColor: WidgetStateProperty.all(theme.backgroundSecondary),
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.backgroundSecondary,
-                                    border: Border.all(width: 1, color: theme.backgroundTertiary),
-                                    borderRadius: BorderRadius.circular(Dimension.radius.eight),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(Dimension.radius.four),
-                                    child: Icon(
-                                      Icons.near_me_rounded,
-                                      size: Dimension.radius.sixteen,
-                                      color: theme.backgroundTertiary,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
-                                Expanded(
-                                  child: Text(
-                                    thana.text,
-                                    style: TextStyles.body(context: context, color: theme.textPrimary),
-                                  ),
-                                ),
-                                SizedBox(width: Dimension.padding.horizontal.medium),
-                                Padding(
-                                  padding: EdgeInsets.all(Dimension.radius.four).copyWith(right: 0),
-                                  child: Icon(
-                                    Icons.open_in_new_rounded,
-                                    size: Dimension.radius.sixteen,
-                                    color: theme.backgroundTertiary,
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                          return child;
-                        },
-                        separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
-                        itemCount: thanas.length,
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
-                          left: Dimension.padding.horizontal.small,
-                          top: Dimension.padding.vertical.medium,
-                          right: 0,
+              child: ListView.separated(
+                cacheExtent: 0,
+                itemBuilder: (_, index) {
+                  final thana = district.thanas.elementAt(index);
+                  final child = Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: theme.backgroundSecondary,
+                          border: Border.all(width: 1, color: theme.backgroundTertiary),
+                          borderRadius: BorderRadius.circular(Dimension.radius.eight),
                         ),
-                      );
-                    }
-                    return Container();
-                  },
+                        clipBehavior: Clip.hardEdge,
+                        child: Padding(
+                          padding: EdgeInsets.all(Dimension.radius.four),
+                          child: Icon(
+                            Icons.near_me_rounded,
+                            size: Dimension.radius.sixteen,
+                            color: theme.backgroundTertiary,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: Dimension.padding.horizontal.medium),
+                      Expanded(
+                        child: Text.rich(
+                          TextSpan(
+                            text: '',
+                            children: [
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.aboveBaseline,
+                                baseline: TextBaseline.ideographic,
+                                child: Text(
+                                  thana.name.full,
+                                  style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                                    height: Dimension.radius.two,
+                                  ),
+                                ),
+                              ),
+                              WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.aboveBaseline,
+                                baseline: TextBaseline.ideographic,
+                                child: Text(
+                                  "(${thana.count})",
+                                  style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                                    height: Dimension.radius.two,
+                                  ),
+                                ),
+                              ),
+                              WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                              WidgetSpan(
+                                child: IconButton(
+                                  padding: EdgeInsets.all(4),
+                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                  iconSize: Dimension.radius.twenty,
+                                  constraints: BoxConstraints(
+                                    maxHeight: Dimension.radius.twenty,
+                                    maxWidth: Dimension.radius.twenty,
+                                  ),
+                                  onPressed: () {
+                                    FocusScope.of(context).requestFocus(FocusNode());
+
+                                    context.pushNamed(
+                                      ThanaPage.name,
+                                      pathParameters: {
+                                        'division': division.urlSlug,
+                                        'district': district.urlSlug,
+                                        'thana': thana.urlSlug,
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.open_in_new_rounded,
+                                    size: Dimension.radius.fourteen,
+                                    color: theme.primary,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                  return child;
+                },
+                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                itemCount: district.thanas.length,
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                  left: Dimension.padding.horizontal.small,
+                  top: Dimension.padding.vertical.medium,
+                  right: 0,
                 ),
               ),
             ),

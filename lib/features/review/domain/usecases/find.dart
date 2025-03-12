@@ -8,7 +8,7 @@ class FindUserReviewsUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, List<ReviewEntity>>> call({
+  FutureOr<Either<Failure, List<UserReviewEntity>>> call({
     required Identity user,
     bool refresh = false,
   }) async {

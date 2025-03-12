@@ -9,8 +9,10 @@ export 'domain/entities/industry.dart';
 export 'domain/repositories/industry.dart';
 export 'domain/usecases/all.dart';
 export 'domain/usecases/find.dart';
+export 'domain/usecases/location.dart';
 
 export 'presentation/bloc/find_bloc.dart';
+export 'presentation/bloc/location_bloc.dart';
 export 'presentation/bloc/finds_bloc.dart';
 export 'presentation/pages/industry.dart';
 export 'presentation/widgets/filter.dart';

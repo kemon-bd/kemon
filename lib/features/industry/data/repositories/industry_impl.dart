@@ -17,13 +17,13 @@ class IndustryRepositoryImpl extends IndustryRepository {
     required String urlSlug,
   }) async {
     try {
-      final result = await local.find(urlSlug: urlSlug);
+      final result = local.find(urlSlug: urlSlug);
       return Right(result);
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
-        await local.addAll(industries: result);
-        final item = await local.find(urlSlug: urlSlug);
+        local.addAll(query: null, industries: result);
+        final item = local.find(urlSlug: urlSlug);
         return Right(item);
       } else {
         return Left(NoInternetFailure());
@@ -35,20 +35,39 @@ class IndustryRepositoryImpl extends IndustryRepository {
 
   @override
   FutureOr<Either<Failure, List<IndustryEntity>>> all({
-    required String query,
+    required String? query,
   }) async {
     try {
-      final result = await local.findAll();
-      return Right(
-        query.isEmpty ? result : result.where((i) => i.name.full.match(like: query)).toList(),
-      );
+      final result = local.findAll(query: query);
+      return Right(result);
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find();
-        await local.addAll(industries: result);
-        return Right(
-          query.isEmpty ? result : result.where((i) => i.name.full.match(like: query)).toList(),
-        );
+        local.addAll(query: query, industries: result);
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<IndustryWithListingCountModel>>> location({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+  }) async {
+    try {
+      final result = local.findByLocation(division: division, district: district, thana: thana);
+      return Right(result);
+    } on IndustryNotFoundInLocalCacheFailure catch (_) {
+      if (await network.online) {
+        final result = await remote.location(division: division, district: district, thana: thana);
+        local.addByLocation(industries: result, division: division, district: district, thana: thana);
+        return Right(result);
       } else {
         return Left(NoInternetFailure());
       }

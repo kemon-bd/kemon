@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../industry/industry.dart';
 import '../../category.dart';
 
 class FindAllCategoryUseCase {
@@ -8,11 +9,9 @@ class FindAllCategoryUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> call({
-    required int page,
-    required String? industry,
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> call({
     required String? query,
   }) async {
-    return await repository.all(page: page, industry: industry, query: query);
+    return await repository.all(query: query);
   }
 }

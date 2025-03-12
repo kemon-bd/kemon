@@ -1,17 +1,18 @@
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
 import '../../../home/home.dart';
+import '../../../location/location.dart';
 import '../../category.dart';
 
 class CategoryPage extends StatefulWidget {
   static const String path = '/category/:urlSlug';
   static const String name = 'CategoryPage';
-  final CategoryEntity? category;
-  final String urlSlug;
+  final Identity industry;
+  final Identity category;
 
   const CategoryPage({
     super.key,
-    required this.urlSlug,
+    required this.industry,
     required this.category,
   });
 
@@ -21,6 +22,11 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   final TextEditingController search = TextEditingController();
+  SortBy sort = SortBy.recommended;
+  RatingRange ratings = RatingRange.all;
+  DivisionWithListingCountEntity? division;
+  DistrictWithListingCountEntity? district;
+  ThanaWithListingCountEntity? thana;
 
   final controller = ScrollController();
   final expanded = ValueNotifier<bool>(true);
@@ -42,7 +48,6 @@ class _CategoryPageState extends State<CategoryPage> {
   void dispose() {
     controller.removeListener(_scrollListener);
     controller.dispose();
-    search.dispose();
     super.dispose();
   }
 
@@ -52,219 +57,238 @@ class _CategoryPageState extends State<CategoryPage> {
       builder: (_, state) {
         final theme = state.scheme;
         return KeyboardDismissOnTap(
-          child: BlocListener<CategoryListingsFilterBloc, CategoryListingsFilterState>(
-            listener: (context, state) {
-              context.read<FindBusinessesByCategoryBloc>().add(
-                    RefreshBusinessesByCategory(
-                      division: state.division,
-                      district: state.district,
-                      thana: state.thana,
-                      subCategory: state.subCategory,
-                      ratings: state.rating.stars,
-                      urlSlug: widget.urlSlug,
-                    ),
-                  );
-            },
-            child: Scaffold(
-              body: ValueListenableBuilder<bool>(
-                valueListenable: expanded,
-                builder: (context, isExpanded, _) {
-                  final appBar = SliverAppBar(
-                    pinned: true,
-                    collapsedHeight: context.topInset + kToolbarHeight - Dimension.padding.vertical.medium,
-                    expandedHeight: context.topInset + kToolbarHeight + Dimension.size.vertical.oneFortyFour,
-                    leading: IconButton(
-                      icon: Icon(Icons.arrow_back, color: theme.primary),
-                      onPressed: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
-                    ),
-                    title: isExpanded
-                        ? null
-                        : _NameWidget(
-                            category: widget.category,
-                            urlSlug: widget.urlSlug,
-                            fontSize: Dimension.radius.twenty,
-                            maxLines: 2,
-                          ).animate().fade(),
-                    centerTitle: false,
-                    actions: [
-                      const _ShareButton(),
-                    ],
-                    bottom: PreferredSize(
-                      preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Dimension.padding.horizontal.max,
-                          vertical: Dimension.padding.vertical.large,
-                        ).copyWith(top: 0),
-                        child: TextField(
-                          controller: search,
-                          style: TextStyles.body(context: context, color: theme.textPrimary),
-                          onChanged: (query) {
-                            final bloc = context.read<FindBusinessesByCategoryBloc>();
-                            final filter = context.read<CategoryListingsFilterBloc>().state;
-
-                            bloc.add(FindBusinessesByCategory(
-                              urlSlug: widget.urlSlug,
+          child: Scaffold(
+            body: ValueListenableBuilder<bool>(
+              valueListenable: expanded,
+              builder: (_, isExpanded, __) {
+                final appBar = SliverAppBar(
+                  pinned: true,
+                  collapsedHeight: context.topInset + kToolbarHeight - Dimension.padding.vertical.medium,
+                  expandedHeight: context.topInset + kToolbarHeight + Dimension.size.vertical.oneTwelve,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back, color: theme.primary),
+                    onPressed: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.goNamed(HomePage.name);
+                      }
+                    },
+                  ),
+                  title: isExpanded
+                      ? null
+                      : _NameWidget(
+                          fontSize: Dimension.radius.twenty,
+                          maxLines: 2,
+                        ).animate().fade(),
+                  centerTitle: false,
+                  actions: [
+                    _ShareButton(),
+                  ],
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: Dimension.padding.horizontal.max,
+                        vertical: Dimension.padding.vertical.large,
+                      ).copyWith(top: 0),
+                      child: TextField(
+                        controller: search,
+                        style: TextStyles.body(context: context, color: theme.textPrimary),
+                        onChanged: (query) {
+                          final bloc = context.read<FindBusinessesByCategoryBloc>();
+                          if (query.isEmpty) {
+                            bloc.add(SearchBusinessesByCategory(
                               query: query,
-                              sort: SortBy.recommended,
-                              ratings: filter.rating.stars,
-                              division: filter.division,
-                              district: filter.district,
-                              thana: filter.thana,
-                              subCategory: filter.subCategory,
+                              division: division?.urlSlug,
+                              district: district?.urlSlug,
+                              thana: thana?.urlSlug,
+                              sort: sort,
+                              ratings: ratings,
+                              industry: widget.industry,
+                              category: widget.category,
                             ));
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              size: Dimension.radius.sixteen,
-                              color: theme.textSecondary,
-                            ),
-                            hintText: 'Looking for something specific?',
-                            hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: Dimension.padding.horizontal.max,
-                              vertical: Dimension.padding.vertical.large,
-                            ),
+                            return;
+                          }
+
+                          bloc.add(FindBusinessesByCategory(
+                            division: division?.urlSlug,
+                            district: district?.urlSlug,
+                            thana: thana?.urlSlug,
+                            sort: sort,
+                            ratings: ratings,
+                            industry: widget.industry,
+                            category: widget.category,
+                          ));
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            size: Dimension.radius.sixteen,
+                            color: theme.textSecondary,
+                          ),
+                          hintText: 'Looking for something specific?',
+                          hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: Dimension.padding.horizontal.max,
+                            vertical: Dimension.padding.vertical.large,
                           ),
                         ),
                       ),
                     ),
-                    flexibleSpace: isExpanded
-                        ? FlexibleSpaceBar(
-                            background: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                              ).copyWith(top: context.topInset + kToolbarHeight),
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: _NameWidget(
-                                          category: widget.category,
-                                          urlSlug: widget.urlSlug,
-                                          fontSize: Dimension.radius.twentyFour,
-                                        ).animate().fade(),
-                                      ),
-                                      _IconWidget(urlSlug: widget.urlSlug),
-                                    ],
+                  ),
+                  flexibleSpace: isExpanded
+                      ? FlexibleSpaceBar(
+                          background: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Dimension.padding.horizontal.max,
+                            ).copyWith(top: context.topInset + kToolbarHeight),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: _NameWidget(
+                                        fontSize: Dimension.radius.twentyFour,
+                                      ).animate().fade(),
+                                    ),
+                                    _IconWidget(),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _FilterButton(
+                                      division: division,
+                                      district: district,
+                                      thana: thana,
+                                      ratings: ratings,
+                                      industry: widget.industry,
+                                      category: widget.category,
+                                      subCategory: null,
+                                      onSelect: (i, c, s, r) {
+                                        setState(() {
+                                          division = i;
+
+                                          district = c;
+                                          thana = s;
+                                          ratings = r;
+                                        });
+
+                                        context.read<FindBusinessesByCategoryBloc>().add(
+                                              FindBusinessesByCategory(
+                                                division: division?.urlSlug,
+                                                district: district?.urlSlug,
+                                                thana: thana?.urlSlug,
+                                                sort: sort,
+                                                ratings: ratings,
+                                                industry: widget.industry,
+                                                category: widget.category,
+                                              ),
+                                            );
+                                      },
+                                    ),
+                                    const SizedBox(width: 16),
+                                    _SortButton(
+                                      sort: sort,
+                                      onSelect: (selection) {
+                                        setState(() {
+                                          sort = selection;
+                                        });
+
+                                        context.read<FindBusinessesByCategoryBloc>().add(
+                                              FindBusinessesByCategory(
+                                                division: division?.urlSlug,
+                                                district: district?.urlSlug,
+                                                thana: thana?.urlSlug,
+                                                sort: selection,
+                                                ratings: ratings,
+                                                industry: widget.industry,
+                                                category: widget.category,
+                                              ),
+                                            );
+                                      },
+                                    ),
+                                    const Spacer(),
+                                    _TotalCount(),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : null,
+                );
+                final shimmer = SliverList.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
+                  itemBuilder: (context, index) => const BusinessItemShimmerWidget(),
+                  itemCount: 10,
+                );
+                done(FindBusinessesByCategoryDone state) {
+                  final businesses = state.businesses;
+
+                  return SliverList.separated(
+                    addAutomaticKeepAlives: false,
+                    separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.medium),
+                    itemBuilder: (context, index) {
+                      final business = businesses[index];
+                      final child = BusinessItemWidget(business: business);
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          child,
+                          if (index == businesses.length) ...[
+                            SizedBox(height: Dimension.padding.vertical.max),
+                            Container(
+                              width: context.width,
+                              color: theme.backgroundSecondary,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(Dimension.radius.twelve),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.info_outline_rounded,
+                                    color: theme.textSecondary,
+                                    size: Dimension.radius.twelve,
                                   ),
-                                  const SizedBox(height: 16),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      BlocBuilder<FindCategoryBloc, FindCategoryState>(
-                                        builder: (context, state) {
-                                          if (state is FindCategoryDone) {
-                                            return _FilterButton(category: state.category);
-                                          }
-                                          return const SizedBox();
-                                        },
-                                      ),
-                                      const SizedBox(width: 16),
-                                      _SortButton(),
-                                      const Spacer(),
-                                      _TotalCount(),
-                                    ],
+                                  SizedBox(width: Dimension.padding.horizontal.small),
+                                  Text(
+                                    "reached the bottom of the results.",
+                                    style: TextStyles.body(context: context, color: theme.textSecondary),
                                   ),
                                 ],
                               ),
-                            ),
-                          )
-                        : null,
-                  );
-                  final shimmer = SliverList.separated(
-                    separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.max),
-                    itemBuilder: (context, index) => const BusinessItemShimmerWidget(),
-                    itemCount: 10,
-                  );
-                  done(FindBusinessesByCategoryDone state, urlSlug) {
-                    final businesses = state.businesses;
-                    final hasMore = state.total > businesses.length;
-
-                    return SliverList.separated(
-                      addAutomaticKeepAlives: false,
-                      separatorBuilder: (context, index) => SizedBox(height: Dimension.padding.vertical.medium),
-                      itemBuilder: (context, index) {
-                        if (index == businesses.length && hasMore) {
-                          if (state is! FindBusinessesByCategoryPaginating) {
-                            final filter = context.read<CategoryListingsFilterBloc>().state;
-                            context.read<FindBusinessesByCategoryBloc>().add(
-                                  PaginateBusinessesByCategory(
-                                    page: state.page + 1,
-                                    query: search.text,
-                                    urlSlug: urlSlug,
-                                    sort: state.sortBy,
-                                    ratings: filter.rating.stars,
-                                    division: filter.division,
-                                    district: filter.district,
-                                    thana: filter.thana,
-                                    subCategory: filter.subCategory,
-                                  ),
-                                );
-                          }
-                          return const BusinessItemShimmerWidget();
-                        }
-                        final business = businesses[index];
-                        final child = BusinessItemWidget(urlSlug: business.urlSlug);
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            child,
-                            if (index + 1 == businesses.length && !hasMore) ...[
-                              SizedBox(height: Dimension.padding.vertical.max),
-                              Container(
-                                width: context.width,
-                                color: theme.backgroundSecondary,
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(Dimension.radius.twelve),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.info_outline_rounded,
-                                      color: theme.textSecondary,
-                                      size: Dimension.radius.twelve,
-                                    ),
-                                    SizedBox(width: Dimension.padding.horizontal.small),
-                                    Text(
-                                      "reached the bottom of the results.",
-                                      style: TextStyles.body(context: context, color: theme.textSecondary),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                            )
                           ],
-                        );
-                      },
-                      itemCount: businesses.length + (hasMore ? 1 : 0),
-                    );
-                  }
-
-                  return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
-                    builder: (context, state) {
-                      return CustomScrollView(
-                        controller: controller,
-                        slivers: [
-                          appBar,
-                          if (state is FindBusinessesByCategoryLoading) shimmer,
-                          if (state is FindBusinessesByCategoryDone) done(state, widget.urlSlug),
-                          SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
                         ],
                       );
                     },
+                    itemCount: businesses.length,
                   );
-                },
-              ),
+                }
+
+                return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
+                  builder: (context, state) {
+                    return CustomScrollView(
+                      cacheExtent: 0,
+                      controller: controller,
+                      slivers: [
+                        appBar,
+                        if (state is FindBusinessesByCategoryLoading) shimmer,
+                        if (state is FindBusinessesByCategoryDone)
+                          SliverPadding(
+                            padding: EdgeInsets.all(16).copyWith(top: 0),
+                            sliver: done(state),
+                          ),
+                        SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
         );
@@ -282,7 +306,6 @@ class _ShareButton extends StatelessWidget {
     return BlocBuilder<FindCategoryBloc, FindCategoryState>(
       builder: (context, state) {
         if (state is FindCategoryDone) {
-          final category = state.category;
           return IconButton(
             icon: Icon(Icons.share, color: theme.primary),
             onPressed: () async {
@@ -290,7 +313,7 @@ class _ShareButton extends StatelessWidget {
                 """🌟 Discover the Best, Rated by the Rest! 🌟
 🚀 Explore authentic reviews and ratings on Kemon!
 💬 Real People. Real Reviews. Make smarter decisions today.
-👀 Check out ${category.name.full}(https://kemon.com.bd/category/${category.urlSlug}) now and share your experience with the community!
+👀 Check out ${state.category.name.full}(https://kemon.com.bd/category/${state.category.urlSlug}) now and share your experience with the community!
 
 📲 Join the conversation on Kemon – Bangladesh's Premier Review Platform!
 
@@ -299,7 +322,7 @@ class _ShareButton extends StatelessWidget {
 
               if (result.status == ShareResultStatus.success && context.mounted) {
                 result.raw;
-                context.successNotification(message: 'Thank you for sharing ${category.name.full}');
+                context.successNotification(message: 'Thank you for sharing ${state.category.name.full}');
               }
             },
           );
@@ -311,31 +334,61 @@ class _ShareButton extends StatelessWidget {
 }
 
 class _FilterButton extends StatelessWidget {
-  final CategoryEntity category;
+  final Identity industry;
+  final Identity category;
+  final Identity? subCategory;
+  final DivisionWithListingCountEntity? division;
+  final DistrictWithListingCountEntity? district;
+  final ThanaWithListingCountEntity? thana;
+  final RatingRange ratings;
+  final Function(
+    DivisionWithListingCountEntity?,
+    DistrictWithListingCountEntity?,
+    ThanaWithListingCountEntity?,
+    RatingRange,
+  ) onSelect;
+
   const _FilterButton({
+    required this.industry,
     required this.category,
+    required this.subCategory,
+    required this.division,
+    required this.district,
+    required this.thana,
+    required this.ratings,
+    required this.onSelect,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
-        showModalBottomSheet(
+      onTap: () async {
+        final selection = await showModalBottomSheet<
+            (
+              DivisionWithListingCountEntity?,
+              DistrictWithListingCountEntity?,
+              ThanaWithListingCountEntity?,
+              RatingRange,
+            )>(
           context: context,
           backgroundColor: theme.backgroundPrimary,
           barrierColor: context.barrierColor,
           isScrollControlled: true,
           shape: RoundedRectangleBorder(),
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-              BlocProvider.value(value: context.read<CategoryListingsFilterBloc>()),
-            ],
-            child: CategoryListingsFilter(category: category.identity.guid),
+          builder: (_) => CategoryBasedListingsFilter(
+            division: division,
+            district: district,
+            thana: thana,
+            industry: industry,
+            category: category,
+            subCategory: subCategory,
+            ratings: ratings,
           ),
         );
+        if (selection != null) {
+          onSelect(selection.$1, selection.$2, selection.$3, selection.$4);
+        }
       },
       borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
       child: Container(
@@ -363,27 +416,29 @@ class _FilterButton extends StatelessWidget {
 }
 
 class _SortButton extends StatelessWidget {
-  const _SortButton();
+  final SortBy sort;
+  final Function(SortBy) onSelect;
+  const _SortButton({
+    required this.sort,
+    required this.onSelect,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     return InkWell(
-      onTap: () {
-        showModalBottomSheet(
+      onTap: () async {
+        final selection = await showModalBottomSheet<SortBy>(
           context: context,
           backgroundColor: theme.backgroundPrimary,
           barrierColor: context.barrierColor,
           isScrollControlled: true,
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<FindBusinessesByCategoryBloc>()),
-              BlocProvider.value(value: context.read<FindCategoryBloc>()),
-              BlocProvider.value(value: context.read<CategoryListingsFilterBloc>()),
-            ],
-            child: const SortBusinessesByCategoryWidget(),
-          ),
+          builder: (_) => SortBusinessesByLocationWidget(selection: sort),
         );
+        if (!context.mounted) return;
+        if (selection != null) {
+          onSelect(selection);
+        }
       },
       borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
       child: Container(
@@ -411,13 +466,9 @@ class _SortButton extends StatelessWidget {
 }
 
 class _NameWidget extends StatelessWidget {
-  final String urlSlug;
-  final CategoryEntity? category;
   final double? fontSize;
   final int? maxLines;
   const _NameWidget({
-    required this.urlSlug,
-    required this.category,
     this.fontSize,
     this.maxLines,
   });
@@ -428,9 +479,8 @@ class _NameWidget extends StatelessWidget {
     return BlocBuilder<FindCategoryBloc, FindCategoryState>(
       builder: (context, state) {
         if (state is FindCategoryDone) {
-          final category = state.category;
           return Text(
-            category.name.full,
+            state.category.name.full,
             style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
               fontWeight: FontWeight.bold,
               fontSize: fontSize ?? Dimension.radius.twelve,
@@ -440,7 +490,7 @@ class _NameWidget extends StatelessWidget {
           );
         }
         return Text(
-          category?.name.full ?? '',
+          "Category",
           style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
             fontWeight: FontWeight.bold,
             fontSize: fontSize ?? Dimension.radius.twelve,
@@ -454,10 +504,7 @@ class _NameWidget extends StatelessWidget {
 }
 
 class _IconWidget extends StatelessWidget {
-  final String urlSlug;
-  const _IconWidget({
-    required this.urlSlug,
-  });
+  const _IconWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -498,7 +545,7 @@ class _TotalCount extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                state.total.toString(),
+                state.businesses.length.toString(),
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(

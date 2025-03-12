@@ -2,19 +2,35 @@ import '../../../../core/shared/shared.dart';
 import '../../industry.dart';
 
 abstract class IndustryLocalDataSource {
-  FutureOr<void> add({
+  void add({
     required IndustryEntity industry,
   });
 
-  FutureOr<void> addAll({
+  void addAll({
+    required String? query,
     required List<IndustryEntity> industries,
   });
 
-  FutureOr<void> removeAll();
+  void addByLocation({
+    required String division,
+    String? district,
+    String? thana,
+    required List<IndustryWithListingCountModel> industries,
+  });
 
-  FutureOr<List<IndustryEntity>> findAll();
+  void removeAll();
 
-  FutureOr<IndustryEntity> find({
+  List<IndustryEntity> findAll({
+    required String? query,
+  });
+
+  List<IndustryWithListingCountModel> findByLocation({
+    required String division,
+    String? district,
+    String? thana,
+  });
+
+  IndustryEntity find({
     required String urlSlug,
   });
 }

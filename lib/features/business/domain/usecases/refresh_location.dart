@@ -1,7 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../category/category.dart';
-import '../../../industry/industry.dart';
-import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 class RefreshBusinessesByLocationUseCase {
@@ -11,27 +8,25 @@ class RefreshBusinessesByLocationUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, BusinessesByLocationPaginatedResponse>> call({
-    required String location,
-    required String? division,
-    required String? district,
-    required String? thana,
+  FutureOr<Either<Failure, List<BusinessLiteEntity>>> call({
+    required String division,
+    String? district,
+    String? thana,
     required String? query,
+    required Identity? industry,
+    required Identity? category,
+    required Identity? subCategory,
     required SortBy? sort,
-    required IndustryEntity? industry,
-    required CategoryEntity? category,
-    required SubCategoryEntity? sub,
-    required List<int> ratings,
+    required RatingRange ratings,
   }) async =>
       await repository.refreshLocation(
-        location: location,
         division: division,
         district: district,
         thana: thana,
         query: query,
         industry: industry,
         category: category,
-        sub: sub,
+        subCategory: subCategory,
         sort: sort,
         ratings: ratings,
       );

@@ -17,7 +17,7 @@ class UserReviewsWidget extends StatelessWidget {
         } else if (state is FindUserReviewsError) {
           return Center(child: Text(state.failure.message));
         } else if (state is FindUserReviewsDone) {
-          final List<ReviewEntity> reviews = state.reviews;
+          final List<UserReviewEntity> reviews = state.reviews;
 
           return reviews.isEmpty
               ? Center(

@@ -1,7 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../home/home.dart';
-import '../../../lookup/lookup.dart';
 import '../../../profile/profile.dart';
 import '../../leaderboard.dart';
 
@@ -250,7 +249,7 @@ class TotalCount extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                state.total.toString(),
+                state.leaders.length.toString(),
                 style: TextStyles.subTitle(context: context, color: theme.textPrimary),
               ),
               Text(
@@ -321,26 +320,27 @@ class ListingsWidget extends StatelessWidget {
           );
         } else if (state is FindLeaderboardDone) {
           final participants = state.leaders;
-          final hasMore = state.total > participants.length;
 
           return participants.isNotEmpty
               ? ListView.separated(
                   cacheExtent: 0,
                   itemBuilder: (_, index) {
-                    if (index == participants.length && hasMore) {
-                      if (state is! FindLeaderboardPaginating) {
-                        context.read<FindLeaderboardBloc>().add(
-                              PaginateLeaderboard(
-                                page: state.page + 1,
-                                query: search.text,
-                              ),
-                            );
-                      }
-                      return NetworkingIndicator(dimension: Dimension.radius.twentyFour, color: theme.primary);
-                    }
                     final leader = participants[index];
-                    return BlocProvider(
-                      create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: leader.identity)),
+                    final fallback = Center(
+                      child: Text(
+                        leader.name.symbol,
+                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                          fontSize: Dimension.radius.twelve,
+                        ),
+                      ),
+                    );
+                    return InkWell(
+                      onTap: () {
+                        context.pushNamed(
+                          PublicProfilePage.name,
+                          pathParameters: {'user': leader.identity.guid},
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: theme.backgroundSecondary,
@@ -348,47 +348,58 @@ class ListingsWidget extends StatelessWidget {
                         ),
                         padding: EdgeInsets.symmetric(
                           horizontal: Dimension.padding.horizontal.max,
-                          vertical: Dimension.padding.vertical.medium,
+                          vertical: Dimension.padding.vertical.large,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if (index < 3)
+                            if (leader.rank < 3)
                               SvgPicture.asset(
-                                'images/medal/${index == 0 ? 'gold' : index == 1 ? 'silver' : 'bronze'}.svg',
+                                'images/medal/${leader.rank == 0 ? 'gold' : leader.rank == 1 ? 'silver' : 'bronze'}.svg',
                                 width: Dimension.radius.twentyFour,
                                 height: Dimension.radius.twentyFour,
                                 fit: BoxFit.cover,
                               ),
-                            if (index >= 3)
+                            if (leader.rank >= 3)
                               Container(
                                 width: Dimension.radius.twentyFour,
                                 height: Dimension.radius.twentyFour,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  '${index + 1}',
-                                  style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  '${leader.rank + 1}',
+                                  style: TextStyles.overline(context: context, color: theme.textPrimary),
                                   textAlign: TextAlign.start,
                                 ),
                               ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
-                            BlocBuilder<FindProfileBloc, FindProfileState>(
-                              builder: (context, state) {
-                                if (state is FindProfileDone) {
-                                  return ProfilePointsBuilder(builder: (checks) {
-                                    return ProfilePictureWidget(
-                                      size: Dimension.radius.twentyFour,
-                                      showBadge: state.profile.progress(checks: checks) == 100,
-                                    );
-                                  });
-                                } else {
-                                  return ProfilePictureWidget(size: Dimension.radius.twentyFour);
-                                }
-                              },
+                            Container(
+                              width: Dimension.radius.twentyFour,
+                              height: Dimension.radius.twentyFour,
+                              decoration: BoxDecoration(
+                                color: theme.backgroundSecondary,
+                                borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                                border: Border.all(
+                                  color: theme.textSecondary,
+                                  width: .15,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
+                              ),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: leader.avatar.isEmpty
+                                  ? fallback
+                                  : CachedNetworkImage(
+                                      imageUrl: leader.avatar.url,
+                                      width: Dimension.radius.twentyFour,
+                                      height: Dimension.radius.twentyFour,
+                                      fit: BoxFit.cover,
+                                      placeholder: (_, __) => ShimmerIcon(radius: Dimension.radius.twentyFour),
+                                      errorWidget: (_, __, ___) => fallback,
+                                    ),
                             ),
                             SizedBox(width: Dimension.padding.horizontal.medium),
                             Expanded(
-                              child: ProfileNameWidget(
+                              child: Text(
+                                leader.name.full,
                                 style: TextStyles.body(context: context, color: theme.textPrimary),
                               ),
                             ),
@@ -403,10 +414,11 @@ class ListingsWidget extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (_, __) => SizedBox(height: Dimension.padding.vertical.medium),
-                  itemCount: participants.length + (hasMore ? 1 : 0),
+                  itemCount: participants.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(
+                    top: 0,
                     bottom: Dimension.padding.vertical.max + context.bottomInset,
                   ),
                 )

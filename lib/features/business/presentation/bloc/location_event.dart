@@ -1,6 +1,6 @@
 part of 'location_bloc.dart';
 
-abstract class FindBusinessesByLocationEvent extends Equatable {
+sealed class FindBusinessesByLocationEvent extends Equatable {
   const FindBusinessesByLocationEvent();
 
   @override
@@ -8,87 +8,78 @@ abstract class FindBusinessesByLocationEvent extends Equatable {
 }
 
 class FindBusinessesByLocation extends FindBusinessesByLocationEvent {
-  final String? query;
-  final IndustryEntity? industry;
-  final CategoryEntity? category;
-  final SubCategoryEntity? sub;
-  final SortBy? sort;
-  final List<int> ratings;
-  final String location;
-  final String? division;
+  final String division;
   final String? district;
   final String? thana;
+  final String? query;
+  final Identity? industry;
+  final Identity? category;
+  final Identity? subCategory;
+  final SortBy? sort;
+  final RatingRange ratings;
 
   const FindBusinessesByLocation({
-    required this.location,
+    required this.division,
+    this.district,
+    this.thana,
+    this.query,
     this.industry,
     this.category,
-    this.sub,
-    this.query,
+    this.subCategory,
     this.sort,
-    this.ratings = const [],
-    required this.division,
-    required this.district,
-    required this.thana,
+    this.ratings = RatingRange.all,
   });
+
   @override
-  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
+  List<Object?> get props => [
+        division,
+        district,
+        thana,
+        query,
+        industry,
+        category,
+        subCategory,
+        sort,
+        ratings,
+      ];
 }
+
 
 class RefreshBusinessesByLocation extends FindBusinessesByLocationEvent {
-  final String? query;
-  final IndustryEntity? industry;
-  final CategoryEntity? category;
-  final SubCategoryEntity? sub;
-  final SortBy? sort;
-  final List<int> ratings;
-  final String location;
-  final String? division;
+  final String division;
   final String? district;
   final String? thana;
+  final String? query;
+  final Identity? industry;
+  final Identity? category;
+  final Identity? subCategory;
+  final SortBy? sort;
+  final RatingRange ratings;
 
   const RefreshBusinessesByLocation({
-    required this.location,
+    required this.division,
+    this.district,
+    this.thana,
+    this.query,
     this.industry,
     this.category,
-    this.sub,
-    this.query,
+    this.subCategory,
     this.sort,
-    this.ratings = const [],
-    required this.division,
-    required this.district,
-    required this.thana,
+    this.ratings = RatingRange.all,
   });
+
   @override
-  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
+  List<Object?> get props => [
+        division,
+        district,
+        thana,
+        query,
+        industry,
+        category,
+        subCategory,
+        sort,
+        ratings,
+      ];
 }
 
-class PaginateBusinessesByLocation extends FindBusinessesByLocationEvent {
-  final String? query;
-  final IndustryEntity? industry;
-  final CategoryEntity? category;
-  final SubCategoryEntity? sub;
-  final SortBy? sort;
-  final List<int> ratings;
-  final int page;
-  final String location;
-  final String? division;
-  final String? district;
-  final String? thana;
 
-  const PaginateBusinessesByLocation({
-    required this.page,
-    this.industry,
-    this.category,
-    this.sub,
-    required this.location,
-    this.query,
-    this.sort,
-    this.ratings = const [],
-    required this.division,
-    required this.district,
-    required this.thana,
-  });
-  @override
-  List<Object?> get props => [location, query, sort, ratings, division, district, thana];
-}

@@ -7,6 +7,13 @@ abstract class IndustryRepository {
   });
 
   FutureOr<Either<Failure, List<IndustryEntity>>> all({
-    required String query,
+    required String? query,
+  });
+
+  FutureOr<Either<Failure, List<IndustryWithListingCountModel>>> location({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
   });
 }

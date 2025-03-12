@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
 import '../../../location/location.dart';
@@ -63,9 +64,9 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
       final List<dynamic> subCategoriesMap = result.result!['relatedDatas'];
       final List<dynamic> locationsMap = result.result!['locationDatas'];
 
-      final List<String> businesses = businessesMap
-          .map<String>(
-            (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
+      final List<BusinessLiteModel> businesses = businessesMap
+          .map<BusinessLiteModel>(
+            (map) => BusinessLiteModel.parse(map: map),
           )
           .toList();
       final List<LocationModel> locations = locationsMap
@@ -90,62 +91,44 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
   }
 
   @override
-  Future<AutoCompleteSuggestions> suggestion({
+  Future<List<SearchSuggestionModel>> suggestion({
     required String query,
   }) async {
     try {
       final Map<String, String> headers = {
-        'Searchtext': query,
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptCharsetHeader: 'utf-8',
+        'query': Uri.encodeComponent(query),
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptCharsetHeader: 'utf-8',
       };
 
       final response = await client.get(
-        RemoteEndpoints.searchSuggestion,
+        RemoteEndpoints.searchSuggestions,
         headers: headers,
       );
 
-      final RemoteResponse<Map<String, dynamic>> result = RemoteResponse.parse(
-        response: response,
-      );
-      
+      if (HttpStatus.ok == response.statusCode) {
+        final List<Map<String, dynamic>> map = List<Map<String, dynamic>>.from(json.decode(response.body));
+        final List<SearchSuggestionModel> suggestions = map.map(
+          (map) {
+            final SuggestionType type = SuggestionType.values.elementAt(map['type'] as int);
 
-      if (result.success) {
-        final List<dynamic> businessesMap = result.result!['listing'];
-        final List<dynamic> industriesMap = result.result!['industry'];
-        final List<dynamic> categoriesMap = result.result!['category'];
-        final List<dynamic> subCategoriesMap = result.result!['subcategory'];
+            switch (type) {
+              case SuggestionType.listing:
+                return BusinessSuggestionModel.parse(map: map);
+              case SuggestionType.industry:
+                return IndustrySuggestionModel.parse(map: map);
+              case SuggestionType.category:
+                return CategorySuggestionModel.parse(map: map);
+              case SuggestionType.subCategory:
+                return SubCategorySuggestionModel.parse(map: map);
+            }
+          },
+        ).toList();
 
-        final List<String> businesses = businessesMap
-            .map<String>(
-              (map) => map['urlslug'] ?? map['urlSlug'] ?? '',
-            )
-            .toList();
-        final List<IndustryModel> industries = industriesMap
-            .map(
-              (map) => IndustryModel.parse(map: map),
-            )
-            .toList();
-        final List<CategoryModel> categories = categoriesMap
-            .map(
-              (map) => CategoryModel.parse(map: map),
-            )
-            .toList();
-        final List<SubCategoryModel> subCategories = subCategoriesMap
-            .map(
-              (map) => SubCategoryModel.parse(map: map),
-            )
-            .toList();
-
-        return (
-          businesses: businesses,
-          industries: industries,
-          categories: categories,
-          subCategories: subCategories,
-        );
+        return suggestions;
       } else {
-        throw RemoteFailure(message: result.error!);
+        throw RemoteFailure(message: response.body);
       }
     } on SocketException {
       throw NoInternetFailure();

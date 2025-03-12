@@ -11,18 +11,12 @@ class ApplyLocationListingsFilter extends LocationListingsFilterEvent {
   final IndustryEntity? industry;
   final CategoryEntity? category;
   final SubCategoryEntity? subCategory;
-  final String? division;
-  final String? district;
-  final String? thana;
   final RatingRange rating;
 
   const ApplyLocationListingsFilter({
     required this.industry,
     required this.category,
     required this.subCategory,
-    required this.division,
-    required this.district,
-    required this.thana,
     required this.rating,
   });
 
@@ -31,9 +25,6 @@ class ApplyLocationListingsFilter extends LocationListingsFilterEvent {
         industry,
         category,
         subCategory,
-        division,
-        district,
-        thana,
         rating,
       ];
 }

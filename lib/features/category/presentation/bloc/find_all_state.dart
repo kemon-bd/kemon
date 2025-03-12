@@ -1,15 +1,10 @@
 part of 'find_all_bloc.dart';
 
 abstract class FindAllCategoriesState extends Equatable {
-  final String? industry;
-  final String? query;
-  const FindAllCategoriesState({
-    this.industry,
-    this.query,
-  });
+  const FindAllCategoriesState();
 
   @override
-  List<Object?> get props => [industry, query];
+  List<Object?> get props => [];
 }
 
 class FindAllCategoriesInitial extends FindAllCategoriesState {
@@ -17,13 +12,10 @@ class FindAllCategoriesInitial extends FindAllCategoriesState {
 }
 
 class FindAllCategoriesLoading extends FindAllCategoriesState {
-  const FindAllCategoriesLoading({
-    required super.industry,
-    required super.query,
-  });
+  const FindAllCategoriesLoading();
 
   @override
-  List<Object?> get props => [industry, query];
+  List<Object?> get props => [];
 }
 
 class FindAllCategoriesError extends FindAllCategoriesState {
@@ -31,40 +23,19 @@ class FindAllCategoriesError extends FindAllCategoriesState {
 
   const FindAllCategoriesError({
     required this.failure,
-    required super.industry,
-    required super.query,
   });
 
   @override
-  List<Object?> get props => [failure, industry, query];
+  List<Object?> get props => [failure];
 }
 
 class FindAllCategoriesDone extends FindAllCategoriesState {
-  final int page;
-  final int total;
-  final List<IndustryBasedCategories> results;
+  final List<IndustryWithListingCountEntity> industries;
 
   const FindAllCategoriesDone({
-    required this.page,
-    required this.total,
-    required this.results,
-    required super.industry,
-    required super.query,
+    required this.industries,
   });
 
   @override
-  List<Object?> get props => [page, total, results, industry, query];
-}
-
-class FindAllCategoriesPaginating extends FindAllCategoriesDone {
-  const FindAllCategoriesPaginating({
-    required super.page,
-    required super.total,
-    required super.results,
-    required super.industry,
-    required super.query,
-  });
-
-  @override
-  List<Object?> get props => [page, total, results, industry, query];
+  List<Object?> get props => [industries];
 }

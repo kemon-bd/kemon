@@ -2,7 +2,7 @@ import '../../../../core/shared/shared.dart';
 import '../../search.dart';
 
 abstract class SearchRemoteDataSource {
-  Future<AutoCompleteSuggestions> suggestion({
+  Future<List<SearchSuggestionModel>> suggestion({
     required String query,
   });
 

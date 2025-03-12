@@ -28,9 +28,13 @@ class FindBusinessError extends FindBusinessState {
 
 class FindBusinessDone extends FindBusinessState {
   final BusinessEntity business;
+  final List<ListingReviewEntity> reviews;
 
-  const FindBusinessDone({required this.business});
+  const FindBusinessDone({
+    required this.business,
+    required this.reviews,
+  });
 
   @override
-  List<Object> get props => [business];
+  List<Object> get props => [business, reviews];
 }

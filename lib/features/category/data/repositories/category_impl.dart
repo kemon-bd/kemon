@@ -1,15 +1,21 @@
 import '../../../../core/shared/shared.dart';
+import '../../../industry/industry.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../category.dart';
 
 class CategoryRepositoryImpl extends CategoryRepository {
   final NetworkInfo network;
   final CategoryLocalDataSource local;
   final CategoryRemoteDataSource remote;
+  final IndustryLocalDataSource industryCache;
+  final SubCategoryLocalDataSource subCategoryCache;
 
   CategoryRepositoryImpl({
     required this.network,
     required this.local,
     required this.remote,
+    required this.industryCache,
+    required this.subCategoryCache,
   });
 
   @override
@@ -18,7 +24,10 @@ class CategoryRepositoryImpl extends CategoryRepository {
       if (await network.online) {
         final categories = await remote.featured();
 
-        await local.featured(categories: categories);
+        for (CategoryEntity category in categories) {
+          local.add(urlSlug: category.urlSlug, category: category);
+        }
+
         return Right(categories);
       } else {
         return Left(NoInternetFailure());
@@ -35,11 +44,11 @@ class CategoryRepositoryImpl extends CategoryRepository {
     required String urlSlug,
   }) async {
     try {
-      final result = await local.find(urlSlug: urlSlug);
+      final result = local.find(urlSlug: urlSlug);
       return Right(result);
     } on CategoryNotFoundInLocalCacheFailure {
       final result = await remote.find(urlSlug: urlSlug);
-      await local.add(category: result, urlSlug: urlSlug);
+      local.add(category: result, urlSlug: urlSlug);
       return Right(result);
     } on Failure catch (failure) {
       return Left(failure);
@@ -47,29 +56,24 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> all({
-    required int page,
-    required String? industry,
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> all({
     required String? query,
   }) async {
-    final key = (page: page, query: query, industry: industry);
     try {
-      final result = await local.findPagination(key: key);
+      final result = local.findAll(query: query);
       return Right(result);
     } on CategoriesNotFoundInLocalCacheFailure catch (_) {
       try {
         if (await network.online) {
-          final result = await remote.all(page: page, query: query, industry: industry);
-          await local.cachePagination(key: key, result: result);
-
-          final oldResult = page == 1
-              ? (
-                  total: 0,
-                  results: <IndustryBasedCategories>[],
-                )
-              : await local.findPagination(key: key);
-          final totalResults = oldResult.results.stitch(result.results);
-          return Right((total: result.total, results: totalResults));
+          final industries = await remote.all(query: query);
+          local.addAll(query: query, industries: industries);
+          industryCache.addAll(query: query, industries: industries);
+          for (IndustryWithListingCountEntity i in industries) {
+            for (CategoryWithListingCountEntity c in i.categories) {
+              subCategoryCache.addAllByCategory(category: c.urlSlug, subCategories: c.subCategories);
+            }
+          }
+          return Right(industries);
         } else {
           return Left(NoInternetFailure());
         }
@@ -82,18 +86,12 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> refreshAll({
-    required int page,
-    required String? industry,
-    required String? query,
-  }) async {
-    final key = (page: page, query: query, industry: industry);
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> refreshAll() async {
     try {
-      await local.removeAll();
       if (await network.online) {
-        final result = await remote.all(page: page, query: query, industry: industry);
-        await local.cachePagination(key: key, result: result);
-        return Right(result);
+        final industries = await remote.all(query: null);
+        local.addAll(query: null, industries: industries);
+        return Right(industries);
       } else {
         return Left(NoInternetFailure());
       }
@@ -107,11 +105,11 @@ class CategoryRepositoryImpl extends CategoryRepository {
     required String urlSlug,
   }) async {
     try {
-      final result = await local.findIndustry(industry: urlSlug);
+      final result = local.findIndustry(industry: urlSlug);
       return Right(result);
     } on IndustryNotFoundInLocalCacheFailure {
       final result = await remote.industry(urlSlug: urlSlug);
-      await local.addIndustry(categories: result, industry: urlSlug);
+      local.addIndustry(categories: result, industry: urlSlug);
       return Right(result);
     } on Failure catch (failure) {
       return Left(failure);

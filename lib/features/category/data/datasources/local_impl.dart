@@ -1,109 +1,132 @@
+import 'package:kemon/features/industry/domain/entities/industry.dart';
+
 import '../../../../core/shared/shared.dart';
 import '../../category.dart';
 
 class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
-  final Map<String, CategoryEntity> _cache = {};
-  final Map<String, List<CategoryEntity>> _industry = {};
-  final Map<CategoriesPaginationKey, CategoryPaginatedResponse> _all = {};
+  final Map<String, CategoryEntity> categories = {};
+  final Map<String?, List<IndustryWithListingCountEntity>> allCategories = {};
+  final Map<String, List<CategoryEntity>> industyCategories = {};
+  final Map<String, List<CategoryEntity>> location = {};
 
   @override
-  FutureOr<void> featured({
-    required List<CategoryEntity> categories,
-  }) {
-    for (final category in categories) {
-      _cache[category.urlSlug] = category;
-    }
-    return Future.value();
-  }
-
-  @override
-  FutureOr<CategoryEntity> find({
-    required String urlSlug,
-  }) async {
-    final category = _cache[urlSlug];
-
-    if (category == null) {
-      throw CategoryNotFoundInLocalCacheFailure();
-    }
-    return category;
-  }
-
-  @override
-  FutureOr<void> removeAll() async {
-    _cache.clear();
-    _all.clear();
-    return Future.value();
-  }
-
-  @override
-  FutureOr<void> cachePagination({
-    required CategoriesPaginationKey key,
-    required CategoryPaginatedResponse result,
-  }) async {
-    _all[key] = result;
-    return Future.value();
-  }
-
-  @override
-  FutureOr<CategoryPaginatedResponse> findPagination({
-    required CategoriesPaginationKey key,
-  }) async {
-    int total = 0;
-    List<IndustryBasedCategories> results = [];
-
-    for (int p = 1; p <= key.page; p++) {
-      final tempKey = (
-        page: p,
-        query: key.query,
-        industry: key.industry,
-      );
-
-      if (!_all.containsKey(tempKey)) {
-        throw CategoriesNotFoundInLocalCacheFailure();
-      }
-
-      final item = _all[tempKey]; // Use tempKey here
-      if (item != null) {
-        total = item.total;
-        results = results.stitch(item.results);
-      }
-    }
-
-    return (
-      total: total,
-      results: results,
-    );
-  }
-
-  @override
-  FutureOr<void> add({
+  void add({
     required String urlSlug,
     required CategoryEntity category,
-  }) async {
-    _cache[urlSlug] = category;
-    return Future.value();
+  }) {
+    categories[urlSlug] = category;
   }
 
   @override
-  FutureOr<void> addIndustry({
+  void addAll({
+    required String? query,
+    required List<IndustryWithListingCountEntity> industries,
+  }) {
+    allCategories[query] = industries;
+
+    for (IndustryWithListingCountEntity industry in industries) {
+      addIndustry(industry: industry.urlSlug, categories: industry.categories);
+      for (CategoryEntity category in industry.categories) {
+        add(urlSlug: category.urlSlug, category: category);
+      }
+    }
+  }
+
+  @override
+  void addIndustry({
     required String industry,
     required List<CategoryEntity> categories,
-  }) async {
-    _industry[industry] = categories;
-    for (var cat in categories) {
-      _cache[cat.urlSlug] = cat;
-    }
-    return;
+  }) {
+    industyCategories[industry] = categories;
   }
 
   @override
-  FutureOr<List<CategoryEntity>> findIndustry({
-    required String industry,
-  }) async {
-    final categories = _industry[industry];
-    if (categories != null) {
-      return categories;
+  CategoryEntity find({
+    required String urlSlug,
+  }) {
+    final CategoryEntity? entity = categories[urlSlug];
+
+    if (entity == null) {
+      throw CategoriesNotFoundInLocalCacheFailure();
     }
-    throw IndustryNotFoundInLocalCacheFailure();
+
+    return entity;
   }
+
+  @override
+  List<IndustryWithListingCountEntity> findAll({
+    required String? query,
+  }) {
+    final List<IndustryWithListingCountEntity>? entities = allCategories[query];
+
+    if (entities == null) {
+      throw CategoriesNotFoundInLocalCacheFailure();
+    }
+
+    return entities;
+  }
+
+  @override
+  List<CategoryEntity> findIndustry({
+    required String industry,
+  }) {
+    final List<CategoryEntity>? entities = allCategories[industry];
+
+    if (entities == null) {
+      throw CategoriesNotFoundInLocalCacheFailure();
+    }
+
+    return entities;
+  }
+
+  @override
+  void removeAll() {
+    location.clear();
+    categories.clear();
+    allCategories.clear();
+    industyCategories.clear();
+  }
+
+  @override
+  void addByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required List<CategoryEntity> categories,
+  }) {
+    final String key = buildLocationKey(query: query, division: division, industry: industry, district: district, thana: thana);
+    for (CategoryEntity category in categories) {
+      add(urlSlug: category.urlSlug, category: category);
+    }
+    location[key] = categories;
+  }
+
+  @override
+  List<CategoryEntity> findByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+  }) {
+    final String key = buildLocationKey(query: query, division: division, industry: industry, district: district, thana: thana);
+    final entities = location[key];
+
+    if (entities == null) {
+      throw CategoriesNotFoundInLocalCacheFailure();
+    }
+
+    return entities;
+  }
+
+  String buildLocationKey({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+  }) =>
+      '$query-$division-$district-$thana-$industry';
 }

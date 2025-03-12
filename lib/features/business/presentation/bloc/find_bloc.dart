@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../review/review.dart';
 import '../../business.dart';
 
 part 'find_event.dart';
@@ -16,7 +17,10 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
       final result = await find(urlSlug: event.urlSlug);
       result.fold(
         (failure) => emit(FindBusinessError(failure: failure)),
-        (business) => emit(FindBusinessDone(business: business)),
+        (listing) => emit(FindBusinessDone(
+          business: listing.$1,
+          reviews: listing.$2,
+        )),
       );
     });
     on<RefreshBusiness>((event, emit) async {
@@ -24,7 +28,10 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
       final result = await refresh(urlSlug: event.urlSlug);
       result.fold(
         (failure) => emit(FindBusinessError(failure: failure)),
-        (business) => emit(FindBusinessDone(business: business)),
+        (listing) => emit(FindBusinessDone(
+          business: listing.$1,
+          reviews: listing.$2,
+        )),
       );
     });
   }

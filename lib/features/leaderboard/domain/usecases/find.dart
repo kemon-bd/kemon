@@ -8,10 +8,9 @@ class FindLeaderboardUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, LeaderboardResponse>> call({
-    required int page,
+  FutureOr<Either<Failure, List<RankedLeaderEntity>>> call({
     required String query,
   }) async {
-    return await repository.find(page: page, query: query);
+    return await repository.find(query: query);
   }
 }

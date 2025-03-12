@@ -1,3 +1,4 @@
+import '../../features/home/home.dart';
 import '../shared/shared.dart';
 //! mason:linking-imports - DO NOT REMOVE THIS COMMENT --------------------------->
 import '../../features/analytics/analytics.dart';
@@ -32,6 +33,7 @@ part 'dependencies/industry.dart';
 part 'dependencies/profile.dart';
 part 'dependencies/login.dart';
 part 'dependencies/authentication.dart';
+part 'dependencies/home.dart';
 
 class AppConfig {
   static FutureOr<void> init() async {

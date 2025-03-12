@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../category.dart';
 
 class FeaturedCategoriesWidget extends StatelessWidget {
@@ -10,11 +11,11 @@ class FeaturedCategoriesWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
-        return BlocBuilder<FeaturedCategoriesBloc, FeaturedCategoriesState>(
+        return BlocBuilder<OverviewBloc, OverviewState>(
           builder: (_, state) {
-            if (state is FeaturedCategoriesLoading) {
+            if (state is OverviewLoading) {
               return const DashboardFeaturedCategoriesSectionShimmerWidget();
-            } else if (state is FeaturedCategoriesDone) {
+            } else if (state is OverviewDone) {
               final categories = state.categories;
               return ListView(
                 padding: EdgeInsets.symmetric(
@@ -92,6 +93,10 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                               pathParameters: {
                                 'urlSlug': category.urlSlug,
                               },
+                              queryParameters: {
+                                'industry': category.industry.guid,
+                                'category': category.identity.guid,
+                              },
                             );
                           },
                           child: Padding(
@@ -130,20 +135,26 @@ class FeaturedCategoriesWidget extends StatelessWidget {
                   ),
                 ],
               );
-            } else if (state is FeaturedCategoriesError) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    state.failure is NoInternetFailure ? Icons.cloud_off_rounded : Icons.error_outline_rounded,
-                    size: Dimension.size.horizontal.seventyTwo,
-                    color: theme.textSecondary,
-                  ),
-                  Text(
-                    state.failure.message,
-                    style: TextStyles.body(context: context, color: theme.textSecondary),
-                  ),
-                ],
+            } else if (state is OverviewError) {
+              return Container(
+                margin: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    color: theme.negative.withAlpha(15),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(width: .5, color: theme.negative)),
+                alignment: Alignment.center,
+                child: Column(
+                  spacing: 16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.cloud_off_rounded, size: 42, color: theme.negative),
+                    Text(
+                      state.failure.message,
+                      style: context.text.bodyMedium?.copyWith(color: theme.negative),
+                    ),
+                  ],
+                ),
               );
             } else {
               return const SizedBox();

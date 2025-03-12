@@ -1,28 +1,31 @@
 import '../../../../core/shared/shared.dart';
+import '../../business.dart';
 
-class BusinessEntity extends Equatable {
-  final Identity identity;
-  final Name name;
-  final String urlSlug;
-  final String about;
-  final String logo;
+class BusinessEntity extends BusinessCoreEntity {
   final ListingType type;
   final bool claimed;
-  final bool verified;
   final Address address;
   final Contact contact;
+  final String social;
+  final String about;
 
   const BusinessEntity({
-    required this.identity,
-    required this.name,
-    required this.urlSlug,
+    required super.rating,
+    required super.reviews,
+    required this.social,
+    required super.identity,
+    required super.name,
+    required super.urlSlug,
     required this.about,
-    required this.logo,
+    required super.logo,
     required this.type,
     required this.claimed,
-    required this.verified,
+    required super.verified,
     required this.address,
     required this.contact,
+    required super.thana,
+    required super.district,
+    
   });
 
   @override
@@ -37,5 +40,10 @@ class BusinessEntity extends Equatable {
         verified,
         address,
         contact,
+        social,
+        rating,
+        reviews,
+        thana,
+        district,
       ];
 }

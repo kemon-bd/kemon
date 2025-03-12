@@ -1,43 +1,49 @@
 import '../../../../core/shared/shared.dart';
+import '../../../industry/industry.dart';
 import '../../category.dart';
 
-typedef CategoriesPaginationKey = ({
-  int page,
-  String? query,
-  String? industry,
-});
-
 abstract class CategoryLocalDataSource {
-  FutureOr<void> add({
+  void add({
     required String urlSlug,
     required CategoryEntity category,
   });
 
-  FutureOr<void> addIndustry({
-    required String industry,
-    required List<CategoryEntity> categories,
-  });
-
-  FutureOr<void> featured({
-    required List<CategoryEntity> categories,
-  });
-
-  FutureOr<List<CategoryEntity>> findIndustry({
-    required String industry,
-  });
-
-  FutureOr<CategoryEntity> find({
+  CategoryEntity find({
     required String urlSlug,
   });
 
-  FutureOr<void> cachePagination({
-    required CategoriesPaginationKey key,
-    required CategoryPaginatedResponse result,
+  void addIndustry({
+    required String industry,
+    required List<CategoryEntity> categories,
   });
 
-  FutureOr<CategoryPaginatedResponse> findPagination({
-    required CategoriesPaginationKey key,
+  List<CategoryEntity> findIndustry({
+    required String industry,
   });
 
-  FutureOr<void> removeAll();
+  void addAll({
+    required String? query,
+    required List<IndustryWithListingCountEntity> industries,
+  });
+
+  List<IndustryWithListingCountEntity> findAll({
+    required String? query,
+  });
+  void addByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required List<CategoryEntity> categories,
+  });
+  List<CategoryEntity> findByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+  });
+
+  void removeAll();
 }

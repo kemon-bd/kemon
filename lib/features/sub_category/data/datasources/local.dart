@@ -22,6 +22,23 @@ abstract class SubCategoryLocalDataSource {
   FutureOr<List<SubCategoryEntity>> findByCategory({
     required String category,
   });
+  void addByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required String category,
+    required List<SubCategoryEntity> subCategories,
+  });
+  List<SubCategoryEntity> findByLocation({
+    required String? query,
+    required String division,
+    String? district,
+    String? thana,
+    required String industry,
+    required String category,
+  });
 
   FutureOr<void> removeAll();
 }

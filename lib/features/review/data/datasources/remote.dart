@@ -19,13 +19,7 @@ abstract class ReviewRemoteDataSource {
     required Identity review,
   });
 
-  Future<ReviewDetailsModel> rating({
-    required String urlSlug,
-  });
-
-  Future<List<ReviewModel>> recent();
-
-  FutureOr<List<ReviewModel>> find({
+  FutureOr<List<UserReviewModel>> find({
     required Identity user,
   });
 
@@ -33,12 +27,8 @@ abstract class ReviewRemoteDataSource {
     required String token,
     required Identity user,
     required Identity listing,
-    required ReviewEntity review,
+    required ReviewCoreEntity review,
     required List<XFile> attachments,
-  });
-
-  FutureOr<List<ReactionModel>> reactions({
-    required Identity review,
   });
 
   FutureOr<void> react({

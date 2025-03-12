@@ -18,9 +18,6 @@ class LocationListingsFilterBloc extends Bloc<LocationListingsFilterEvent, Locat
           industry: event.industry,
           category: event.category,
           subCategory: event.subCategory,
-          division: event.division,
-          district: event.district,
-          thana: event.thana,
           rating: event.rating,
         ),
       );

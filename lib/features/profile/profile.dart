@@ -6,6 +6,7 @@ export 'data/datasources/local_impl.dart';
 export 'data/models/profile.dart';
 
 export 'domain/entities/profile.dart';
+export 'domain/entities/review.dart';
 export 'domain/repositories/profile.dart';
 export 'domain/usecases/check.dart';
 export 'domain/usecases/delete.dart';

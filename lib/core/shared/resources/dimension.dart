@@ -33,6 +33,7 @@ class _Radius {
   final double four = 4.0;
   final double three = 3.0;
   final double two = 2.0;
+  final double oneAndHalf = 1.5;
   final double one = 1.0;
 } //? ------------------- Radius -------------------
 

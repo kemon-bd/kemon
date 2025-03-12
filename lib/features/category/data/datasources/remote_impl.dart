@@ -15,7 +15,6 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
-
     };
     final Response response = await client.get(
       RemoteEndpoints.featuredCategories,
@@ -38,43 +37,24 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
   }
 
   @override
-  FutureOr<CategoryPaginatedResponse> all({
-    required int page,
-    required String? industry,
+  FutureOr<List<IndustryWithListingCountModel>> all({
     required String? query,
   }) async {
     final Map<String, String> headers = {
       'query': query ?? '',
-      'industry': industry ?? '',
-      'pageno': page.toString(),
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
     final Response response = await client.get(
-      RemoteEndpoints.categories,
+      RemoteEndpoints.allCategories,
       headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+      final List<dynamic> data = List<dynamic>.from(json.decode(response.body));
 
-      if (networkResponse.success) {
-        final int total = networkResponse.result!["totalCount"];
-        final List<dynamic> data = networkResponse.result!["categoryModelCombinedList"];
-        final result = data
-            .map(
-              (map) => (
-                industry: IndustryModel.parse(map: map['industry']),
-                categories: List<dynamic>.from(map['categories']).map((cat) => CategoryModel.parse(map: cat)).toList(),
-              ),
-            )
-            .toList();
-
-        return (total: total, results: result);
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
-      }
+      return data.map((map) => IndustryWithListingCountModel.parse(map: map)).toList();
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
@@ -107,7 +87,7 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
             )
             .toList();
 
-        return result.expand((list)=>list).toList();
+        return result.expand((list) => list).toList();
       } else {
         throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
       }
@@ -145,4 +125,5 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
     }
   }
+
 }

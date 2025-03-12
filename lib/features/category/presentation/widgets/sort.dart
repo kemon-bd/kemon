@@ -1,10 +1,12 @@
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../business/business.dart';
-import '../../category.dart';
 
 class SortBusinessesByCategoryWidget extends StatelessWidget {
-  const SortBusinessesByCategoryWidget({super.key});
+  final SortBy selection;
+  const SortBusinessesByCategoryWidget({
+    super.key,
+    required this.selection,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
               children: [
                 Text(
                   "Sort By",
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  style: TextStyles.title(context: context, color: theme.textPrimary),
                 ),
                 IconButton(
                   onPressed: () {
@@ -48,71 +50,48 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: theme.backgroundTertiary, width: .25),
               ),
-              child: BlocBuilder<FindCategoryBloc, FindCategoryState>(
+              child: BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
                 builder: (context, state) {
-                  if (state is FindCategoryDone) {
-                    final category = state.category.urlSlug;
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (_, index) {
+                      final item = SortBy.values[index];
+                      final selected = selection == item;
 
-                    return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
-                      builder: (context, state) {
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemBuilder: (_, index) {
-                            final item = SortBy.values[index];
-                            final selected = state.sortBy == item;
-
-                            return InkWell(
-                              onTap: () async {
-                                final filter = context.read<CategoryListingsFilterBloc>().state;
-                                await sl<FirebaseAnalytics>().logEvent(name: 'listings_by_category_sort');
-                                if (!context.mounted) return;
-                                context.read<FindBusinessesByCategoryBloc>().add(
-                                      RefreshBusinessesByCategory(
-                                        urlSlug: category,
-                                        sort: SortBy.values[index],
-                                        division: filter.division,
-                                        district: filter.district,
-                                        thana: filter.thana,
-                                        ratings: filter.rating.stars,
-                                        subCategory: filter.subCategory,
-                                      ),
-                                    );
-                                context.pop();
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(Dimension.radius.sixteen),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      selected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                      size: Dimension.radius.twenty,
-                                      color: selected ? theme.primary : theme.textPrimary,
-                                    ),
-                                    SizedBox(width: Dimension.padding.horizontal.max),
-                                    Expanded(
-                                      child: Text(
-                                        item.text,
-                                        style: TextStyles.subTitle(
-                                          context: context,
-                                          color: selected ? theme.primary : theme.textPrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                      return InkWell(
+                        onTap: () {
+                          context.pop(item);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(Dimension.radius.sixteen),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                size: Dimension.radius.twenty,
+                                color: selected ? theme.primary : theme.textPrimary,
+                              ),
+                              SizedBox(width: Dimension.padding.horizontal.max),
+                              Expanded(
+                                child: Text(
+                                  item.text,
+                                  style: TextStyles.subTitle(
+                                    context: context,
+                                    color: selected ? theme.primary : theme.textPrimary,
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                          itemCount: SortBy.values.length,
-                        );
-                      },
-                    );
-                  }
-                  return Container();
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: SortBy.values.length,
+                  );
                 },
               ),
             ),

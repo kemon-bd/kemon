@@ -8,7 +8,7 @@ class SearchSuggestionsUseCase {
     required this.repository,
   });
 
-  Future<Either<Failure, AutoCompleteSuggestions>> call({
+  Future<Either<Failure, List<SearchSuggestionEntity>>> call({
     required String query,
   }) async {
     return await repository.suggestion(query: query);

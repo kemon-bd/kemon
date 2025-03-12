@@ -20,15 +20,8 @@ abstract class CategoryRepository {
 
   FutureOr<Either<Failure, List<CategoryEntity>>> featured();
 
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> all({
-    required int page,
-    required String? industry,
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> all({
     required String? query,
   });
-
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> refreshAll({
-    required int page,
-    required String? industry,
-    required String? query,
-  });
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> refreshAll();
 }

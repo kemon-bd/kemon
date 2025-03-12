@@ -1,42 +1,151 @@
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
+import '../../../profile/profile.dart';
 
-class ReviewEntity extends Equatable {
+class ReviewCoreEntity extends Equatable {
   final Identity identity;
-  final Identity user;
-  final String listing;
-  final int rating;
-  final String title;
-  final String? description;
+  final int star;
+  final String summary;
+  final String content;
   final DateTime experiencedAt;
   final DateTime reviewedAt;
-  final bool deleted;
-  final bool flagged;
-  final List<String> photos;
+  final int likes;
+  final int dislikes;
+  final bool liked;
+  final bool disliked;
 
-  const ReviewEntity({
+  const ReviewCoreEntity({
     required this.identity,
-    required this.user,
-    required this.listing,
-    required this.rating,
-    required this.title,
-    required this.description,
+    required this.star,
+    required this.summary,
+    required this.content,
     required this.experiencedAt,
     required this.reviewedAt,
-    required this.photos,
-    required this.deleted,
-    required this.flagged,
+    required this.likes,
+    required this.dislikes,
+    required this.liked,
+    required this.disliked,
   });
 
   @override
   List<Object?> get props => [
         identity,
-        user,
+        star,
+        summary,
+        content,
+        experiencedAt,
+        reviewedAt,
+        likes,
+        dislikes,
+        liked,
+        disliked,
+      ];
+}
+
+class RecentReviewEntity extends ReviewCoreEntity {
+  final int photos;
+  final BusinessPreviewEntity listing;
+  final ReviewUserEntity reviewer;
+  const RecentReviewEntity({
+    required super.identity,
+    required super.star,
+    required super.summary,
+    required super.content,
+    required super.experiencedAt,
+    required super.reviewedAt,
+    required super.likes,
+    required super.dislikes,
+    required super.liked,
+    required super.disliked,
+    required this.listing,
+    required this.reviewer,
+    required this.photos,
+  });
+
+  @override
+  List<Object?> get props => [
         listing,
-        rating,
-        title,
-        description,
+        identity,
+        reviewer,
+        star,
+        summary,
+        content,
         experiencedAt,
         reviewedAt,
         photos,
+        likes,
+        dislikes,
+        liked,
+        disliked,
+      ];
+}
+
+class ListingReviewEntity extends ReviewCoreEntity {
+  final List<String> photos;
+  final ReviewUserEntity reviewer;
+  const ListingReviewEntity({
+    required super.identity,
+    required super.star,
+    required super.summary,
+    required super.content,
+    required super.experiencedAt,
+    required super.reviewedAt,
+    required super.likes,
+    required super.dislikes,
+    required super.liked,
+    required super.disliked,
+    required this.reviewer,
+    required this.photos,
+  });
+
+  @override
+  List<Object?> get props => [
+        identity,
+        reviewer,
+        star,
+        summary,
+        content,
+        experiencedAt,
+        reviewedAt,
+        photos,
+        likes,
+        dislikes,
+        liked,
+        disliked,
+      ];
+}
+
+class UserReviewEntity extends ReviewCoreEntity {
+  final List<String> photos;
+  final BusinessPreviewEntity listing;
+  const UserReviewEntity({
+    required super.identity,
+    required super.star,
+    required super.summary,
+    required super.content,
+    required super.experiencedAt,
+    required super.reviewedAt,
+    required super.likes,
+    required super.dislikes,
+    required super.liked,
+    required super.disliked,
+    required this.photos,
+    required this.listing,
+  });
+
+  @override
+  List<Object?> get props => [
+        identity,
+        listing,
+        star,
+        summary,
+        content,
+        experiencedAt,
+        reviewedAt,
+        photos,
+        likes,
+        dislikes,
+        liked,
+        disliked,
       ];
 }

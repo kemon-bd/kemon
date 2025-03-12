@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../home/home.dart';
 import '../../location.dart';
 
 class FeaturedLocationsWidget extends StatelessWidget {
@@ -10,11 +11,11 @@ class FeaturedLocationsWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
-        return BlocBuilder<FeaturedLocationsBloc, FeaturedLocationsState>(
+        return BlocBuilder<OverviewBloc, OverviewState>(
           builder: (_, state) {
-            if (state is FeaturedLocationsLoading) {
+            if (state is OverviewLoading) {
               return const FeaturedLocationsShimmerWidget();
-            } else if (state is FeaturedLocationsDone) {
+            } else if (state is OverviewDone) {
               final locations = state.locations;
               return ListView(
                 padding: EdgeInsets.symmetric(
@@ -88,9 +89,11 @@ class FeaturedLocationsWidget extends StatelessWidget {
                             );
                             if (!context.mounted) return;
                             context.pushNamed(
-                              LocationPage.name,
+                              ThanaPage.name,
                               pathParameters: {
-                                'urlSlug': location.urlSlug,
+                                'division': location.division,
+                                'district': location.district,
+                                'thana': location.urlSlug,
                               },
                             );
                           },
@@ -117,10 +120,6 @@ class FeaturedLocationsWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            } else if (state is FeaturedLocationsError) {
-              return Center(
-                child: Text(state.failure.message),
               );
             } else {
               return const SizedBox();

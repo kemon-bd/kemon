@@ -36,7 +36,10 @@ class SearchRepositoryImpl extends SearchRepository {
       if (await network.online) {
         final results = await remote.result(query: query, filter: filter);
         await local.addResult(query: query, filter: filter, results: results);
-        await location.addAll(locations: results.locations);
+
+        for (LocationEntity l in results.locations) {
+          location.add(urlSlug: l.urlSlug, location: l);
+        }
         await subCategory.addAll(subCategories: results.subCategories);
         return Right(results);
       } else {
@@ -48,29 +51,33 @@ class SearchRepositoryImpl extends SearchRepository {
   }
 
   @override
-  Future<Either<Failure, AutoCompleteSuggestions>> suggestion({
+  Future<Either<Failure, List<SearchSuggestionEntity>>> suggestion({
     required String query,
   }) async {
     try {
-      final result = await local.findSuggestion(query: query);
+      /* final result = await local.findSuggestion(query: query);
       return Right(result);
     } on SearchSuggestionsNotFoundInLocalCacheFailure catch (_) {
-      try {
-        if (await network.online) {
-          final suggestions = await remote.suggestion(query: query);
-          await local.addSuggestion(query: query, suggestions: suggestions);
-          for (var i in suggestions.industries) {
-            await industry.add(industry: i);
+      try { */
+      if (await network.online) {
+        final suggestions = await remote.suggestion(query: query);
+        for (var s in suggestions) {
+          if (s is IndustryEntity) {
+            industry.add(industry: s as IndustryEntity);
+          } else if (s is CategoryEntity) {
+            category.add(urlSlug: s.urlSlug, category: s as CategoryEntity);
+          } else if (s is SubCategoryEntity) {
+            subCategory.add(subCategory: s as SubCategoryEntity);
           }
-          await category.featured(categories: suggestions.categories);
-          await subCategory.addAll(subCategories: suggestions.subCategories);
-          return Right(suggestions);
-        } else {
-          return Left(NoInternetFailure());
         }
-      } on Failure catch (e) {
-        return Left(e);
+
+        return Right(suggestions.arrange(query: query));
+      } else {
+        return Left(NoInternetFailure());
       }
+      /* } on Failure catch (e) {
+        return Left(e);
+      } */
     } on Failure catch (e) {
       return Left(e);
     }

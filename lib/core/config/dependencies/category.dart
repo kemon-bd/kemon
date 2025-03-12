@@ -28,10 +28,20 @@ Future<void> get categoryDependencies async {
       analytics: sl(),
     ),
   );
+  sl.registerFactory(
+    () => FindLocationsByCategoryBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindLocationsByCategoriesUseCase(
       repository: sl(),
     ),
   );
@@ -62,6 +72,8 @@ Future<void> get categoryDependencies async {
       network: sl(),
       remote: sl(),
       local: sl(),
+      industryCache: sl(),
+      subCategoryCache: sl(),
     ),
   );
 

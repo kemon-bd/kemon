@@ -27,7 +27,7 @@ extension DateRangeOptionEnumExtension on DateRangeOption {
         return 'All time';
       case DateRangeOption.custom:
         return 'Custom';
-      }
+    }
   }
 
   DateTimeRange get evaluate {
@@ -78,7 +78,7 @@ extension DateRangeOptionEnumExtension on DateRangeOption {
         end = DateTime(2100);
         break;
       case DateRangeOption.custom:
-      start = DateTime(2010, 1, 1);
+        start = DateTime(2010, 1, 1);
         end = now;
     }
 
@@ -115,7 +115,7 @@ extension GenderExtension on Gender {
         return 'Female';
       case Gender.other:
         return 'Other';
-      }
+    }
   }
 }
 
@@ -141,7 +141,7 @@ extension RatingRangeExtension on RatingRange {
     switch (this) {
       case RatingRange.all:
         return [];
-      case RatingRange.worst:
+      case RatingRange.poor:
         return [0, 1, 2];
       case RatingRange.average:
         return [2, 3, 4];
@@ -149,22 +149,51 @@ extension RatingRangeExtension on RatingRange {
         return [4, 5];
     }
   }
+
+  String get text {
+    switch (this) {
+      case RatingRange.all:
+        return 'All';
+      case RatingRange.poor:
+        return 'Poor';
+      case RatingRange.average:
+        return 'Average';
+      case RatingRange.best:
+        return 'Best';
+    }
+  }
+
+  String get value {
+    switch (this) {
+      case RatingRange.all:
+        return 'all';
+      case RatingRange.poor:
+        return 'poor';
+      case RatingRange.average:
+        return 'average';
+      case RatingRange.best:
+        return 'best';
+    }
+  }
 }
 
 extension SortByExtension on SortBy? {
   String get value {
-    if (this == null) {
-      return 'Recommended';
-    }
     switch (this) {
-      case SortBy.recommended:
-        return 'Recommended';
       case SortBy.mostReviewed:
-        return 'MostReviewed';
+        return 'most-reviewed';
       case SortBy.highestRated:
-        return 'HighestRated';
+        return 'highest-rated';
+      case SortBy.nameAtoZ:
+        return 'alphabetic-asc';
+      case SortBy.nameZtoA:
+        return 'alphabetic-desc';
+      case SortBy.newest:
+        return 'newest';
+      case SortBy.oldest:
+        return 'oldest';
       default:
-        return 'Recommended';
+        return 'recommended';
     }
   }
 
@@ -179,6 +208,14 @@ extension SortByExtension on SortBy? {
         return 'Most Reviewed';
       case SortBy.highestRated:
         return 'Highest Rated';
+      case SortBy.newest:
+        return 'Newest';
+      case SortBy.oldest:
+        return 'Oldest';
+      case SortBy.nameAtoZ:
+        return 'Name (A-Z)';
+      case SortBy.nameZtoA:
+        return 'Name (Z-A)';
       default:
         return 'Recommended';
     }

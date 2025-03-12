@@ -10,7 +10,7 @@ class UpdateReviewUseCase {
 
   FutureOr<Either<Failure, void>> call({
     required Identity listing,
-    required ReviewEntity review,
+    required ReviewCoreEntity review,
     required List<XFile> attachments
   }) async {
     return await repository.update(

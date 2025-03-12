@@ -4,6 +4,8 @@ import '../../leaderboard.dart';
 class LeaderModel extends LeaderEntity {
   const LeaderModel({
     required super.identity,
+    required super.name,
+    required super.avatar,
     required super.point,
   });
 
@@ -12,8 +14,10 @@ class LeaderModel extends LeaderEntity {
   }) {
     try {
       return LeaderModel(
-        identity: Identity.guid(guid: map['userGuid']),
+        identity: Identity.guid(guid: map['guid']),
         point:  (map['point'] as num).toInt(),
+        name: Name.full(name: map['name']),
+        avatar: map['profilePicture'],
       );
     } catch (e, stackTrace) {
       throw LeaderboardModelParseFailure(

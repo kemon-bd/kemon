@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../industry/industry.dart';
 import '../../category.dart';
 
 class RefreshAllCategoryUseCase {
@@ -8,12 +9,7 @@ class RefreshAllCategoryUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, CategoryPaginatedResponse>> call({
-    required int page,
-    required String? industry,
-    required String? query,
-  }) async {
-    return await repository.refreshAll(
-        page: page, industry: industry, query: query);
+  FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> call() async {
+    return await repository.refreshAll();
   }
 }

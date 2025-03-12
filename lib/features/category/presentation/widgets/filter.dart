@@ -1,15 +1,19 @@
 import '../../../../../core/shared/shared.dart';
-import '../../../../core/config/config.dart';
-import '../../../industry/industry.dart';
 import '../../category.dart';
 
 class CategoryFilter extends StatefulWidget {
-  final IndustryEntity? industry;
+  final String division;
+  final String? district;
+  final String? thana;
+  final List<CategoryWithListingCountEntity> categories;
   final CategoryEntity? selection;
 
   const CategoryFilter({
     super.key,
-    required this.industry,
+    required this.division,
+    this.district,
+    this.thana,
+    required this.categories,
     required this.selection,
   });
 
@@ -19,19 +23,19 @@ class CategoryFilter extends StatefulWidget {
 
 class _CategoryFilterState extends State<CategoryFilter> {
   final TextEditingController controller = TextEditingController();
-  CategoryEntity? category;
+  CategoryEntity? selection;
+  late List<CategoryWithListingCountEntity> categories;
 
   @override
   void initState() {
     super.initState();
-    category = widget.selection;
+    selection = widget.selection;
+    categories = widget.categories;
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<FindCategoriesByIndustryBloc>()
-        ..add(FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? '')),
+    return KeyboardDismissOnTap(
       child: Padding(
         padding: context.viewInsets,
         child: Material(
@@ -51,12 +55,12 @@ class _CategoryFilterState extends State<CategoryFilter> {
                   physics: const ScrollPhysics(),
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Category",
                           style: TextStyles.title(context: themeContext, color: theme.textPrimary),
                         ),
-                        Spacer(),
                         IconButton(
                           onPressed: () {
                             themeContext.pop();
@@ -75,9 +79,17 @@ class _CategoryFilterState extends State<CategoryFilter> {
                     TextField(
                       controller: controller,
                       onChanged: (value) {
-                        themeContext.read<FindCategoriesByIndustryBloc>().add(
-                              FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? '', query: value),
-                            );
+                        if (value.isEmpty) {
+                          categories = widget.categories;
+                          setState(() {});
+                        } else {
+                          categories = widget.categories
+                              .where(
+                                (element) => element.name.full.match(like: value),
+                              )
+                              .toList();
+                          setState(() {});
+                        }
                       },
                       style: TextStyles.body(context: themeContext, color: theme.textPrimary),
                       decoration: InputDecoration(
@@ -88,9 +100,8 @@ class _CategoryFilterState extends State<CategoryFilter> {
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.clear();
-                            themeContext.read<FindCategoriesByIndustryBloc>().add(
-                                  FindCategoriesByIndustry(industry: widget.industry?.urlSlug ?? ''),
-                                );
+                            categories = widget.categories;
+                            setState(() {});
                           },
                           child: Icon(
                             Icons.cancel_rounded,
@@ -100,73 +111,85 @@ class _CategoryFilterState extends State<CategoryFilter> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<FindCategoriesByIndustryBloc, FindCategoriesByIndustryState>(
-                      builder: (builderContext, state) {
-                        if (state is FindCategoriesByIndustryDone) {
-                          final categories = state.categories;
+                    PhysicalModel(
+                      color: theme.backgroundSecondary,
+                      borderRadius: BorderRadius.circular(16),
+                      child: categories.isNotEmpty
+                          ? Container(
+                              constraints: BoxConstraints(maxHeight: context.height * .5),
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) => Divider(height: .25, color: theme.backgroundTertiary),
+                                itemBuilder: (context, index) {
+                                  final place = categories[index];
+                                  final bool selected = place.name.full.same(as: selection?.name.full);
 
-                          return PhysicalModel(
-                            color: theme.backgroundSecondary,
-                            borderRadius: BorderRadius.circular(16),
-                            child: categories.isNotEmpty
-                                ? Container(
-                                    constraints: BoxConstraints(
-                                      maxHeight: context.height * .5,
-                                    ),
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) =>
-                                          Divider(height: .25, color: theme.backgroundTertiary),
-                                      itemBuilder: (context, index) {
-                                        final item = categories[index];
-                                        final bool selected = item.name.full.same(as: category?.name.full);
-                                        return InkWell(
-                                          onTap: () {
-                                            context.pop(item);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  selected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                                  color: selected ? theme.positive : theme.textPrimary,
-                                                  size: 24,
-                                                  grade: 200,
-                                                  weight: 700,
-                                                ),
-                                                const SizedBox(width: 12),
-                                                Expanded(
-                                                  child: Text(
-                                                    item.name.full,
-                                                    style: TextStyles.body(
-                                                      context: context,
-                                                      color: selected ? theme.positive : theme.textPrimary,
+                                  return InkWell(
+                                    onTap: () {
+                                      context.pop(place);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                            color: selected ? theme.positive : theme.textPrimary,
+                                            size: 24,
+                                            grade: 200,
+                                            weight: 700,
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text.rich(
+                                              TextSpan(
+                                                text: '',
+                                                children: [
+                                                  WidgetSpan(
+                                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                                    baseline: TextBaseline.ideographic,
+                                                    child: Text(
+                                                      place.name.full,
+                                                      style: TextStyles.body(
+                                                        context: context,
+                                                        color: selected ? theme.positive : theme.textPrimary,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
+                                                  WidgetSpan(
+                                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                                    baseline: TextBaseline.ideographic,
+                                                    child: Text(
+                                                      "(${place.listings})",
+                                                      style: TextStyles.body(
+                                                        context: context,
+                                                        color: selected ? theme.positive : theme.textPrimary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                      itemCount: categories.length,
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
-                                      physics: const ScrollPhysics(),
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      "No category found",
-                                      style: TextStyles.subTitle(context: themeContext, color: theme.textPrimary),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                          );
-                        }
-                        return Container();
-                      },
+                                  );
+                                },
+                                itemCount: categories.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero.copyWith(top: 8, bottom: 8),
+                                physics: const ScrollPhysics(),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                "No category found",
+                                style: TextStyles.subTitle(context: themeContext, color: theme.textPrimary),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                     ),
                   ],
                 ),

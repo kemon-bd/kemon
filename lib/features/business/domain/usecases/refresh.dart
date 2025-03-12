@@ -8,8 +8,9 @@ class RefreshBusinessUseCase {
     required this.repository,
   });
 
-  FutureOr<Either<Failure, BusinessEntity>> call(
-      {required String urlSlug}) async {
+  FutureOr<Either<Failure, ListingEntity>> call({
+    required String urlSlug,
+  }) async {
     return await repository.refresh(urlSlug: urlSlug);
   }
 }

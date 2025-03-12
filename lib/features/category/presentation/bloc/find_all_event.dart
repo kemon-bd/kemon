@@ -1,42 +1,24 @@
 part of 'find_all_bloc.dart';
 
 abstract class FindAllCategoriesEvent extends Equatable {
-  final String? industry;
-  final String? query;
-  const FindAllCategoriesEvent({
-    this.industry,
-    this.query,
-  });
+  const FindAllCategoriesEvent();
 
   @override
-  List<Object?> get props => [industry, query];
+  List<Object?> get props => [];
 }
 
 class FindAllCategories extends FindAllCategoriesEvent {
+  final String? query;
   const FindAllCategories({
-    required super.industry,
-    required super.query,
+    this.query,
   });
   @override
-  List<Object?> get props => [industry, query];
+  List<Object?> get props => [query];
 }
 
-class PaginateAllCategories extends FindAllCategoriesEvent {
-  final int page;
-  const PaginateAllCategories({
-    required this.page,
-    required super.industry,
-    required super.query,
-  });
-  @override
-  List<Object?> get props => [page, industry, query];
-}
 
 class RefreshAllCategories extends FindAllCategoriesEvent {
-  const RefreshAllCategories({
-    required super.industry,
-    required super.query,
-  });
+  const RefreshAllCategories();
   @override
-  List<Object?> get props => [industry, query];
+  List<Object?> get props => [];
 }

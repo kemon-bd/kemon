@@ -8,81 +8,100 @@ abstract class FindBusinessesByCategoryEvent extends Equatable {
 }
 
 class FindBusinessesByCategory extends FindBusinessesByCategoryEvent {
-  final String? query;
+  final Identity industry;
+  final Identity? category;
+  final Identity? subCategory;
+  final String? division;
+  final String? district;
+  final String? thana;
   final SortBy? sort;
-  final LookupEntity? division;
-  final LookupEntity? district;
-  final LookupEntity? thana;
-  final SubCategoryEntity? subCategory;
-  final CategoryEntity? category;
-  final List<int> ratings;
-  final String urlSlug;
+  final RatingRange ratings;
 
   const FindBusinessesByCategory({
-    required this.urlSlug,
-    this.query,
-    this.sort,
+    required this.industry,
+    this.category,
+    this.subCategory,
     this.division,
     this.district,
     this.thana,
-    this.subCategory,
-    this.category,
-    this.ratings = const [],
+    this.sort,
+    this.ratings = RatingRange.all,
   });
+  
   @override
-  List<Object?> get props => [urlSlug, query, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props => [
+        sort,
+        ratings,
+        industry,
+        category,
+        subCategory,
+      ];
+}
+
+class SearchBusinessesByCategory extends FindBusinessesByCategoryEvent {
+  final String query;
+  final Identity industry;
+  final Identity? category;
+  final Identity? subCategory;
+  final String? division;
+  final String? district;
+  final String? thana;
+  final SortBy? sort;
+  final RatingRange ratings;
+
+  const SearchBusinessesByCategory({
+    required this.industry,
+    this.category,
+    this.subCategory,
+    this.division,
+    this.district,
+    this.thana,
+    required this.query,
+    this.sort,
+    this.ratings = RatingRange.all,
+  });
+  
+  @override
+  List<Object?> get props => [
+        query,
+        sort,
+        ratings,
+        industry,
+        category,
+        subCategory,
+      ];
 }
 
 class RefreshBusinessesByCategory extends FindBusinessesByCategoryEvent {
-  final String? query;
+  final Identity industry;
+  final Identity? category;
+  final Identity? subCategory;
+  final String? division;
+  final String? district;
+  final String? thana;
   final SortBy? sort;
-  final LookupEntity? division;
-  final LookupEntity? district;
-  final LookupEntity? thana;
-  final CategoryEntity? category;
-  final SubCategoryEntity? subCategory;
-  final List<int> ratings;
-  final String urlSlug;
+  final RatingRange ratings;
 
   const RefreshBusinessesByCategory({
-    required this.urlSlug,
-    this.query,
+    required this.industry,
+    this.category,
+    this.subCategory,
     this.sort,
     this.division,
     this.district,
     this.thana,
-    this.subCategory,
-    this.category,
-    this.ratings = const [],
+    this.ratings = RatingRange.all,
   });
-  @override
-  List<Object?> get props => [urlSlug, query, sort, division, district, thana, subCategory, ratings];
-}
 
-class PaginateBusinessesByCategory extends FindBusinessesByCategoryEvent {
-  final String? query;
-  final SortBy? sort;
-  final LookupEntity? division;
-  final LookupEntity? district;
-  final LookupEntity? thana;
-  final CategoryEntity? category;
-  final SubCategoryEntity? subCategory;
-  final List<int> ratings;
-  final int page;
-  final String urlSlug;
-
-  const PaginateBusinessesByCategory({
-    required this.page,
-    required this.urlSlug,
-    this.query,
-    this.sort,
-    this.division,
-    this.district,
-    this.thana,
-    this.category,
-    this.subCategory,
-    this.ratings = const [],
-  });
   @override
-  List<Object?> get props => [urlSlug, query, sort, division, district, thana, subCategory, ratings];
+  List<Object?> get props => [
+        sort,
+        ratings,
+        industry,
+        category,
+        subCategory,
+        division,
+        district,
+        thana,
+      ];
 }

@@ -1,35 +1,18 @@
 part of 'location_bloc.dart';
 
 abstract class FindBusinessesByLocationState extends Equatable {
-  final String query;
-  final SortBy? sortBy;
-  final List<int> ratings;
-
-  const FindBusinessesByLocationState({
-    required this.query,
-    required this.sortBy,
-    required this.ratings,
-  });
+  const FindBusinessesByLocationState();
 
   @override
-  List<Object?> get props => [query, sortBy, ratings];
+  List<Object?> get props => [];
 }
 
 class FindBusinessesByLocationInitial extends FindBusinessesByLocationState {
-  const FindBusinessesByLocationInitial()
-      : super(
-          query: '',
-          sortBy: SortBy.recommended,
-          ratings: const [],
-        );
+  const FindBusinessesByLocationInitial() : super();
 }
 
 class FindBusinessesByLocationLoading extends FindBusinessesByLocationState {
-  const FindBusinessesByLocationLoading({
-    required super.query,
-    required super.sortBy,
-    required super.ratings,
-  });
+  const FindBusinessesByLocationLoading();
 }
 
 class FindBusinessesByLocationError extends FindBusinessesByLocationState {
@@ -37,46 +20,20 @@ class FindBusinessesByLocationError extends FindBusinessesByLocationState {
 
   const FindBusinessesByLocationError({
     required this.failure,
-    required super.query,
-    required super.sortBy,
-    required super.ratings,
   });
 
   @override
-  List<Object?> get props => [failure, query, sortBy, ratings];
+  List<Object?> get props => [failure];
 }
 
 class FindBusinessesByLocationDone extends FindBusinessesByLocationState {
-  final int page;
-  final int total;
-  final List<LocationEntity> related;
-  final List<BusinessEntity> businesses;
+  final List<BusinessLiteEntity> businesses;
 
   const FindBusinessesByLocationDone({
-    required this.page,
-    required super.query,
-    required this.total,
-    required this.related,
     required this.businesses,
-    required super.sortBy,
-    required super.ratings,
   });
 
   @override
-  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings];
+  List<Object?> get props => [businesses];
 }
 
-class FindBusinessesByLocationPaginating extends FindBusinessesByLocationDone {
-  const FindBusinessesByLocationPaginating({
-    required super.page,
-    required super.query,
-    required super.total,
-    required super.related,
-    required super.businesses,
-    required super.sortBy,
-    required super.ratings,
-  });
-
-  @override
-  List<Object?> get props => [businesses, total, page, related, query, sortBy, ratings];
-}

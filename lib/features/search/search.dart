@@ -3,8 +3,10 @@ export 'data/datasources/remote.dart';
 export 'data/datasources/remote_impl.dart';
 export 'data/datasources/local.dart';
 export 'data/datasources/local_impl.dart';
+export 'data/models/suggestion.dart';
 
 export 'domain/repositories/search.dart';
+export 'domain/entities/suggestion.dart';
 export 'domain/usecases/result.dart';
 export 'domain/usecases/suggestion.dart';
 

@@ -2,39 +2,40 @@ import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
 import '../../../industry/industry.dart';
 import '../../../lookup/lookup.dart';
+import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
+typedef ListingModel = (BusinessModel, List<ListingReviewModel>);
+
 abstract class BusinessRemoteDataSource {
-  FutureOr<BusinessModel> find({
+  FutureOr<ListingModel> find({
     required String urlSlug,
+    required Identity? user,
   });
 
-  FutureOr<BusinessesByCategoryPaginatedResponse> category({
-    required int page,
-    required String urlSlug,
-    required String? query,
-    required SortBy? sort,
-    required LookupEntity? division,
-    required LookupEntity? district,
-    required LookupEntity? thana,
-    required CategoryEntity? category,
-    required SubCategoryEntity? subCategory,
-    required List<int> ratings,
-  });
-
-  FutureOr<BusinessesByLocationPaginatedResponse> location({
-    required int page,
-    required String location,
+  FutureOr<List<BusinessLiteModel>> category({
+    required Identity industry,
+    required Identity? category,
+    required Identity? subCategory,
     required String? division,
     required String? district,
     required String? thana,
     required String? query,
     required SortBy? sort,
-    required List<int> ratings,
-    required IndustryEntity? industry,
-    required CategoryEntity? category,
-    required SubCategoryEntity? sub,
+    required RatingRange ratings,
+  });
+
+  FutureOr<List<BusinessLiteModel>> location({
+    required String division,
+    String? district,
+    String? thana,
+    required String? query,
+    required Identity? industry,
+    required Identity? category,
+    required Identity? subCategory,
+    required SortBy? sort,
+    required RatingRange ratings,
   });
 
   FutureOr<void> validateUrlSlug({

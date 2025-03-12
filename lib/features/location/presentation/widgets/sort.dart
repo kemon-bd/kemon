@@ -1,17 +1,10 @@
 import '../../../../core/shared/shared.dart';
-import '../../../business/business.dart';
 
 class SortBusinessesByLocationWidget extends StatelessWidget {
-  final String urlSlug;
-  final String? division;
-  final String? district;
-  final String? thana;
+  final SortBy selection;
   const SortBusinessesByLocationWidget({
     super.key,
-    required this.urlSlug,
-    required this.division,
-    required this.district,
-    required this.thana,
+    required this.selection,
   });
 
   @override
@@ -56,59 +49,45 @@ class SortBusinessesByLocationWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: theme.backgroundTertiary, width: .25),
               ),
-              child: BlocBuilder<FindBusinessesByLocationBloc, FindBusinessesByLocationState>(
-                builder: (context, state) {
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemBuilder: (_, index) {
-                      final item = SortBy.values[index];
-                      final selected = state.sortBy == item;
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (_, index) {
+                  final item = SortBy.values[index];
+                  final selected = selection == item;
 
-                      return InkWell(
-                        onTap: () {
-                          context.read<FindBusinessesByLocationBloc>().add(
-                                FindBusinessesByLocation(
-                                  location: urlSlug,
-                                  sort: SortBy.values[index],
-                                  ratings: state.ratings,
-                                  division: division,
-                                  district: district,
-                                  thana: thana,
-                                ),
-                              );
-                          context.pop();
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.all(Dimension.radius.sixteen),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                selected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                size: Dimension.radius.twenty,
+                  return InkWell(
+                    onTap: () {
+                      context.pop(item);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(Dimension.radius.sixteen),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                            size: Dimension.radius.twenty,
+                            color: selected ? theme.primary : theme.textPrimary,
+                          ),
+                          SizedBox(width: Dimension.padding.horizontal.max),
+                          Expanded(
+                            child: Text(
+                              item.text,
+                              style: TextStyles.subTitle(
+                                context: context,
                                 color: selected ? theme.primary : theme.textPrimary,
                               ),
-                              SizedBox(width: Dimension.padding.horizontal.max),
-                              Expanded(
-                                child: Text(
-                                  item.text,
-                                  style: TextStyles.subTitle(
-                                    context: context,
-                                    color: selected ? theme.primary : theme.textPrimary,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    itemCount: SortBy.values.length,
+                        ],
+                      ),
+                    ),
                   );
                 },
+                itemCount: SortBy.values.length,
               ),
             ),
           ],

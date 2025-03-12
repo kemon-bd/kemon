@@ -1,7 +1,4 @@
 import '../../../../core/shared/shared.dart';
-import '../../../category/category.dart';
-import '../../../lookup/lookup.dart';
-import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
 part 'category_event.dart';
@@ -15,116 +12,59 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
     required this.refresh,
   }) : super(const FindBusinessesByCategoryInitial()) {
     on<FindBusinessesByCategory>((event, emit) async {
-      emit(FindBusinessesByCategoryLoading(
-        query: event.query ?? '',
-        sortBy: event.sort ?? SortBy.recommended,
-      ));
+      emit(FindBusinessesByCategoryLoading());
       final result = await find(
-        urlSlug: event.urlSlug,
-        page: 1,
-        query: event.query ?? '',
-        sort: event.sort ?? SortBy.recommended,
+        query: null,
+        industry: event.industry,
+        category: event.category,
+        subCategory: event.subCategory,
         division: event.division,
         district: event.district,
         thana: event.thana,
-        category: event.category,
-        subCategory: event.subCategory,
+        sort: event.sort ?? SortBy.recommended,
         ratings: event.ratings,
       );
       result.fold(
-        (failure) => emit(FindBusinessesByCategoryError(
-          failure: failure,
-          query: event.query ?? '',
-          sortBy: event.sort ?? SortBy.recommended,
-        )),
-        (response) => emit(
-          FindBusinessesByCategoryDone(
-            page: 1,
-            total: response.total,
-            businesses: response.businesses,
-            related: response.related,
-            query: event.query ?? '',
-            sortBy: event.sort ?? SortBy.recommended,
-          ),
-        ),
+        (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+        (businesses) => emit(FindBusinessesByCategoryDone(businesses: businesses)),
       );
     });
-    on<RefreshBusinessesByCategory>((event, emit) async {
-      emit(FindBusinessesByCategoryLoading(
-        query: event.query ?? '',
-        sortBy: event.sort ?? SortBy.recommended,
-      ));
-      final result = await refresh(
-        urlSlug: event.urlSlug,
-        query: event.query ?? '',
-        sort: event.sort ?? SortBy.recommended,
+    on<SearchBusinessesByCategory>((event, emit) async {
+      emit(FindBusinessesByCategoryLoading());
+      final result = await find(
+        query: event.query,
+        industry: event.industry,
+        category: event.category,
+        subCategory: event.subCategory,
         division: event.division,
         district: event.district,
         thana: event.thana,
-        subCategory: event.subCategory,
+        sort: event.sort ?? SortBy.recommended,
         ratings: event.ratings,
-        category: event.category,
       );
       result.fold(
-        (failure) => emit(FindBusinessesByCategoryError(
-          failure: failure,
-          query: event.query ?? '',
-          sortBy: event.sort ?? SortBy.recommended,
-        )),
-        (response) => emit(
-          FindBusinessesByCategoryDone(
-            page: 1,
-            total: response.total,
-            businesses: response.businesses,
-            related: response.related,
-            query: event.query ?? '',
-            sortBy: event.sort ?? SortBy.recommended,
-          ),
-        ),
+        (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+        (businesses) => emit(FindBusinessesByCategoryDone(businesses: businesses)),
       );
     });
 
-    on<PaginateBusinessesByCategory>((event, emit) async {
-      if (state is! FindBusinessesByCategoryPaginating) {
-        final oldState = (state as FindBusinessesByCategoryDone);
-        emit(FindBusinessesByCategoryPaginating(
-          total: oldState.total,
-          page: event.page,
-          businesses: oldState.businesses,
-          related: oldState.related,
-          query: event.query ?? '',
-          sortBy: event.sort ?? SortBy.recommended,
-        ));
-        final result = await find(
-          urlSlug: event.urlSlug,
-          page: event.page,
-          query: event.query ?? '',
-          sort: event.sort ?? SortBy.recommended,
-          division: event.division,
-          district: event.district,
-          thana: event.thana,
-          subCategory: event.subCategory,
-          ratings: event.ratings,
-          category: event.category,
-        );
-        result.fold(
-          (failure) => emit(FindBusinessesByCategoryError(
-            failure: failure,
-            query: event.query ?? '',
-            sortBy: event.sort ?? SortBy.recommended,
-          )),
-          (response) => emit(
-            FindBusinessesByCategoryDone(
-              page: event.page,
-              total: response.total,
-              businesses: response.businesses,
-              related: response.related,
-              query: event.query ?? '',
-              sortBy: event.sort ?? SortBy.recommended,
-            ),
-          ),
-        );
-      }
+    on<RefreshBusinessesByCategory>((event, emit) async {
+      emit(FindBusinessesByCategoryLoading());
+      final result = await refresh(
+        query: '',
+        industry: event.industry,
+        category: event.category,
+        subCategory: event.subCategory,
+        division: event.division,
+        district: event.district,
+        thana: event.thana,
+        sort: event.sort ?? SortBy.recommended,
+        ratings: event.ratings,
+      );
+      result.fold(
+        (failure) => emit(FindBusinessesByCategoryError(failure: failure)),
+        (businesses) => emit(FindBusinessesByCategoryDone(businesses: businesses)),
+      );
     });
   }
 }

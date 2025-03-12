@@ -18,27 +18,7 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindListingReviewsBloc(
-      useCase: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => FindRatingBloc(
-      find: sl(),
-    ),
-  );
-  sl.registerFactory(
     () => UpdateReviewBloc(
-      useCase: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => RecentReviewsBloc(
-      useCase: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => ReactionBloc(
       useCase: sl(),
     ),
   );
@@ -70,26 +50,6 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindListingReviewUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => FindRatingUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => RecentReviewsUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => FindReviewReactionsUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
     () => ReactOnReviewUseCase(
       repository: sl(),
     ),
@@ -100,7 +60,6 @@ Future<void> get reviewDependencies async {
     () => ReviewRepositoryImpl(
       network: sl(),
       auth: sl(),
-      local: sl(),
       remote: sl(),
     ),
   );
@@ -110,8 +69,5 @@ Future<void> get reviewDependencies async {
     () => ReviewRemoteDataSourceImpl(
       client: sl(),
     ),
-  );
-  sl.registerLazySingleton<ReviewLocalDataSource>(
-    () => ReviewLocalDataSourceImpl(),
   );
 }

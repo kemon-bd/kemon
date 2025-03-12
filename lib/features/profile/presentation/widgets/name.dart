@@ -30,9 +30,7 @@ class ProfileNameWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: Text(
                   state.profile.name.full,
-                  style: style ??
-                      TextStyles.subTitle(
-                          context: context, color: theme.textPrimary),
+                  style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
                   textAlign: align,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -70,10 +68,8 @@ class MyProfileNameWidget extends StatelessWidget {
         final profile = state.profile;
         if (profile != null) {
           return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()
-              ..add(FindProfile(identity: profile.identity)),
-            child: ProfileNameWidget(
-                style: style, align: align, shimmerAlignment: shimmerAlignment),
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
+            child: ProfileNameWidget(style: style, align: align, shimmerAlignment: shimmerAlignment),
           );
         }
         return Container();

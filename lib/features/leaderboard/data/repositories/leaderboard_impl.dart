@@ -15,42 +15,28 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   });
 
   @override
-  FutureOr<Either<Failure, LeaderboardResponse>> find({
-    required int page,
+  FutureOr<Either<Failure, List<RankedLeaderEntity>>> find({
     required String query,
   }) async {
     try {
-      final result = await local.find(
-        page: page,
-        query: query,
+      final rankedLeaders = await local.find(
         from: filter.state.range.start,
         to: filter.state.range.end,
       );
-      return Right(result);
+      return Right(query.isEmpty ? rankedLeaders : rankedLeaders.where((l) => l.name.full.match(like: query)).toList());
     } on LeaderboardNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.find(
-          page: page,
-          query: query,
           from: filter.state.range.start,
           to: filter.state.range.end,
         );
+        final rankedLeaders = result.ranked;
         await local.add(
-          page: page,
-          query: query,
           from: filter.state.range.start,
           to: filter.state.range.end,
-          leaderboard: result,
+          leaders: rankedLeaders,
         );
-        final total = page == 1
-            ? result
-            : await local.find(
-                page: page,
-                query: query,
-                from: filter.state.range.start,
-                to: filter.state.range.end,
-              );
-        return Right(total);
+        return Right(query.isEmpty ? rankedLeaders : rankedLeaders.where((l) => l.name.full.match(like: query)).toList());
       } else {
         return Left(NoInternetFailure());
       }
@@ -60,27 +46,23 @@ class LeaderboardRepositoryImpl extends LeaderboardRepository {
   }
 
   @override
-  FutureOr<Either<Failure, LeaderboardResponse>> refresh() async {
+  FutureOr<Either<Failure, List<RankedLeaderEntity>>> refresh() async {
     try {
       if (await network.online) {
         await local.removeAll();
 
         final result = await remote.find(
-          page: 1,
-          query: '',
           from: filter.state.range.start,
           to: filter.state.range.end,
         );
 
+        final rankedLeaders = result.ranked;
         await local.add(
-          page: 1,
-          query: '',
           from: filter.state.range.start,
           to: filter.state.range.end,
-          leaderboard: result,
+          leaders: rankedLeaders,
         );
-
-        return Right(result);
+        return Right(rankedLeaders);
       } else {
         return Left(NoInternetFailure());
       }
