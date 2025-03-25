@@ -241,8 +241,9 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: Dimension.padding.horizontal.max,
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               decoration: BoxDecoration(
@@ -297,7 +298,6 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 },
                               ),
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.max),
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
@@ -346,6 +346,59 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                       FontAwesomeIcons.facebook,
                                       size: Dimension.radius.eighteen,
                                       color: theme.facebook,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: theme.backgroundPrimary,
+                                border: Border.all(
+                                  color: theme.backgroundTertiary,
+                                  width: .5,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
+                              ),
+                              child: BlocConsumer<AppleLoginBloc, AppleLoginState>(
+                                listener: (context, state) async {
+                                  if (state is AppleLoginDone) {
+                                    if (widget.authorize) {
+                                      context.pop(state.profile);
+                                    } else {
+                                      context.pushReplacementNamed(ProfilePage.name);
+                                    }
+                                  } else if (state is AppleLoginError) {
+                                    context.errorNotification(message: state.failure.message);
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is AppleLoginLoading) {
+                                    return IconButton(
+                                      onPressed: () {},
+                                      padding: EdgeInsets.all(0),
+                                      icon: NetworkingIndicator(
+                                        dimension: Dimension.radius.eighteen,
+                                        color: theme.google,
+                                      ),
+                                    );
+                                  }
+                                  return IconButton(
+                                    onPressed: () async {
+                                      if ((context.auth.username ?? "").isEmpty) {
+                                        final acknowledged =
+                                            await showDialog(context: context, builder: (_) => AcknowledgementAlert());
+                                        if (!acknowledged) return;
+                                        if (!context.mounted) return;
+                                      }
+                                      context.read<AppleLoginBloc>().add(LoginWithApple());
+                                    },
+                                    padding: EdgeInsets.all(0),
+                                    icon: Icon(
+                                      FontAwesomeIcons.apple,
+                                      size: Dimension.radius.eighteen,
+                                      color: Colors.grey.shade800,
                                     ),
                                   );
                                 },

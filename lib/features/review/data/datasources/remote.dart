@@ -38,4 +38,10 @@ abstract class ReviewRemoteDataSource {
     required Identity user,
     required Reaction reaction,
   });
+  FutureOr<void> flag({
+    required String token,
+    required Identity review,
+    required Identity user,
+    required String? reason,
+  });
 }

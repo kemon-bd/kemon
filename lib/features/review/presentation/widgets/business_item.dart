@@ -1,4 +1,5 @@
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -35,6 +36,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                spacing: 8,
                 children: [
                   Container(
                     width: Dimension.radius.thirtyTwo,
@@ -60,7 +62,6 @@ class BusinessReviewItemWidget extends StatelessWidget {
                             errorWidget: (_, __, ___) => fallback,
                           ),
                   ),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,6 +109,23 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                  IconButton(
+                    padding: EdgeInsets.all(0),
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                    onPressed: () async {
+                      final actioned = await showDialog<bool>(
+                        context: context,
+                        barrierDismissible: false,
+                        barrierColor: context.barrierColor,
+                        builder: (_) => ReviewMenuAlert(review: review),
+                      );
+                      if (!context.mounted) return;
+                      if (actioned ?? false) {
+                        context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: context.business.urlSlug));
+                      }
+                    },
+                    icon: Icon(Icons.more_vert_rounded, color: theme.textSecondary.withAlpha(100)),
                   ),
                 ],
               ),

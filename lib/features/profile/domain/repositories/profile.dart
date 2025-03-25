@@ -38,4 +38,15 @@ abstract class ProfileRepository {
     required String username,
     required String password,
   });
+  
+  FutureOr<Either<Failure, void>> block({
+    required Identity victim,
+    required String? reason,
+  });
+
+  FutureOr<Either<Failure, void>> unblock({
+    required Identity victim,
+  });
+
+  FutureOr<Either<Failure, List<UserPreviewEntity>>> blockList();
 }

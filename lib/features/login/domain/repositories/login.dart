@@ -14,5 +14,7 @@ abstract class LoginRepository {
 
   FutureOr<Either<Failure, ProfileEntity>> fbLogin();
 
+  FutureOr<Either<Failure, ProfileEntity>> appleSignIn();
+  
   FutureOr<Either<Failure, ProfileEntity>> googleSignIn();
 }

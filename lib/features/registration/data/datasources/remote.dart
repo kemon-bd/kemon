@@ -14,4 +14,7 @@ abstract class RegistrationRemoteDataSource {
   FutureOr<Identity> registerWithGoogle({
     required GoogleSignInAccount google,
   });
+  FutureOr<Identity> registerWithApple({
+    required AuthorizationCredentialAppleID apple,
+  });
 }

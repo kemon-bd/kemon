@@ -18,3 +18,4 @@ export 'presentation/widgets/profile_points.dart';
 export 'presentation/widgets/division.dart';
 export 'presentation/widgets/district.dart';
 export 'presentation/widgets/thana.dart';
+export 'presentation/widgets/block.dart';

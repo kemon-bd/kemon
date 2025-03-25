@@ -144,4 +144,49 @@ class LoginRepositoryImpl extends LoginRepository {
       return Left(e);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, ProfileEntity>> appleSignIn() async {
+    try {
+      if (await network.online) {
+        final account = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+        );
+        final appleIdentifier = account.userIdentifier;
+        if (appleIdentifier == null) {
+          return Left(AppleSignInFailure());
+        }
+        ProfileModel? profile = await remote.socialLogin(id: appleIdentifier);
+
+        if (profile == null) {
+          await registration.registerWithApple(apple: account);
+          profile = await remote.socialLogin(id: appleIdentifier);
+        }
+        if (profile != null) {
+          final result = await remote.login(username: appleIdentifier, password: appleIdentifier);
+          auth.add(
+            AuthorizeAuthentication(
+              token: result.token,
+              profile: result.profile,
+              username: appleIdentifier,
+              password: appleIdentifier,
+              remember: true,
+            ),
+          );
+
+          await Future.delayed(const Duration(milliseconds: 1));
+          return Right(result.profile);
+        } else {
+          return Left(AppleSignInFailure());
+        }
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
 }

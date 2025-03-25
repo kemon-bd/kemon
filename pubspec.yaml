@@ -58,6 +58,7 @@ dependencies:
   recase: ^4.1.0
   sa3_liquid: ^1.0.1
   share_plus: ^10.1.2
+  sign_in_with_apple: ^6.1.4
   simple_animations: ^5.1.0
   smooth_highlight: ^0.1.2
   url_launcher: ^6.3.0

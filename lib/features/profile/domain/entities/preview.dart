@@ -1,11 +1,11 @@
 import '../../../../core/shared/shared.dart';
 
-class ReviewUserEntity extends Equatable {
+class UserPreviewEntity extends Equatable {
   final Identity identity;
   final Name name;
   final String profilePicture;
 
-  const ReviewUserEntity({
+  const UserPreviewEntity({
     required this.identity,
     required this.name,
     required this.profilePicture,

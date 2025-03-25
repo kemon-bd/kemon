@@ -15,6 +15,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
           shrinkWrap: true,
           padding: EdgeInsets.all(Dimension.radius.sixteen),
           physics: const NeverScrollableScrollPhysics(),
+          clipBehavior: Clip.antiAlias,
           children: [
             Text(
               'Danger Zone',
@@ -34,6 +35,27 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.antiAlias,
                 children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: Dimension.radius.sixteen,
+                      backgroundColor: theme.textPrimary,
+                      child: Icon(Icons.block_rounded, color: theme.backgroundPrimary, size: Dimension.radius.sixteen),
+                    ),
+                    title: Text(
+                      'Blocked accounts',
+                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    ),
+                    trailing: Icon(Icons.open_in_new_rounded, color: theme.textPrimary, size: Dimension.radius.sixteen),
+                    onTap: () {
+                      context.pushNamed(
+                        BlockedAccountsPage.name,
+                        pathParameters: {
+                          'user': context.auth.identity?.guid ?? '',
+                        },
+                      );
+                    },
+                  ),
+                  Divider(height: Dimension.padding.vertical.small, thickness: .5, color: theme.negative),
                   BlocProvider(
                     create: (context) => sl<DeactivateAccountBloc>(),
                     child: BlocConsumer<DeactivateAccountBloc, DeactivateAccountState>(
@@ -52,7 +74,7 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                           leading: CircleAvatar(
                             radius: Dimension.radius.sixteen,
                             backgroundColor: Colors.deepPurple,
-                            child: Icon(Icons.block_rounded, color: theme.white, size: Dimension.radius.sixteen),
+                            child: Icon(Icons.visibility_off_rounded, color: theme.white, size: Dimension.radius.sixteen),
                           ),
                           title: Text(
                             'Deactivate account',
@@ -70,7 +92,6 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                             if (!context.mounted) return;
                             deactivateContext.read<DeactivateAccountBloc>().add(GenerateOtpForAccountDeactivation());
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
                         );
                       },
                     ),

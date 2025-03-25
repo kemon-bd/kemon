@@ -10,12 +10,14 @@ export 'domain/usecases/delete.dart';
 export 'domain/usecases/find.dart';
 export 'domain/usecases/update.dart';
 export 'domain/usecases/react.dart';
+export 'domain/usecases/flag.dart';
 
 export 'presentation/bloc/create_bloc.dart';
 export 'presentation/bloc/delete_bloc.dart';
 export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/update_bloc.dart';
 export 'presentation/bloc/react_bloc.dart';
+export 'presentation/bloc/flag_bloc.dart';
 
 export 'presentation/pages/new.dart';
 export 'presentation/pages/edit.dart';
@@ -32,3 +34,4 @@ export 'presentation/widgets/business_rating.dart';
 export 'presentation/widgets/like.dart';
 export 'presentation/widgets/dislike.dart';
 export 'presentation/widgets/share.dart';
+export 'presentation/widgets/menu.dart';

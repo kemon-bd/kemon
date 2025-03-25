@@ -132,4 +132,32 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Left(failure);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, void>> flag({
+    required Identity review,
+    required String? reason,
+  }) async {
+    try {
+      final token = auth.token;
+      if (token == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      final identity = auth.identity;
+      if (identity == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      if (await network.online) {
+        final result = await remote.flag(token: token, user: identity, review: review, reason: reason);
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
 }

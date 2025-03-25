@@ -1,5 +1,7 @@
 import '../../../../../core/shared/shared.dart';
+import '../../../../core/config/config.dart';
 import '../../../leaderboard/leaderboard.dart';
+import '../../../lookup/lookup.dart';
 import '../../../review/review.dart';
 import '../../profile.dart';
 
@@ -148,6 +150,101 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                     },
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical(bottom: Radius.circular(Dimension.radius.sixteen)),
+                                    ),
+                                  ),
+                                ],
+                              );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                  BlocBuilder<FindProfileBloc, FindProfileState>(
+                    builder: (context, state) {
+                      if (state is FindProfileDone) {
+                        final identity = state.profile.identity;
+                        final name = state.profile.name.full;
+                        final mine = identity.guid.same(as: context.auth.guid ?? '');
+                        return mine
+                            ? SizedBox.shrink()
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Divider(
+                                    height: Dimension.padding.vertical.small,
+                                    thickness: .25,
+                                    color: theme.backgroundTertiary,
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => sl<BlockBloc>(),
+                                    child: BlocConsumer<BlockBloc, BlockState>(
+                                      listener: (context, state) {
+                                        if (state is BlockDone) {
+                                          context.warningNotification(
+                                            message: "$name has been blocked. You will no longer see their activities.",
+                                          );
+                                          context.goNamed(
+                                            BlockedAccountsPage.name,
+                                            pathParameters: {'user': context.auth.identity?.guid ?? ""},
+                                          );
+                                        } else if (state is BlockError) {
+                                          context.errorNotification(message: state.failure.message);
+                                        }
+                                      },
+                                      builder: (blockContext, state) {
+                                        return ListTile(
+                                          leading: CircleAvatar(
+                                            radius: Dimension.radius.sixteen,
+                                            backgroundColor: theme.negative,
+                                            child: Icon(
+                                              Icons.block_rounded,
+                                              color: theme.white,
+                                              size: Dimension.radius.sixteen,
+                                            ),
+                                          ),
+                                          title: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "Block ",
+                                                  style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                                ),
+                                                TextSpan(
+                                                  text: name,
+                                                  style: TextStyles.subTitle(context: context, color: theme.negative)
+                                                      .copyWith(fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.open_in_new_rounded,
+                                            color: theme.backgroundTertiary,
+                                            size: Dimension.radius.sixteen,
+                                          ),
+                                          onTap: () async {
+                                            final confirmed = await showDialog<bool>(
+                                              context: blockContext,
+                                              builder: (_) => DeleteConfirmationWidget(affirm: 'Continue'),
+                                            );
+                                            if (!(confirmed ?? false)) return;
+                                            if (!blockContext.mounted) return;
+
+                                            final reason = await showDialog<LookupEntity>(
+                                              context: blockContext,
+                                              builder: (_) => const BlockReasonFilter(selection: null),
+                                            );
+                                            if (!blockContext.mounted) return;
+
+                                            blockContext
+                                                .read<BlockBloc>()
+                                                .add(BlockAbuser(abuser: identity, reason: reason?.text ?? ''));
+                                          },
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.vertical(bottom: Radius.circular(Dimension.radius.sixteen)),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],

@@ -45,7 +45,7 @@ class ReviewCoreEntity extends Equatable {
 class RecentReviewEntity extends ReviewCoreEntity {
   final int photos;
   final BusinessPreviewEntity listing;
-  final ReviewUserEntity reviewer;
+  final UserPreviewEntity reviewer;
   const RecentReviewEntity({
     required super.identity,
     required super.star,
@@ -82,7 +82,7 @@ class RecentReviewEntity extends ReviewCoreEntity {
 
 class ListingReviewEntity extends ReviewCoreEntity {
   final List<String> photos;
-  final ReviewUserEntity reviewer;
+  final UserPreviewEntity reviewer;
   const ListingReviewEntity({
     required super.identity,
     required super.star,

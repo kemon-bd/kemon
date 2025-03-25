@@ -160,4 +160,30 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load business');
     }
   }
+
+  @override
+  FutureOr<void> flag({
+    required String token,
+    required Identity review,
+    required Identity user,
+    required String? reason,
+  }) async {
+    final Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: token,
+      'user': user.guid,
+      'review': review.guid,
+      'reason': reason ?? '',
+    };
+
+    final Response response = await client.post(
+      RemoteEndpoints.flagReview,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.noContent) {
+      return;
+    } else {
+      throw RemoteFailure(message: response.body);
+    }
+  }
 }

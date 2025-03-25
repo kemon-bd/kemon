@@ -110,7 +110,7 @@ class ProfilePictureWidget extends StatelessWidget {
                                 color: borderColor ?? theme.white,
                                 borderRadius: BorderRadius.circular(size),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border*2),
+                                  padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border * 2),
                                   child: Icon(
                                     Icons.shield_rounded,
                                     color: theme.primary,
@@ -193,6 +193,14 @@ class MyProfilePictureWidget extends StatelessWidget {
           if (profile != null) {
             final url = profile.profilePicture?.url ?? '';
             final symbol = profile.name.symbol;
+            final fallback = Center(
+              child: Text(
+                symbol,
+                style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
+                  fontSize: size / 2,
+                ),
+              ),
+            );
             return Center(
               child: SizedBox(
                 width: size,
@@ -208,21 +216,16 @@ class MyProfilePictureWidget extends StatelessWidget {
                     ),
                   ),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: CachedNetworkImage(
-                    imageUrl: url,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.cover,
-                    placeholder: (_, __) => ShimmerIcon(radius: size),
-                    errorWidget: (_, __, ___) => Center(
-                      child: Text(
-                        symbol,
-                        style: TextStyles.body(context: context, color: placeholderColor ?? theme.white).copyWith(
-                          fontSize: size / 2,
+                  child: url.isEmpty
+                      ? fallback
+                      : CachedNetworkImage(
+                          imageUrl: url,
+                          width: size,
+                          height: size,
+                          fit: BoxFit.cover,
+                          placeholder: (_, __) => ShimmerIcon(radius: size),
+                          errorWidget: (_, __, ___) => fallback,
                         ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             );

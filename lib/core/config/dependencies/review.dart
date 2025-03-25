@@ -27,10 +27,20 @@ Future<void> get reviewDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => FlagBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => CreateReviewUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FlagAReviewUseCase(
       repository: sl(),
     ),
   );

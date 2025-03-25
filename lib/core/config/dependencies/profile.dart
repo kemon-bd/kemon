@@ -39,8 +39,38 @@ Future<void> get profileDependencies async {
       useCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => BlockListBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => BlockBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UnblockBloc(
+      useCase: sl(),
+    ),
+  );
 
   //! ----------------- UseCase -----------------
+  sl.registerFactory(
+    () => BlockListUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => BlockSomeoneUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UnblockSomeoneUseCase(
+      repository: sl(),
+    ),
+  );
   sl.registerFactory(
     () => FindProfileUseCase(
       repository: sl(),

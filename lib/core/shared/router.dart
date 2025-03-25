@@ -54,6 +54,7 @@ final router = GoRouter(
         providers: [
           BlocProvider(create: (context) => sl<CheckProfileBloc>()),
           BlocProvider(create: (context) => sl<FacebookLoginBloc>()),
+          BlocProvider(create: (context) => sl<AppleLoginBloc>()),
           BlocProvider(create: (context) => sl<GoogleSignInBloc>()),
         ],
         child: CheckProfilePage(
@@ -146,6 +147,14 @@ final router = GoRouter(
         child: PublicProfilePage(
           identity: Identity.guid(guid: state.pathParameters['user']!),
         ),
+      ),
+    ),
+    GoRoute(
+      path: BlockedAccountsPage.path,
+      name: BlockedAccountsPage.name,
+      builder: (context, state) => BlocProvider(
+        create: (context) => sl<BlockListBloc>()..add(FindBlockList()),
+        child: BlockedAccountsPage(),
       ),
     ),
     GoRoute(

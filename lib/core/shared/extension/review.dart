@@ -45,4 +45,12 @@ extension ReviewListExtension on List<ListingReviewEntity> {
   int get one => where((review) => review.star == 1).length;
 }
 
+extension ListingReviewEntityExtension on ListingReviewEntity {
+  bool myReview({
+    required String me,
+  }) {
+    return reviewer.identity.guid.same(as: me);
+  }
+}
+
 extension ReviewModelExtension on ReviewCoreModel {}

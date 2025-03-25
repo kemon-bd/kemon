@@ -17,7 +17,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         "username": username,
       };
 
-      final Response response = await post(
+      final Response response = await client.post(
         RemoteEndpoints.login,
         headers: headers,
       );
@@ -138,7 +138,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         "code": otp,
       };
 
-      final Response response = await post(
+      final Response response = await client.post(
         RemoteEndpoints.deactivateAccount,
         headers: headers,
       );
@@ -175,7 +175,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         "username": username,
       };
 
-      final Response response = await post(
+      final Response response = await client.post(
         RemoteEndpoints.deactivateAccount,
         headers: headers,
       );
@@ -213,7 +213,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         "verificationOnly": verificationOnly ? "true" : "",
       };
 
-      final Response response = await post(
+      final Response response = await client.post(
         RemoteEndpoints.changePassword,
         headers: headers,
       );
@@ -251,7 +251,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         "newpassword": password,
       };
 
-      final Response response = await post(
+      final Response response = await client.post(
         RemoteEndpoints.changePassword,
         headers: headers,
       );
@@ -270,6 +270,97 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         throw RemoteFailure(message: "Bad request.");
       } else {
         throw RemoteFailure(message: "Something went wrong.");
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<void> block({
+    required String token,
+    required Identity user,
+    required Identity victim,
+    required String? reason,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        HttpHeaders.authorizationHeader: token,
+        "blocker": user.guid,
+        "blocked": victim.guid,
+        "reason": reason ?? "",
+      };
+
+      final Response response = await client.post(
+        RemoteEndpoints.block,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.noContent) {
+        return;
+      } else {
+        throw RemoteFailure(message: response.body);
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<List<UserPreviewModel>> blockList({
+    required String token,
+    required Identity user,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        HttpHeaders.authorizationHeader: token,
+        "user": user.guid,
+      };
+
+      final Response response = await client.get(
+        RemoteEndpoints.blockList,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(json.decode(response.body));
+        return data.map((e) => UserPreviewModel.parse(map: e)).toList();
+      } else {
+        throw RemoteFailure(message: response.body);
+      }
+    } on SocketException {
+      throw NoInternetFailure();
+    } catch (error) {
+      throw RemoteFailure(message: error.toString());
+    }
+  }
+
+  @override
+  FutureOr<void> unblock({
+    required String token,
+    required Identity user,
+    required Identity victim,
+  }) async {
+    try {
+      final Map<String, String> headers = {
+        HttpHeaders.authorizationHeader: token,
+        "unblocker": user.guid,
+        "blocked": victim.guid,
+      };
+
+      final Response response = await client.post(
+        RemoteEndpoints.unblock,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.noContent) {
+        return;
+      } else {
+        throw RemoteFailure(message: response.body);
       }
     } on SocketException {
       throw NoInternetFailure();

@@ -100,6 +100,8 @@ extension LookupsExtension on Lookups {
         return 'thana';
       case Lookups.profilePoints:
         return 'profilePoint';
+      case Lookups.blockReason:
+        return 'blockReasons';
       default:
         return '';
     }

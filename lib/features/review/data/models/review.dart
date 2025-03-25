@@ -78,11 +78,7 @@ class RecentReviewModel extends RecentReviewEntity implements ReviewCoreEntity {
         liked: core.liked,
         disliked: core.disliked,
         photos: map['photos'],
-        reviewer: ReviewUserEntity(
-          identity: Identity.guid(guid: reviewer['guid']),
-          name: Name.full(name: reviewer['name']),
-          profilePicture: reviewer['profilePicture'],
-        ),
+        reviewer: UserPreviewModel.parse(map: reviewer),
         listing: BusinessPreviewModel.parse(map: listing),
       );
     } catch (e, stackTrace) {
@@ -127,11 +123,7 @@ class ListingReviewModel extends ListingReviewEntity implements ReviewCoreEntity
         dislikes: core.dislikes,
         liked: core.liked,
         disliked: core.disliked,
-        reviewer: ReviewUserEntity(
-          identity: Identity.guid(guid: reviewer['guid']),
-          name: Name.full(name: reviewer['name']),
-          profilePicture: reviewer['profilePicture'],
-        ),
+        reviewer: UserPreviewModel.parse(map: reviewer),
         photos: List<String>.from(map['photos']).skipWhile((url) => url.isEmpty).toList(),
       );
     } catch (e, stackTrace) {

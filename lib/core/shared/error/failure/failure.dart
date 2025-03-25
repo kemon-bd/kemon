@@ -68,6 +68,11 @@ class GoogleSignInFailure extends Failure {
     super.message = 'Google sign in failed.',
   });
 }
+class AppleSignInFailure extends Failure {
+  AppleSignInFailure({
+    super.message = 'Apple sign in failed.',
+  });
+}
 
 class GoogleAccountNotRegisteredFailure extends Failure {
   final GoogleSignInAccount account;

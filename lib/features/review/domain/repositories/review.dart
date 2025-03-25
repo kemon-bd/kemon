@@ -31,4 +31,9 @@ abstract class ReviewRepository {
     required Reaction reaction,
     required Identity listing,
   });
+
+  FutureOr<Either<Failure, void>> flag({
+    required Identity review,
+    required String? reason,
+  });
 }

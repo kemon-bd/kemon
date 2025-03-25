@@ -38,8 +38,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }) async {
     try {
       if (await network.online) {
-        final result =
-            await remote.delete(token: auth.token!, identity: identity);
+        final result = await remote.delete(token: auth.token!, identity: identity);
 
         await local.remove(identity: identity);
 
@@ -81,8 +80,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }) async {
     try {
       if (await network.online) {
-        final result = await remote.update(
-            token: auth.token!, profile: profile, avatar: avatar);
+        final result = await remote.update(token: auth.token!, profile: profile, avatar: avatar);
 
         await local.update(profile: profile);
 
@@ -187,6 +185,86 @@ class ProfileRepositoryImpl extends ProfileRepository {
           username: username,
           password: password,
         );
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, void>> block({
+    required Identity victim,
+    required String? reason,
+  }) async {
+    try {
+      final token = auth.token;
+      if (token == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      final identity = auth.identity;
+      if (identity == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      if (await network.online) {
+        final result = await remote.block(token: token, user: identity, victim: victim, reason: reason);
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<UserPreviewEntity>>> blockList() async {
+    try {
+      final token = auth.token;
+      if (token == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      final identity = auth.identity;
+      if (identity == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      if (await network.online) {
+        final result = await remote.blockList(token: token, user: identity);
+
+        return Right(result);
+      } else {
+        return Left(NoInternetFailure());
+      }
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, void>> unblock({
+    required Identity victim,
+  }) async {
+    try {
+      final token = auth.token;
+      if (token == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      final identity = auth.identity;
+      if (identity == null) {
+        return Left(UnAuthorizedFailure());
+      }
+
+      if (await network.online) {
+        final result = await remote.unblock(token: token, user: identity, victim: victim);
 
         return Right(result);
       } else {

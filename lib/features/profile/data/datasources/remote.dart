@@ -43,4 +43,22 @@ abstract class ProfileRemoteDataSource {
     required String username,
     required String password,
   });
+
+  FutureOr<void> block({
+    required String token,
+    required Identity user,
+    required Identity victim,
+    required String? reason,
+  });
+
+  FutureOr<void> unblock({
+    required String token,
+    required Identity user,
+    required Identity victim,
+  });
+
+  FutureOr<List<UserPreviewModel>> blockList({
+    required String token,
+    required Identity user,
+  });
 }

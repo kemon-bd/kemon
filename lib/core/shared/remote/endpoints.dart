@@ -1,7 +1,7 @@
 class RemoteEndpoints {
   static const String domain = 'https://kemon.com.bd';
-  // static const String _baseUrl = 'http://localhost:5041';
-  static const String _baseUrl = 'https://api.kemon.com.bd';
+  static const String _baseUrl = 'http://localhost:5041';
+  // static const String _baseUrl = 'https://api.kemon.com.bd';
 
   //! performant
   static Uri get overview => Uri.parse('$_baseUrl/overview');
@@ -15,6 +15,10 @@ class RemoteEndpoints {
   static Uri get allLocations => Uri.parse('$_baseUrl/all-locations');
   static Uri get searchSuggestions => Uri.parse('$_baseUrl/optimized-search-suggestions');
   static Uri get leaderboardStanding => Uri.parse('$_baseUrl/leaderboard-standings');
+  static Uri get block => Uri.parse('$_baseUrl/block');
+  static Uri get unblock => Uri.parse('$_baseUrl/unblock');
+  static Uri get blockList => Uri.parse('$_baseUrl/block-list');
+  static Uri get flagReview => Uri.parse('$_baseUrl/flag-review');
 
   //! business
   static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');

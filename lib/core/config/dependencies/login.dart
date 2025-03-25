@@ -18,6 +18,11 @@ Future<void> get loginDependencies async {
     ),
   );
   sl.registerFactory(
+    () => AppleLoginBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => ForgotPasswordBloc(
       useCase: sl(),
     ),
@@ -36,6 +41,11 @@ Future<void> get loginDependencies async {
   );
   sl.registerFactory(
     () => GoogleSignInUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => AppleSignInUseCase(
       repository: sl(),
     ),
   );
