@@ -13,6 +13,7 @@ class ReviewCoreEntity extends Equatable {
   final int dislikes;
   final bool liked;
   final bool disliked;
+  final bool localGuide;
 
   const ReviewCoreEntity({
     required this.identity,
@@ -25,6 +26,7 @@ class ReviewCoreEntity extends Equatable {
     required this.dislikes,
     required this.liked,
     required this.disliked,
+    required this.localGuide,
   });
 
   @override
@@ -39,6 +41,7 @@ class ReviewCoreEntity extends Equatable {
         dislikes,
         liked,
         disliked,
+        localGuide,
       ];
 }
 
@@ -57,6 +60,7 @@ class RecentReviewEntity extends ReviewCoreEntity {
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
     required this.listing,
     required this.reviewer,
     required this.photos,
@@ -92,6 +96,7 @@ class ListingReviewEntity extends ReviewCoreEntity {
     required super.reviewedAt,
     required super.likes,
     required super.dislikes,
+    required super.localGuide,
     required super.liked,
     required super.disliked,
     required this.reviewer,
@@ -129,6 +134,7 @@ class UserReviewEntity extends ReviewCoreEntity {
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
     required this.photos,
     required this.listing,
   });

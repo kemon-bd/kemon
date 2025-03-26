@@ -32,9 +32,34 @@ class BusinessAboutWidget extends StatelessWidget {
                     children: [
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          'About ${business.name.full}',
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                        title: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "About ",
+                                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                              ),
+                              TextSpan(
+                                text: business.name.full,
+                                style: TextStyles.subTitle(context: context, color: theme.textPrimary)
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              if (business.verified) ...[
+                                WidgetSpan(child: SizedBox(width: 8)),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                  baseline: TextBaseline.alphabetic,
+                                  child: Icon(
+                                    Icons.verified_rounded,
+                                    color: theme.primary,
+                                    size: Dimension.radius.eighteen,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         trailing: IconButton(
                           onPressed: () {

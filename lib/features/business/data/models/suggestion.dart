@@ -9,6 +9,7 @@ class BusinessSuggestionModel extends BusinessSuggestionEntity
     required super.logo,
     required super.rating,
     required super.reviews,
+    required super.verified,
   });
 
   factory BusinessSuggestionModel.parse({
@@ -19,6 +20,7 @@ class BusinessSuggestionModel extends BusinessSuggestionEntity
       name: preview.name,
       urlSlug: preview.urlSlug,
       logo: preview.logo,
+      verified: preview.verified,
       rating: num.tryParse(map['rating'].toString())?.toDouble() ?? 0.0,
       reviews: num.tryParse(map['reviews'].toString())?.toInt() ?? 0,
     );

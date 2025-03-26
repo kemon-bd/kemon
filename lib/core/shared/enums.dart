@@ -2,7 +2,7 @@ enum Gender { male, female, other }
 
 enum ListingType { business, product }
 
-enum Lookups { division, district, thana, profilePoints, blockReason, none }
+enum Lookups { division, district, thana, profilePoints, blockReason, flagReason, none }
 
 enum SortBy { recommended, highestRated, mostReviewed, newest, oldest, nameAtoZ, nameZtoA }
 

@@ -4,11 +4,13 @@ class BusinessPreviewEntity extends Equatable {
   final Name name;
   final String urlSlug;
   final String logo;
+  final bool verified;
 
   const BusinessPreviewEntity({
     required this.name,
     required this.urlSlug,
     required this.logo,
+    required this.verified,
   });
 
   @override
@@ -16,5 +18,6 @@ class BusinessPreviewEntity extends Equatable {
         name,
         urlSlug,
         logo,
+        verified,
       ];
 }

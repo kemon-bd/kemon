@@ -380,7 +380,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                       padding: EdgeInsets.all(0),
                                       icon: NetworkingIndicator(
                                         dimension: Dimension.radius.eighteen,
-                                        color: theme.google,
+                                        color: Colors.grey.shade800,
                                       ),
                                     );
                                   }

@@ -79,7 +79,7 @@ Future<void> get businessDependencies async {
       network: sl(),
       auth: sl(),
       remote: sl(),
-      // local: sl(),
+      local: sl(),
       subCategory: sl(),
     ),
   );
@@ -90,7 +90,7 @@ Future<void> get businessDependencies async {
       client: sl(),
     ),
   );
-  // sl.registerLazySingleton<BusinessLocalDataSource>(
-  //   () => BusinessLocalDataSourceImpl(),
-  // );
+  sl.registerLazySingleton<BusinessLocalDataSource>(
+    () => BusinessLocalDataSourceImpl(),
+  );
 }

@@ -8,6 +8,7 @@ import '../../business.dart';
 abstract class BusinessRepository {
   FutureOr<Either<Failure, ListingEntity>> find({
     required String urlSlug,
+    required List<int> filter,
   });
 
   FutureOr<Either<Failure, ListingEntity>> refresh({

@@ -25,15 +25,30 @@ class BusinessInformationWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  business.name.full,
-                  style: TextStyles.title(
-                    context: context,
-                    color: theme.textPrimary,
-                  ).copyWith(
-                    fontWeight: FontWeight.bold,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: business.name.full,
+                        style:
+                            TextStyles.title(context: context, color: theme.textPrimary).copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      if (business.verified) ...[
+                        WidgetSpan(child: SizedBox(width: 8)),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.aboveBaseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: Icon(
+                            Icons.verified_rounded,
+                            color: theme.primary,
+                            size: Dimension.radius.twenty,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                   maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: Dimension.padding.vertical.medium),
                 Row(

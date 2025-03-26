@@ -15,6 +15,7 @@ class ReviewCoreModel extends ReviewCoreEntity {
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
   });
 
   factory ReviewCoreModel.parse({
@@ -32,6 +33,7 @@ class ReviewCoreModel extends ReviewCoreEntity {
         dislikes: map['dislikes'] ?? 0,
         liked: map['liked'] ?? false,
         disliked: map['disliked'] ?? false,
+        localGuide: map['localGuide'] ?? false,
       );
     } catch (e, stackTrace) {
       throw ReviewModelParseFailure(
@@ -57,6 +59,7 @@ class RecentReviewModel extends RecentReviewEntity implements ReviewCoreEntity {
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
   });
 
   factory RecentReviewModel.parse({
@@ -77,6 +80,7 @@ class RecentReviewModel extends RecentReviewEntity implements ReviewCoreEntity {
         dislikes: core.dislikes,
         liked: core.liked,
         disliked: core.disliked,
+        localGuide: core.localGuide,
         photos: map['photos'],
         reviewer: UserPreviewModel.parse(map: reviewer),
         listing: BusinessPreviewModel.parse(map: listing),
@@ -104,6 +108,7 @@ class ListingReviewModel extends ListingReviewEntity implements ReviewCoreEntity
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
   });
 
   factory ListingReviewModel.parse({
@@ -123,6 +128,7 @@ class ListingReviewModel extends ListingReviewEntity implements ReviewCoreEntity
         dislikes: core.dislikes,
         liked: core.liked,
         disliked: core.disliked,
+        localGuide: core.localGuide,
         reviewer: UserPreviewModel.parse(map: reviewer),
         photos: List<String>.from(map['photos']).skipWhile((url) => url.isEmpty).toList(),
       );
@@ -149,6 +155,7 @@ class UserReviewModel extends UserReviewEntity implements ReviewCoreEntity {
     required super.dislikes,
     required super.liked,
     required super.disliked,
+    required super.localGuide,
   });
 
   factory UserReviewModel.parse({
@@ -168,6 +175,7 @@ class UserReviewModel extends UserReviewEntity implements ReviewCoreEntity {
         dislikes: core.dislikes,
         liked: core.liked,
         disliked: core.disliked,
+        localGuide: core.localGuide,
         photos: List<String>.from(map['photos']).skipWhile((url) => url.isEmpty).toList(),
         listing: BusinessPreviewModel.parse(map: listing),
       );

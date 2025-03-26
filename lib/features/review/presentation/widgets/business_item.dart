@@ -64,6 +64,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Column(
+                      spacing: 2,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
@@ -73,10 +74,29 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               pathParameters: {'user': review.reviewer.identity.guid},
                             );
                           },
-                          child: Text(
-                            review.reviewer.name.full,
-                            style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
-                              fontWeight: FontWeight.bold,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: review.reviewer.name.full,
+                                  style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.0,
+                                  ),
+                                ),
+                                if (review.localGuide) ...[
+                                  WidgetSpan(child: SizedBox(width: 8)),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                    baseline: TextBaseline.alphabetic,
+                                    child: SvgPicture.asset(
+                                      'images/logo/google.svg',
+                                      width: Dimension.radius.twelve,
+                                      height: Dimension.radius.twelve,
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -114,14 +134,14 @@ class BusinessReviewItemWidget extends StatelessWidget {
                     padding: EdgeInsets.all(0),
                     visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                     onPressed: () async {
-                      final actioned = await showDialog<bool>(
+                      final actionTaken = await showDialog<bool>(
                         context: context,
                         barrierDismissible: false,
                         barrierColor: context.barrierColor,
                         builder: (_) => ReviewMenuAlert(review: review),
                       );
                       if (!context.mounted) return;
-                      if (actioned ?? false) {
+                      if (actionTaken ?? false) {
                         context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: context.business.urlSlug));
                       }
                     },

@@ -9,12 +9,14 @@ abstract class FindBusinessEvent extends Equatable {
 
 class FindBusiness extends FindBusinessEvent {
   final String urlSlug;
+  final List<int> filter;
 
   const FindBusiness({
     required this.urlSlug,
+    this.filter = const [],
   });
   @override
-  List<Object> get props => [urlSlug];
+  List<Object> get props => [urlSlug, filter];
 }
 
 class RefreshBusiness extends FindBusinessEvent {

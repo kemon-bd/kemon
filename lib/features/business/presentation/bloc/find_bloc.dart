@@ -14,12 +14,14 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
   }) : super(const FindBusinessInitial()) {
     on<FindBusiness>((event, emit) async {
       emit(const FindBusinessLoading());
-      final result = await find(urlSlug: event.urlSlug);
+      final result = await find(urlSlug: event.urlSlug, filter: event.filter);
       result.fold(
         (failure) => emit(FindBusinessError(failure: failure)),
         (listing) => emit(FindBusinessDone(
           business: listing.$1,
-          reviews: listing.$2,
+          insights: listing.$2,
+          reviews: listing.$3,
+          filter: event.filter,
         )),
       );
     });
@@ -30,7 +32,9 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
         (failure) => emit(FindBusinessError(failure: failure)),
         (listing) => emit(FindBusinessDone(
           business: listing.$1,
-          reviews: listing.$2,
+          insights: listing.$2,
+          reviews: listing.$3,
+          filter: [],
         )),
       );
     });

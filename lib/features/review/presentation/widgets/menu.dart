@@ -84,7 +84,7 @@ class ReviewMenuAlert extends StatelessWidget {
                             if (user != null) {
                               final reason = await showDialog<LookupEntity>(
                                 context: flagContext,
-                                builder: (_) => const BlockReasonFilter(selection: null),
+                                builder: (_) => const FlagReasonFilter(selection: null),
                               );
                               if (!flagContext.mounted) return;
                               flagContext

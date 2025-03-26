@@ -1,5 +1,6 @@
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
+import '../../../business/business.dart';
 import '../../../profile/profile.dart';
 import '../../review.dart';
 
@@ -17,6 +18,7 @@ class ReviewDislikeButton extends StatelessWidget {
       child: BlocConsumer<ReactOnReviewBloc, ReactOnReviewState>(
         listener: (context, state) {
           if (state is ReactOnReviewDone) {
+            context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: context.business.urlSlug));
           } else if (state is ReactOnReviewError) {
             context.errorNotification(message: state.failure.message);
           }

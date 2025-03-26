@@ -6,6 +6,7 @@ class BusinessPreviewModel extends BusinessPreviewEntity {
     required super.name,
     required super.urlSlug,
     required super.logo,
+    required super.verified,
   });
 
   factory BusinessPreviewModel.parse({
@@ -16,6 +17,7 @@ class BusinessPreviewModel extends BusinessPreviewEntity {
         name: Name.full(name: map['name']),
         urlSlug: map['urlSlug'] ?? map['urlslug'],
         logo: map['logo'] ?? map['icon'],
+        verified: map['verified'] ?? false,
       );
     } catch (e, stackTrace) {
       throw BusinessModelParseFailure(

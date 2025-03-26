@@ -97,9 +97,27 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: Dimension.padding.vertical.verySmall,
                     children: [
-                      Text(
-                        business.name.full,
-                        style: TextStyles.body(context: context, color: theme.textPrimary),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: business.name.full,
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                            ),
+                            if (business.verified) ...[
+                              WidgetSpan(child: SizedBox(width: 4)),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.aboveBaseline,
+                                baseline: TextBaseline.alphabetic,
+                                child: Icon(
+                                  Icons.verified_rounded,
+                                  color: theme.primary,
+                                  size: Dimension.radius.twelve,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -139,8 +157,9 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
                       ),
                       if (business.thana != null || business.district != null)
                         Text(
-                          "${business.thana ?? ''}${business.thana != null && business.district != null ? ', ' : ''}${business.district??''}",
-                          style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)).copyWith(fontWeight: FontWeight.w100),
+                          "${business.thana ?? ''}${business.thana != null && business.district != null ? ', ' : ''}${business.district ?? ''}",
+                          style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100))
+                              .copyWith(fontWeight: FontWeight.w100),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

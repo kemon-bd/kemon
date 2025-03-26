@@ -21,6 +21,7 @@ extension ReviewCoreEntityExtension on ReviewCoreEntity {
         disliked: disliked,
         likes: likes,
         dislikes: dislikes,
+        localGuide: localGuide,
       );
 }
 
@@ -37,12 +38,6 @@ extension ReviewListExtension on List<ListingReviewEntity> {
     if (options.isEmpty) return this;
     return where((review) => options.contains(review.star)).toList();
   }
-
-  int get five => where((review) => review.star == 5).length;
-  int get four => where((review) => review.star == 4).length;
-  int get three => where((review) => review.star == 3).length;
-  int get two => where((review) => review.star == 2).length;
-  int get one => where((review) => review.star == 1).length;
 }
 
 extension ListingReviewEntityExtension on ListingReviewEntity {

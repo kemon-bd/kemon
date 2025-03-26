@@ -28,7 +28,7 @@ class BusinessPage extends StatelessWidget {
             child: BlocBuilder<FindBusinessBloc, FindBusinessState>(
               builder: (context, state) {
                 if (state is FindBusinessLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return BusinessShimmerWidget();
                 } else if (state is FindBusinessError) {
                   return Center(child: Text(state.failure.message));
                 } else if (state is FindBusinessDone) {
@@ -73,7 +73,7 @@ class BusinessPage extends StatelessWidget {
                         ],
                       ),
                       BusinessInformationWidget(business: state.business),
-                      BusinessRatingsWidget(business: state.business, reviews: state.reviews),
+                      BusinessRatingsWidget(business: state.business, reviews: state.reviews, insights: state.insights),
                       BusinessReviewsWidget(reviews: state.reviews),
                     ],
                   );

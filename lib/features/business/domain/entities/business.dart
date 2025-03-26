@@ -30,6 +30,9 @@ class BusinessEntity extends BusinessCoreEntity {
 
   @override
   List<Object?> get props => [
+        rating,
+        reviews,
+        social,
         identity,
         name,
         urlSlug,

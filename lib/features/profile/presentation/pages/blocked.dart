@@ -51,7 +51,7 @@ class BlockedAccountsPage extends StatelessWidget {
                           final user = state.users[index];
                           return ListTile(
                             leading: CircleAvatar(
-                              backgroundImage: NetworkImage(user.profilePicture),
+                              backgroundImage: NetworkImage(user.profilePicture.url),
                             ),
                             title: Text(user.name.full),
                             trailing: BlocProvider(

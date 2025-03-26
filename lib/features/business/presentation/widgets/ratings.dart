@@ -7,9 +7,15 @@ import '../../business.dart';
 
 class BusinessRatingsWidget extends StatelessWidget {
   final BusinessEntity business;
+  final BusinessRatingInsightsEntity insights;
   final List<ListingReviewEntity> reviews;
 
-  const BusinessRatingsWidget({super.key, required this.business, required this.reviews});
+  const BusinessRatingsWidget({
+    super.key,
+    required this.business,
+    required this.insights,
+    required this.reviews,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -148,40 +154,11 @@ class BusinessRatingsWidget extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 16),
-            _RatingItem(
-              urlSlug: business.urlSlug,
-              total: business.reviews,
-              count: reviews.five,
-              stars: 5,
-            ),
-            SizedBox(height: Dimension.padding.vertical.verySmall),
-            _RatingItem(
-              urlSlug: business.urlSlug,
-              total: business.reviews,
-              count: reviews.four,
-              stars: 4,
-            ),
-            SizedBox(height: Dimension.padding.vertical.verySmall),
-            _RatingItem(
-              urlSlug: business.urlSlug,
-              total: business.reviews,
-              count: reviews.three,
-              stars: 3,
-            ),
-            SizedBox(height: Dimension.padding.vertical.verySmall),
-            _RatingItem(
-              urlSlug: business.urlSlug,
-              total: business.reviews,
-              count: reviews.two,
-              stars: 2,
-            ),
-            SizedBox(height: Dimension.padding.vertical.verySmall),
-            _RatingItem(
-              urlSlug: business.urlSlug,
-              total: business.reviews,
-              count: reviews.one,
-              stars: 1,
-            ),
+            _RatingItem(count: insights.five, stars: 5),
+            _RatingItem(count: insights.four, stars: 4),
+            _RatingItem(count: insights.three, stars: 3),
+            _RatingItem(count: insights.two, stars: 2),
+            _RatingItem(count: insights.one, stars: 1),
           ],
         ),
       ),
@@ -190,84 +167,86 @@ class BusinessRatingsWidget extends StatelessWidget {
 }
 
 class _RatingItem extends StatelessWidget {
-  final String urlSlug;
-  final int total;
   final int count;
   final int stars;
 
   const _RatingItem({
-    required this.urlSlug,
-    required this.total,
     required this.count,
     required this.stars,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double rating = total > 0 ? count / total : 0;
     final theme = context.read<ThemeBloc>().state.scheme;
-    return InkWell(
-      onTap: () {
-        /* final filter = [...state.filter].toList();
-        if (!checked) {
-          filter.add(stars);
-        } else {
-          filter.remove(stars);
-        }
-        
-      builder: (context, state) {
-        final bool checked = state.filter.contains(stars);
-        return InkWell(
-          onTap: () {
-            final filter = [...state.filter].toList();
-            if (!checked) {
-              filter.add(stars);
-            } else {
-              filter.remove(stars);
-            }
+    return BlocBuilder<FindBusinessBloc, FindBusinessState>(
+      builder: (businessContext, state) {
+        if (state is FindBusinessDone) {
+          final int total = state.business.reviews;
+          final double rating = total > 0 ? count / total : 0;
+          final filter = [...state.filter];
+          final checked = filter.contains(stars);
+          return InkWell(
+            onTap: () {
+              if (checked) {
+                filter.remove(stars);
+              } else {
+                filter.add(stars);
+              }
 
-        final reviewBloc = context.read<FindListingReviewsBloc>();
-        reviewBloc.add(FindListingReviews(urlSlug: urlSlug, filter: filter)); */
+              businessContext.read<FindBusinessBloc>().add(
+                    FindBusiness(
+                      urlSlug: state.business.urlSlug,
+                      filter: filter,
+                    ),
+                  );
+            },
+            splashColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    checked ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded,
+                    color: theme.primary,
+                    size: Dimension.radius.eighteen,
+                  ),
+                  SizedBox(width: Dimension.padding.horizontal.small),
+                  RatingBarIndicator(
+                    itemCount: 5,
+                    rating: stars.toDouble(),
+                    itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
+                    unratedColor: Colors.transparent,
+                    itemSize: Dimension.radius.sixteen,
+                    direction: Axis.horizontal,
+                  ),
+                  SizedBox(width: Dimension.padding.horizontal.small),
+                  Expanded(
+                    child: LinearProgressIndicator(
+                      value: rating,
+                      minHeight: 4,
+                      borderRadius: BorderRadius.circular(100),
+                      valueColor: AlwaysStoppedAnimation<Color>(theme.primary),
+                      backgroundColor: theme.backgroundSecondary,
+                    ),
+                  ),
+                  SizedBox(
+                    width: Dimension.size.horizontal.thirtySix,
+                    child: Text(
+                      "${(rating * 100).ceil()}%",
+                      style: TextStyles.caption(context: context, color: theme.textPrimary),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return SizedBox.shrink();
+        }
       },
-      splashColor: Colors.transparent,
-      borderRadius: BorderRadius.circular(6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            /* checked ? Icons.check_box_rounded :  */ Icons.check_box_outline_blank_rounded,
-            color: theme.primary,
-            size: Dimension.radius.eighteen,
-          ),
-          SizedBox(width: Dimension.padding.horizontal.small),
-          RatingBarIndicator(
-            itemCount: 5,
-            rating: stars.toDouble(),
-            itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
-            unratedColor: Colors.transparent,
-            itemSize: Dimension.radius.twelve,
-            direction: Axis.horizontal,
-          ),
-          SizedBox(width: Dimension.padding.horizontal.small),
-          Expanded(
-            child: LinearProgressIndicator(
-              value: rating,
-              minHeight: 8,
-              borderRadius: BorderRadius.circular(100),
-              valueColor: AlwaysStoppedAnimation<Color>(theme.primary),
-              backgroundColor: theme.backgroundSecondary,
-            ),
-          ),
-          SizedBox(
-            width: Dimension.size.horizontal.thirtySix,
-            child: Text(
-              "${(rating * 100).ceil()}%",
-              style: TextStyles.caption(context: context, color: theme.textPrimary),
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 class RemoteEndpoints {
   static const String domain = 'https://kemon.com.bd';
-  static const String _baseUrl = 'http://localhost:5041';
-  // static const String _baseUrl = 'https://api.kemon.com.bd';
+  // static const String _baseUrl = 'http://localhost:5041';
+  static const String _baseUrl = 'https://api.kemon.com.bd';
 
   //! performant
   static Uri get overview => Uri.parse('$_baseUrl/overview');

@@ -110,9 +110,27 @@ class RecentReviewItemWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              review.reviewer.name.full,
-                              style: TextStyles.body(context: context, color: theme.primary),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: review.reviewer.name.full,
+                                    style: TextStyles.body(context: context, color: theme.primary),
+                                  ),
+                                  if (review.localGuide) ...[
+                                    WidgetSpan(child: SizedBox(width: 4)),
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.aboveBaseline,
+                                      baseline: TextBaseline.alphabetic,
+                                      child: SvgPicture.asset(
+                                        'images/logo/google.svg',
+                                        width: Dimension.radius.eight,
+                                        height: Dimension.radius.eight,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -195,10 +213,26 @@ class RecentReviewItemWidget extends StatelessWidget {
                     );
                   },
                   borderRadius: BorderRadius.circular(12),
-                  child: Text(
-                    review.listing.name.full,
-                    style: TextStyles.body(context: context, color: theme.primary).copyWith(
-                      fontWeight: FontWeight.bold,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: review.listing.name.full,
+                          style: TextStyles.body(context: context, color: theme.primary),
+                        ),
+                        if (review.listing.verified) ...[
+                          WidgetSpan(child: SizedBox(width: 4)),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.aboveBaseline,
+                            baseline: TextBaseline.alphabetic,
+                            child: Icon(
+                              Icons.verified_rounded,
+                              color: theme.primary,
+                              size: Dimension.radius.twelve,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

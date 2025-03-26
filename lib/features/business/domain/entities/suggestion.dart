@@ -9,6 +9,7 @@ class BusinessSuggestionEntity extends BusinessPreviewEntity implements SearchSu
     required super.name,
     required super.urlSlug,
     required super.logo,
+    required super.verified,
     required this.rating,
     required this.reviews,
   });

@@ -1,25 +1,25 @@
-import 'package:kemon/features/industry/domain/entities/industry.dart';
-
 import '../../../../core/shared/shared.dart';
-import '../../../authentication/authentication.dart';
-import '../../../category/category.dart';
-import '../../../lookup/lookup.dart';
-import '../../../review/review.dart';
-import '../../../sub_category/sub_category.dart';
+import '../../../authentication/authentication.dart' show AuthenticationBloc;
+import '../../../category/category.dart' show CategoryEntity;
+import '../../../industry/industry.dart' show IndustryEntity;
+import '../../../lookup/lookup.dart' show LookupEntity;
+import '../../../review/review.dart' show ListingReviewEntity;
+import '../../../sub_category/sub_category.dart' show SubCategoryEntity, SubCategoryLocalDataSource;
 import '../../business.dart';
 
-typedef ListingEntity = (BusinessEntity, List<ListingReviewEntity>);
+typedef ListingEntity = (BusinessEntity, BusinessRatingInsightsEntity, List<ListingReviewEntity>);
 
 class BusinessRepositoryImpl extends BusinessRepository {
   final NetworkInfo network;
   final AuthenticationBloc auth;
   final SubCategoryLocalDataSource subCategory;
+  final BusinessLocalDataSource local;
   final BusinessRemoteDataSource remote;
 
   BusinessRepositoryImpl({
     required this.network,
     required this.auth,
-    // required this.local,
+    required this.local,
     required this.remote,
     required this.subCategory,
   });
@@ -27,11 +27,32 @@ class BusinessRepositoryImpl extends BusinessRepository {
   @override
   FutureOr<Either<Failure, ListingEntity>> find({
     required String urlSlug,
+    required List<int> filter,
   }) async {
     try {
+      final result = local.find(urlSlug: urlSlug);
+      return Right(
+        filter.isEmpty
+            ? result
+            : (
+                result.$1,
+                result.$2,
+                result.$3.where((r) => filter.contains(r.star)).toList(),
+              ),
+      );
+    } on BusinessNotFoundInLocalCacheFailure {
       if (await network.online) {
         final result = await remote.find(urlSlug: urlSlug, user: auth.identity);
-        return Right(result);
+        local.add(urlSlug: urlSlug, listing: result);
+        return Right(
+          filter.isEmpty
+              ? result
+              : (
+                  result.$1,
+                  result.$2,
+                  result.$3.where((r) => filter.contains(r.star)).toList(),
+                ),
+        );
       } else {
         return Left(NoInternetFailure());
       }
@@ -47,6 +68,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
     try {
       if (await network.online) {
         final result = await remote.find(urlSlug: urlSlug, user: auth.identity);
+        local.add(urlSlug: urlSlug, listing: result);
         return Right(result);
       } else {
         return Left(NoInternetFailure());
@@ -183,7 +205,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
           sort: sort,
           ratings: ratings,
         );
-        
+
         return Right(result);
       } else {
         return Left(NoInternetFailure());

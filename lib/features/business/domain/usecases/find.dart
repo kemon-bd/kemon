@@ -10,7 +10,9 @@ class FindBusinessUseCase {
 
   FutureOr<Either<Failure, ListingEntity>> call({
     required String urlSlug,
+    required List<int> filter,
+
   }) async {
-    return await repository.find(urlSlug: urlSlug);
+    return await repository.find(urlSlug: urlSlug, filter: filter);
   }
 }

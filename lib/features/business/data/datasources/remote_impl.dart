@@ -116,8 +116,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     if (response.statusCode == HttpStatus.ok) {
       final Map<String, dynamic> data = json.decode(response.body);
       final BusinessModel business = BusinessModel.parse(map: data['listing']);
+      final BusinessRatingInsightsModel insights = BusinessRatingInsightsModel.parse(map: data['insights']);
       final reviews = (data['reviews'] as List).map((map) => ListingReviewModel.parse(map: map)).toList();
-      final ListingModel model = (business, reviews);
+      final ListingModel model = (business, insights, reviews);
       return model;
     } else {
       throw RemoteFailure(message: response.body);

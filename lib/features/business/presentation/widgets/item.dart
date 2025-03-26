@@ -96,9 +96,27 @@ class BusinessItemWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        business.name.full,
-                        style: TextStyles.body(context: context, color: theme.textPrimary),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: business.name.full,
+                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                            ),
+                            if (business.verified) ...[
+                              WidgetSpan(child: SizedBox(width: 4)),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.aboveBaseline,
+                                baseline: TextBaseline.alphabetic,
+                                child: Icon(
+                                  Icons.verified_rounded,
+                                  color: theme.primary,
+                                  size: Dimension.radius.twelve,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

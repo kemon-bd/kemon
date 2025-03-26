@@ -102,6 +102,8 @@ extension LookupsExtension on Lookups {
         return 'profilePoint';
       case Lookups.blockReason:
         return 'blockReasons';
+      case Lookups.flagReason:
+        return 'flagReasons';
       default:
         return '';
     }

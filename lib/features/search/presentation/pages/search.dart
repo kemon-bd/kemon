@@ -232,13 +232,49 @@ class _SearchPageState extends State<SearchPage> {
                                                 text: afterMatch,
                                                 style: TextStyles.body(context: context, color: theme.textSecondary),
                                               ),
+                                              if (suggestion is BusinessPreviewEntity &&
+                                                  (suggestion as BusinessPreviewEntity).verified) ...[
+                                                WidgetSpan(child: SizedBox(width: 4)),
+                                                WidgetSpan(
+                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                  baseline: TextBaseline.alphabetic,
+                                                  child: Icon(
+                                                    Icons.verified_rounded,
+                                                    color: theme.primary,
+                                                    size: Dimension.radius.twelve,
+                                                  ),
+                                                ),
+                                              ],
                                             ],
                                           ),
                                         )
-                                      : Text(
-                                          label,
-                                          style: TextStyles.body(context: context, color: theme.textPrimary),
-                                        ),
+                                      : suggestion is BusinessPreviewEntity && (suggestion as BusinessPreviewEntity).verified
+                                          ? RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: suggestion.name.full,
+                                                    style: TextStyles.body(context: context, color: theme.primary),
+                                                  ),
+                                                  WidgetSpan(child: SizedBox(width: 4)),
+                                                  WidgetSpan(
+                                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                                    baseline: TextBaseline.alphabetic,
+                                                    child: Icon(
+                                                      Icons.verified_rounded,
+                                                      color: theme.primary,
+                                                      size: Dimension.radius.twelve,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          : Text(
+                                              label,
+                                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                                            ),
                                   const SizedBox(height: 2),
                                   if (type.isNotEmpty)
                                     Text(

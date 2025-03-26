@@ -5,7 +5,6 @@ class BusinessLiteEntity extends BusinessPreviewEntity {
   final String? district;
   final double rating;
   final int reviews;
-  final bool verified;
 
   const BusinessLiteEntity({
     required super.name,
@@ -15,7 +14,7 @@ class BusinessLiteEntity extends BusinessPreviewEntity {
     required this.district,
     required this.rating,
     required this.reviews,
-    required this.verified,
+    required super.verified,
   });
 
   @override
