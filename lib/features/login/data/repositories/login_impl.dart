@@ -185,6 +185,8 @@ class LoginRepositoryImpl extends LoginRepository {
       } else {
         return Left(NoInternetFailure());
       }
+    } on SignInWithAppleAuthorizationException {
+      return Left(AppleSignInFailure());
     } on Failure catch (e) {
       return Left(e);
     }
