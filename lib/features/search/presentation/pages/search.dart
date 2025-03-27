@@ -42,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
               autofocus: true,
               controller: controller,
               autocorrect: false,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.titleLarge,
               onChanged: (query) {
                 if (query.isNotEmpty) {
                   context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
@@ -52,8 +52,8 @@ class _SearchPageState extends State<SearchPage> {
                 setState(() {});
               },
               decoration: InputDecoration(
-                hintText: 'Search',
-                hintStyle: TextStyle(color: theme.textSecondary.withAlpha(150)),
+                hintText: 'Search for business, product and more...',
+                hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary.withAlpha(150)),
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ShimmerLabel(radius: 4, width: 32, height: 32),
+                          ShimmerLabel(radius: 4, width: 36, height: 36),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -99,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                               children: [
                                 ShimmerLabel(width: 112.0 + Random().nextInt(72), height: 8),
                                 const SizedBox(height: 4),
-                                ShimmerLabel(width: 32.0 + Random().nextInt(32), height: 6),
+                                ShimmerLabel(width: 36.0 + Random().nextInt(36), height: 6),
                               ],
                             ),
                           ),
@@ -182,16 +182,17 @@ class _SearchPageState extends State<SearchPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
+                          spacing: 12,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 32,
-                              height: 32,
+                              width: 36,
+                              height: 36,
                               decoration: BoxDecoration(
                                 color: theme.backgroundSecondary,
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: theme.backgroundTertiary,
+                                  color: theme.textSecondary,
                                   width: .15,
                                   strokeAlign: BorderSide.strokeAlignOutside,
                                 ),
@@ -201,16 +202,16 @@ class _SearchPageState extends State<SearchPage> {
                                   ? fallback
                                   : CachedNetworkImage(
                                       imageUrl: suggestion.logo!.url,
-                                      width: 32,
-                                      height: 32,
+                                      width: 36,
+                                      height: 36,
                                       fit: BoxFit.contain,
-                                      placeholder: (_, __) => ShimmerLabel(radius: 4, width: 32, height: 32),
+                                      placeholder: (_, __) => ShimmerLabel(radius: 4, width: 36, height: 36),
                                       errorWidget: (_, __, ___) => fallback,
                                     ),
                             ),
-                            const SizedBox(width: 12),
                             Expanded(
                               child: Column(
+                                spacing: 6,
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -218,20 +219,31 @@ class _SearchPageState extends State<SearchPage> {
                                       ? RichText(
                                           text: TextSpan(
                                             children: [
-                                              TextSpan(
-                                                text: beforeMatch,
-                                                style: TextStyles.body(context: context, color: theme.textSecondary),
-                                              ),
-                                              TextSpan(
-                                                text: match,
-                                                style: TextStyles.body(context: context, color: theme.primary).copyWith(
-                                                  fontWeight: FontWeight.w900,
+                                              if (beforeMatch.trim().isNotEmpty)
+                                                TextSpan(
+                                                  text: beforeMatch,
+                                                  style: context.text.bodyLarge?.copyWith(
+                                                    color: theme.textSecondary,
+                                                    height: 1,
+                                                  ),
                                                 ),
-                                              ),
-                                              TextSpan(
-                                                text: afterMatch,
-                                                style: TextStyles.body(context: context, color: theme.textSecondary),
-                                              ),
+                                              if (match.trim().isNotEmpty)
+                                                TextSpan(
+                                                  text: match,
+                                                  style: context.text.bodyLarge?.copyWith(
+                                                    color: theme.primary,
+                                                    fontWeight: FontWeight.w900,
+                                                    height: 1,
+                                                  ),
+                                                ),
+                                              if (afterMatch.trim().isNotEmpty)
+                                                TextSpan(
+                                                  text: afterMatch,
+                                                  style: context.text.bodyLarge?.copyWith(
+                                                    color: theme.textSecondary,
+                                                    height: 1,
+                                                  ),
+                                                ),
                                               if (suggestion is BusinessPreviewEntity &&
                                                   (suggestion as BusinessPreviewEntity).verified) ...[
                                                 WidgetSpan(child: SizedBox(width: 4)),
@@ -254,7 +266,7 @@ class _SearchPageState extends State<SearchPage> {
                                                 children: [
                                                   TextSpan(
                                                     text: suggestion.name.full,
-                                                    style: TextStyles.body(context: context, color: theme.primary),
+                                                    style: context.text.bodyLarge?.copyWith(color: theme.primary),
                                                   ),
                                                   WidgetSpan(child: SizedBox(width: 4)),
                                                   WidgetSpan(
@@ -273,39 +285,50 @@ class _SearchPageState extends State<SearchPage> {
                                             )
                                           : Text(
                                               label,
-                                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                                              style: context.text.bodyLarge?.copyWith(color: theme.textPrimary),
                                             ),
-                                  const SizedBox(height: 2),
                                   if (type.isNotEmpty)
                                     Text(
                                       type,
-                                      style: TextStyles.overline(context: context, color: theme.textSecondary.withAlpha(150))
-                                          .copyWith(
+                                      style: context.text.labelSmall?.copyWith(
+                                        color: theme.textSecondary.withAlpha(150),
                                         fontWeight: FontWeight.normal,
+                                        height: 1,
                                       ),
                                     ),
                                   if (suggestion is BusinessSuggestionEntity && suggestion.rating > 0)
-                                    Text(
-                                      "${suggestion.reviews} review${suggestion.reviews > 1 ? 's' : ''}",
-                                      style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      spacing: 4,
+                                      children: [
+                                        Icon(
+                                          Icons.star_sharp,
+                                          size: context.text.labelSmall?.fontSize,
+                                          color: theme.textSecondary.withAlpha(200),
+                                        ),
+                                        Text(
+                                          suggestion.rating.toStringAsFixed(1),
+                                          style: context.text.labelSmall?.copyWith(
+                                            color: theme.textSecondary.withAlpha(200),
+                                            height: 1,
+                                          ),
+                                        ),
+                                        SizedBox.shrink(),
+                                        Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                        SizedBox.shrink(),
+                                        Text(
+                                          "${suggestion.reviews} review${suggestion.reviews > 1 ? 's' : ''}",
+                                          style: context.text.labelSmall?.copyWith(
+                                            color: theme.textSecondary.withAlpha(200),
+                                            fontWeight: FontWeight.normal,
+                                            height: 1,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                 ],
                               ),
                             ),
-                            if (suggestion is BusinessSuggestionEntity && suggestion.rating > 0) ...[
-                              const SizedBox(width: 16),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                spacing: 4,
-                                children: [
-                                  Icon(Icons.stars_rounded, size: 16, color: theme.primary),
-                                  Text(
-                                    suggestion.rating.toStringAsFixed(1),
-                                    style: TextStyles.caption(context: context, color: theme.primary),
-                                  ),
-                                ],
-                              ),
-                            ],
                           ],
                         ),
                       ),

@@ -87,12 +87,12 @@ class AppConfig {
         isDense: true,
         filled: true,
         fillColor: theme.backgroundSecondary,
-        labelStyle: TextStyles.body(context: context, color: theme.textPrimary),
+        labelStyle: context.text.labelMedium,
         contentPadding: EdgeInsets.symmetric(
           horizontal: Dimension.padding.horizontal.max,
           vertical: Dimension.padding.vertical.max,
         ),
-        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+        hintStyle: context.text.bodyMedium,
         errorStyle: TextStyle(height: 0, fontSize: 0),
         helperStyle: TextStyle(height: 0, fontSize: 0),
         border: OutlineInputBorder(
@@ -163,6 +163,7 @@ class AppConfig {
           ),
         ),
       ),
+      
       textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
       iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.twenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,
