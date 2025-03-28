@@ -115,230 +115,267 @@ class _SearchPageState extends State<SearchPage> {
                   shrinkWrap: true,
                 );
               } else if (state is SearchSuggestionDone) {
-                return ListView.separated(
-                  padding: EdgeInsets.zero.copyWith(
-                    bottom: context.bottomInset + (2 * Dimension.padding.vertical.max) + kToolbarHeight,
-                  ),
-                  itemBuilder: (_, index) {
-                    final suggestion = state.suggestions[index];
-                    final icon = suggestion is BusinessPreviewEntity
-                        ? Icons.business_center_outlined
-                        : suggestion is IndustryEntity
-                            ? Icons.domain_outlined
-                            : suggestion is SubCategoryEntity
-                                ? Icons.category_outlined
-                                : Icons.label_outline_rounded;
-                    final String type = suggestion is BusinessPreviewEntity
-                        ? ""
-                        : suggestion is IndustryEntity
-                            ? "Industry"
-                            : suggestion is SubCategoryEntity
-                                ? "Sub-Category"
-                                : "Category";
-                    final fallback = Center(child: Icon(icon, color: theme.textSecondary, size: 20));
-
-                    final searchText = controller.text;
-                    final label = suggestion.name.full;
-                    final matchStart = label.toLowerCase().indexOf(searchText.toLowerCase());
-
-                    final matchEnd = matchStart != -1 && searchText.isNotEmpty ? matchStart + searchText.length : -1;
-                    final beforeMatch = matchStart != -1 && searchText.isNotEmpty ? label.substring(0, matchStart) : "";
-                    final match = matchStart != -1 && searchText.isNotEmpty ? label.substring(matchStart, matchEnd) : "";
-                    final afterMatch = matchStart != -1 && searchText.isNotEmpty ? label.substring(matchEnd) : "";
-                    return InkWell(
-                      onTap: () {
-                        if (suggestion is BusinessPreviewEntity) {
+                return state.suggestions.isEmpty
+                    ? InkWell(
+                        onTap: () {
                           context.pushNamed(
-                            BusinessPage.name,
-                            pathParameters: {'urlSlug': suggestion.urlSlug},
-                          );
-                        } else if (suggestion is IndustryEntity) {
-                          context.pushNamed(
-                            IndustryPage.name,
-                            pathParameters: {'urlSlug': suggestion.urlSlug},
-                            queryParameters: {'industry': (suggestion as IndustryEntity).identity.guid},
-                          );
-                        } else if (suggestion is SubCategoryEntity) {
-                          context.pushNamed(
-                            SubCategoryPage.name,
-                            pathParameters: {'urlSlug': suggestion.urlSlug},
+                            NewListingPage.name,
                             queryParameters: {
-                              'industry': (suggestion as SubCategoryEntity).industry.guid,
-                              'category': (suggestion as SubCategoryEntity).category.guid,
-                              'subCategory': (suggestion as SubCategoryEntity).identity.guid,
+                              'suggestion': controller.text.titleCase,
                             },
                           );
-                        } else if (suggestion is CategoryEntity) {
-                          context.pushNamed(
-                            CategoryPage.name,
-                            pathParameters: {'urlSlug': suggestion.urlSlug},
-                            queryParameters: {
-                              'industry': (suggestion as CategoryEntity).industry.guid,
-                              'category': (suggestion as CategoryEntity).identity.guid,
-                            },
-                          );
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          spacing: 12,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                color: theme.backgroundSecondary,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: theme.textSecondary,
-                                  width: .15,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                ),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: (suggestion.logo ?? "").isEmpty
-                                  ? fallback
-                                  : CachedNetworkImage(
-                                      imageUrl: suggestion.logo!.url,
-                                      width: 36,
-                                      height: 36,
-                                      fit: BoxFit.contain,
-                                      placeholder: (_, __) => ShimmerLabel(radius: 4, width: 36, height: 36),
-                                      errorWidget: (_, __, ___) => fallback,
-                                    ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                spacing: 6,
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            Icon(Icons.add_home_work_outlined, size: Dimension.radius.seventyTwo, color: theme.textSecondary),
+                            const SizedBox(height: 16),
+                            Text.rich(
+                              TextSpan(
                                 children: [
-                                  matchStart != -1 && searchText.isNotEmpty
-                                      ? RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              if (beforeMatch.trim().isNotEmpty)
-                                                TextSpan(
-                                                  text: beforeMatch,
-                                                  style: context.text.bodyLarge?.copyWith(
-                                                    color: theme.textSecondary,
-                                                    height: 1,
-                                                  ),
-                                                ),
-                                              if (match.trim().isNotEmpty)
-                                                TextSpan(
-                                                  text: match,
-                                                  style: context.text.bodyLarge?.copyWith(
-                                                    color: theme.primary,
-                                                    fontWeight: FontWeight.w900,
-                                                    height: 1,
-                                                  ),
-                                                ),
-                                              if (afterMatch.trim().isNotEmpty)
-                                                TextSpan(
-                                                  text: afterMatch,
-                                                  style: context.text.bodyLarge?.copyWith(
-                                                    color: theme.textSecondary,
-                                                    height: 1,
-                                                  ),
-                                                ),
-                                              if (suggestion is BusinessPreviewEntity &&
-                                                  (suggestion as BusinessPreviewEntity).verified) ...[
-                                                WidgetSpan(child: SizedBox(width: 4)),
-                                                WidgetSpan(
-                                                  alignment: PlaceholderAlignment.aboveBaseline,
-                                                  baseline: TextBaseline.alphabetic,
-                                                  child: Icon(
-                                                    Icons.verified_rounded,
-                                                    color: theme.primary,
-                                                    size: Dimension.radius.twelve,
-                                                  ),
-                                                ),
-                                              ],
-                                            ],
-                                          ),
-                                        )
-                                      : suggestion is BusinessPreviewEntity && (suggestion as BusinessPreviewEntity).verified
-                                          ? RichText(
-                                              text: TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: suggestion.name.full,
-                                                    style: context.text.bodyLarge?.copyWith(color: theme.primary),
-                                                  ),
-                                                  WidgetSpan(child: SizedBox(width: 4)),
-                                                  WidgetSpan(
-                                                    alignment: PlaceholderAlignment.aboveBaseline,
-                                                    baseline: TextBaseline.alphabetic,
-                                                    child: Icon(
-                                                      Icons.verified_rounded,
-                                                      color: theme.primary,
-                                                      size: Dimension.radius.twelve,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          : Text(
-                                              label,
-                                              style: context.text.bodyLarge?.copyWith(color: theme.textPrimary),
-                                            ),
-                                  if (type.isNotEmpty)
-                                    Text(
-                                      type,
-                                      style: context.text.labelSmall?.copyWith(
-                                        color: theme.textSecondary.withAlpha(150),
-                                        fontWeight: FontWeight.normal,
-                                        height: 1,
-                                      ),
-                                    ),
-                                  if (suggestion is BusinessSuggestionEntity && suggestion.rating > 0)
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      spacing: 4,
-                                      children: [
-                                        Icon(
-                                          Icons.star_sharp,
-                                          size: context.text.labelSmall?.fontSize,
-                                          color: theme.textSecondary.withAlpha(200),
-                                        ),
-                                        Text(
-                                          suggestion.rating.toStringAsFixed(1),
-                                          style: context.text.labelSmall?.copyWith(
-                                            color: theme.textSecondary.withAlpha(200),
-                                            height: 1,
-                                          ),
-                                        ),
-                                        SizedBox.shrink(),
-                                        Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
-                                        SizedBox.shrink(),
-                                        Text(
-                                          "${suggestion.reviews} review${suggestion.reviews > 1 ? 's' : ''}",
-                                          style: context.text.labelSmall?.copyWith(
-                                            color: theme.textSecondary.withAlpha(200),
-                                            fontWeight: FontWeight.normal,
-                                            height: 1,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  TextSpan(
+                                    text: "Add ",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
+                                  TextSpan(
+                                    text: controller.text,
+                                    style: TextStyles.subTitle(context: context, color: theme.primary),
+                                  ),
+                                  TextSpan(
+                                    text: " as new business?",
+                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, __) => const Divider(height: .15),
-                  itemCount: state.suggestions.length,
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                );
+                      )
+                    : ListView.separated(
+                        padding: EdgeInsets.zero.copyWith(
+                          bottom: context.bottomInset + (2 * Dimension.padding.vertical.max) + kToolbarHeight,
+                        ),
+                        itemBuilder: (_, index) {
+                          final suggestion = state.suggestions[index];
+                          final icon = suggestion is BusinessPreviewEntity
+                              ? Icons.business_center_outlined
+                              : suggestion is IndustryEntity
+                                  ? Icons.domain_outlined
+                                  : suggestion is SubCategoryEntity
+                                      ? Icons.category_outlined
+                                      : Icons.label_outline_rounded;
+                          final String type = suggestion is BusinessPreviewEntity
+                              ? ""
+                              : suggestion is IndustryEntity
+                                  ? "Industry"
+                                  : suggestion is SubCategoryEntity
+                                      ? "Sub-Category"
+                                      : "Category";
+                          final fallback = Center(child: Icon(icon, color: theme.textSecondary, size: 20));
+
+                          final searchText = controller.text;
+                          final label = suggestion.name.full;
+                          final matchStart = label.toLowerCase().indexOf(searchText.toLowerCase());
+
+                          final matchEnd = matchStart != -1 && searchText.isNotEmpty ? matchStart + searchText.length : -1;
+                          final beforeMatch = matchStart != -1 && searchText.isNotEmpty ? label.substring(0, matchStart) : "";
+                          final match = matchStart != -1 && searchText.isNotEmpty ? label.substring(matchStart, matchEnd) : "";
+                          final afterMatch = matchStart != -1 && searchText.isNotEmpty ? label.substring(matchEnd) : "";
+                          return InkWell(
+                            onTap: () {
+                              if (suggestion is BusinessPreviewEntity) {
+                                context.pushNamed(
+                                  BusinessPage.name,
+                                  pathParameters: {'urlSlug': suggestion.urlSlug},
+                                );
+                              } else if (suggestion is IndustryEntity) {
+                                context.pushNamed(
+                                  IndustryPage.name,
+                                  pathParameters: {'urlSlug': suggestion.urlSlug},
+                                  queryParameters: {'industry': (suggestion as IndustryEntity).identity.guid},
+                                );
+                              } else if (suggestion is SubCategoryEntity) {
+                                context.pushNamed(
+                                  SubCategoryPage.name,
+                                  pathParameters: {'urlSlug': suggestion.urlSlug},
+                                  queryParameters: {
+                                    'industry': (suggestion as SubCategoryEntity).industry.guid,
+                                    'category': (suggestion as SubCategoryEntity).category.guid,
+                                    'subCategory': (suggestion as SubCategoryEntity).identity.guid,
+                                  },
+                                );
+                              } else if (suggestion is CategoryEntity) {
+                                context.pushNamed(
+                                  CategoryPage.name,
+                                  pathParameters: {'urlSlug': suggestion.urlSlug},
+                                  queryParameters: {
+                                    'industry': (suggestion as CategoryEntity).industry.guid,
+                                    'category': (suggestion as CategoryEntity).identity.guid,
+                                  },
+                                );
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                spacing: 12,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 36,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: theme.backgroundSecondary,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: theme.textSecondary,
+                                        width: .15,
+                                        strokeAlign: BorderSide.strokeAlignOutside,
+                                      ),
+                                    ),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: (suggestion.logo ?? "").isEmpty
+                                        ? fallback
+                                        : CachedNetworkImage(
+                                            imageUrl: suggestion.logo!.url,
+                                            width: 36,
+                                            height: 36,
+                                            fit: BoxFit.contain,
+                                            placeholder: (_, __) => ShimmerLabel(radius: 4, width: 36, height: 36),
+                                            errorWidget: (_, __, ___) => fallback,
+                                          ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      spacing: 6,
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        matchStart != -1 && searchText.isNotEmpty
+                                            ? RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    if (beforeMatch.trim().isNotEmpty)
+                                                      TextSpan(
+                                                        text: beforeMatch,
+                                                        style: context.text.bodyLarge?.copyWith(
+                                                          color: theme.textSecondary,
+                                                          height: 1,
+                                                        ),
+                                                      ),
+                                                    if (match.trim().isNotEmpty)
+                                                      TextSpan(
+                                                        text: match,
+                                                        style: context.text.bodyLarge?.copyWith(
+                                                          color: theme.primary,
+                                                          fontWeight: FontWeight.w900,
+                                                          height: 1,
+                                                        ),
+                                                      ),
+                                                    if (afterMatch.trim().isNotEmpty)
+                                                      TextSpan(
+                                                        text: afterMatch,
+                                                        style: context.text.bodyLarge?.copyWith(
+                                                          color: theme.textSecondary,
+                                                          height: 1,
+                                                        ),
+                                                      ),
+                                                    if (suggestion is BusinessPreviewEntity &&
+                                                        (suggestion as BusinessPreviewEntity).verified) ...[
+                                                      WidgetSpan(child: SizedBox(width: 4)),
+                                                      WidgetSpan(
+                                                        alignment: PlaceholderAlignment.aboveBaseline,
+                                                        baseline: TextBaseline.alphabetic,
+                                                        child: Icon(
+                                                          Icons.verified_rounded,
+                                                          color: theme.primary,
+                                                          size: Dimension.radius.twelve,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ],
+                                                ),
+                                              )
+                                            : suggestion is BusinessPreviewEntity &&
+                                                    (suggestion as BusinessPreviewEntity).verified
+                                                ? RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: suggestion.name.full,
+                                                          style: context.text.bodyLarge?.copyWith(color: theme.primary),
+                                                        ),
+                                                        WidgetSpan(child: SizedBox(width: 4)),
+                                                        WidgetSpan(
+                                                          alignment: PlaceholderAlignment.aboveBaseline,
+                                                          baseline: TextBaseline.alphabetic,
+                                                          child: Icon(
+                                                            Icons.verified_rounded,
+                                                            color: theme.primary,
+                                                            size: Dimension.radius.twelve,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  )
+                                                : Text(
+                                                    label,
+                                                    style: context.text.bodyLarge?.copyWith(color: theme.textPrimary),
+                                                  ),
+                                        if (type.isNotEmpty)
+                                          Text(
+                                            type,
+                                            style: context.text.labelSmall?.copyWith(
+                                              color: theme.textSecondary.withAlpha(150),
+                                              fontWeight: FontWeight.normal,
+                                              height: 1,
+                                            ),
+                                          ),
+                                        if (suggestion is BusinessSuggestionEntity && suggestion.rating > 0)
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            spacing: 4,
+                                            children: [
+                                              Icon(
+                                                Icons.star_sharp,
+                                                size: context.text.labelSmall?.fontSize,
+                                                color: theme.textSecondary.withAlpha(200),
+                                              ),
+                                              Text(
+                                                suggestion.rating.toStringAsFixed(1),
+                                                style: context.text.labelSmall?.copyWith(
+                                                  color: theme.textSecondary.withAlpha(200),
+                                                  height: 1,
+                                                ),
+                                              ),
+                                              SizedBox.shrink(),
+                                              Icon(Icons.circle, size: 4, color: theme.backgroundTertiary),
+                                              SizedBox.shrink(),
+                                              Text(
+                                                "${suggestion.reviews} review${suggestion.reviews > 1 ? 's' : ''}",
+                                                style: context.text.labelSmall?.copyWith(
+                                                  color: theme.textSecondary.withAlpha(200),
+                                                  fontWeight: FontWeight.normal,
+                                                  height: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (_, __) => const Divider(height: .15),
+                        itemCount: state.suggestions.length,
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                      );
               } else if (state is SearchSuggestionError) {
                 return Center(
                   child: InkWell(
