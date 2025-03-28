@@ -32,12 +32,14 @@ class FeaturedLocationsWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Locations",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: context.text.labelMedium?.copyWith(color: theme.textSecondary),
                       ),
                       ActionChip(
                         label: Text(
-                          "See all",
-                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                          "See all".toUpperCase(),
+                          style: context.text.titleSmall?.copyWith(
+                            fontSize: .8 * (context.text.titleSmall?.fontSize ?? 0),
+                            color: theme.textPrimary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -109,7 +111,7 @@ class FeaturedLocationsWidget extends StatelessWidget {
                                 SizedBox(width: Dimension.padding.horizontal.small),
                                 Text(
                                   location.name.full,
-                                  style: TextStyles.body(context: context, color: theme.textPrimary),
+                                  style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
                                 ),
                                 SizedBox(width: Dimension.padding.horizontal.small),
                               ],

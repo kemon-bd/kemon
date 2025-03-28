@@ -37,6 +37,7 @@ class DashboardForYouWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
+                          spacing: 8,
                           mainAxisSize: MainAxisSize.min,
                           children: [1, 2, 3, 4, 5]
                               .map(
@@ -46,7 +47,7 @@ class DashboardForYouWidget extends StatelessWidget {
                                     'images/logo/full.png',
                                     width: Dimension.radius.thirty,
                                     height: Dimension.radius.thirty,
-                                    color: theme.primary,
+                                    color: theme.primary.withAlpha(150),
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -56,37 +57,31 @@ class DashboardForYouWidget extends StatelessWidget {
                         SizedBox(height: Dimension.padding.vertical.large),
                         Text(
                           "Join for free and explore all of KEMON.",
-                          style: TextStyles.body(context: context, color: theme.textPrimary),
+                          style: context.text.bodySmall?.copyWith(color: theme.textSecondary),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: Dimension.padding.vertical.large),
-                        InkWell(
-                          onTap: () async {
-                            await sl<FirebaseAnalytics>().logEvent(
-                              name: 'home_for_you_login',
-                              parameters: {
-                                'id': context.auth.profile?.identity.id ?? 'anonymous',
-                                'name': context.auth.profile?.name.full ?? 'Guest',
-                              },
-                            );
-                            if (!context.mounted) return;
-                            final bool? loggedIn = await context.pushNamed<bool>(CheckProfilePage.name);
-                            if (loggedIn == true && context.mounted) {
-                              context.pushNamed(ProfilePage.name);
-                            }
-                          },
-                          borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
-                          child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(Dimension.radius.twelve),
-                            decoration: BoxDecoration(
-                              color: theme.primary.withAlpha(50),
-                              borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
-                            ),
-                            alignment: Alignment.center,
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await sl<FirebaseAnalytics>().logEvent(
+                                name: 'home_for_you_login',
+                                parameters: {
+                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                  'name': context.auth.profile?.name.full ?? 'Guest',
+                                },
+                              );
+                              if (!context.mounted) return;
+                              final bool? loggedIn = await context.pushNamed<bool>(CheckProfilePage.name);
+                              if (loggedIn == true && context.mounted) {
+                                context.pushNamed(ProfilePage.name);
+                              }
+                            },
                             child: Text(
-                              "Login or Sign up",
-                              style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                              "Get Started".toUpperCase(),
+                              style: context.text.titleMedium?.copyWith(
+                                color: theme.white,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -110,47 +105,44 @@ class DashboardForYouWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: Dimension.padding.horizontal.max,
                         vertical: Dimension.padding.vertical.large,
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+                        spacing: 24,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Bought something recently?',
-                            style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
+                            style: context.text.headlineSmall?.copyWith(
+                              color: theme.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          InkWell(
-                            onTap: () async {
-                              await sl<FirebaseAnalytics>().logEvent(
-                                name: 'home_write_a_review',
-                                parameters: {
-                                  'id': context.auth.profile?.identity.id ?? 'anonymous',
-                                  'name': context.auth.profile?.name.full ?? 'Guest',
-                                },
-                              );
-                              if (!context.mounted) return;
-                              context.pushNamed(SearchPage.name);
-                            },
-                            borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(Dimension.radius.eight),
-                              margin: EdgeInsets.only(top: Dimension.padding.vertical.large),
-                              decoration: BoxDecoration(
-                                color: theme.white,
-                                borderRadius: BorderRadius.circular(Dimension.radius.thirtyTwo),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme.white,
                               ),
-                              alignment: Alignment.center,
+                              onPressed: () async {
+                                await sl<FirebaseAnalytics>().logEvent(
+                                  name: 'home_write_a_review',
+                                  parameters: {
+                                    'id': context.auth.profile?.identity.id ?? 'anonymous',
+                                    'name': context.auth.profile?.name.full ?? 'Guest',
+                                  },
+                                );
+                                if (!context.mounted) return;
+                                context.pushNamed(SearchPage.name);
+                              },
                               child: Text(
-                                "Write a review",
-                                style: TextStyles.subTitle(context: context, color: theme.black).copyWith(
+                                "Write a review".toUpperCase(),
+                                style: context.text.titleMedium?.copyWith(
+                                  color: theme.black,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -161,7 +153,7 @@ class DashboardForYouWidget extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Container(
                       color: theme.backgroundSecondary,
                       child: CachedNetworkImage(

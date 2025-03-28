@@ -19,9 +19,7 @@ class RecentReviewItemWidget extends StatelessWidget {
         final fallback = Center(
           child: Text(
             review.reviewer.name.symbol,
-            style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-              fontSize: Dimension.radius.twelve,
-            ),
+            style: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
           ),
         );
         return InkWell(
@@ -115,7 +113,11 @@ class RecentReviewItemWidget extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: review.reviewer.name.full,
-                                    style: TextStyles.body(context: context, color: theme.primary),
+                                    style: context.text.bodyMedium?.copyWith(
+                                      color: theme.primary,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1,
+                                    ),
                                   ),
                                   if (review.localGuide) ...[
                                     WidgetSpan(child: SizedBox(width: 4)),
@@ -134,15 +136,16 @@ class RecentReviewItemWidget extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
+                            SizedBox(height: Dimension.padding.vertical.verySmall),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               spacing: Dimension.padding.horizontal.medium,
                               children: [
                                 RatingBarIndicator(
                                   rating: review.star.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.stars_rounded, color: theme.primary),
-                                  unratedColor: theme.textSecondary.withAlpha(50),
-                                  itemCount: 5,
+                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: theme.primary),
+                                  unratedColor: theme.textSecondary.withAlpha(25),
+                                  itemCount: review.star,
                                   itemSize: Dimension.radius.twelve,
                                   direction: Axis.horizontal,
                                 ),
@@ -152,7 +155,11 @@ class RecentReviewItemWidget extends StatelessWidget {
                                   builder: (context, snapshot) {
                                     return Text(
                                       review.reviewedAt.duration,
-                                      style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
+                                      style: context.text.labelSmall?.copyWith(
+                                        color: theme.textSecondary.withAlpha(150),
+                                        fontWeight: FontWeight.normal,
+                                        height: 1,
+                                      ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     );
@@ -174,13 +181,19 @@ class RecentReviewItemWidget extends StatelessWidget {
                                         ),
                                         TextSpan(
                                           text: " ",
-                                          style:
-                                              TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
+                                          style: context.text.labelSmall?.copyWith(
+                                            color: theme.textSecondary.withAlpha(150),
+                                            fontWeight: FontWeight.normal,
+                                            height: 1,
+                                          ),
                                         ),
                                         TextSpan(
                                           text: review.photos.toString(),
-                                          style:
-                                              TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)),
+                                          style: context.text.labelSmall?.copyWith(
+                                            color: theme.textSecondary.withAlpha(150),
+                                            fontWeight: FontWeight.normal,
+                                            height: 1,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -218,7 +231,11 @@ class RecentReviewItemWidget extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: review.listing.name.full,
-                          style: TextStyles.body(context: context, color: theme.primary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.primary,
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
                         ),
                         if (review.listing.verified) ...[
                           WidgetSpan(child: SizedBox(width: 4)),
@@ -239,21 +256,28 @@ class RecentReviewItemWidget extends StatelessWidget {
                   ),
                 ),
                 if (review.summary.isNotEmpty) ...[
+                  SizedBox(height: Dimension.padding.vertical.verySmall),
                   Text(
                     review.summary,
-                    style: TextStyles.body(context: context, color: theme.textPrimary),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      height: 1,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                 ],
                 if (review.content.isNotEmpty) ...[
+                  SizedBox(height: Dimension.padding.vertical.verySmall),
                   Expanded(
                     child: Text(
                       review.content,
-                      style:
-                          TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(150)).copyWith(height: 1.1),
+                      style: context.text.bodySmall?.copyWith(
+                        color: theme.textSecondary,
+                        height: 1,
+                      ),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: review.summary.isNotEmpty ? 1 : 2,
                     ),
                   ),
                 ],
@@ -261,38 +285,44 @@ class RecentReviewItemWidget extends StatelessWidget {
                   Divider(height: Dimension.padding.vertical.small),
                   Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     spacing: Dimension.padding.horizontal.small,
                     children: [
                       Icon(
-                        Icons.thumb_up_alt_outlined,
-                        size: Dimension.radius.twelve,
-                        color: review.liked ? theme.primary : theme.textSecondary.withAlpha(150),
+                        review.liked ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
+                        size: context.text.labelSmall?.fontSize,
+                        color: review.liked ? theme.positive : theme.textSecondary.withAlpha(150),
                       ),
                       Text(
                         review.likes.toString(),
-                        style: TextStyles.caption(
-                          context: context,
-                          color: review.liked ? theme.primary : theme.textSecondary.withAlpha(150),
-                        ).copyWith(height: 1.1),
+                        style: context.text.labelMedium?.copyWith(
+                          color: review.liked ? theme.positive : theme.textSecondary.withAlpha(150),
+                          fontWeight: review.liked ? FontWeight.bold : FontWeight.normal,
+                          height: 1,
+                        ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
                       SizedBox(width: Dimension.padding.horizontal.small),
                       Icon(Icons.circle, size: Dimension.radius.three, color: theme.backgroundTertiary),
                       SizedBox(width: Dimension.padding.horizontal.small),
-                      Icon(
-                        Icons.thumb_down_alt_outlined,
-                        size: Dimension.radius.twelve,
-                        color: review.disliked ? theme.negative : theme.textSecondary.withAlpha(150),
+                      Transform.flip(
+                        flipX: true,
+                        child: Icon(
+                          review.disliked ? FontAwesomeIcons.solidThumbsDown : FontAwesomeIcons.thumbsDown,
+                          size: context.text.labelSmall?.fontSize,
+                          color: review.disliked ? theme.negative : theme.textSecondary.withAlpha(150),
+                        ),
                       ),
                       Text(
                         review.dislikes.toString(),
-                        style: TextStyles.caption(
-                          context: context,
-                          color: review.disliked ? theme.negative : theme.textSecondary.withAlpha(150),
-                        ).copyWith(height: 1.1),
+                        style: context.text.labelMedium?.copyWith(
+                          color: review.disliked ? theme.positive : theme.textSecondary.withAlpha(150),
+                          fontWeight: review.disliked ? FontWeight.bold : FontWeight.normal,
+                          height: 1,
+                        ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
                     ],
                   ),

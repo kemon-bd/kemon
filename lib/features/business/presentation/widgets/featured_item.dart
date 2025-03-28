@@ -18,9 +18,7 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
         final fallback = Center(
           child: Text(
             business.name.symbol,
-            style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-              fontSize: Dimension.radius.twentyFour,
-            ),
+            style: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
           ),
         );
         return InkWell(
@@ -57,7 +55,7 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             padding: EdgeInsets.symmetric(
               horizontal: Dimension.padding.horizontal.large,
-              vertical: Dimension.padding.vertical.large,
+              vertical: Dimension.padding.vertical.medium - 1,
             ).copyWith(top: Dimension.padding.vertical.medium),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,14 +93,14 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: Dimension.padding.vertical.verySmall,
+                    spacing: Dimension.padding.vertical.small,
                     children: [
                       RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
                               text: business.name.full,
-                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                              style: context.text.bodyMedium?.copyWith(color: theme.textPrimary, height: 1.0),
                             ),
                             if (business.verified) ...[
                               WidgetSpan(child: SizedBox(width: 4)),
@@ -127,30 +125,35 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
                         children: [
                           if (business.rating > 0) ...[
                             Icon(
-                              Icons.stars_rounded,
+                              Icons.star_sharp,
                               color: theme.primary,
-                              size: Dimension.size.vertical.twelve,
+                              size: context.text.labelMedium?.fontSize,
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.verySmall),
+                            SizedBox(width: Dimension.padding.horizontal.small),
                             Text(
                               business.rating.toStringAsFixed(1),
-                              style: TextStyles.caption(context: context, color: theme.primary),
+                              style: context.text.labelMedium?.copyWith(
+                                color: theme.textSecondary.withAlpha(200),
+                                fontWeight: FontWeight.normal,
+                                height: 1.0,
+                              ),
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            SizedBox(width: Dimension.padding.horizontal.large),
                             Icon(
                               Icons.circle,
                               size: Dimension.padding.horizontal.small,
                               color: theme.backgroundTertiary,
                             ),
-                            SizedBox(width: Dimension.padding.horizontal.medium),
+                            SizedBox(width: Dimension.padding.horizontal.large),
                           ],
                           Text(
                             business.reviews > 0
                                 ? "${business.reviews} review${business.reviews > 1 ? 's' : ''}"
                                 : 'No review yet',
-                            style: TextStyles.caption(
-                              context: context,
-                              color: business.reviews > 0 ? theme.primary : theme.textSecondary.withAlpha(100),
+                            style: context.text.labelMedium?.copyWith(
+                              color: theme.textSecondary.withAlpha(200),
+                              fontWeight: FontWeight.normal,
+                              height: 1.0,
                             ),
                           ),
                         ],
@@ -158,8 +161,11 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
                       if (business.thana != null || business.district != null)
                         Text(
                           "${business.thana ?? ''}${business.thana != null && business.district != null ? ', ' : ''}${business.district ?? ''}",
-                          style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100))
-                              .copyWith(fontWeight: FontWeight.w100),
+                          style: context.text.labelSmall?.copyWith(
+                            color: theme.textSecondary.withAlpha(150),
+                            fontWeight: FontWeight.normal,
+                            height: 1,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

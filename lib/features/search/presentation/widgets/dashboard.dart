@@ -45,12 +45,12 @@ class DashboardSearchWidget extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.search, color: theme.textSecondary),
+                      Icon(Icons.search, color: theme.textSecondary.withAlpha(150), size: context.text.bodyMedium?.fontSize),
                       SizedBox(width: Dimension.padding.horizontal.medium),
                       Expanded(
                         child: Text(
                           "Find company or category ...",
-                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                          style: context.text.bodyMedium?.copyWith(color: theme.textSecondary.withAlpha(150)),
                         ),
                       ),
                     ],

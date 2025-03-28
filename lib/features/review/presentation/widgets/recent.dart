@@ -28,10 +28,10 @@ class FeaturedReviewsWidget extends StatelessWidget {
                     padding: EdgeInsets.only(left: Dimension.padding.horizontal.max),
                     child: Text(
                       "Recent reviews",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.labelMedium?.copyWith(color: theme.textSecondary),
                     ),
                   ),
-                  SizedBox(height: Dimension.padding.vertical.small),
+                  SizedBox(height: Dimension.padding.vertical.large),
                   if (reviews.isNotEmpty)
                     ConstrainedBox(
                       constraints: BoxConstraints(
@@ -48,7 +48,11 @@ class FeaturedReviewsWidget extends StatelessWidget {
                         itemBuilder: (_, index) => RecentReviewItemWidget(review: reviews.elementAt(index)),
                       ),
                     ),
-                  if (reviews.isEmpty) const Text('No reviews yet'),
+                  if (reviews.isEmpty)
+                    Text(
+                      'No reviews yet',
+                      style: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
+                    ),
                 ],
               );
             } else {

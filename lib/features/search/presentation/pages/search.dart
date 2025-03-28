@@ -116,41 +116,47 @@ class _SearchPageState extends State<SearchPage> {
                 );
               } else if (state is SearchSuggestionDone) {
                 return state.suggestions.isEmpty
-                    ? InkWell(
-                        onTap: () {
-                          context.pushNamed(
-                            NewListingPage.name,
-                            queryParameters: {
-                              'suggestion': controller.text.titleCase,
+                    ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0).copyWith(bottom: context.bottomInset + kToolbarHeight),
+                        child: InkWell(
+                            onTap: () {
+                              context.pushNamed(
+                                NewListingPage.name,
+                                queryParameters: {
+                                  'suggestion': controller.text.titleCase,
+                                },
+                              );
                             },
-                          );
-                        },
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.add_home_work_outlined, size: Dimension.radius.seventyTwo, color: theme.textSecondary),
-                            const SizedBox(height: 16),
-                            Text.rich(
-                              TextSpan(
-                                children: [
+                            borderRadius: BorderRadius.circular(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.add_home_work_outlined, size: Dimension.radius.seventyTwo, color: theme.textSecondary),
+                                const SizedBox(height: 16),
+                                Text.rich(
                                   TextSpan(
-                                    text: "Add ",
-                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                    children: [
+                                      TextSpan(
+                                        text: "Add ",
+                                        style: context.text.bodyLarge?.copyWith(color: theme.textSecondary),
+                                      ),
+                                      TextSpan(
+                                        text: controller.text,
+                                        style: context.text.bodyLarge?.copyWith(color: theme.primary, fontWeight: FontWeight.bold),
+                                      ),
+                                      TextSpan(
+                                        text: " as new listing?",
+                                        style: context.text.bodyLarge?.copyWith(color: theme.textSecondary),
+                                      ),
+                                    ],
                                   ),
-                                  TextSpan(
-                                    text: controller.text,
-                                    style: TextStyles.subTitle(context: context, color: theme.primary),
-                                  ),
-                                  TextSpan(
-                                    text: " as new business?",
-                                    style: TextStyles.subTitle(context: context, color: theme.textSecondary),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      )
+                          ),
+                      ),
+                    )
                     : ListView.separated(
                         padding: EdgeInsets.zero.copyWith(
                           bottom: context.bottomInset + (2 * Dimension.padding.vertical.max) + kToolbarHeight,

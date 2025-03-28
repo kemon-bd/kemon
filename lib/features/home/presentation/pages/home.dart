@@ -84,19 +84,19 @@ class _HomePageState extends State<HomePage> {
                 },
                 borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
                 child: Row(
+                  spacing: 8,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
                       'images/logo/full.png',
-                      width: Dimension.radius.twentyFour,
-                      height: Dimension.radius.twentyFour,
+                      width: context.text.headlineMedium?.fontSize,
+                      height: context.text.headlineMedium?.fontSize,
                       fit: BoxFit.contain,
                       color: theme.white,
                     ),
-                    SizedBox(width: Dimension.size.horizontal.eight),
                     Text(
                       'KEMON',
-                      style: TextStyles.title(context: context, color: theme.white),
+                      style: context.text.headlineMedium?.copyWith(color: theme.white),
                     ),
                   ],
                 ),
