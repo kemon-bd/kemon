@@ -21,7 +21,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= 200 - kToolbarHeight;
+    final isExpanded = controller.offset <=
+        240 - context.topInset - kToolbarHeight - Dimension.size.vertical.twenty - 2 * Dimension.padding.vertical.large;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -63,14 +64,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                   slivers: [
                     SliverAppBar(
                       pinned: true,
-                      collapsedHeight: context.topInset +
-                          kToolbarHeight +
-                          Dimension.padding.vertical.min -
-                          (Platform.isIOS ? Dimension.size.vertical.twenty : 0),
-                      expandedHeight: context.topInset +
-                          kToolbarHeight +
-                          (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
-                          Dimension.size.vertical.oneTwelve,
+                      collapsedHeight: kToolbarHeight + Dimension.size.vertical.twenty + 2 * Dimension.padding.vertical.large,
+                      expandedHeight: 240,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
                         onPressed: () {
@@ -83,11 +78,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       ),
                       title: isExpanded
                           ? null
-                          : Text(
-                              "Leaderboard",
-                              style: TextStyles.title(context: context, color: theme.textPrimary)
-                                  .copyWith(fontSize: Dimension.radius.twenty),
-                            ).animate().fade(),
+                          : Hero(
+                              tag: "title",
+                              child: Text(
+                                "Leaderboard",
+                                style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
+                              ).animate().fade(),
+                            ),
                       actions: [
                         const ShareButton(),
                       ],
@@ -100,22 +97,18 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
                             onChanged: (query) {
                               context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: query));
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.search_rounded,
-                                size: Dimension.radius.sixteen,
+                                size: context.text.bodyMedium?.fontSize,
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Search by name or email',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                                vertical: Dimension.padding.vertical.large,
-                              ),
+                              hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
                             ),
                           ),
                         ),
@@ -131,11 +124,17 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "Leaderboard",
-                                          style: TextStyles.title(context: context, color: theme.textPrimary)
-                                              .copyWith(fontSize: Dimension.radius.twentyFour),
-                                        ).animate().fade(),
+                                        Hero(
+                                          tag: "title",
+                                          child: Text(
+                                            "Leaderboard",
+                                            style: context.text.headlineMedium?.copyWith(
+                                              color: theme.textPrimary,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.0,
+                                            ),
+                                          ).animate().fade(),
+                                        ),
                                         IconWidget(),
                                       ],
                                     ),
@@ -164,24 +163,6 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       },
     );
   }
-
-  Widget filterBuilder({
-    required String label,
-    required bool selected,
-    required ThemeScheme theme,
-  }) =>
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Text(
-          label,
-          style: TextStyles.subTitle(
-            context: context,
-            color: selected ? theme.white : theme.semiBlack,
-          ).copyWith(
-            fontWeight: selected ? FontWeight.bold : FontWeight.w100,
-          ),
-        ),
-      );
 }
 
 class ShareButton extends StatelessWidget {
@@ -246,15 +227,25 @@ class TotalCount extends StatelessWidget {
       builder: (context, state) {
         if (state is FindLeaderboardDone) {
           return Column(
+            spacing: Dimension.padding.vertical.small,
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 state.leaders.length.toString(),
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: context.text.headlineSmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
               Text(
                 "Participants",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.labelSmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
             ],
           );
@@ -329,11 +320,10 @@ class ListingsWidget extends StatelessWidget {
                     final fallback = Center(
                       child: Text(
                         leader.name.symbol,
-                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                          fontSize: Dimension.radius.twelve,
-                        ),
+                        style: context.text.bodySmall?.copyWith(color: theme.textSecondary),
                       ),
                     );
+                    final me = context.auth.identity?.guid.same(as: leader.identity.guid) ?? false;
                     return InkWell(
                       onTap: () {
                         context.pushNamed(
@@ -343,8 +333,13 @@ class ListingsWidget extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: theme.backgroundSecondary,
+                          color: me ? theme.positiveBackgroundSecondary : theme.backgroundSecondary,
                           borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            width: me ? 1 : 0,
+                            color: me ? theme.positive : theme.backgroundSecondary,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
                         ),
                         padding: EdgeInsets.symmetric(
                           horizontal: Dimension.padding.horizontal.max,
@@ -367,7 +362,11 @@ class ListingsWidget extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: Text(
                                   '${leader.rank + 1}',
-                                  style: TextStyles.overline(context: context, color: theme.textPrimary),
+                                  style: context.text.labelSmall?.copyWith(
+                                    color: theme.textPrimary,
+                                    fontWeight: me ? FontWeight.bold : FontWeight.normal,
+                                    height: 1.0,
+                                  ),
                                   textAlign: TextAlign.start,
                                 ),
                               ),
@@ -400,13 +399,21 @@ class ListingsWidget extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 leader.name.full,
-                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                                style: context.text.bodyMedium?.copyWith(
+                                  color: theme.textPrimary,
+                                  fontWeight: me ? FontWeight.bold : FontWeight.normal,
+                                  height: 1,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Text(
                               NumberFormat('###,###,###,###').format(leader.point),
-                              style: TextStyles.body(context: context, color: theme.textPrimary),
+                              style: context.text.bodyMedium?.copyWith(
+                                color: theme.textPrimary,
+                                fontWeight: me ? FontWeight.bold : FontWeight.normal,
+                                height: 1,
+                              ),
                             ),
                           ],
                         ),
@@ -427,14 +434,20 @@ class ListingsWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No leaders found :(",
-                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ),
                 );
         } else if (state is FindLeaderboardError) {
           return Text(
             state.failure.message,
-            style: TextStyles.body(context: context, color: theme.negative),
+            style: context.text.bodyLarge?.copyWith(
+              color: theme.textSecondary,
+              fontWeight: FontWeight.normal,
+            ),
           );
         } else {
           return const SizedBox();
@@ -486,7 +499,10 @@ class _FilterButton extends StatelessWidget {
             Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
-              style: TextStyles.caption(context: context, color: theme.white),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
