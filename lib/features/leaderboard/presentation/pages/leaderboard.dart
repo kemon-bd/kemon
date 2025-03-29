@@ -144,7 +144,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                         _FilterButton(search: search),
                                         const SizedBox(width: 16),
                                         const Spacer(),
-                                        TotalCount(),
+                                        _TotalCount(),
                                       ],
                                     ),
                                   ],
@@ -217,8 +217,8 @@ class IconWidget extends StatelessWidget {
   }
 }
 
-class TotalCount extends StatelessWidget {
-  const TotalCount({super.key});
+class _TotalCount extends StatelessWidget {
+  const _TotalCount();
 
   @override
   Widget build(BuildContext context) {
@@ -227,8 +227,8 @@ class TotalCount extends StatelessWidget {
       builder: (context, state) {
         if (state is FindLeaderboardDone) {
           return Column(
-            spacing: Dimension.padding.vertical.small,
             mainAxisSize: MainAxisSize.min,
+            spacing: Dimension.padding.vertical.small,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(

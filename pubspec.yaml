@@ -10,6 +10,7 @@ dependencies:
   cached_network_image: ^3.3.1
   collection: ^1.18.0
   device_info_plus: ^11.1.1
+  device_preview: ^1.2.0
   dots_indicator: ^3.0.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
