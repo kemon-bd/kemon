@@ -12,6 +12,7 @@ class ReviewShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
+    final mode = context.theme.mode;
     return BlocBuilder<FindBusinessBloc, FindBusinessState>(
       builder: (context, state) {
         if (state is FindBusinessDone) {
@@ -37,21 +38,26 @@ class ReviewShareButton extends StatelessWidget {
               }
             },
             style: TextButton.styleFrom(
+              backgroundColor: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
               padding: EdgeInsets.symmetric(
                 horizontal: Dimension.radius.eight,
                 vertical: Dimension.radius.four,
               ),
-              visualDensity: VisualDensity.compact,
+              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimension.radius.sixteen)),
             ),
             icon: Icon(
               Icons.share_rounded,
-              color: theme.textSecondary,
-              size: Dimension.radius.sixteen,
+              color: theme.textSecondary.withAlpha(150),
+              size: context.text.labelLarge?.fontSize,
             ),
             label: Text(
               "Share",
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelLarge?.copyWith(
+                color: theme.textSecondary.withAlpha(150),
+                fontWeight: FontWeight.normal,
+                height: 1,
+              ),
             ),
           );
         }

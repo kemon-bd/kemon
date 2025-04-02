@@ -14,6 +14,7 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final mode = state.mode;
         final url = business.logo.url;
         final fallback = Center(
           child: Text(
@@ -22,8 +23,7 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
           ),
         );
         return InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
+          borderRadius: BorderRadius.circular(Dimension.radius.twelve),
           onTap: () async {
             await sl<FirebaseAnalytics>().logEvent(
               name: 'featured_listing_item',
@@ -44,10 +44,10 @@ class FeaturedBusinessItemWidget extends StatelessWidget {
           child: Container(
             width: context.width * 0.66,
             decoration: BoxDecoration(
-              color: theme.backgroundPrimary,
+              color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
               border: Border.all(
-                color: theme.backgroundTertiary,
-                width: Dimension.divider.large,
+                color: mode == ThemeMode.dark ? theme.backgroundPrimary : theme.textPrimary,
+                width: mode == ThemeMode.dark ? 0 : .25,
                 strokeAlign: BorderSide.strokeAlignInside,
               ),
               borderRadius: BorderRadius.circular(Dimension.radius.twelve),

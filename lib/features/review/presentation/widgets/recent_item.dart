@@ -16,6 +16,7 @@ class RecentReviewItemWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final mode = state.mode;
         final fallback = Center(
           child: Text(
             review.reviewer.name.symbol,
@@ -23,6 +24,7 @@ class RecentReviewItemWidget extends StatelessWidget {
           ),
         );
         return InkWell(
+          borderRadius: BorderRadius.circular(Dimension.radius.twelve),
           onTap: () async {
             await sl<FirebaseAnalytics>().logEvent(
               name: 'home_recent_review_listing_profile',
@@ -40,13 +42,13 @@ class RecentReviewItemWidget extends StatelessWidget {
             );
           },
           child: Container(
-            width: context.width * 0.66,
+            width: context.width * 0.75,
             height: Dimension.size.vertical.carousel,
             decoration: BoxDecoration(
-              color: theme.backgroundPrimary,
+              color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
               border: Border.all(
-                color: theme.backgroundTertiary,
-                width: Dimension.divider.large,
+                color: mode == ThemeMode.dark ? theme.backgroundPrimary : theme.textPrimary,
+                width: mode == ThemeMode.dark ? 0 : .25,
                 strokeAlign: BorderSide.strokeAlignInside,
               ),
               borderRadius: BorderRadius.circular(Dimension.radius.twelve),

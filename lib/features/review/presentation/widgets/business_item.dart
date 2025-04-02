@@ -15,6 +15,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final mode = state.mode;
         final fallback = Center(
           child: Text(
             review.reviewer.name.symbol,
@@ -26,11 +27,15 @@ class BusinessReviewItemWidget extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: theme.backgroundPrimary,
+            color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
             borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: theme.backgroundTertiary, width: .5),
+            border: Border.all(
+              color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.textPrimary,
+              width: mode == ThemeMode.dark ? 0 : .25,
+              strokeAlign: BorderSide.strokeAlignInside,
+            ),
           ),
-          padding: EdgeInsets.all(Dimension.radius.sixteen).copyWith(bottom: 0),
+          padding: EdgeInsets.all(Dimension.radius.twelve).copyWith(bottom: 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +84,8 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: review.reviewer.name.full,
-                                  style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
+                                  style: context.text.bodyLarge?.copyWith(
+                                    color: theme.primary,
                                     fontWeight: FontWeight.bold,
                                     height: 1.0,
                                   ),
@@ -87,8 +93,8 @@ class BusinessReviewItemWidget extends StatelessWidget {
                                 if (review.localGuide) ...[
                                   WidgetSpan(child: SizedBox(width: 8)),
                                   WidgetSpan(
-                                    alignment: PlaceholderAlignment.aboveBaseline,
-                                    baseline: TextBaseline.alphabetic,
+                                    baseline: TextBaseline.ideographic,
+                                    alignment: PlaceholderAlignment.middle,
                                     child: SvgPicture.asset(
                                       'images/logo/google.svg',
                                       width: Dimension.radius.twelve,
@@ -102,15 +108,16 @@ class BusinessReviewItemWidget extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        SizedBox(height: Dimension.padding.vertical.verySmall),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             RatingBarIndicator(
                               rating: review.star.toDouble(),
-                              itemBuilder: (context, index) => Icon(Icons.stars_rounded, color: theme.primary),
+                              itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.color(scheme: theme)),
                               unratedColor: theme.backgroundTertiary,
-                              itemCount: 5,
-                              itemSize: 16,
+                              itemCount: review.star.ceil(),
+                              itemSize: 12,
                               direction: Axis.horizontal,
                             ),
                             const SizedBox(width: 8),
@@ -121,7 +128,11 @@ class BusinessReviewItemWidget extends StatelessWidget {
                               builder: (context, snapshot) {
                                 return Text(
                                   review.reviewedAt.duration,
-                                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  style: context.text.bodySmall?.copyWith(
+                                    color: theme.textSecondary.withAlpha(200),
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.0,
+                                  ),
                                 );
                               },
                             ),
@@ -145,7 +156,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: context.business.urlSlug));
                       }
                     },
-                    icon: Icon(Icons.more_vert_rounded, color: theme.textSecondary.withAlpha(100)),
+                    icon: Icon(Icons.more_vert_rounded, color: theme.textSecondary.withAlpha(150)),
                   ),
                 ],
               ),
@@ -153,22 +164,32 @@ class BusinessReviewItemWidget extends StatelessWidget {
                 SizedBox(height: Dimension.padding.vertical.large),
                 Text(
                   review.summary,
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  style: context.text.bodyLarge?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                    inherit: true,
+                  ),
                 ),
               ],
               if (review.content.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 ReadMoreText(
                   review.content,
-                  style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(inherit: true),
+                  style: context.text.bodyMedium?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.normal,
+                    inherit: true,
+                  ),
                   trimMode: TrimMode.Line,
                   trimLines: 2,
                   trimCollapsedText: 'Show more',
                   trimExpandedText: '\t\tShow less',
-                  lessStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
+                  lessStyle: context.text.bodyMedium?.copyWith(
+                    color: theme.primary,
                     fontWeight: FontWeight.bold,
                   ),
-                  moreStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
+                  moreStyle: context.text.bodyMedium?.copyWith(
+                    color: theme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -227,7 +248,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border(
-                    top: BorderSide(color: theme.backgroundTertiary, width: .5),
+                    top: BorderSide(color: theme.backgroundTertiary, width: .25),
                   ),
                 ),
                 margin: EdgeInsets.only(top: Dimension.radius.twelve),

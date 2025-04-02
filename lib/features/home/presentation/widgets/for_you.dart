@@ -12,6 +12,7 @@ class DashboardForYouWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final mode = state.mode;
 
         return ListView(
           shrinkWrap: true,
@@ -30,7 +31,12 @@ class DashboardForYouWidget extends StatelessWidget {
                       vertical: Dimension.padding.vertical.large,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: theme.backgroundTertiary),
+                      color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
+                      border: Border.all(
+                        color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.textPrimary,
+                        width: mode == ThemeMode.dark ? 0 : .25,
+                        strokeAlign: BorderSide.strokeAlignOutside,
+                      ),
                       borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
                     ),
                     child: Column(
@@ -101,64 +107,67 @@ class DashboardForYouWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
               ),
               clipBehavior: Clip.antiAlias,
-              child: Row(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Dimension.padding.horizontal.max,
-                        vertical: Dimension.padding.vertical.large,
-                      ),
-                      child: Column(
-                        spacing: 24,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimension.padding.horizontal.max,
+                            vertical: Dimension.padding.vertical.large,
+                          ),
+                          child: Text(
                             'Bought something recently?',
                             style: context.text.headlineSmall?.copyWith(
                               color: theme.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: theme.white,
-                              ),
-                              onPressed: () async {
-                                await sl<FirebaseAnalytics>().logEvent(
-                                  name: 'home_write_a_review',
-                                  parameters: {
-                                    'id': context.auth.profile?.identity.id ?? 'anonymous',
-                                    'name': context.auth.profile?.name.full ?? 'Guest',
-                                  },
-                                );
-                                if (!context.mounted) return;
-                                context.pushNamed(SearchPage.name);
-                              },
-                              child: Text(
-                                "Write a review".toUpperCase(),
-                                style: context.text.titleMedium?.copyWith(
-                                  color: theme.black,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          color: theme.backgroundSecondary,
+                          child: CachedNetworkImage(
+                            imageUrl: 'https://kemon.com.bd/images/top_bg_man.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      color: theme.backgroundSecondary,
-                      child: CachedNetworkImage(
-                        imageUrl: 'https://kemon.com.bd/images/top_bg_man.png',
-                        fit: BoxFit.cover,
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border(top: BorderSide(color: theme.white, width: .25))
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.white,
+                      ),
+                      onPressed: () async {
+                        await sl<FirebaseAnalytics>().logEvent(
+                          name: 'home_write_a_review',
+                          parameters: {
+                            'id': context.auth.profile?.identity.id ?? 'anonymous',
+                            'name': context.auth.profile?.name.full ?? 'Guest',
+                          },
+                        );
+                        if (!context.mounted) return;
+                        context.pushNamed(SearchPage.name);
+                      },
+                      child: Text(
+                        "Write a review".toUpperCase(),
+                        style: context.text.titleMedium?.copyWith(
+                          color: theme.black,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                   ),

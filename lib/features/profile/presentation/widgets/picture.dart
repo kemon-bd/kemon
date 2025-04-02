@@ -112,7 +112,7 @@ class ProfilePictureWidget extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: border * 2, vertical: border * 2),
                                   child: Icon(
-                                    Icons.shield_rounded,
+                                    Icons.verified_user_rounded,
                                     color: theme.primary,
                                     size: border * 4,
                                     weight: 700,
@@ -135,7 +135,7 @@ class ProfilePictureWidget extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.all(size * .05),
                                   child: Icon(
-                                    Icons.shield_rounded,
+                                    Icons.verified_user_rounded,
                                     color: theme.primary,
                                     size: size * .5,
                                     weight: 700,

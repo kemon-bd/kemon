@@ -21,7 +21,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= Dimension.size.vertical.fortyEight;
+    final isExpanded = controller.offset <=
+        160 - context.topInset - kToolbarHeight - Dimension.size.vertical.twenty - Dimension.padding.vertical.large;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -51,14 +52,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                final double collapsedHeight = context.topInset +
-                    kToolbarHeight +
-                    Dimension.padding.vertical.min -
-                    (Platform.isIOS ? Dimension.size.vertical.twenty : 0);
-                final double expandedHeight = context.topInset +
-                    kToolbarHeight +
-                    (Platform.isAndroid ? Dimension.size.vertical.twenty : 0) +
-                    Dimension.size.vertical.fortyEight;
                 return CustomScrollView(
                   cacheExtent: 0,
                   controller: controller,
@@ -67,8 +60,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       pinned: true,
                       scrolledUnderElevation: 1,
                       shadowColor: theme.backgroundSecondary,
-                      collapsedHeight: collapsedHeight,
-                      expandedHeight: expandedHeight,
+                      collapsedHeight: kToolbarHeight + Dimension.size.vertical.twenty + 2 * Dimension.padding.vertical.large,
+                      expandedHeight: 160,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: theme.primary),
                         onPressed: () {
@@ -83,10 +76,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ? null
                           : Text(
                               'Categories',
-                              style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Dimension.radius.twenty,
-                              ),
+                              style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
                             ).animate().fade(),
                       centerTitle: false,
                       actions: [
@@ -104,22 +94,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ).copyWith(top: 0),
                           child: TextField(
                             controller: search,
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
                             onChanged: (query) {
                               context.read<FindAllCategoriesBloc>().add(FindAllCategories(query: query));
                             },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.search_rounded,
-                                size: Dimension.radius.sixteen,
+                                size: context.text.bodyMedium?.fontSize,
                                 color: theme.textSecondary,
                               ),
                               hintText: 'Looking for something specific?',
-                              hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Dimension.padding.horizontal.max,
-                                vertical: Dimension.padding.vertical.large,
-                              ),
+                              hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
                             ),
                           ),
                         ),
@@ -132,9 +118,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ).copyWith(top: context.topInset + kToolbarHeight),
                                 child: Text(
                                   'Categories',
-                                  style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                                  style: context.text.headlineSmall?.copyWith(
+                                    color: theme.textPrimary,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: Dimension.radius.twentyFour,
                                   ),
                                 ).animate().fade(),
                               ),
@@ -238,31 +224,34 @@ class _CategoriesWidget extends StatelessWidget {
                                   text: '',
                                   children: [
                                     WidgetSpan(
-                                      alignment: PlaceholderAlignment.aboveBaseline,
-                                      baseline: TextBaseline.alphabetic,
+                                      alignment: PlaceholderAlignment.middle,
+                                      baseline: TextBaseline.ideographic,
                                       child: Text(
                                         industry.name.full,
-                                        style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                                        style: context.text.bodyLarge?.copyWith(
+                                          color: theme.textPrimary,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: Dimension.radius.sixteen,
+                                          height: 1.0,
                                         ),
                                       ),
                                     ),
                                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                     WidgetSpan(
-                                      alignment: PlaceholderAlignment.aboveBaseline,
+                                      alignment: PlaceholderAlignment.middle,
                                       baseline: TextBaseline.ideographic,
                                       child: Text(
                                         " (${industry.listings})",
-                                        style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: Dimension.radius.twelve,
-                                          height: Dimension.radius.two,
+                                        style: context.text.bodySmall?.copyWith(
+                                          color: theme.textSecondary,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.0,
                                         ),
                                       ),
                                     ),
                                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                     WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      baseline: TextBaseline.ideographic,
                                       child: IconButton(
                                         padding: EdgeInsets.all(4),
                                         visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -337,31 +326,34 @@ class _CategoriesWidget extends StatelessWidget {
                                               text: '',
                                               children: [
                                                 WidgetSpan(
-                                                  alignment: PlaceholderAlignment.aboveBaseline,
-                                                  baseline: TextBaseline.alphabetic,
+                                                  alignment: PlaceholderAlignment.middle,
+                                                  baseline: TextBaseline.ideographic,
                                                   child: Text(
                                                     category.name.full,
-                                                    style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
-                                                      fontSize: Dimension.radius.fourteen,
+                                                    style: context.text.bodyMedium?.copyWith(
+                                                      color: theme.textPrimary,
                                                       fontWeight: FontWeight.bold,
+                                                      height: 1.0,
                                                     ),
                                                   ),
                                                 ),
                                                 WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                                 WidgetSpan(
-                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                  alignment: PlaceholderAlignment.middle,
                                                   baseline: TextBaseline.ideographic,
                                                   child: Text(
                                                     " (${category.listings})",
-                                                    style:
-                                                        TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                                                      fontSize: Dimension.radius.twelve,
-                                                      height: Dimension.radius.two,
+                                                    style: context.text.bodySmall?.copyWith(
+                                                      color: theme.textSecondary,
+                                                      fontWeight: FontWeight.normal,
+                                                      height: 1.0,
                                                     ),
                                                   ),
                                                 ),
                                                 WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                                 WidgetSpan(
+                                                  alignment: PlaceholderAlignment.middle,
+                                                  baseline: TextBaseline.ideographic,
                                                   child: IconButton(
                                                     padding: EdgeInsets.all(4),
                                                     visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -442,36 +434,36 @@ class _CategoriesWidget extends StatelessWidget {
                                                               text: '',
                                                               children: [
                                                                 WidgetSpan(
-                                                                  alignment: PlaceholderAlignment.aboveBaseline,
+                                                                  alignment: PlaceholderAlignment.middle,
                                                                   baseline: TextBaseline.alphabetic,
                                                                   child: Text(
                                                                     subCategory.name.full,
-                                                                    style: TextStyles.body(
-                                                                            context: context, color: theme.textPrimary)
-                                                                        .copyWith(
-                                                                      fontSize: Dimension.radius.fourteen,
-                                                                      fontWeight: FontWeight.bold,
+                                                                    style: context.text.bodyMedium?.copyWith(
+                                                                      color: theme.textPrimary,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      height: 1.0,
                                                                     ),
                                                                   ),
                                                                 ),
                                                                 WidgetSpan(
                                                                     child: SizedBox(width: Dimension.padding.horizontal.small)),
                                                                 WidgetSpan(
-                                                                  alignment: PlaceholderAlignment.aboveBaseline,
-                                                                  baseline: TextBaseline.ideographic,
+                                                                  alignment: PlaceholderAlignment.middle,
+                                                                  baseline: TextBaseline.alphabetic,
                                                                   child: Text(
                                                                     " (${subCategory.listings})",
-                                                                    style: TextStyles.body(
-                                                                            context: context, color: theme.textSecondary)
-                                                                        .copyWith(
-                                                                      fontSize: Dimension.radius.twelve,
-                                                                      height: Dimension.radius.two,
+                                                                    style: context.text.bodySmall?.copyWith(
+                                                                      color: theme.textSecondary,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      height: 1.0,
                                                                     ),
                                                                   ),
                                                                 ),
                                                                 WidgetSpan(
                                                                     child: SizedBox(width: Dimension.padding.horizontal.small)),
                                                                 WidgetSpan(
+                                                                  alignment: PlaceholderAlignment.middle,
+                                                                  baseline: TextBaseline.alphabetic,
                                                                   child: IconButton(
                                                                     padding: EdgeInsets.all(4),
                                                                     visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -482,17 +474,13 @@ class _CategoriesWidget extends StatelessWidget {
                                                                     ),
                                                                     onPressed: () {
                                                                       FocusScope.of(context).requestFocus(FocusNode());
-                                                                      context.pushNamed(
-                                                                        SubCategoryPage.name,
-                                                                        pathParameters: {
-                                                                          'urlSlug': subCategory.urlSlug,
-                                                                        },
-                                                                        queryParameters: {
-                                                                          'industry': subCategory.industry.guid,
-                                                                          'category': subCategory.category.guid,
-                                                                          'subCategory': subCategory.identity.guid,
-                                                                        }
-                                                                      );
+                                                                      context.pushNamed(SubCategoryPage.name, pathParameters: {
+                                                                        'urlSlug': subCategory.urlSlug,
+                                                                      }, queryParameters: {
+                                                                        'industry': subCategory.industry.guid,
+                                                                        'category': subCategory.category.guid,
+                                                                        'subCategory': subCategory.identity.guid,
+                                                                      });
                                                                     },
                                                                     icon: Icon(Icons.open_in_new_rounded,
                                                                         size: Dimension.radius.sixteen),

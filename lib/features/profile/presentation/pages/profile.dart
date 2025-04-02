@@ -38,7 +38,10 @@ class ProfilePage extends StatelessWidget {
               ),
               title: MyProfileUsernameWidget(
                 shimmerAlignment: Alignment.center,
-                style: TextStyles.subTitle(context: context, color: theme.white),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               titleSpacing: 0,
               actions: [

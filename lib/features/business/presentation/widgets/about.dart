@@ -37,12 +37,17 @@ class BusinessAboutWidget extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text: "About ",
-                                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                style: context.text.titleLarge?.copyWith(
+                                  color: theme.textPrimary.withAlpha(200),
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               TextSpan(
                                 text: business.name.full,
-                                style: TextStyles.subTitle(context: context, color: theme.textPrimary)
-                                    .copyWith(fontWeight: FontWeight.bold),
+                                style: context.text.titleLarge?.copyWith(
+                                  color: theme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               if (business.verified) ...[
                                 WidgetSpan(child: SizedBox(width: 8)),
@@ -62,6 +67,8 @@ class BusinessAboutWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: IconButton(
+                          padding: EdgeInsets.zero,
+                          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                           onPressed: () {
                             if (context.canPop()) {
                               context.pop();
@@ -76,12 +83,16 @@ class BusinessAboutWidget extends StatelessWidget {
                         constraints: BoxConstraints(maxHeight: context.height * .5),
                         child: ListView(
                           shrinkWrap: true,
-                          padding: EdgeInsets.zero.copyWith(bottom: 16),
+                          padding: EdgeInsets.zero.copyWith(bottom: 16, top: 8),
                           physics: const ScrollPhysics(),
                           children: [
                             HtmlWidget(
                               business.about,
-                              textStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              textStyle: context.text.bodyMedium?.copyWith(
+                                color: theme.textPrimary,
+                                fontWeight: FontWeight.normal,
+                                inherit: true,
+                              ),
                             ),
                           ],
                         ),

@@ -63,12 +63,12 @@ class ProfileInformationWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ProfileNameWidget(
                 align: TextAlign.center,
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: context.text.headlineMedium?.copyWith(color: theme.textPrimary),
                 shimmerAlignment: Alignment.center,
               ),
               const SizedBox(height: 8),
               ProfileSinceWidget(
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.bodySmall?.copyWith(color: theme.textSecondary),
                 align: TextAlign.center,
                 shimmerAlignment: Alignment.center,
               ),
@@ -82,9 +82,10 @@ class ProfileInformationWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   label: Text(
-                    'Edit profile',
-                    style: TextStyles.button(context: context).copyWith(
+                    'Edit profile'.toUpperCase(),
+                    style: context.text.titleMedium?.copyWith(
                       color: theme.backgroundPrimary,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   onPressed: () async {

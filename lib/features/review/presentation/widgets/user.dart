@@ -10,6 +10,7 @@ class UserReviewsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme.scheme;
     return BlocBuilder<FindUserReviewsBloc, FindUserReviewsState>(
       builder: (context, state) {
         if (state is FindUserReviewsLoading) {
@@ -23,7 +24,10 @@ class UserReviewsWidget extends StatelessWidget {
               ? Center(
                   child: Text(
                     'No reviews found :(',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: context.text.bodyLarge?.copyWith(
+                      color: theme.textSecondary,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 )
               : RefreshIndicator(

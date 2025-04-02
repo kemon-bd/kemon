@@ -20,7 +20,11 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
           children: [
             Text(
               'Account',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.textSecondary,
+                fontWeight: FontWeight.normal,
+                height: 1,
+              ),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -51,7 +55,11 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                           ),
                           title: Text(
                             '${identity.guid.same(as: context.auth.guid ?? '') ? 'My' : '$name’s'} reviews',
-                            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                            style: context.text.bodyMedium?.copyWith(
+                              color: theme.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                            ),
                           ),
                           trailing: Icon(
                             Icons.open_in_new_rounded,
@@ -85,14 +93,17 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                       ),
                     ),
                     title: ProfilePointWidget(
-                      style: TextStyles.subTitle(context: context, color: theme.positive).copyWith(
-                        fontSize: Dimension.radius.sixteen,
-                        height: 1,
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(
                       'Points',
-                      style: TextStyles.caption(context: context, color: theme.textSecondary),
+                      style: context.text.labelSmall?.copyWith(
+                        color: theme.textSecondary.withAlpha(150),
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                     trailing: Icon(
                       Icons.open_in_new_rounded,
@@ -131,7 +142,11 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                     ),
                                     title: Text(
                                       "Change password",
-                                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                                      style: context.text.bodyMedium?.copyWith(
+                                        color: theme.textPrimary,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1,
+                                      ),
                                     ),
                                     trailing: Icon(
                                       Icons.open_in_new_rounded,
@@ -206,12 +221,19 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                               children: [
                                                 TextSpan(
                                                   text: "Block ",
-                                                  style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                                                  style: context.text.bodyMedium?.copyWith(
+                                                    color: theme.textSecondary,
+                                                    fontWeight: FontWeight.normal,
+                                                    height: 1,
+                                                  ),
                                                 ),
                                                 TextSpan(
                                                   text: name,
-                                                  style: TextStyles.subTitle(context: context, color: theme.negative)
-                                                      .copyWith(fontWeight: FontWeight.bold),
+                                                  style: context.text.bodyMedium?.copyWith(
+                                                    color: theme.negative,
+                                                    fontWeight: FontWeight.bold,
+                                                    height: 1,
+                                                  ),
                                                 ),
                                               ],
                                             ),

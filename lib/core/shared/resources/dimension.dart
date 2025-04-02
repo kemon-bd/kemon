@@ -99,6 +99,7 @@ class _HorizontalSize {
   final double twentyFour = 24.0;
   final double thirtyTwo = 32.0;
   final double thirtySix = 36.0;
+  final double fortyTwo = 42.0;
   final double fortyEight = 48.0;
   final double sixtyFour = 64.0;
   final double seventyTwo = 72.0;

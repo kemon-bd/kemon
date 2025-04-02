@@ -12,6 +12,7 @@ class ReviewLikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
+    final mode = context.theme.mode;
     final likes = review.likes;
     final liked = review.liked;
     return BlocProvider(
@@ -42,27 +43,31 @@ class ReviewLikeButton extends StatelessWidget {
           }
           return TextButton.icon(
             style: TextButton.styleFrom(
+              backgroundColor: liked
+                  ? theme.positive
+                  : mode == ThemeMode.dark
+                      ? theme.backgroundSecondary
+                      : theme.backgroundPrimary,
               padding: EdgeInsets.symmetric(
                 horizontal: Dimension.radius.eight,
                 vertical: Dimension.radius.four,
               ),
-              visualDensity: VisualDensity.compact,
+              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
               ),
             ),
             icon: Icon(
-              liked ? Icons.thumb_up_off_alt_rounded : Icons.thumb_up_off_alt_outlined,
-              color: liked ? theme.positive : theme.textSecondary,
-              size: Dimension.radius.twelve,
+              liked ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
+              size: context.text.labelLarge?.fontSize,
+              color: review.liked ? theme.white : theme.textSecondary.withAlpha(150),
             ),
             label: Text(
               '${likes > 0 ? "$likes " : ''}Like${likes > 1 ? 's' : ''}',
-              style: TextStyles.body(
-                context: context,
-                color: liked ? theme.positive : theme.textSecondary,
-              ).copyWith(
-                fontWeight: liked ? FontWeight.bold : FontWeight.normal,
+              style: context.text.labelLarge?.copyWith(
+                color: review.liked ? theme.white : theme.textSecondary.withAlpha(150),
+                fontWeight: review.liked ? FontWeight.bold : FontWeight.normal,
+                height: 1,
               ),
             ),
             onPressed: () async {

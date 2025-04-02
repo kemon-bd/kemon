@@ -11,6 +11,7 @@ class ReviewDislikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
+    final mode = context.theme.mode;
     final disliked = review.disliked;
     final dislikes = review.dislikes;
     return BlocProvider(
@@ -41,27 +42,32 @@ class ReviewDislikeButton extends StatelessWidget {
           }
           return TextButton.icon(
             style: TextButton.styleFrom(
+              overlayColor: theme.negative,
+              backgroundColor: disliked
+                  ? theme.negative
+                  : mode == ThemeMode.dark
+                      ? theme.backgroundSecondary
+                      : theme.backgroundPrimary,
               padding: EdgeInsets.symmetric(
                 horizontal: Dimension.radius.eight,
                 vertical: Dimension.radius.four,
               ),
-              visualDensity: VisualDensity.compact,
+              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimension.radius.sixteen),
               ),
             ),
             icon: Icon(
-              disliked ? Icons.thumb_down_rounded : Icons.thumb_down_off_alt_outlined,
-              color: disliked ? theme.negative : theme.textSecondary,
-              size: Dimension.radius.twelve,
+              disliked ? FontAwesomeIcons.solidThumbsDown : FontAwesomeIcons.thumbsDown,
+              size: context.text.labelLarge?.fontSize,
+              color: disliked ? theme.white : theme.textSecondary.withAlpha(150),
             ),
             label: Text(
               '${dislikes > 0 ? "$dislikes " : ''}Dislike',
-              style: TextStyles.body(
-                context: context,
-                color: disliked ? theme.negative : theme.textSecondary,
-              ).copyWith(
+              style: context.text.labelLarge?.copyWith(
+                color: disliked ? theme.white : theme.textSecondary.withAlpha(150),
                 fontWeight: disliked ? FontWeight.bold : FontWeight.normal,
+                height: 1,
               ),
             ),
             onPressed: () async {

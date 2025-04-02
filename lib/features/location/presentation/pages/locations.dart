@@ -19,7 +19,7 @@ class _LocationsPageState extends State<LocationsPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= kToolbarHeight - (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
+    final isExpanded = controller.offset <= kToolbarHeight;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -48,9 +48,6 @@ class _LocationsPageState extends State<LocationsPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
-                final double expandedHeight =
-                    context.topInset + kToolbarHeight + (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
                 return BlocBuilder<FindAllLocationsBloc, FindAllLocationsState>(
                   builder: (context, state) {
                     if (state is FindAllLocationsDone) {
@@ -62,8 +59,8 @@ class _LocationsPageState extends State<LocationsPage> {
                             pinned: true,
                             scrolledUnderElevation: 1,
                             shadowColor: theme.backgroundSecondary,
-                            collapsedHeight: collapsedHeight,
-                            expandedHeight: expandedHeight,
+                            collapsedHeight: kToolbarHeight,
+                            expandedHeight: 94,
                             leading: IconButton(
                               icon: Icon(Icons.arrow_back, color: theme.primary),
                               onPressed: () {

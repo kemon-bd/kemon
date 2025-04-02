@@ -30,8 +30,10 @@ class BusinessInformationWidget extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: business.name.full,
-                        style:
-                            TextStyles.title(context: context, color: theme.textPrimary).copyWith(fontWeight: FontWeight.bold),
+                        style: context.text.headlineMedium?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       if (business.verified) ...[
                         WidgetSpan(child: SizedBox(width: 8)),
@@ -90,23 +92,25 @@ class BusinessInformationWidget extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
+                        spacing: 4,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RatingBarIndicator(
-                            itemBuilder: (context, index) => Icon(Icons.stars_rounded, color: theme.primary),
-                            itemSize: 16,
-                            rating: business.rating,
-                            unratedColor: theme.textSecondary.withAlpha(50),
-                          ),
-                          const SizedBox(height: 4),
+                          if (business.rating > 0)
+                            RatingBarIndicator(
+                              itemBuilder: (context, index) => Icon(Icons.star_sharp, color: theme.primary),
+                              itemSize: 16,
+                              rating: business.rating,
+                              itemCount: business.rating.ceil(),
+                              direction: Axis.horizontal,
+                              unratedColor: theme.backgroundSecondary,
+                            ),
                           Text(
                             business.reviews > 0
                                 ? "${business.reviews} review${business.reviews > 1 ? 's' : ''}  •  ${business.remarks}"
                                 : 'No review yet',
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: context.text.bodySmall?.copyWith(color: theme.textSecondary),
                           ),
-                          const SizedBox(height: 4),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
