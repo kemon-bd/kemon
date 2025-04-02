@@ -61,7 +61,7 @@ extension NullableStringExtension on String? {
     if (like == null) return false;
     return this!.toLowerCase().trim().contains(like.toLowerCase().trim());
   }
-  
+
   bool begin({
     required String? by,
   }) {
@@ -69,7 +69,7 @@ extension NullableStringExtension on String? {
     if (by == null) return false;
     return this!.toLowerCase().trim().startsWith(by.toLowerCase().trim());
   }
-  
+
   bool end({
     required String? by,
   }) {
@@ -90,5 +90,14 @@ extension NullableStringExtension on String? {
     }
   }
 
-  
+  String get urlSlug =>
+      this
+          ?.toLowerCase() // Convert to lowercase
+          .replaceAll(RegExp(r'[^\w\s\-—]'), '') // Keep words, spaces, hyphens (-), and em dashes (—)
+          .replaceAll(RegExp(r'\s+'), '-') // Replace spaces with hyphens
+          .replaceAll(RegExp(r'-{2,}'), '-') // Reduce multiple consecutive hyphens to one
+          .replaceAll(RegExp(r'-\s*—'), '—') // Remove hyphens before em dashes
+          .replaceAll(RegExp(r'^[-—]+|[-—]+$'), '') // Remove leading/trailing hyphens and em dashes
+          .trim() ??
+      ''; // Trim extra spaces (optional)
 }

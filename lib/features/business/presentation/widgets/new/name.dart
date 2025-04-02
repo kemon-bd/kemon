@@ -36,7 +36,7 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
     about = widget.about;
     urlSlug = widget.urlSlug;
     if (urlSlug.text.isEmpty && name.text.isNotEmpty) {
-      urlSlug.text = name.text.paramCase;
+      urlSlug.text = name.text.urlSlug;
       context.read<ValidateUrlSlugBloc>().add(ValidateUrlSlug(urlSlug: urlSlug.text));
     }
   }
@@ -85,7 +85,7 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                 onChanged: (value) {
                   if (value.isNotEmpty) {
                     setState(() {
-                      urlSlug.text = value.paramCase;
+                      urlSlug.text = value.urlSlug;
                     });
                     context.read<ValidateUrlSlugBloc>().add(ValidateUrlSlug(urlSlug: urlSlug.text));
                   } else {
@@ -160,6 +160,11 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                         },
                         onChanged: (value) {
                           if (value.isNotEmpty) {
+                            if (value.match(like: "--")) {
+                              setState(() {
+                                urlSlug.text = value.urlSlug;
+                              });
+                            }
                             context.read<ValidateUrlSlugBloc>().add(ValidateUrlSlug(urlSlug: urlSlug.text));
                           }
                         },

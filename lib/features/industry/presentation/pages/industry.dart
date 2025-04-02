@@ -31,7 +31,8 @@ class _IndustryPageState extends State<IndustryPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= context.topInset + kToolbarHeight + Dimension.padding.vertical.medium;
+    final isExpanded = controller.offset <=
+        240 - context.topInset - kToolbarHeight - Dimension.size.vertical.twenty - 2 * Dimension.padding.vertical.large;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -62,8 +63,8 @@ class _IndustryPageState extends State<IndustryPage> {
               builder: (_, isExpanded, __) {
                 final appBar = SliverAppBar(
                   pinned: true,
-                  collapsedHeight: context.topInset + kToolbarHeight - Dimension.padding.vertical.medium,
-                  expandedHeight: context.topInset + kToolbarHeight + Dimension.size.vertical.oneTwelve,
+                  collapsedHeight: kToolbarHeight + Dimension.size.vertical.twenty + 2 * Dimension.padding.vertical.large,
+                  expandedHeight: 240,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back, color: theme.primary),
                     onPressed: () {
@@ -77,7 +78,7 @@ class _IndustryPageState extends State<IndustryPage> {
                   title: isExpanded
                       ? null
                       : _NameWidget(
-                          fontSize: Dimension.radius.twenty,
+                          style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
                           maxLines: 2,
                         ).animate().fade(),
                   centerTitle: false,
@@ -93,7 +94,7 @@ class _IndustryPageState extends State<IndustryPage> {
                       ).copyWith(top: 0),
                       child: TextField(
                         controller: search,
-                        style: TextStyles.body(context: context, color: theme.textPrimary),
+                        style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
                         onChanged: (query) {
                           final bloc = context.read<FindBusinessesByCategoryBloc>();
                           if (query.isEmpty) {
@@ -121,15 +122,11 @@ class _IndustryPageState extends State<IndustryPage> {
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.search_rounded,
-                            size: Dimension.radius.sixteen,
+                            size: context.text.bodyMedium?.fontSize,
                             color: theme.textSecondary,
                           ),
                           hintText: 'Looking for something specific?',
-                          hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.max,
-                            vertical: Dimension.padding.vertical.large,
-                          ),
+                          hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
                         ),
                       ),
                     ),
@@ -147,7 +144,10 @@ class _IndustryPageState extends State<IndustryPage> {
                                   children: [
                                     Expanded(
                                       child: _NameWidget(
-                                        fontSize: Dimension.radius.twentyFour,
+                                        style: context.text.headlineSmall?.copyWith(
+                                          color: theme.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ).animate().fade(),
                                     ),
                                     _IconWidget(),
@@ -234,11 +234,10 @@ class _IndustryPageState extends State<IndustryPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           child,
-                          if (index == businesses.length) ...[
+                          if (index + 1 == businesses.length) ...[
                             SizedBox(height: Dimension.padding.vertical.max),
                             Container(
                               width: context.width,
-                              color: theme.backgroundSecondary,
                               alignment: Alignment.center,
                               padding: EdgeInsets.all(Dimension.radius.twelve),
                               child: Row(
@@ -251,8 +250,11 @@ class _IndustryPageState extends State<IndustryPage> {
                                   ),
                                   SizedBox(width: Dimension.padding.horizontal.small),
                                   Text(
-                                    "reached the bottom of the results.",
-                                    style: TextStyles.body(context: context, color: theme.textSecondary),
+                                    "That's all for now.",
+                                    style: context.text.bodySmall?.copyWith(
+                                      color: theme.textSecondary,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -401,7 +403,10 @@ class _FilterButton extends StatelessWidget {
             Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
             Text(
               'Filter',
-              style: TextStyles.caption(context: context, color: theme.white),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -451,7 +456,10 @@ class _SortButton extends StatelessWidget {
             Icon(Icons.swap_vert_rounded, size: Dimension.radius.twenty, color: theme.link),
             Text(
               'Sort',
-              style: TextStyles.caption(context: context, color: theme.link),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.link,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -461,35 +469,28 @@ class _SortButton extends StatelessWidget {
 }
 
 class _NameWidget extends StatelessWidget {
-  final double? fontSize;
+  final TextStyle? style;
   final int? maxLines;
   const _NameWidget({
-    this.fontSize,
+    this.style,
     this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme.scheme;
     return BlocBuilder<FindIndustryBloc, FindIndustryState>(
       builder: (context, state) {
         if (state is FindIndustryDone) {
           return Text(
             state.industry.name.full,
-            style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: fontSize ?? Dimension.radius.twelve,
-            ),
+            style: style,
             maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
           );
         }
         return Text(
           "Industry",
-          style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: fontSize ?? Dimension.radius.twelve,
-          ),
+          style: style,
           maxLines: maxLines,
           overflow: TextOverflow.ellipsis,
         );
@@ -538,14 +539,24 @@ class _TotalCount extends StatelessWidget {
         if (state is FindBusinessesByCategoryDone) {
           return Column(
             mainAxisSize: MainAxisSize.min,
+            spacing: Dimension.padding.vertical.small,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 state.businesses.length.toString(),
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: context.text.headlineSmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
               Text(
                 "Results",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.labelSmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
             ],
           );

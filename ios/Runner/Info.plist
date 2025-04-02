@@ -29,21 +29,23 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb777563650496672</string>
-				<string>com.googleusercontent.apps.923222937709-f4e57lqj8ktmc8kg1ft07bclg4b0qr1r</string>
+				<string>fb472878108755156</string>
+				<string>com.googleusercontent.apps.974762887289-5scbsso7cgee6uohdrt34cegq5uss5q0</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
-	<string>777563650496672</string>
+	<string>472878108755156</string>
 	<key>FacebookClientToken</key>
-	<string>a075e84f14d1425addd2dea24449a386</string>
+	<string>e28ee357886eabab4ba817a5ea24fee2</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
 	<key>FacebookDisplayName</key>
 	<string>Kemon</string>
 	<key>GIDServerClientID</key>
-	<string>923222937709-f4e57lqj8ktmc8kg1ft07bclg4b0qr1r.apps.googleusercontent.com</string>
+	<string>974762887289-5scbsso7cgee6uohdrt34cegq5uss5q0.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

@@ -36,9 +36,24 @@ class ProfilePage extends StatelessWidget {
                   }
                 },
               ),
-              title: MyProfileUsernameWidget(
-                shimmerAlignment: Alignment.center,
-                style: TextStyles.subTitle(context: context, color: theme.white),
+              title: BlocBuilder<FindProfileBloc, FindProfileState>(
+                builder: (context, state) {
+                  if (state is FindProfileDone) {
+                    return Text(
+                      state.profile.kemonIdentity.username,
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  } else if (state is FindProfileLoading) {
+                    return Align(
+                      alignment: Alignment.center,
+                      child: const ShimmerLabel(width: 112, height: 12, radius: 12),
+                    );
+                  }
+                  return Container();
+                },
               ),
               titleSpacing: 0,
               actions: [

@@ -25,9 +25,7 @@ class ProfileUsernameWidget extends StatelessWidget {
             if (state is FindProfileDone) {
               return Text(
                 state.profile.kemonIdentity.username,
-                style: style ??
-                    TextStyles.subTitle(
-                        context: context, color: theme.textPrimary),
+                style: style ?? TextStyles.subTitle(context: context, color: theme.textPrimary),
                 textAlign: align,
               );
             } else if (state is FindProfileLoading) {
@@ -60,10 +58,8 @@ class MyProfileUsernameWidget extends StatelessWidget {
         final profile = state.profile;
         if (profile != null) {
           return BlocProvider(
-            create: (context) => sl<FindProfileBloc>()
-              ..add(FindProfile(identity: profile.identity)),
-            child: ProfileUsernameWidget(
-                style: style, shimmerAlignment: shimmerAlignment),
+            create: (context) => sl<FindProfileBloc>()..add(FindProfile(identity: profile.identity)),
+            child: ProfileUsernameWidget(style: style, shimmerAlignment: shimmerAlignment),
           );
         }
         return Container();

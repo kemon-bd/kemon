@@ -19,7 +19,7 @@ class _LocationsPageState extends State<LocationsPage> {
   final expanded = ValueNotifier<bool>(true);
 
   void _scrollListener() {
-    final isExpanded = controller.offset <= kToolbarHeight - (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
+    final isExpanded = controller.offset <= kToolbarHeight;
     if (isExpanded != expanded.value) {
       expanded.value = isExpanded;
     }
@@ -48,9 +48,6 @@ class _LocationsPageState extends State<LocationsPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                final double collapsedHeight = kToolbarHeight + Dimension.padding.vertical.medium;
-                final double expandedHeight =
-                    context.topInset + kToolbarHeight + (Platform.isAndroid ? Dimension.padding.vertical.small : 0);
                 return BlocBuilder<FindAllLocationsBloc, FindAllLocationsState>(
                   builder: (context, state) {
                     if (state is FindAllLocationsDone) {
@@ -62,8 +59,8 @@ class _LocationsPageState extends State<LocationsPage> {
                             pinned: true,
                             scrolledUnderElevation: 1,
                             shadowColor: theme.backgroundSecondary,
-                            collapsedHeight: collapsedHeight,
-                            expandedHeight: expandedHeight,
+                            collapsedHeight: kToolbarHeight,
+                            expandedHeight: 94,
                             leading: IconButton(
                               icon: Icon(Icons.arrow_back, color: theme.primary),
                               onPressed: () {
@@ -78,10 +75,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                 ? null
                                 : Text(
                                     'Locations',
-                                    style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: Dimension.radius.sixteen,
-                                    ),
+                                    style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
                                   ).animate().fade(),
                             centerTitle: false,
                             actions: [
@@ -101,9 +95,9 @@ class _LocationsPageState extends State<LocationsPage> {
                                               Expanded(
                                                 child: Text(
                                                   'Locations',
-                                                  style: TextStyles.title(context: context, color: theme.textPrimary).copyWith(
+                                                  style: context.text.headlineSmall?.copyWith(
+                                                    color: theme.textPrimary,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: Dimension.radius.twentyFour,
                                                   ),
                                                 ).animate().fade(),
                                               ),
@@ -148,7 +142,11 @@ class _LocationsPageState extends State<LocationsPage> {
                                       padding: EdgeInsets.symmetric(vertical: context.height * .25),
                                       child: Text(
                                         "No category found :(",
-                                        style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
+                                        style: context.text.bodySmall?.copyWith(
+                                          color: theme.textSecondary,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.0,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -217,7 +215,7 @@ class _DivisionItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(Dimension.radius.eight),
         ),
         child: Padding(
-          padding: EdgeInsets.all(Dimension.radius.eight),
+          padding: EdgeInsets.all(Dimension.radius.six),
           child: Icon(
             Icons.push_pin_rounded,
             size: Dimension.radius.sixteen,
@@ -230,27 +228,34 @@ class _DivisionItem extends StatelessWidget {
           text: '',
           children: [
             WidgetSpan(
-              alignment: PlaceholderAlignment.aboveBaseline,
-              baseline: TextBaseline.alphabetic,
+              alignment: PlaceholderAlignment.middle,
+              baseline: TextBaseline.ideographic,
               child: Text(
                 division.name.full,
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                style: context.text.bodyLarge?.copyWith(
+                  color: theme.textPrimary,
                   fontWeight: FontWeight.bold,
-                  fontSize: Dimension.radius.sixteen,
+                  height: 1.0,
                 ),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
             WidgetSpan(
-              alignment: PlaceholderAlignment.aboveBaseline,
-              baseline: TextBaseline.alphabetic,
+              alignment: PlaceholderAlignment.middle,
+              baseline: TextBaseline.ideographic,
               child: Text(
                 "(${division.count})",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.bodySmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
             WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              baseline: TextBaseline.ideographic,
               child: IconButton(
                 padding: EdgeInsets.all(4),
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -279,7 +284,7 @@ class _DivisionItem extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(width: Dimension.padding.horizontal.large),
+            SizedBox(width: Dimension.padding.horizontal.medium),
             Icon(
               Icons.subdirectory_arrow_right_rounded,
               size: Dimension.radius.thirtyTwo,
@@ -344,30 +349,34 @@ class _DistrictItem extends StatelessWidget {
           text: '',
           children: [
             WidgetSpan(
-              alignment: PlaceholderAlignment.aboveBaseline,
+              alignment: PlaceholderAlignment.middle,
               baseline: TextBaseline.ideographic,
               child: Text(
                 district.name.full,
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                style: context.text.bodyLarge?.copyWith(
+                  color: theme.textPrimary,
                   fontWeight: FontWeight.bold,
-                  fontSize: Dimension.radius.fourteen,
-                  height: Dimension.radius.two,
+                  height: 1.0,
                 ),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
             WidgetSpan(
-              alignment: PlaceholderAlignment.aboveBaseline,
+              alignment: PlaceholderAlignment.middle,
               baseline: TextBaseline.ideographic,
               child: Text(
                 "(${district.count})",
-                style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                  height: Dimension.radius.two,
+                style: context.text.bodySmall?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
                 ),
               ),
             ),
             WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
             WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              baseline: TextBaseline.ideographic,
               child: IconButton(
                 padding: EdgeInsets.all(0),
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -437,28 +446,34 @@ class _DistrictItem extends StatelessWidget {
                             text: '',
                             children: [
                               WidgetSpan(
-                                alignment: PlaceholderAlignment.aboveBaseline,
+                                alignment: PlaceholderAlignment.middle,
                                 baseline: TextBaseline.ideographic,
                                 child: Text(
                                   thana.name.full,
-                                  style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
-                                    height: Dimension.radius.two,
+                                  style: context.text.bodyMedium?.copyWith(
+                                    color: theme.textPrimary,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.0,
                                   ),
                                 ),
                               ),
                               WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                               WidgetSpan(
-                                alignment: PlaceholderAlignment.aboveBaseline,
+                                alignment: PlaceholderAlignment.middle,
                                 baseline: TextBaseline.ideographic,
                                 child: Text(
                                   "(${thana.count})",
-                                  style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
-                                    height: Dimension.radius.two,
+                                  style: context.text.bodySmall?.copyWith(
+                                    color: theme.textSecondary,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.0,
                                   ),
                                 ),
                               ),
                               WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                               WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                baseline: TextBaseline.ideographic,
                                 child: IconButton(
                                   padding: EdgeInsets.all(4),
                                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
@@ -494,7 +509,7 @@ class _DistrictItem extends StatelessWidget {
                   );
                   return child;
                 },
-                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.large),
+                separatorBuilder: (_, __) => Divider(height: Dimension.padding.vertical.medium),
                 itemCount: district.thanas.length,
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),

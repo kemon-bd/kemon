@@ -29,14 +29,15 @@ class UserReviewsPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is FindProfileDone) {
                   final name = state.profile.name.first;
-                  return Text(
-                    '${mine ? 'My' : '$name’s'} reviews',
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  );
+                  return Text('${mine ? 'My' : '$name’s'} reviews');
                 } else {
                   return const Text('Reviews');
                 }
               },
+            ),
+            titleTextStyle: context.text.titleMedium?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.bold,
             ),
             centerTitle: false,
             leading: IconButton(

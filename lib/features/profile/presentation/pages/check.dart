@@ -55,15 +55,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                     width: double.maxFinite,
                     alignment: Alignment.topLeft,
                     padding: const EdgeInsets.only(left: 24, bottom: 16).copyWith(top: context.topInset + 8),
-                    decoration: BoxDecoration(
-                      color: theme.primary,
-                      image: const DecorationImage(
-                        image: AssetImage('images/logo/full.png'),
-                        opacity: .05,
-                        scale: 50,
-                        repeat: ImageRepeat.repeat,
-                      ),
-                    ),
+                    decoration: BoxDecoration(color: theme.primary),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
                           ? IconButton(
@@ -97,15 +89,17 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 const Spacer(),
                                 Text(
                                   'Welcome to\nKEMON',
-                                  style: TextStyles.title(context: context, color: theme.white).copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2,
+                                  style: context.text.headlineMedium?.copyWith(
+                                    color: theme.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'Sign in to your account to continue',
-                                  style: TextStyles.caption(context: context, color: theme.semiWhite).copyWith(
+                                  style: context.text.bodySmall?.copyWith(
+                                    color: theme.white.withAlpha(200),
+                                    fontWeight: FontWeight.normal,
                                     height: 1,
                                   ),
                                 ),
@@ -128,20 +122,32 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                         Semantics(
                           label: 'Email/Phone',
                           child: TextFormField(
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: context.text.bodyMedium?.copyWith(
+                              height: 1.0,
+                              color: theme.textPrimary,
+                              fontWeight: FontWeight.normal,
+                            ),
                             controller: usernameController,
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
                             validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
                             decoration: InputDecoration(
                               hintText: "required",
-                              hintStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintStyle: context.text.bodyMedium?.copyWith(
+                                height: 1.0,
+                                color: theme.textSecondary,
+                                fontWeight: FontWeight.normal,
+                              ),
                               helperText: '',
                               helperStyle: TextStyle(fontSize: 0),
                               errorStyle: TextStyle(fontSize: 0),
                               label: Text(
                                 'Email/Phone',
-                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                                style: context.text.labelMedium?.copyWith(
+                                  height: 1.0,
+                                  color: theme.textPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               alignLabelWithHint: true,
                             ),
@@ -196,7 +202,10 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                 },
                                 child: Text(
                                   "Continue".toUpperCase(),
-                                  style: TextStyles.button(context: context),
+                                  style: context.text.titleMedium?.copyWith(
+                                    color: theme.white,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               );
                             },
@@ -214,7 +223,11 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                     },
                                     child: Text(
                                       'Forgot Password',
-                                      style: TextStyles.subTitle(context: context, color: theme.link),
+                                      style: context.text.bodyMedium?.copyWith(
+                                        height: 1.0,
+                                        color: theme.link,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -229,7 +242,11 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                             ),
                             Text(
                               'or',
-                              style: TextStyles.caption(context: context, color: theme.backgroundTertiary),
+                              style: context.text.bodySmall?.copyWith(
+                                height: 1.0,
+                                color: theme.backgroundTertiary,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
                             Expanded(
                               child: Divider(

@@ -10,14 +10,17 @@ FutureOr<void> main() async {
   await AppConfig.init();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => WhatsNewBloc()),
-        BlocProvider(create: (_) => sl<ThemeBloc>()),
-        BlocProvider(create: (_) => sl<AuthenticationBloc>()),
-        BlocProvider(create: (_) => sl<LeaderboardFilterBloc>()),
-      ],
-      child: const MainApp(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => WhatsNewBloc()),
+          BlocProvider(create: (_) => sl<ThemeBloc>()),
+          BlocProvider(create: (_) => sl<AuthenticationBloc>()),
+          BlocProvider(create: (_) => sl<LeaderboardFilterBloc>()),
+        ],
+        child: const MainApp(),
+      ),
     ),
   );
 }
@@ -33,19 +36,21 @@ class MainApp extends StatelessWidget {
         return MaterialApp.router(
           themeMode: state.mode,
           routerConfig: router,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           theme: AppConfig.themeData(context: context, mode: state.mode),
           darkTheme: AppConfig.themeData(context: context, mode: state.mode),
-          builder: (mqContext, child) {
-            return MediaQuery(
-              data: MediaQuery.of(mqContext).copyWith(
-                textScaler: TextScaler.linear(1.0),
-                accessibleNavigation: false,
-                devicePixelRatio: MediaQuery.of(mqContext).devicePixelRatio,
-              ),
-              child: child!,
-            );
-          },
+          // builder: (mqContext, child) {
+          //   return MediaQuery(
+          //     data: MediaQuery.of(mqContext).copyWith(
+          //       textScaler: TextScaler.linear(1.0),
+          //       accessibleNavigation: false,
+          //       devicePixelRatio: MediaQuery.of(mqContext).devicePixelRatio,
+          //     ),
+          //     child: child!,
+          //   );
+          // },
         );
       },
     );

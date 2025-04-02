@@ -62,9 +62,9 @@ class _NewReviewPageState extends State<NewReviewPage> {
               ),
               title: Text(
                 rating.toInt() == 0 ? "Please rate your experience" : "${rating.toInt()} star review",
-                style: TextStyles.overline(context: context, color: theme.textPrimary).copyWith(
+                style: context.text.headlineSmall?.copyWith(
+                  color: theme.textPrimary,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
                 ),
               ),
               centerTitle: false,
@@ -83,9 +83,9 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       minRating: 0,
                       initialRating: rating,
                       itemBuilder: (_, index) => Icon(
-                        Icons.stars_rounded,
+                        Icons.star_sharp,
                         color: rating > 4
-                            ? theme.positive
+                            ? theme.primary
                             : rating > 3
                                 ? theme.positive.withRed(100)
                                 : rating > 2
@@ -111,13 +111,18 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         children: [
                           TextSpan(
                             text: "Review",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                            style: context.text.labelMedium?.copyWith(
+                              color: theme.textSecondary,
+                              fontWeight: FontWeight.normal,
+                              height: 1,
+                            ),
                           ),
                           WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
                           WidgetSpan(
                             baseline: TextBaseline.ideographic,
-                            alignment: PlaceholderAlignment.top,
-                            child: Icon(Icons.emergency_rounded, color: theme.negative, size: Dimension.radius.twelve),
+                            alignment: PlaceholderAlignment.middle,
+                            child:
+                                Icon(Icons.emergency_rounded, color: theme.negative, size: context.text.labelSmall?.fontSize),
                           ),
                         ],
                       ),
@@ -125,13 +130,21 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 4),
                     TextFormField(
                       controller: descriptionController,
-                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.normal,
+                        height: 1.0,
+                      ),
                       minLines: 4,
                       maxLines: 20,
                       validator: (value) => value?.isNotEmpty ?? false ? null : '',
                       decoration: InputDecoration(
                         hintText: "share your experience...",
-                        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                        hintStyle: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary,
+                          fontWeight: FontWeight.normal,
+                          height: 1.0,
+                        ),
                         helperText: '',
                       ),
                     ),
@@ -141,15 +154,23 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         children: [
                           TextSpan(
                             text: "Summary",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                            style: context.text.labelMedium?.copyWith(
+                              color: theme.textSecondary,
+                              fontWeight: FontWeight.normal,
+                              height: 1,
+                            ),
                           ),
                           WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
                           WidgetSpan(
                             baseline: TextBaseline.ideographic,
-                            alignment: PlaceholderAlignment.top,
+                            alignment: PlaceholderAlignment.middle,
                             child: Text(
                               "optional",
-                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                              style: context.text.labelSmall?.copyWith(
+                                color: theme.textSecondary.withAlpha(150),
+                                fontWeight: FontWeight.normal,
+                                height: 1,
+                              ),
                             ),
                           ),
                         ],
@@ -158,10 +179,18 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 4),
                     TextField(
                       controller: titleController,
-                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.normal,
+                        height: 1.0,
+                      ),
                       decoration: InputDecoration(
                         hintText: "in a few words...",
-                        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                        hintStyle: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary,
+                          fontWeight: FontWeight.normal,
+                          height: 1.0,
+                        ),
                         helperText: '',
                       ),
                     ),
@@ -171,15 +200,23 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         children: [
                           TextSpan(
                             text: "Date of experience",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                            style: context.text.labelMedium?.copyWith(
+                              color: theme.textSecondary,
+                              fontWeight: FontWeight.normal,
+                              height: 1,
+                            ),
                           ),
                           WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
                           WidgetSpan(
                             baseline: TextBaseline.ideographic,
-                            alignment: PlaceholderAlignment.top,
+                            alignment: PlaceholderAlignment.middle,
                             child: Text(
                               "optional",
-                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                              style: context.text.labelSmall?.copyWith(
+                                color: theme.textSecondary.withAlpha(150),
+                                fontWeight: FontWeight.normal,
+                                height: 1,
+                              ),
                             ),
                           ),
                         ],
@@ -188,11 +225,19 @@ class _NewReviewPageState extends State<NewReviewPage> {
                     const SizedBox(height: 4),
                     TextField(
                       controller: dateController,
-                      style: TextStyles.body(context: context, color: theme.textPrimary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.normal,
+                        height: 1.0,
+                      ),
                       readOnly: true,
                       decoration: InputDecoration(
                         hintText: "optional",
-                        hintStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                        hintStyle: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary,
+                          fontWeight: FontWeight.normal,
+                          height: 1.0,
+                        ),
                       ),
                       onTap: () async {
                         final DateTime? selection = await showDatePicker(
@@ -224,15 +269,23 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         children: [
                           TextSpan(
                             text: "Photos",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                            style: context.text.labelMedium?.copyWith(
+                              color: theme.textSecondary,
+                              fontWeight: FontWeight.normal,
+                              height: 1,
+                            ),
                           ),
                           WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
                           WidgetSpan(
                             baseline: TextBaseline.ideographic,
-                            alignment: PlaceholderAlignment.top,
+                            alignment: PlaceholderAlignment.middle,
                             child: Text(
                               "optional",
-                              style: TextStyles.caption(context: context, color: theme.textSecondary.withAlpha(100)),
+                              style: context.text.labelSmall?.copyWith(
+                                color: theme.textSecondary.withAlpha(150),
+                                fontWeight: FontWeight.normal,
+                                height: 1,
+                              ),
                             ),
                           ),
                         ],
@@ -270,7 +323,11 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                 ),
                                 title: Text(
                                   file.path.split('/').last,
-                                  style: TextStyles.body(context: context, color: theme.textSecondary),
+                                  style: context.text.bodyMedium?.copyWith(
+                                    color: theme.textSecondary,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.0,
+                                  ),
                                   maxLines: 1,
                                 ),
                                 onTap: () {
@@ -341,9 +398,10 @@ class _NewReviewPageState extends State<NewReviewPage> {
                             ),
                             title: Text(
                               "Add a photo",
-                              style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(
+                              style: context.text.bodyMedium?.copyWith(
                                 color: theme.textPrimary,
                                 fontWeight: FontWeight.bold,
+                                height: 1.0,
                               ),
                             ),
                             onTap: () async {
@@ -434,7 +492,10 @@ class _NewReviewPageState extends State<NewReviewPage> {
                                 },
                                 child: Text(
                                   "Submit".toUpperCase(),
-                                  style: TextStyles.button(context: context),
+                                  style: context.text.titleMedium?.copyWith(
+                                    color: theme.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               );
                             }

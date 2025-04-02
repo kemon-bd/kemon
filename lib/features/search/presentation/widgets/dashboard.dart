@@ -10,13 +10,12 @@ class DashboardSearchWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final darkMode = state.mode == ThemeMode.dark;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              decoration: BoxDecoration(
-                color: theme.primary,
-              ),
+              decoration: BoxDecoration(color: theme.primary),
               padding: EdgeInsets.symmetric(
                 horizontal: Dimension.padding.horizontal.max,
                 vertical: Dimension.padding.vertical.ultraMax,
@@ -38,19 +37,21 @@ class DashboardSearchWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.backgroundPrimary,
                     borderRadius: BorderRadius.circular(Dimension.radius.max),
+                    border: Border.all(color: theme.textPrimary, width: darkMode ? 1 : 2),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimension.padding.horizontal.max,
                     vertical: Dimension.padding.vertical.large,
                   ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(Icons.search, color: theme.textSecondary),
+                      Icon(Icons.search, color: theme.textSecondary.withAlpha(150), size: context.text.bodyMedium?.fontSize),
                       SizedBox(width: Dimension.padding.horizontal.medium),
                       Expanded(
                         child: Text(
                           "Find company or category ...",
-                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                          style: context.text.bodyMedium?.copyWith(color: theme.textSecondary.withAlpha(150)),
                         ),
                       ),
                     ],
@@ -82,8 +83,13 @@ class DashboardSearchWidget extends StatelessWidget {
                       height: Dimension.size.vertical.twentyFour,
                       decoration: BoxDecoration(
                         color: theme.backgroundPrimary,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(Dimension.radius.max),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(Dimension.radius.max)),
+                        border: Border(
+                          top: BorderSide(
+                            color: theme.textPrimary,
+                            width: darkMode ? 1 : 2,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
                         ),
                       ),
                       padding: EdgeInsets.all(0),

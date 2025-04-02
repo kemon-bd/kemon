@@ -104,27 +104,19 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                       right: 24,
                       bottom: 16,
                     ),
-                    decoration: BoxDecoration(
-                      color: theme.primary,
-                      image: const DecorationImage(
-                        image: AssetImage('images/logo/full.png'),
-                        opacity: .05,
-                        scale: 50,
-                        repeat: ImageRepeat.repeat,
-                      ),
-                    ),
+                    decoration: BoxDecoration(color: theme.primary),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
                           ? IconButton(
                               padding: const EdgeInsets.all(0),
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+                              onPressed: () {
+                                if (context.canPop()) {
+                                  context.pop();
+                                } else {
+                                  context.goNamed(HomePage.name);
+                                }
+                              },
                               icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                             )
                           : Column(
@@ -134,13 +126,13 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                 IconButton(
                                   padding: const EdgeInsets.all(0),
                                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                  onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+                                  onPressed: () {
+                                    if (context.canPop()) {
+                                      context.pop();
+                                    } else {
+                                      context.goNamed(HomePage.name);
+                                    }
+                                  },
                                   icon: Icon(Icons.arrow_back_rounded, color: theme.white),
                                 ),
                                 const Spacer(),

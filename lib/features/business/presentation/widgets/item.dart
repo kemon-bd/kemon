@@ -128,7 +128,7 @@ class BusinessItemWidget extends StatelessWidget {
                         children: [
                           if (business.rating > 0) ...[
                             Icon(
-                              Icons.stars_rounded,
+                              Icons.star_sharp,
                               color: theme.primary,
                               size: Dimension.size.vertical.twelve,
                             ),

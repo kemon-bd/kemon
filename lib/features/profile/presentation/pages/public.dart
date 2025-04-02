@@ -35,7 +35,8 @@ class PublicProfilePage extends StatelessWidget {
               },
             ),
             title: ProfileUsernameWidget(
-              style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
+              style: context.text.titleMedium?.copyWith(
+                color: theme.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

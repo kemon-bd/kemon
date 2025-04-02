@@ -29,15 +29,15 @@ class FeaturedListingsWidget extends StatelessWidget {
                     padding: EdgeInsets.only(left: Dimension.padding.horizontal.max),
                     child: Text(
                       "Featured listings",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.labelMedium?.copyWith(color: theme.textSecondary),
                     ),
                   ),
-                  SizedBox(height: Dimension.padding.vertical.small),
+                  SizedBox(height: Dimension.padding.vertical.large),
                   if (businesses.isNotEmpty)
                     ConstrainedBox(
                       constraints: BoxConstraints(
                         maxWidth: Dimension.size.horizontal.max,
-                        maxHeight: Dimension.size.vertical.ninetyTwo+1,
+                        maxHeight: Dimension.size.vertical.seventyTwo,
                       ),
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,

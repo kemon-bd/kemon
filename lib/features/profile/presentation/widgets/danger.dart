@@ -19,7 +19,11 @@ class ProfileDangerZoneWidget extends StatelessWidget {
           children: [
             Text(
               'Danger Zone',
-              style: TextStyles.subTitle(context: context, color: theme.negative),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.negative,
+                fontWeight: FontWeight.normal,
+                height: 1,
+              ),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -43,7 +47,10 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Blocked accounts',
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded, color: theme.textPrimary, size: Dimension.radius.sixteen),
                     onTap: () {
@@ -78,7 +85,10 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                           ),
                           title: Text(
                             'Deactivate account',
-                            style: TextStyles.subTitle(context: context, color: Colors.deepPurple),
+                            style: context.text.titleMedium?.copyWith(
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           trailing: state is DeactivateAccountLoading
                               ? NetworkingIndicator(dimension: Dimension.radius.sixteen, color: Colors.deepPurple)
@@ -105,7 +115,10 @@ class ProfileDangerZoneWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Logout',
-                      style: TextStyles.subTitle(context: context, color: theme.negative),
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.negative,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                     onTap: () {

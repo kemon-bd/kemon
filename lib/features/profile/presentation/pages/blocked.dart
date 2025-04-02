@@ -32,14 +32,24 @@ class BlockedAccountsPage extends StatelessWidget {
               },
             ),
             title: Text("Blocked Accounts"),
+            titleTextStyle: context.text.titleMedium?.copyWith(
+              color: theme.white,
+              fontWeight: FontWeight.bold,
+            ),
             centerTitle: true,
           ),
           body: BlocBuilder<BlockListBloc, BlockListState>(
             builder: (context, state) {
               if (state is BlockListDone) {
                 return state.users.isEmpty
-                    ? const Center(
-                        child: Text("No blocked accounts"),
+                    ? Center(
+                        child: Text(
+                          "No blocked accounts",
+                          style: context.text.bodyLarge?.copyWith(
+                            color: theme.textSecondary,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                       )
                     : ListView.separated(
                         shrinkWrap: false,

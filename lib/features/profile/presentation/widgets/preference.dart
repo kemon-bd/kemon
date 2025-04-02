@@ -8,7 +8,7 @@ class ProfilePreferenceWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
-        final themeMode = state.mode;
+        final mode = state.mode;
         return ListView(
           shrinkWrap: true,
           padding: EdgeInsets.all(Dimension.radius.sixteen),
@@ -16,7 +16,11 @@ class ProfilePreferenceWidget extends StatelessWidget {
           children: [
             Text(
               'Preferences',
-              style: TextStyles.subTitle(context: context, color: theme.textSecondary.withAlpha(100)),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.textSecondary,
+                fontWeight: FontWeight.normal,
+                height: 1,
+              ),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(
@@ -35,16 +39,26 @@ class ProfilePreferenceWidget extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                       radius: Dimension.radius.sixteen,
-                      backgroundColor: themeMode == ThemeMode.dark ? Colors.indigoAccent : Colors.lightBlue,
+                      backgroundColor: mode == ThemeMode.dark ? Colors.indigoAccent : Colors.lightBlue,
                       child: Icon(
-                        themeMode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                        mode == ThemeMode.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                         color: theme.white,
                         size: Dimension.radius.sixteen,
                       ),
                     ),
                     title: Text(
                       'Theme',
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'click here to turn on ${mode == ThemeMode.dark ? 'light' : 'dark'} mode',
+                      style: context.text.labelSmall?.copyWith(
+                        color: theme.textSecondary.withAlpha(150),
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                     trailing:
                         Icon(Icons.arrow_forward_ios_rounded, size: Dimension.radius.sixteen, color: theme.backgroundTertiary),
@@ -62,7 +76,10 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Privacy policy',
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: Dimension.radius.sixteen),
                     onTap: () {
@@ -79,7 +96,10 @@ class ProfilePreferenceWidget extends StatelessWidget {
                     ),
                     title: Text(
                       'Terms and conditions',
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: context.text.titleMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: Icon(Icons.open_in_new_rounded, color: theme.backgroundTertiary, size: Dimension.radius.sixteen),
                     onTap: () {

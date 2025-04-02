@@ -47,11 +47,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                           minRating: 0,
                           maxRating: 5,
                           initialRating: 0,
-                          ratingWidget: RatingWidget(
-                            full: icon,
-                            half: icon,
-                            empty: icon,
-                          ),
+                          ratingWidget: RatingWidget(full: icon, half: icon, empty: icon),
                           updateOnDrag: false,
                           onRatingUpdate: (value) async {
                             if (lookupContext.auth.profile == null) {
@@ -127,30 +123,35 @@ class BusinessRatingsWidget extends StatelessWidget {
               const SizedBox(height: 24),
             ],
             Row(
+              spacing: 12,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Reviews",
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                  style: context.text.titleLarge?.copyWith(
+                    color: theme.textPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Icon(Icons.star, color: theme.primary, size: 24),
-                const SizedBox(width: 12),
+                Icon(Icons.star, color: theme.primary, size: context.text.titleLarge?.fontSize),
                 Text(
                   business.rating.toStringAsFixed(1),
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
+                  style: context.text.titleLarge?.copyWith(
+                    color: theme.textPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
             if (business.reviews > 0) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               Text(
                 "Based on ${business.reviews} review${business.reviews > 1 ? "s" : ""}",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.normal,
+                  height: 1.0,
+                ),
               ),
             ],
             const SizedBox(height: 16),
@@ -205,6 +206,7 @@ class _RatingItem extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
+                spacing: 6,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
@@ -212,30 +214,32 @@ class _RatingItem extends StatelessWidget {
                     color: theme.primary,
                     size: Dimension.radius.eighteen,
                   ),
-                  SizedBox(width: Dimension.padding.horizontal.small),
                   RatingBarIndicator(
                     itemCount: 5,
                     rating: stars.toDouble(),
-                    itemBuilder: (_, __) => Icon(Icons.stars_rounded, color: theme.primary),
+                    itemBuilder: (_, __) => Icon(Icons.star_sharp, color: theme.primary),
                     unratedColor: Colors.transparent,
                     itemSize: Dimension.radius.sixteen,
                     direction: Axis.horizontal,
                   ),
-                  SizedBox(width: Dimension.padding.horizontal.small),
                   Expanded(
                     child: LinearProgressIndicator(
                       value: rating,
-                      minHeight: 4,
+                      minHeight: checked ? 6 : 4,
                       borderRadius: BorderRadius.circular(100),
-                      valueColor: AlwaysStoppedAnimation<Color>(theme.primary),
+                      valueColor: AlwaysStoppedAnimation<Color>(theme.positive),
                       backgroundColor: theme.backgroundSecondary,
                     ),
                   ),
                   SizedBox(
-                    width: Dimension.size.horizontal.thirtySix,
+                    width: Dimension.size.horizontal.fortyTwo,
                     child: Text(
-                      "${(rating * 100).ceil()}%",
-                      style: TextStyles.caption(context: context, color: theme.textPrimary),
+                      "${(rating * 100).ceil()}% ",
+                      style: context.text.bodySmall?.copyWith(
+                        color: checked ? theme.positive : theme.textSecondary.withAlpha(200),
+                        fontWeight: checked ? FontWeight.w900 : FontWeight.normal,
+                        height: 1.0,
+                      ),
                       textAlign: TextAlign.end,
                     ),
                   ),

@@ -17,6 +17,7 @@ class UserReviewItemWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final mode = state.mode;
         final mine = user.guid.same(as: context.auth.guid);
         final fallback = Center(
           child: Text(
@@ -36,7 +37,7 @@ class UserReviewItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
             decoration: BoxDecoration(
-              color: theme.backgroundPrimary,
+              color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
               borderRadius: BorderRadius.circular(16.0),
               border: Border.all(color: theme.backgroundTertiary, width: .75),
             ),
@@ -53,6 +54,7 @@ class UserReviewItemWidget extends StatelessWidget {
                     );
                   },
                   child: Row(
+                    spacing: 12,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox.square(
@@ -88,26 +90,49 @@ class UserReviewItemWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
                       Expanded(
                         child: Column(
+                          spacing: 2,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              review.listing.name.full,
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: review.listing.name.full,
+                                    style: context.text.bodyLarge?.copyWith(
+                                      color: theme.primary,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.0,
+                                    ),
+                                  ),
+                                  if (review.listing.verified) ...[
+                                    WidgetSpan(child: SizedBox(width: 4)),
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.aboveBaseline,
+                                      baseline: TextBaseline.alphabetic,
+                                      child: Icon(
+                                        Icons.verified_rounded,
+                                        color: theme.primary,
+                                        size: Dimension.radius.twelve,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyles.subTitle(context: context, color: theme.primary),
                             ),
+                            SizedBox(height: Dimension.padding.vertical.verySmall),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 RatingBarIndicator(
                                   rating: review.star.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.stars_rounded, color: theme.primary),
+                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.color(scheme: theme)),
                                   unratedColor: theme.backgroundTertiary,
-                                  itemCount: 5,
-                                  itemSize: 16,
+                                  itemCount: review.star.ceil(),
+                                  itemSize: 12,
                                   direction: Axis.horizontal,
                                 ),
                                 const SizedBox(width: 8),
@@ -118,7 +143,11 @@ class UserReviewItemWidget extends StatelessWidget {
                                   builder: (context, snapshot) {
                                     return Text(
                                       review.reviewedAt.duration,
-                                      style: TextStyles.caption(context: context, color: theme.textSecondary),
+                                      style: context.text.bodySmall?.copyWith(
+                                        color: theme.textSecondary.withAlpha(200),
+                                        fontWeight: FontWeight.normal,
+                                        height: 1.0,
+                                      ),
                                     );
                                   },
                                 ),
@@ -127,22 +156,6 @@ class UserReviewItemWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      /* if (review.deleted || review.flagged) ...[
-                        const SizedBox(width: 8),
-                        RawChip(
-                          elevation: 0,
-                          side: BorderSide.none,
-                          padding: EdgeInsets.all(0),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                          backgroundColor: review.deleted ? theme.negative : Colors.deepPurple,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                          label: Text(
-                            review.deleted ? "Deleted" : "Flagged",
-                            style: TextStyles.caption(context: context, color: theme.backgroundPrimary),
-                          ),
-                        ),
-                      ], */
                     ],
                   ),
                 ),
@@ -150,22 +163,32 @@ class UserReviewItemWidget extends StatelessWidget {
                   SizedBox(height: Dimension.padding.vertical.large),
                   Text(
                     review.summary,
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    style: context.text.bodyLarge?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                      inherit: true,
+                    ),
                   ),
                 ],
                 if (review.content.isNotEmpty) ...[
                   const SizedBox(height: 6),
                   ReadMoreText(
                     review.content,
-                    style: TextStyles.body(context: context, color: theme.textSecondary).copyWith(inherit: true),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.normal,
+                      inherit: true,
+                    ),
                     trimMode: TrimMode.Line,
                     trimLines: 2,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: '\t\tShow less',
-                    lessStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
+                    lessStyle: context.text.bodyMedium?.copyWith(
+                      color: theme.primary,
                       fontWeight: FontWeight.bold,
                     ),
-                    moreStyle: TextStyles.body(context: context, color: theme.primary).copyWith(
+                    moreStyle: context.text.bodyMedium?.copyWith(
+                      color: theme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -174,30 +197,38 @@ class UserReviewItemWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 64,
-                    child: ListView.builder(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
                       scrollDirection: Axis.horizontal,
                       itemCount: review.photos.length,
                       itemBuilder: (context, index) {
                         final photo = review.photos[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: InkWell(
-                              onTap: () {
-                                context.pushNamed(
-                                  PhotoPreviewPage.name,
-                                  pathParameters: {'url': review.photos.map((e) => e.url).join(',')},
-                                  queryParameters: {'index': index.toString()},
-                                );
-                              },
-                              child: CachedNetworkImage(
-                                imageUrl: photo.url,
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) => const Icon(Icons.error_outline_rounded),
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: theme.backgroundPrimary,
+                            borderRadius: BorderRadius.circular(12.0),
+                            border: Border.all(color: theme.backgroundTertiary, width: .5),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: InkWell(
+                            onTap: () {
+                              context.pushNamed(
+                                PhotoPreviewPage.name,
+                                pathParameters: {'url': review.photos.map((e) => e.url).join(',')},
+                                queryParameters: {'index': index.toString()},
+                              );
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: photo.url,
+                              width: 64,
+                              height: 64,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const ShimmerLabel(width: 64, height: 64, radius: 12),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.broken_image_rounded,
+                                size: 32,
+                                color: theme.backgroundTertiary,
                               ),
                             ),
                           ),
@@ -206,76 +237,104 @@ class UserReviewItemWidget extends StatelessWidget {
                     ),
                   ),
                 ],
+                if (review.reviewedAt.dMMMMyyyy != review.experiencedAt.dMMMMyyyy) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    "Experienced at ${review.experiencedAt.dMMMMyyyy}",
+                    style: context.text.labelSmall?.copyWith(color: theme.textSecondary),
+                  ),
+                ],
                 if (mine) ...[
-                  const Divider(height: 24, thickness: .075),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: theme.link.withAlpha(15),
-                          side: BorderSide(color: theme.link, width: .75),
-                        ),
-                        icon: Icon(Icons.edit_outlined, color: theme.link),
-                        label: Text(
-                          "Edit".toUpperCase(),
-                          style: TextStyles.subTitle(context: context, color: theme.link),
-                        ),
-                        onPressed: () async {
-                          final updated = await context.pushNamed<bool>(
-                            EditReviewPage.name,
-                            pathParameters: {'urlSlug': review.listing.urlSlug},
-                            extra: review,
-                          );
-                          if (!(updated ?? false)) return;
-                          if (!context.mounted) return;
-                          context.successNotification(message: "Review updated successfully.");
-                          context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
-                        },
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: theme.backgroundTertiary, width: .25),
                       ),
-                      const SizedBox(width: 16),
-                      BlocProvider(
-                        create: (_) => sl<DeleteReviewBloc>(),
-                        child: BlocConsumer<DeleteReviewBloc, DeleteReviewState>(
-                          listener: (_, state) {
-                            if (state is DeleteReviewDone) {
-                              context.successNotification(message: "Review deleted successfully.");
-                              context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
-                            }
-                          },
-                          builder: (deleteContext, state) {
-                            if (state is DeleteReviewLoading) {
-                              return TextButton(
-                                style: TextButton.styleFrom(
-                                  disabledBackgroundColor: theme.negative.withAlpha(15),
-                                  side: BorderSide(color: theme.negative, width: .75),
-                                ),
-                                onPressed: null,
-                                child: NetworkingIndicator(dimension: 28, color: theme.negative),
-                              );
-                            }
-                            return TextButton.icon(
-                              style: TextButton.styleFrom(
-                                backgroundColor: theme.negative.withAlpha(15),
-                                side: BorderSide(color: theme.negative, width: .75),
-                              ),
-                              icon: Icon(Icons.delete_rounded, color: theme.negative),
-                              label: Text(
-                                "Delete".toUpperCase(),
-                                style: TextStyles.subTitle(context: context, color: theme.negative),
-                              ),
-                              onPressed: () async {
-                                final confirmed =
-                                    await showDialog(context: context, builder: (_) => DeleteConfirmationWidget());
-                                if (!confirmed) return;
-                                if (!context.mounted) return;
-                                deleteContext.read<DeleteReviewBloc>().add(DeleteReview(review: review.identity));
-                              },
+                    ),
+                    margin: EdgeInsets.only(top: Dimension.radius.twelve),
+                    padding: EdgeInsets.all(0).copyWith(bottom: Dimension.radius.four, top: Dimension.radius.four),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            backgroundColor: theme.link.withAlpha(50),
+                            side: BorderSide(color: theme.link, width: .25),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          ),
+                          icon: Icon(Icons.edit_outlined, color: theme.link),
+                          label: Text(
+                            "Edit".toUpperCase(),
+                            style: context.text.titleMedium?.copyWith(
+                              color: theme.link,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () async {
+                            final updated = await context.pushNamed<bool>(
+                              EditReviewPage.name,
+                              pathParameters: {'urlSlug': review.listing.urlSlug},
+                              extra: review,
                             );
+                            if (!(updated ?? false)) return;
+                            if (!context.mounted) return;
+                            context.successNotification(message: "Review updated successfully.");
+                            context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
                           },
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 16),
+                        BlocProvider(
+                          create: (_) => sl<DeleteReviewBloc>(),
+                          child: BlocConsumer<DeleteReviewBloc, DeleteReviewState>(
+                            listener: (_, state) {
+                              if (state is DeleteReviewDone) {
+                                context.successNotification(message: "Review deleted successfully.");
+                                context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
+                              }
+                            },
+                            builder: (deleteContext, state) {
+                              if (state is DeleteReviewLoading) {
+                                return TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: theme.negative.withAlpha(25),
+                                    side: BorderSide(color: theme.negative, width: .25),
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                  ),
+                                  onPressed: null,
+                                  child: NetworkingIndicator(dimension: 28, color: theme.negative),
+                                );
+                              }
+                              return TextButton.icon(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: theme.negative.withAlpha(25),
+                                  side: BorderSide(color: theme.negative, width: .25),
+                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                ),
+                                icon: Icon(Icons.delete_rounded, color: theme.negative),
+                                label: Text(
+                                  "Delete".toUpperCase(),
+                                  style: context.text.titleMedium?.copyWith(
+                                    color: theme.negative,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  final confirmed =
+                                      await showDialog(context: context, builder: (_) => DeleteConfirmationWidget());
+                                  if (!confirmed) return;
+                                  if (!context.mounted) return;
+                                  deleteContext.read<DeleteReviewBloc>().add(DeleteReview(review: review.identity));
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ],
