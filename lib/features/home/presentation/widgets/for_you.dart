@@ -12,7 +12,7 @@ class DashboardForYouWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
-        final mode = state.mode;
+        final darkMode = state.mode == ThemeMode.dark;
 
         return ListView(
           shrinkWrap: true,
@@ -31,10 +31,10 @@ class DashboardForYouWidget extends StatelessWidget {
                       vertical: Dimension.padding.vertical.large,
                     ),
                     decoration: BoxDecoration(
-                      color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.backgroundPrimary,
+                      color: darkMode ? theme.backgroundSecondary : theme.backgroundPrimary,
                       border: Border.all(
-                        color: mode == ThemeMode.dark ? theme.backgroundSecondary : theme.textPrimary,
-                        width: mode == ThemeMode.dark ? 0 : .25,
+                        color: darkMode ? theme.backgroundSecondary : theme.textPrimary,
+                        width: darkMode ? 0 : .5,
                         strokeAlign: BorderSide.strokeAlignOutside,
                       ),
                       borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
@@ -53,7 +53,7 @@ class DashboardForYouWidget extends StatelessWidget {
                                     'images/logo/full.png',
                                     width: Dimension.radius.thirty,
                                     height: Dimension.radius.thirty,
-                                    color: theme.primary.withAlpha(150),
+                                    color: theme.textSecondary.withAlpha(darkMode ? 150 : 100),
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -103,7 +103,11 @@ class DashboardForYouWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: theme.link.withGreen(5).withRed(25).withBlue(50),
-                border: Border.all(color: theme.backgroundTertiary, strokeAlign: BorderSide.strokeAlignOutside),
+                border: Border.all(
+                  width: darkMode ? 1.5 : 2.5,
+                  color: darkMode ? theme.backgroundTertiary : theme.link.withGreen(5).withRed(25).withBlue(50),
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                ),
                 borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),
               ),
               clipBehavior: Clip.antiAlias,
@@ -114,7 +118,7 @@ class DashboardForYouWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: Dimension.padding.horizontal.max,
@@ -130,7 +134,7 @@ class DashboardForYouWidget extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        flex: 2,
+                        flex: 1,
                         child: Container(
                           color: theme.backgroundSecondary,
                           child: CachedNetworkImage(
@@ -144,9 +148,7 @@ class DashboardForYouWidget extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      border: Border(top: BorderSide(color: theme.white, width: .25))
-                    ),
+                    decoration: BoxDecoration(border: Border(top: BorderSide(color: theme.white.withAlpha(150), width: .15))),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.white,

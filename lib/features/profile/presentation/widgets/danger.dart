@@ -19,7 +19,11 @@ class ProfileDangerZoneWidget extends StatelessWidget {
           children: [
             Text(
               'Danger Zone',
-              style: TextStyles.subTitle(context: context, color: theme.negative),
+              style: context.text.labelMedium?.copyWith(
+                color: theme.negative,
+                fontWeight: FontWeight.normal,
+                height: 1,
+              ),
             ),
             SizedBox(height: Dimension.padding.vertical.medium),
             Container(

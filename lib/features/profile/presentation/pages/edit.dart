@@ -38,7 +38,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               listener: (context, state) {
                 if (state is FindProfileDone) {
                   final profile = state.profile;
-                  if(firstNameController.text.isNotEmpty || lastNameController.text.isNotEmpty) {
+                  if (firstNameController.text.isNotEmpty || lastNameController.text.isNotEmpty) {
                     forceProgressUpdate = true;
                   }
                   setState(() {
@@ -60,15 +60,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         width: double.maxFinite,
                         alignment: Alignment.bottomLeft,
                         padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
-                        decoration: BoxDecoration(
-                          color: theme.primary,
-                          image: const DecorationImage(
-                            image: AssetImage('images/logo/full.png'),
-                            opacity: .05,
-                            scale: 50,
-                            repeat: ImageRepeat.repeat,
-                          ),
-                        ),
+                        decoration: BoxDecoration(color: theme.primary),
                         child: KeyboardVisibilityBuilder(
                           builder: (_, visible) => visible
                               ? Container(height: 2)

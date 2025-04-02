@@ -65,15 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         right: 24,
                         bottom: 16,
                       ).copyWith(top: context.topInset + 8),
-                      decoration: BoxDecoration(
-                        color: theme.primary,
-                        image: const DecorationImage(
-                          image: AssetImage('images/logo/full.png'),
-                          opacity: .05,
-                          scale: 50,
-                          repeat: ImageRepeat.repeat,
-                        ),
-                      ),
+                      decoration: BoxDecoration(color: theme.primary),
                       child: KeyboardVisibilityBuilder(
                         builder: (_, visible) => visible
                             ? IconButton(

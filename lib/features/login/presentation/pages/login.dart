@@ -73,12 +73,6 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.only(left: 24, bottom: 16, top: context.topInset + 16),
                     decoration: BoxDecoration(
                       color: theme.primary,
-                      image: const DecorationImage(
-                        image: AssetImage('images/logo/full.png'),
-                        opacity: .05,
-                        scale: 50,
-                        repeat: ImageRepeat.repeat,
-                      ),
                     ),
                     child: KeyboardVisibilityBuilder(
                       builder: (_, visible) => visible
@@ -117,15 +111,17 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Text(
                                         'Hey, we know you.',
-                                        style: TextStyles.subTitle(context: context, color: theme.white).copyWith(
-                                          fontWeight: FontWeight.w900,
-                                          letterSpacing: 2,
+                                        style: context.text.headlineSmall?.copyWith(
+                                          color: theme.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                         'Continue with your secured password.',
-                                        style: TextStyles.body(context: context, color: theme.semiWhite).copyWith(
+                                        style: context.text.bodySmall?.copyWith(
+                                          color: theme.white.withAlpha(200),
+                                          fontWeight: FontWeight.normal,
                                           height: 1,
                                         ),
                                       ),
@@ -146,33 +142,83 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(16).copyWith(bottom: 16 + context.bottomInset),
                         children: [
                           const SizedBox(height: 32),
-                          ProfilePictureWidget(
-                            size: Dimension.radius.max,
-                            border: Dimension.radius.three,
-                            borderColor: theme.positiveBackgroundTertiary,
+                          BlocBuilder<FindProfileBloc, FindProfileState>(
+                            builder: (context, state) {
+                              if (state is FindProfileDone) {
+                                final url = state.profile.profilePicture?.url ?? '';
+                                final fallback = Center(
+                                  child: Text(
+                                    state.profile.name.symbol,
+                                    style: context.text.bodyLarge?.copyWith(color: theme.white),
+                                  ),
+                                );
+                                return Container(
+                                  width: 100,
+                                  height: 100,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: theme.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: theme.white,
+                                      width: 2,
+                                      strokeAlign: BorderSide.strokeAlignOutside,
+                                    ),
+                                  ),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  child: url.isEmpty
+                                      ? fallback
+                                      : CachedNetworkImage(
+                                          imageUrl: url,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          placeholder: (_, __) => ShimmerIcon(radius: 100),
+                                          errorWidget: (_, __, ___) => fallback,
+                                        ),
+                                );
+                              }
+                              return ShimmerIcon(radius: 100);
+                            },
                           ),
                           const SizedBox(height: 16),
                           ProfileNameWidget(
-                            style: TextStyles.body(context: context, color: theme.primary),
+                            style: context.text.titleMedium?.copyWith(
+                              height: 1.0,
+                              color: theme.textSecondary,
+                              fontWeight: FontWeight.normal,
+                            ),
                             align: TextAlign.center,
                             shimmerAlignment: Alignment.center,
                           ),
                           const SizedBox(height: 32),
                           TextFormField(
-                            style: TextStyles.body(context: context, color: theme.textPrimary),
+                            style: context.text.bodyMedium?.copyWith(
+                              height: 1.0,
+                              color: theme.textPrimary,
+                              fontWeight: FontWeight.normal,
+                            ),
                             controller: passwordController,
                             keyboardType: TextInputType.text,
                             autocorrect: false,
                             validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
                             decoration: InputDecoration(
                               hintText: "required",
-                              hintStyle: TextStyles.body(context: context, color: theme.textPrimary),
+                              hintStyle: context.text.bodyMedium?.copyWith(
+                                height: 1.0,
+                                color: theme.textSecondary,
+                                fontWeight: FontWeight.normal,
+                              ),
                               helperText: '',
                               helperStyle: TextStyle(fontSize: 0),
                               errorStyle: TextStyle(fontSize: 0),
                               label: Text(
                                 'Password',
-                                style: TextStyles.body(context: context, color: theme.textPrimary),
+                                style: context.text.labelMedium?.copyWith(
+                                  height: 1.0,
+                                  color: theme.textPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               alignLabelWithHint: true,
                               suffixIcon: IconButton(
@@ -195,8 +241,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(
                                 "Remember me",
-                                style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
-                                  fontWeight: FontWeight.bold,
+                                style: context.text.bodyLarge?.copyWith(
+                                  color: theme.textPrimary,
+                                  fontWeight: FontWeight.normal,
                                 ),
                               ),
                               Switch(
@@ -248,7 +295,10 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   child: Text(
                                     "Login".toUpperCase(),
-                                    style: TextStyles.button(context: context),
+                                    style: context.text.titleMedium?.copyWith(
+                                      color: theme.white,
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 );
                               },

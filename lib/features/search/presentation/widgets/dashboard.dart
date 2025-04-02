@@ -10,6 +10,7 @@ class DashboardSearchWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final darkMode = state.mode == ThemeMode.dark;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -36,7 +37,7 @@ class DashboardSearchWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.backgroundPrimary,
                     borderRadius: BorderRadius.circular(Dimension.radius.max),
-                    border: Border.all(color: theme.textPrimary, width: 2),
+                    border: Border.all(color: theme.textPrimary, width: darkMode ? 1 : 2),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: Dimension.padding.horizontal.max,
@@ -83,7 +84,13 @@ class DashboardSearchWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: theme.backgroundPrimary,
                         borderRadius: BorderRadius.vertical(top: Radius.circular(Dimension.radius.max)),
-                        border: Border(top: BorderSide(color: theme.textPrimary, width: 2)),
+                        border: Border(
+                          top: BorderSide(
+                            color: theme.textPrimary,
+                            width: darkMode ? 1 : 2,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
+                        ),
                       ),
                       padding: EdgeInsets.all(0),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
