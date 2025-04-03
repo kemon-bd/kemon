@@ -98,7 +98,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
                         onChanged: (query) {
                           final bloc = context.read<FindBusinessesByCategoryBloc>();
-                          if (query.isEmpty) {
+                          if (query.isNotEmpty) {
                             bloc.add(SearchBusinessesByCategory(
                               query: query,
                               division: division?.urlSlug,
@@ -275,19 +275,32 @@ class _CategoryPageState extends State<CategoryPage> {
 
                 return BlocBuilder<FindBusinessesByCategoryBloc, FindBusinessesByCategoryState>(
                   builder: (context, state) {
-                    return CustomScrollView(
-                      cacheExtent: 0,
-                      controller: controller,
-                      slivers: [
-                        appBar,
-                        if (state is FindBusinessesByCategoryLoading) shimmer,
-                        if (state is FindBusinessesByCategoryDone)
-                          SliverPadding(
-                            padding: EdgeInsets.all(16).copyWith(top: 0),
-                            sliver: done(state),
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        search.clear();
+                        final bloc = context.read<FindBusinessesByCategoryBloc>();
+                        bloc.add(
+                          RefreshBusinessesByCategory(
+                            industry: widget.industry,
+                            category: widget.category,
                           ),
-                        SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
-                      ],
+                        );
+                      },
+                      child: CustomScrollView(
+                        cacheExtent: 0,
+                        controller: controller,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        slivers: [
+                          appBar,
+                          if (state is FindBusinessesByCategoryLoading) shimmer,
+                          if (state is FindBusinessesByCategoryDone)
+                            SliverPadding(
+                              padding: EdgeInsets.all(16).copyWith(top: 0),
+                              sliver: done(state),
+                            ),
+                          SliverPadding(padding: EdgeInsets.all(0).copyWith(bottom: context.bottomInset + 16)),
+                        ],
+                      ),
                     );
                   },
                 );

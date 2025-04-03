@@ -51,7 +51,7 @@ class FindBusinessesByCategoryBloc extends Bloc<FindBusinessesByCategoryEvent, F
     on<RefreshBusinessesByCategory>((event, emit) async {
       emit(FindBusinessesByCategoryLoading());
       final result = await refresh(
-        query: '',
+        query: null,
         industry: event.industry,
         category: event.category,
         subCategory: event.subCategory,
