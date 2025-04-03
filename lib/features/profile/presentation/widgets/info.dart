@@ -55,13 +55,21 @@ class ProfileInformationWidget extends StatelessWidget {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: url.isEmpty
                           ? fallback
-                          : CachedNetworkImage(
-                              imageUrl: url,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                              placeholder: (_, __) => ShimmerIcon(radius: 100),
-                              errorWidget: (_, __, ___) => fallback,
+                          : InkWell(
+                              onTap: () {
+                                context.pushNamed(
+                                  PhotoPreviewPage.name,
+                                  pathParameters: {'url': url},
+                                );
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: url,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) => ShimmerIcon(radius: 100),
+                                errorWidget: (_, __, ___) => fallback,
+                              ),
                             ),
                     ),
                     const SizedBox(height: 16),
