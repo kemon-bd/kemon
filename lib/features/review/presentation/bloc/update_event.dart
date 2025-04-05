@@ -8,15 +8,15 @@ abstract class UpdateReviewEvent extends Equatable {
 }
 
 class UpdateReview extends UpdateReviewEvent {
-  final Identity listing;
+  final List<String> photos;
   final List<XFile> attachments;
   final ReviewCoreEntity review;
 
   const UpdateReview({
     required this.review,
-    required this.listing,
+    required this.photos,
     required this.attachments,
   });
   @override
-  List<Object> get props => [review, listing, attachments];
+  List<Object> get props => [review, photos, attachments];
 }

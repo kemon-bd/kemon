@@ -84,7 +84,7 @@ class NewListingPreviewWidget extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "kemon.com.bd/",
+                          text: "kemon.com.bd/review/",
                           style: TextStyles.body(context: context, color: theme.textSecondary),
                         ),
                         TextSpan(

@@ -8,6 +8,7 @@ import '../../../leaderboard/leaderboard.dart';
 import '../../../location/location.dart';
 import '../../../review/review.dart';
 import '../../../search/search.dart';
+import '../../../version/version.dart';
 import '../../../whats_new/whats_new.dart';
 import '../../home.dart';
 
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<WhatsNewBloc>().add(const CheckForUpdate());
+    context.read<FindVersionBloc>().add(FindVersion(context: context));
     FirebaseMessaging.onMessage.listen(firebaseHandler);
     sl<FirebaseAnalytics>().logScreenView(
       screenName: "Home",

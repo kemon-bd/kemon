@@ -13,29 +13,23 @@ class SubCategoryRemoteDataSourceImpl extends SubCategoryRemoteDataSource {
     required String category,
   }) async {
     final Map<String, String> headers = {
-      'categoryGuid': category,
+      'category': category,
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptCharsetHeader: 'utf-8',
     };
 
     final Response response = await client.get(
-      RemoteEndpoints.subCategories,
+      RemoteEndpoints.subCategoriesByCategory,
       headers: headers,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+      final List<dynamic> data = json.decode(response.body);
 
-      if (networkResponse.success) {
-        final List<dynamic> data = networkResponse.result!["subCategories"];
-
-        return data.map((e) => SubCategoryModel.parse(map: e)).toList();
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
-      }
+      return data.map((map) => SubCategoryModel.parse(map: map)).toList();
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.body);
     }
   }
 }

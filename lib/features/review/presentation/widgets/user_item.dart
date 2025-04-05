@@ -44,7 +44,7 @@ class UserReviewItemWidget extends StatelessWidget {
             child: ListView(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0).copyWith(bottom: Dimension.radius.eight),
               children: [
                 InkWell(
                   onTap: () {
@@ -129,7 +129,7 @@ class UserReviewItemWidget extends StatelessWidget {
                               children: [
                                 RatingBarIndicator(
                                   rating: review.star.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.color(scheme: theme)),
+                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.star.color(scheme: theme)),
                                   unratedColor: theme.backgroundTertiary,
                                   itemCount: review.star.ceil(),
                                   itemSize: 12,
@@ -252,7 +252,7 @@ class UserReviewItemWidget extends StatelessWidget {
                       ),
                     ),
                     margin: EdgeInsets.only(top: Dimension.radius.twelve),
-                    padding: EdgeInsets.all(0).copyWith(bottom: Dimension.radius.four, top: Dimension.radius.four),
+                    padding: EdgeInsets.all(0).copyWith(top: Dimension.radius.eight),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.end,

@@ -12,7 +12,7 @@ class FindCategoriesByIndustryBloc extends Bloc<FindCategoriesByIndustryEvent, F
     on<FindCategoriesByIndustry>((event, emit) async {
       emit(FindCategoriesByIndustryLoading());
 
-      final result = await useCase(urlSlug: event.industry);
+      final result = await useCase(industry: event.industry);
 
       result.fold(
         (failure) => emit(FindCategoriesByIndustryError(failure: failure)),

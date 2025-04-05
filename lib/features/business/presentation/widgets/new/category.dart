@@ -115,7 +115,7 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
                   subCategory = null;
                   categoryFocusNode.requestFocus();
                   context.read<FindCategoriesByIndustryBloc>().add(FindCategoriesByIndustry(
-                        industry: selection.urlSlug,
+                        industry: selection.identity,
                       ));
                   setState(() {});
                 },
@@ -175,7 +175,7 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
               const SizedBox(height: 8),
               SubCategoryField(
                 subCategory: subCategory,
-                focusNode: categoryFocusNode,
+                focusNode: subCategoryFocusNode,
                 onSelect: (selection) {
                   subCategory = selection;
                   subCategoryFocusNode.requestFocus();

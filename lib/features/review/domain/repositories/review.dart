@@ -21,8 +21,8 @@ abstract class ReviewRepository {
   });
 
   FutureOr<Either<Failure, void>> update({
-    required Identity listing,
     required ReviewCoreEntity review,
+    required List<String> photos,
     required List<XFile> attachments,
   });
 

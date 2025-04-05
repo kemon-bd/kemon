@@ -26,8 +26,8 @@ abstract class ReviewRemoteDataSource {
   FutureOr<void> update({
     required String token,
     required Identity user,
-    required Identity listing,
     required ReviewCoreEntity review,
+    required List<String> photos,
     required List<XFile> attachments,
   });
 

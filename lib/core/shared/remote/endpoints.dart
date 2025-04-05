@@ -1,7 +1,7 @@
 class RemoteEndpoints {
   static const String domain = 'https://kemon.com.bd';
-  // static const String _baseUrl = 'http://localhost:5041';
-  static const String _baseUrl = 'https://api.kemon.com.bd';
+  static const String _baseUrl = 'http://localhost:5041';
+  // static const String _baseUrl = 'https://api.kemon.com.bd';
 
   //! performant
   static Uri get overview => Uri.parse('$_baseUrl/overview');
@@ -11,7 +11,10 @@ class RemoteEndpoints {
   static Uri get locationBasedListings => Uri.parse('$_baseUrl/location-based-listings');
   static Uri get locationBasedIndustriesFilter => Uri.parse('$_baseUrl/filter-industries-by-location');
   static Uri get categoryBasedLocationsFilter => Uri.parse('$_baseUrl/filter-locations-by-category');
+  static Uri get allIndustries => Uri.parse('$_baseUrl/all-industries');
+  static Uri get categoriesByIndustry => Uri.parse('$_baseUrl/categories-by-industry');
   static Uri get allCategories => Uri.parse('$_baseUrl/all-categories');
+  static Uri get subCategoriesByCategory => Uri.parse('$_baseUrl/sub-categories-by-category');
   static Uri get allLocations => Uri.parse('$_baseUrl/all-locations');
   static Uri get searchSuggestions => Uri.parse('$_baseUrl/optimized-search-suggestions');
   static Uri get leaderboardStanding => Uri.parse('$_baseUrl/leaderboard-standings');
@@ -19,6 +22,10 @@ class RemoteEndpoints {
   static Uri get unblock => Uri.parse('$_baseUrl/unblock');
   static Uri get blockList => Uri.parse('$_baseUrl/block-list');
   static Uri get flagReview => Uri.parse('$_baseUrl/flag-review');
+  static Uri get newReview => Uri.parse('$_baseUrl/new-review');
+  static Uri get editReview => Uri.parse('$_baseUrl/edit-review');
+  static Uri get delteReview => Uri.parse('$_baseUrl/delete-review');
+  static Uri get newListing => Uri.parse('$_baseUrl/new-listing');
 
   //! business
   static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');
@@ -59,7 +66,6 @@ class RemoteEndpoints {
 
   //! review
   static Uri get addReview => Uri.parse('$_baseUrl/save-review');
-  static Uri get editReview => Uri.parse('$_baseUrl/edit-review');
   static Uri get deleteReview => Uri.parse('$_baseUrl/delete-review');
   static Uri get reviewDetails => Uri.parse('$_baseUrl/review-details');
   static Uri get userReviews => Uri.parse('$_baseUrl/user-reviews');

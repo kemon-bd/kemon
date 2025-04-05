@@ -66,7 +66,8 @@ extension BuildContextExtension on BuildContext {
   }
 
   Color get barrierColor {
-    return theme.scheme.textPrimary.withAlpha(theme.mode == ThemeMode.dark ? 25 : 125);
+    final darkMode = theme.mode == ThemeMode.dark;
+    return theme.scheme.textPrimary.withAlpha(darkMode ? 150 : 125);
   }
 
   TextTheme get text => Theme.of(this).textTheme;

@@ -165,9 +165,12 @@ class _NewListingPageState extends State<NewListingPage> with TickerProviderStat
                   BlocConsumer<NewListingBloc, NewListingState>(
                     listener: (context, state) {
                       if (state is NewListingDone) {
-                        context.goNamed(BusinessPage.name, pathParameters: {
-                          "urlSlug": "kemon://kemon.com.bd/review/${urlSlug.text}",
-                        });
+                        context.goNamed(
+                          BusinessPage.name,
+                          pathParameters: {
+                            "urlSlug": urlSlug.text,
+                          },
+                        );
                       } else if (state is NewListingError) {
                         context.errorNotification(message: state.failure.message);
                       }

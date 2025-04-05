@@ -117,6 +117,7 @@ class _SubCategoryFieldState extends State<SubCategoryField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
+                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   isDense: true,
                 ),
               );
@@ -126,6 +127,7 @@ class _SubCategoryFieldState extends State<SubCategoryField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select a category first.",
+                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                 isDense: true,
               ),
             );

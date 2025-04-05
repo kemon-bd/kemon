@@ -13,6 +13,15 @@ extension StringExtension on String {
     return null;
   }
 
+  int get version {
+    final List<String> version = split(".");
+    final int major = int.parse(version[0]);
+    final int minor = int.parse(version[1]);
+    final int patch = int.parse(version[2]);
+    final int appVersion = major * 10000 + minor * 100 + patch;
+    return appVersion;
+  }
+
   WhatsNewType get toWhatsNewType {
     if (same(as: WhatsNewType.bug.key)) {
       return WhatsNewType.bug;

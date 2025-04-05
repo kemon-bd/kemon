@@ -47,7 +47,7 @@ class _ThanaFieldState extends State<ThanaField> {
           },
           builder: (context, state) {
             if (state is ThanasDone) {
-              final categories = state.thanas.toList();
+              final thanas = state.thanas.toList();
               return TypeAheadField<LookupEntity>(
                 controller: controller,
                 suggestionsController: suggestionBoxController,
@@ -70,13 +70,9 @@ class _ThanaFieldState extends State<ThanaField> {
                 },
                 suggestionsCallback: (pattern) async {
                   if (pattern.isEmpty) {
-                    return categories;
+                    return thanas;
                   }
-                  return categories
-                      .where(
-                        (category) => thana?.text.match(like: pattern) ?? false,
-                      )
-                      .toList();
+                  return thanas.where((t) => t.text.match(like: pattern)).toList();
                 },
                 itemBuilder: (context, suggestion) {
                   return Container(
@@ -117,6 +113,7 @@ class _ThanaFieldState extends State<ThanaField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
+                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   isDense: true,
                 ),
               );
@@ -126,6 +123,7 @@ class _ThanaFieldState extends State<ThanaField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select a district first.",
+                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                 isDense: true,
               ),
             );

@@ -1,7 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../industry.dart';
 
-
 class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   final Client client;
 
@@ -12,21 +11,15 @@ class IndustryRemoteDataSourceImpl extends IndustryRemoteDataSource {
   @override
   FutureOr<List<IndustryModel>> find() async {
     final Response response = await client.get(
-      RemoteEndpoints.industries,
+      RemoteEndpoints.allIndustries,
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<Map<String, dynamic>> networkResponse = RemoteResponse.parse(response: response);
+      final List<dynamic> data = json.decode(response.body);
 
-      if (networkResponse.success) {
-        final List<dynamic> data = networkResponse.result!["industries"];
-
-        return data.map((map) => IndustryModel.parse(map: map)).toList();
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to load categories');
-      }
+      return data.map((map) => IndustryModel.parse(map: map)).toList();
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+      throw RemoteFailure(message: response.body);
     }
   }
 

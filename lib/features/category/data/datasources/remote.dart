@@ -10,7 +10,7 @@ abstract class CategoryRemoteDataSource {
   });
 
   FutureOr<List<CategoryModel>> industry({
-    required String urlSlug,
+    required Identity identity,
   });
 
   FutureOr<List<IndustryWithListingCountModel>> all({

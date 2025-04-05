@@ -133,7 +133,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       style: context.text.bodyMedium?.copyWith(
                         color: theme.textPrimary,
                         fontWeight: FontWeight.normal,
-                        height: 1.0,
                       ),
                       minLines: 4,
                       maxLines: 20,
@@ -405,10 +404,10 @@ class _NewReviewPageState extends State<NewReviewPage> {
                               ),
                             ),
                             onTap: () async {
-                              final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                              if (image != null) {
+                              final image = await ImagePicker().pickMultiImage();
+                              if (image.isNotEmpty) {
                                 setState(() {
-                                  attachments.add(image);
+                                  attachments.addAll(image);
                                 });
                               }
                             },

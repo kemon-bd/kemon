@@ -15,6 +15,8 @@ import '../../features/industry/industry.dart';
 import '../../features/profile/profile.dart';
 import '../../features/login/login.dart';
 import '../../features/authentication/authentication.dart';
+import '../../features/version/version.dart';
+import '../../features/whats_new/whats_new.dart';
 
 part 'dependencies.dart';
 part 'network_certificates.dart';
@@ -34,6 +36,8 @@ part 'dependencies/profile.dart';
 part 'dependencies/login.dart';
 part 'dependencies/authentication.dart';
 part 'dependencies/home.dart';
+part 'dependencies/version.dart';
+part 'dependencies/whats_new.dart';
 
 class AppConfig {
   static FutureOr<void> init() async {
@@ -48,12 +52,28 @@ class AppConfig {
       storageDirectory: await getApplicationDocumentsDirectory(),
     );
 
-    // Initialize the configurations
+    // Initialize the configurq23ations
     await _setupDependencies();
 
     // Firebase Messaging
     await setupFirebaseMessaging();
-    await sl<FirebaseAnalytics>().setAnalyticsCollectionEnabled(true);
+    final analytics = sl<FirebaseAnalytics>();
+    await analytics.setAnalyticsCollectionEnabled(true);
+
+    final remoteConfig = sl<FirebaseRemoteConfig>();
+    await remoteConfig.ensureInitialized();
+
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ),
+    );
+    try {
+      await remoteConfig.fetchAndActivate();
+    } on FirebaseException catch (e) {
+      debugPrint(e.message);
+    }
 
     FlutterError.onError = (errorDetails) {
       if (kReleaseMode) {
@@ -163,7 +183,6 @@ class AppConfig {
           ),
         ),
       ),
-      
       textSelectionTheme: TextSelectionThemeData(cursorColor: theme.textPrimary),
       iconTheme: IconThemeData(color: theme.textPrimary, size: Dimension.radius.twenty),
       visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -8,7 +8,7 @@ sealed class FindCategoriesByIndustryEvent extends Equatable {
 }
 
 class FindCategoriesByIndustry extends FindCategoriesByIndustryEvent {
-  final String industry;
+  final Identity industry;
   final String query;
 
   const FindCategoriesByIndustry({

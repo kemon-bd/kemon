@@ -2,6 +2,7 @@ import 'core/config/config.dart';
 import 'core/shared/shared.dart';
 import 'features/authentication/authentication.dart';
 import 'features/leaderboard/leaderboard.dart';
+import 'features/version/version.dart';
 import 'features/whats_new/whats_new.dart';
 
 FutureOr<void> main() async {
@@ -14,10 +15,11 @@ FutureOr<void> main() async {
       enabled: !kReleaseMode,
       builder: (context) => MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => WhatsNewBloc()),
+          BlocProvider(create: (_) => sl<WhatsNewBloc>()),
           BlocProvider(create: (_) => sl<ThemeBloc>()),
           BlocProvider(create: (_) => sl<AuthenticationBloc>()),
           BlocProvider(create: (_) => sl<LeaderboardFilterBloc>()),
+          BlocProvider(create: (_) => sl<FindVersionBloc>()),
         ],
         child: const MainApp(),
       ),

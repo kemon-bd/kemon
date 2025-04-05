@@ -123,6 +123,17 @@ extension GenderExtension on Gender {
   }
 }
 
+extension ListingTypeExtension on ListingType {
+  String get value {
+    switch (this) {
+      case ListingType.product:
+        return 'Product';
+      case ListingType.business:
+        return 'Business';
+    }
+  }
+}
+
 extension AnalyticSourceExtension on AnalyticSource {
   String get dataKey {
     switch (this) {

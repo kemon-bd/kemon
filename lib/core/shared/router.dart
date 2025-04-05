@@ -306,7 +306,7 @@ final router = GoRouter(
         ],
         child: EditReviewPage(
           urlSlug: state.pathParameters['urlSlug']!,
-          review: state.extra as ReviewCoreEntity,
+          review: state.extra as UserReviewEntity,
         ),
       ),
     ),

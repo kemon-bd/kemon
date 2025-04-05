@@ -85,8 +85,8 @@ class ReviewRepositoryImpl extends ReviewRepository {
 
   @override
   FutureOr<Either<Failure, void>> update({
-    required Identity listing,
     required ReviewCoreEntity review,
+    required List<String> photos,
     required List<XFile> attachments,
   }) async {
     try {
@@ -95,7 +95,7 @@ class ReviewRepositoryImpl extends ReviewRepository {
           token: auth.token!,
           user: auth.identity!,
           review: review,
-          listing: listing,
+          photos: photos,
           attachments: attachments,
         );
 

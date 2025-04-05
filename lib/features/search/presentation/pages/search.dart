@@ -42,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
               autofocus: true,
               controller: controller,
               autocorrect: false,
-              style: context.text.titleLarge,
+              style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
               onChanged: (query) {
                 if (query.isNotEmpty) {
                   context.read<SearchSuggestionBloc>().add(SearchSuggestion(query: query));
@@ -347,7 +347,7 @@ class _SearchPageState extends State<SearchPage> {
                                               Icon(
                                                 Icons.star_sharp,
                                                 size: context.text.labelSmall?.fontSize,
-                                                color: theme.textSecondary.withAlpha(200),
+                                                color: suggestion.rating.color(scheme: theme),
                                               ),
                                               Text(
                                                 suggestion.rating.toStringAsFixed(1),

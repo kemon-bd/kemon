@@ -23,25 +23,6 @@ extension ReviewCoreEntityExtension on ReviewCoreEntity {
         dislikes: dislikes,
         localGuide: localGuide,
       );
-
-  Color color({
-    required ThemeScheme scheme,
-  }) {
-    switch (star) {
-      case 5:
-        return scheme.primary;
-      case 4:
-        return Colors.lime.shade700;
-      case 3:
-        return Colors.yellow.shade800;
-      case 2:
-        return Colors.orange.shade700;
-      case 1:
-        return Colors.red;
-      default:
-        return scheme.backgroundPrimary;
-    }
-  }
 }
 
 extension ReviewListExtension on List<ListingReviewEntity> {

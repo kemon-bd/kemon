@@ -9,8 +9,8 @@ class FindCategoriesByIndustryUseCase {
   });
 
   FutureOr<Either<Failure, List<CategoryEntity>>> call({
-    required String urlSlug,
+    required Identity industry,
   }) async {
-    return await repository.industry(urlSlug: urlSlug);
+    return await repository.industry(identity: industry);
   }
 }

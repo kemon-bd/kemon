@@ -98,7 +98,10 @@ class BusinessInformationWidget extends StatelessWidget {
                         children: [
                           if (business.rating > 0)
                             RatingBarIndicator(
-                              itemBuilder: (context, index) => Icon(Icons.star_sharp, color: theme.primary),
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star_sharp,
+                                color: business.rating.color(scheme: theme),
+                              ),
                               itemSize: 16,
                               rating: business.rating,
                               itemCount: business.rating.ceil(),

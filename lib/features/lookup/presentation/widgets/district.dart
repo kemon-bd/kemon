@@ -47,7 +47,7 @@ class _DistrictFieldState extends State<DistrictField> {
           },
           builder: (context, state) {
             if (state is DistrictsDone) {
-              final categories = state.districts.toList();
+              final districts = state.districts.toList();
               return TypeAheadField<LookupEntity>(
                 controller: controller,
                 suggestionsController: suggestionBoxController,
@@ -70,13 +70,9 @@ class _DistrictFieldState extends State<DistrictField> {
                 },
                 suggestionsCallback: (pattern) async {
                   if (pattern.isEmpty) {
-                    return categories;
+                    return districts;
                   }
-                  return categories
-                      .where(
-                        (category) => district?.text.match(like: pattern) ?? false,
-                      )
-                      .toList();
+                  return districts.where((d) => d.text.match(like: pattern)).toList();
                 },
                 itemBuilder: (context, suggestion) {
                   return Container(
@@ -117,6 +113,7 @@ class _DistrictFieldState extends State<DistrictField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
+                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   isDense: true,
                 ),
               );
@@ -126,6 +123,7 @@ class _DistrictFieldState extends State<DistrictField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select a division first.",
+                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                 isDense: true,
               ),
             );

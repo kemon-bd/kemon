@@ -145,7 +145,7 @@ class RecentReviewItemWidget extends StatelessWidget {
                               children: [
                                 RatingBarIndicator(
                                   rating: review.star.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: theme.primary),
+                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.star.color(scheme: theme)),
                                   unratedColor: theme.textSecondary.withAlpha(25),
                                   itemCount: review.star,
                                   itemSize: Dimension.radius.twelve,

@@ -22,6 +22,8 @@ Future<void> _setupDependencies() async {
     loginDependencies,
     authenticationDependencies,
     homeDependencies,
+    versionDependencies,
+    whatsNewDependencies,
   ]);
 }
 
@@ -34,6 +36,7 @@ Future<void> get _core async {
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
   sl.registerLazySingleton<FirebaseAnalytics>(() => FirebaseAnalytics.instance);
+  sl.registerLazySingleton<FirebaseRemoteConfig>(() => FirebaseRemoteConfig.instance);
   sl.registerLazySingleton<GoogleSignIn>(
     () => GoogleSignIn(
       scopes: [

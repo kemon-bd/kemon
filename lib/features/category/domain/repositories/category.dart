@@ -4,18 +4,13 @@ import '../../category.dart';
 
 typedef IndustryBasedCategories = ({IndustryEntity industry, List<CategoryEntity> categories});
 
-typedef CategoryPaginatedResponse = ({
-  int total,
-  List<IndustryBasedCategories> results,
-});
-
 abstract class CategoryRepository {
   FutureOr<Either<Failure, CategoryEntity>> find({
     required String urlSlug,
   });
 
   FutureOr<Either<Failure, List<CategoryEntity>>> industry({
-    required String urlSlug,
+    required Identity identity,
   });
 
   FutureOr<Either<Failure, List<CategoryEntity>>> featured();

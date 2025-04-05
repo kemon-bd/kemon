@@ -19,14 +19,14 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required String date,
     required List<XFile> attachments,
   }) async {
-    final request = MultipartRequest('POST', RemoteEndpoints.addReview);
+    final request = MultipartRequest('POST', RemoteEndpoints.newReview);
     request.headers.addAll({
-      'UserId': user.guid,
-      'ListingGuid': listing.guid,
-      'Rating': rating.round().toString(),
-      'Title': Uri.encodeComponent(title),
-      'Description': Uri.encodeComponent(description),
-      'DateOfExperience': date,
+      'user': user.guid,
+      'listing': listing.guid,
+      'star': rating.round().toString(),
+      'summary': Uri.encodeComponent(title),
+      'content': Uri.encodeComponent(description),
+      'experience': date,
     });
     for (XFile file in attachments) {
       request.files.add(await MultipartFile.fromPath('files', file.path));
@@ -34,10 +34,10 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     final StreamedResponse streamedResponse = await request.send();
     final response = await Response.fromStream(streamedResponse);
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.noContent) {
       return;
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(message: response.body);
     }
   }
 
@@ -48,9 +48,8 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required Identity review,
   }) async {
     final Map<String, String> headers = {
-      'userGuid': user.guid,
-      'reviewGuid': review.guid,
-      'id': review.id.toString(),
+      'user': user.guid,
+      'review': review.id.toString(),
     };
 
     final Response response = await client.delete(
@@ -58,16 +57,10 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       headers: headers,
     );
 
-    if (response.statusCode == HttpStatus.ok) {
-      final RemoteResponse<void> networkResponse = RemoteResponse.parse(response: response);
-
-      if (networkResponse.success) {
-        return;
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? 'Failed to delete review');
-      }
+    if (response.statusCode == HttpStatus.noContent) {
+      return;
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to delete review');
+      throw RemoteFailure(message: response.body);
     }
   }
 
@@ -101,18 +94,18 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required String token,
     required Identity user,
     required ReviewCoreEntity review,
-    required Identity listing,
+    required List<String> photos,
     required List<XFile> attachments,
   }) async {
-    final request = MultipartRequest('POST', RemoteEndpoints.addReview);
+    final request = MultipartRequest('POST', RemoteEndpoints.editReview);
     request.headers.addAll({
       'id': review.identity.id.toString(),
-      'UserId': user.guid,
-      'ListingGuid': listing.guid,
-      'Rating': review.star.round().toString(),
-      'Title': Uri.encodeComponent(review.summary),
-      'Description': Uri.encodeComponent(review.content),
-      'DateOfExperience': review.experiencedAt.toIso8601String(),
+      'user': user.guid,
+      'star': review.star.round().toString(),
+      'summary': Uri.encodeComponent(review.summary),
+      'content': Uri.encodeComponent(review.content),
+      'experience': review.experiencedAt.toIso8601String(),
+      'photos': photos.join(','),
     });
     for (XFile file in attachments) {
       request.files.add(await MultipartFile.fromPath('files', file.path));
@@ -120,7 +113,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     final StreamedResponse streamedResponse = await request.send();
     final response = await Response.fromStream(streamedResponse);
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.noContent) {
       return;
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');

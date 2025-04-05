@@ -11,7 +11,7 @@ class UpdateReviewBloc extends Bloc<UpdateReviewEvent, UpdateReviewState> {
       emit(const UpdateReviewLoading());
       final result = await useCase(
         review: event.review,
-        listing: event.listing,
+        photos: event.photos,
         attachments: event.attachments,
       );
       result.fold(

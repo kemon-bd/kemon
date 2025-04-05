@@ -1,7 +1,6 @@
-import 'package:kemon/features/industry/domain/entities/industry.dart';
-
 import '../../../../core/shared/shared.dart';
 import '../../../category/category.dart';
+import '../../../industry/industry.dart';
 import '../../../lookup/lookup.dart';
 import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
@@ -175,42 +174,43 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     required LookupEntity? district,
     required LookupEntity? thana,
   }) async {
-    final request = MultipartRequest('POST', RemoteEndpoints.addListing);
+    final request = MultipartRequest('POST', RemoteEndpoints.newListing);
     request.headers.addAll({
       'authorization': token,
-      'UserId': user.guid,
-      'Name': Uri.encodeComponent(name),
-      'URLSlug': Uri.encodeComponent(urlSlug),
-      'Type': type.name,
-      'Description': Uri.encodeComponent(about),
-      'Website': website,
-      'Email': email,
-      'Phone': phone,
-      'Division': division?.value ?? '',
-      'District': district?.value ?? '',
-      'Thana': thana?.value ?? '',
-      'Address': address,
-      'IndustryGuid': industry.identity.guid,
-      'CategoryGuid': category?.identity.guid ?? '',
-      'SubCategoryGuid': subCategory?.identity.guid ?? '',
-      'SocialProfile': social,
+      'user': user.guid,
+      'name': Uri.encodeComponent(name),
+      'slug': Uri.encodeComponent(urlSlug),
+      'type': type.value,
+      'about': Uri.encodeComponent(about),
+      'website': website,
+      'email': email,
+      'phone': phone,
+      'division': division?.value ?? '',
+      'district': district?.value ?? '',
+      'thana': thana?.value ?? '',
+      'address': address,
+      'industry': industry.identity.guid,
+      'category': category?.identity.guid ?? '',
+      'subCategory': subCategory?.identity.guid ?? '',
+      'social': social,
       HttpHeaders.contentTypeHeader: 'multipart/form-data',
     });
     if (logo != null) {
-      request.files.add(await MultipartFile.fromPath('Files', logo.path));
+      request.files.add(
+        await MultipartFile.fromPath(
+          'file',
+          logo.path,
+          contentType: MediaType('image', logo.path.split('.').last),
+        ),
+      );
     }
     final StreamedResponse streamedResponse = await request.send();
     final response = await Response.fromStream(streamedResponse);
 
-    if (response.statusCode == HttpStatus.ok) {
-      final networkResponse = RemoteResponse.parse(response: response);
-      if (networkResponse.success) {
-        return;
-      } else {
-        throw RemoteFailure(message: networkResponse.error ?? response.reasonPhrase ?? "Something went wrong.");
-      }
+    if (response.statusCode == HttpStatus.noContent) {
+      return;
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(message: response.body);
     }
   }
 }

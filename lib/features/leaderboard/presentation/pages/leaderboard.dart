@@ -58,103 +58,108 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             body: ValueListenableBuilder<bool>(
               valueListenable: expanded,
               builder: (context, isExpanded, _) {
-                return CustomScrollView(
-                  cacheExtent: 0,
-                  controller: controller,
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      collapsedHeight: kToolbarHeight + Dimension.size.vertical.twenty + 2 * Dimension.padding.vertical.large,
-                      expandedHeight: 240,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: theme.primary),
-                        onPressed: () {
-                          if (context.canPop()) {
-                            context.pop();
-                          } else {
-                            context.goNamed(HomePage.name);
-                          }
-                        },
-                      ),
-                      title: isExpanded
-                          ? null
-                          : Hero(
-                              tag: "title",
-                              child: Text(
-                                "Leaderboard",
-                                style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
-                              ).animate().fade(),
-                            ),
-                      actions: [
-                        const ShareButton(),
-                      ],
-                      bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimension.padding.horizontal.max,
-                            vertical: Dimension.padding.vertical.large,
-                          ).copyWith(top: 0),
-                          child: TextField(
-                            controller: search,
-                            style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
-                            onChanged: (query) {
-                              context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: query));
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search_rounded,
-                                size: context.text.bodyMedium?.fontSize,
-                                color: theme.textSecondary,
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<FindLeaderboardBloc>().add(RefreshLeaderboard());
+                  },
+                  child: CustomScrollView(
+                    cacheExtent: 0,
+                    controller: controller,
+                    slivers: [
+                      SliverAppBar(
+                        pinned: true,
+                        collapsedHeight: kToolbarHeight + Dimension.size.vertical.twenty + 2 * Dimension.padding.vertical.large,
+                        expandedHeight: 240,
+                        leading: IconButton(
+                          icon: Icon(Icons.arrow_back, color: theme.primary),
+                          onPressed: () {
+                            if (context.canPop()) {
+                              context.pop();
+                            } else {
+                              context.goNamed(HomePage.name);
+                            }
+                          },
+                        ),
+                        title: isExpanded
+                            ? null
+                            : Hero(
+                                tag: "title",
+                                child: Text(
+                                  "Leaderboard",
+                                  style: context.text.titleLarge?.copyWith(color: theme.textPrimary),
+                                ).animate().fade(),
                               ),
-                              hintText: 'Search by name or email',
-                              hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
+                        actions: [
+                          const ShareButton(),
+                        ],
+                        bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(Dimension.size.vertical.twenty),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Dimension.padding.horizontal.max,
+                              vertical: Dimension.padding.vertical.large,
+                            ).copyWith(top: 0),
+                            child: TextField(
+                              controller: search,
+                              style: context.text.bodyMedium?.copyWith(color: theme.textPrimary),
+                              onChanged: (query) {
+                                context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: query));
+                              },
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  size: context.text.bodyMedium?.fontSize,
+                                  color: theme.textSecondary,
+                                ),
+                                hintText: 'Search by name or email',
+                                hintStyle: context.text.bodyMedium?.copyWith(color: theme.textSecondary),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      flexibleSpace: isExpanded
-                          ? FlexibleSpaceBar(
-                              background: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimension.padding.horizontal.max,
-                                ).copyWith(top: context.topInset + kToolbarHeight),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Hero(
-                                          tag: "title",
-                                          child: Text(
-                                            "Leaderboard",
-                                            style: context.text.headlineMedium?.copyWith(
-                                              color: theme.textPrimary,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1.0,
-                                            ),
-                                          ).animate().fade(),
-                                        ),
-                                        IconWidget(),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      children: [
-                                        _FilterButton(search: search),
-                                        const SizedBox(width: 16),
-                                        const Spacer(),
-                                        _TotalCount(),
-                                      ],
-                                    ),
-                                  ],
+                        flexibleSpace: isExpanded
+                            ? FlexibleSpaceBar(
+                                background: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: Dimension.padding.horizontal.max,
+                                  ).copyWith(top: context.topInset + kToolbarHeight),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Hero(
+                                            tag: "title",
+                                            child: Text(
+                                              "Leaderboard",
+                                              style: context.text.headlineMedium?.copyWith(
+                                                color: theme.textPrimary,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1.0,
+                                              ),
+                                            ).animate().fade(),
+                                          ),
+                                          IconWidget(),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Row(
+                                        children: [
+                                          _FilterButton(search: search),
+                                          const SizedBox(width: 16),
+                                          const Spacer(),
+                                          _TotalCount(),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    SliverToBoxAdapter(child: ListingsWidget(search: search)),
-                  ],
+                              )
+                            : null,
+                      ),
+                      SliverToBoxAdapter(child: ListingsWidget(search: search)),
+                    ],
+                  ),
                 );
               },
             ),
@@ -480,7 +485,7 @@ class _FilterButton extends StatelessWidget {
         if (!context.mounted) return;
 
         if (applied ?? false) {
-          context.read<FindLeaderboardBloc>().add(RefreshLeaderboard(query: search.text));
+          context.read<FindLeaderboardBloc>().add(FindLeaderboard(query: search.text));
         }
       },
       borderRadius: BorderRadius.circular(Dimension.radius.twentyFour),

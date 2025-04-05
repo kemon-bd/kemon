@@ -115,6 +115,7 @@ class _CategoryFieldState extends State<CategoryField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
+                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   isDense: true,
                 ),
               );
@@ -124,6 +125,7 @@ class _CategoryFieldState extends State<CategoryField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select an industry first.",
+                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                 isDense: true,
               ),
             );

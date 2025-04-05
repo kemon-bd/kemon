@@ -65,11 +65,7 @@ class _DivisionFieldState extends State<DivisionField> {
                   if (pattern.isEmpty) {
                     return divisions;
                   }
-                  return divisions
-                      .where(
-                        (category) => division?.text.match(like: pattern) ?? false,
-                      )
-                      .toList();
+                  return divisions.where((d) => d.text.match(like: pattern)).toList();
                 },
                 itemBuilder: (context, suggestion) {
                   return Container(
@@ -110,6 +106,7 @@ class _DivisionFieldState extends State<DivisionField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
+                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                   isDense: true,
                 ),
               );
@@ -119,6 +116,7 @@ class _DivisionFieldState extends State<DivisionField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select one.",
+                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
                 isDense: true,
               ),
             );

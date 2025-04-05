@@ -19,11 +19,8 @@ class FindLeaderboard extends FindLeaderboardEvent {
 }
 
 class RefreshLeaderboard extends FindLeaderboardEvent {
-  final String query;
 
-  const RefreshLeaderboard({
-    required this.query,
-  });
+  const RefreshLeaderboard();
   @override
-  List<Object> get props => [query];
+  List<Object> get props => [];
 }

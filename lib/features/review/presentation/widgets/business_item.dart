@@ -114,7 +114,7 @@ class BusinessReviewItemWidget extends StatelessWidget {
                           children: [
                             RatingBarIndicator(
                               rating: review.star.toDouble(),
-                              itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.color(scheme: theme)),
+                              itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.star.color(scheme: theme)),
                               unratedColor: theme.backgroundTertiary,
                               itemCount: review.star.ceil(),
                               itemSize: 12,

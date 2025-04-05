@@ -42,13 +42,18 @@ class PublicProfilePage extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          body: ListView(
-            shrinkWrap: false,
-            padding: EdgeInsets.zero,
-            children: const [
-              ProfileInformationWidget(),
-              ProfileFeatureOptionsWidget(),
-            ],
+          body: RefreshIndicator(
+            onRefresh: () async {
+              context.read<FindProfileBloc>().add(RefreshProfile(identity: identity));
+            },
+            child: ListView(
+              shrinkWrap: false,
+              padding: EdgeInsets.zero,
+              children: const [
+                ProfileInformationWidget(),
+                ProfileFeatureOptionsWidget(),
+              ],
+            ),
           ),
         );
       },
