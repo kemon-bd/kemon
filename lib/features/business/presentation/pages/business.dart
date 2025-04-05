@@ -73,7 +73,12 @@ class BusinessPage extends StatelessWidget {
                         ],
                       ),
                       BusinessInformationWidget(business: state.business),
-                      BusinessRatingsWidget(business: state.business, reviews: state.reviews, insights: state.insights),
+                      BusinessRatingsWidget(
+                        business: state.business,
+                        reviews: state.reviews,
+                        insights: state.insights,
+                        hasMyReview: state.hasMyReview,
+                      ),
                       BusinessReviewsWidget(reviews: state.reviews),
                     ],
                   );

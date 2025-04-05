@@ -6,7 +6,7 @@ import '../../../review/review.dart';
 import '../../../sub_category/sub_category.dart';
 import '../../business.dart';
 
-typedef ListingModel = (BusinessModel, BusinessRatingInsightsModel, List<ListingReviewModel>);
+typedef ListingModel = (BusinessModel, BusinessRatingInsightsModel, List<ListingReviewModel>, bool);
 
 abstract class BusinessRemoteDataSource {
   FutureOr<ListingModel> find({

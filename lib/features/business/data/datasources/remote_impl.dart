@@ -117,7 +117,7 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       final BusinessModel business = BusinessModel.parse(map: data['listing']);
       final BusinessRatingInsightsModel insights = BusinessRatingInsightsModel.parse(map: data['insights']);
       final reviews = (data['reviews'] as List).map((map) => ListingReviewModel.parse(map: map)).toList();
-      final ListingModel model = (business, insights, reviews);
+      final ListingModel model = (business, insights, reviews, reviews.hasMyReview(userGuid: user?.guid ?? ""));
       return model;
     } else {
       throw RemoteFailure(message: response.body);

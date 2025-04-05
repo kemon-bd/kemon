@@ -8,11 +8,13 @@ import '../../business.dart';
 class BusinessRatingsWidget extends StatelessWidget {
   final BusinessEntity business;
   final BusinessRatingInsightsEntity insights;
+  final bool hasMyReview;
   final List<ListingReviewEntity> reviews;
 
   const BusinessRatingsWidget({
     super.key,
     required this.business,
+    required this.hasMyReview,
     required this.insights,
     required this.reviews,
   });
@@ -20,8 +22,6 @@ class BusinessRatingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
-    final userGuid = context.auth.guid ?? '';
-    final bool hasMyReview = reviews.hasMyReview(userGuid: userGuid);
     final icon = Icon(
       Icons.star_sharp,
       color: theme.backgroundTertiary,
@@ -61,7 +61,7 @@ class BusinessRatingsWidget extends StatelessWidget {
                                 return;
                               }
                               if (reviews.hasMyReview(userGuid: authorization.identity.guid)) {
-                                lookupContext.read<FindBusinessBloc>().add(FindBusiness(urlSlug: business.urlSlug));
+                                lookupContext.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: business.urlSlug));
                                 return;
                               } else if (authorization.progress(checks: checks) < 50) {
                                 final bool? progressed = await showModalBottomSheet<bool>(
@@ -227,7 +227,7 @@ class _RatingItem extends StatelessWidget {
                       value: rating,
                       minHeight: checked ? 6 : 4,
                       borderRadius: BorderRadius.circular(100),
-                      valueColor: AlwaysStoppedAnimation<Color>(theme.positive),
+                      valueColor: AlwaysStoppedAnimation<Color>(theme.primary),
                       backgroundColor: theme.backgroundSecondary,
                     ),
                   ),

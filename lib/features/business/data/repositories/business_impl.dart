@@ -7,7 +7,7 @@ import '../../../review/review.dart' show ListingReviewEntity;
 import '../../../sub_category/sub_category.dart' show SubCategoryEntity, SubCategoryLocalDataSource;
 import '../../business.dart';
 
-typedef ListingEntity = (BusinessEntity, BusinessRatingInsightsEntity, List<ListingReviewEntity>);
+typedef ListingEntity = (BusinessEntity, BusinessRatingInsightsEntity, List<ListingReviewEntity>, bool);
 
 class BusinessRepositoryImpl extends BusinessRepository {
   final NetworkInfo network;
@@ -38,6 +38,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
                 result.$1,
                 result.$2,
                 result.$3.where((r) => filter.contains(r.star)).toList(),
+                result.$4,
               ),
       );
     } on BusinessNotFoundInLocalCacheFailure {
@@ -51,6 +52,7 @@ class BusinessRepositoryImpl extends BusinessRepository {
                   result.$1,
                   result.$2,
                   result.$3.where((r) => filter.contains(r.star)).toList(),
+                  result.$4,
                 ),
         );
       } else {

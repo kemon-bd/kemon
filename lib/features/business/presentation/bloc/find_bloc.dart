@@ -21,6 +21,7 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
           business: listing.$1,
           insights: listing.$2,
           reviews: listing.$3,
+          hasMyReview: listing.$4,
           filter: event.filter,
         )),
       );
@@ -34,6 +35,7 @@ class FindBusinessBloc extends Bloc<FindBusinessEvent, FindBusinessState> {
           business: listing.$1,
           insights: listing.$2,
           reviews: listing.$3,
+          hasMyReview: listing.$4,
           filter: [],
         )),
       );
