@@ -1,3 +1,5 @@
+import '../../../features/business/business.dart';
+import '../../../features/profile/profile.dart';
 import '../shared.dart';
 
 import '../../../features/review/review.dart';
@@ -46,6 +48,57 @@ extension ListingReviewEntityExtension on ListingReviewEntity {
   }) {
     return reviewer.identity.guid.same(as: me);
   }
+
+  UserReviewEntity convertToUserBasedReview({
+    required BuildContext context,
+  }) {
+    final listing = context.business;
+    return UserReviewEntity(
+      identity: identity,
+      star: star,
+      summary: summary,
+      content: content,
+      reviewedAt: reviewedAt,
+      liked: liked,
+      disliked: disliked,
+      likes: likes,
+      dislikes: dislikes,
+      listing: BusinessPreviewEntity(
+        urlSlug: listing.urlSlug,
+        name: listing.name,
+        logo: listing.logo,
+        verified: listing.verified,
+      ),
+      localGuide: localGuide,
+      photos: photos,
+      experiencedAt: experiencedAt,
+    );
+  }
 }
 
-extension ReviewModelExtension on ReviewCoreModel {}
+extension UserReviewEntityExtension on UserReviewEntity {
+  ListingReviewEntity convertToListingBasedReview({
+    required BuildContext context,
+  }) {
+    final profile = context.auth.profile!;
+    return ListingReviewEntity(
+      identity: identity,
+      star: star,
+      summary: summary,
+      content: content,
+      reviewedAt: reviewedAt,
+      liked: liked,
+      disliked: disliked,
+      likes: likes,
+      dislikes: dislikes,
+      reviewer: UserPreviewEntity(
+        identity: profile.identity,
+        name: profile.name,
+        profilePicture: profile.profilePicture ?? '',
+      ),
+      localGuide: localGuide,
+      photos: photos,
+      experiencedAt: experiencedAt,
+    );
+  }
+}

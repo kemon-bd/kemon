@@ -129,7 +129,8 @@ class UserReviewItemWidget extends StatelessWidget {
                               children: [
                                 RatingBarIndicator(
                                   rating: review.star.toDouble(),
-                                  itemBuilder: (context, index) => Icon(Icons.star_sharp, color: review.star.color(scheme: theme)),
+                                  itemBuilder: (context, index) =>
+                                      Icon(Icons.star_sharp, color: review.star.color(scheme: theme)),
                                   unratedColor: theme.backgroundTertiary,
                                   itemCount: review.star.ceil(),
                                   itemSize: 12,
@@ -292,6 +293,11 @@ class UserReviewItemWidget extends StatelessWidget {
                               if (state is DeleteReviewDone) {
                                 context.successNotification(message: "Review deleted successfully.");
                                 context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
+                              } else if (state is DeleteReviewError) {
+                                if (state.failure.message.match(like: "has already")) {
+                                  context.read<FindUserReviewsBloc>().add(RefreshUserReviews(user: user));
+                                }
+                                context.errorNotification(message: state.failure.message);
                               }
                             },
                             builder: (deleteContext, state) {

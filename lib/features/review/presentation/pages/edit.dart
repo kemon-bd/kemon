@@ -493,27 +493,6 @@ class _EditReviewPageState extends State<EditReviewPage> {
                       listener: (context, state) {
                         if (state is UpdateReviewDone) {
                           context.pop(true);
-                          showDialog(
-                            context: context,
-                            barrierColor: context.barrierColor,
-                            builder: (_) => AlertDialog(
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.check_circle_outline_rounded,
-                                    color: theme.positive,
-                                    size: 144,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'Review added successfully!',
-                                    style: TextStyles.body(context: context, color: theme.textPrimary),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
                         } else if (state is UpdateReviewError) {
                           showDialog(
                             context: context,

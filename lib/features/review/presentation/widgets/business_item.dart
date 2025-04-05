@@ -149,7 +149,10 @@ class BusinessReviewItemWidget extends StatelessWidget {
                         context: context,
                         barrierDismissible: false,
                         barrierColor: context.barrierColor,
-                        builder: (_) => ReviewMenuAlert(review: review),
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<FindBusinessBloc>(),
+                          child: ReviewMenuAlert(review: review),
+                        ),
                       );
                       if (!context.mounted) return;
                       if (actionTaken ?? false) {

@@ -21,12 +21,16 @@ class ReviewMenuAlert extends StatelessWidget {
             children: [
               Text(
                 "Action",
-                style: TextStyles.title(context: context, color: theme.textPrimary),
+                style: context.text.headlineSmall?.copyWith(
+                  color: theme.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  inherit: true,
+                ),
               ),
               IconButton(
                 visualDensity: VisualDensity.compact,
                 onPressed: context.pop,
-                icon: Icon(Icons.close_rounded, color: theme.textSecondary),
+                icon: Icon(Icons.close_rounded, color: theme.textPrimary),
               ),
             ],
           ),
@@ -36,6 +40,93 @@ class ReviewMenuAlert extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Divider(thickness: .5, height: 8),
+              if (review.myReview(me: context.auth.identity?.guid ?? "")) ...[
+                ListTile(
+                  onTap: () async {
+                    final edited = await context.pushNamed<bool>(
+                      EditReviewPage.name,
+                      pathParameters: {
+                        "urlSlug": context.business.urlSlug,
+                      },
+                      extra: review.convertToUserBasedReview(context: context),
+                    );
+
+                    if (!context.mounted) return;
+                    if (edited ?? false) {
+                      context.pop(true);
+                      context.successNotification(message: "Review updated successfully.");
+                    }
+                  },
+                  leading: Icon(Icons.edit_outlined, color: theme.textPrimary),
+                  title: Text(
+                    "Edit",
+                    style: context.text.bodyLarge?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                      inherit: true,
+                    ),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => sl<DeleteReviewBloc>(),
+                  child: BlocConsumer<DeleteReviewBloc, DeleteReviewState>(
+                    listener: (context, state) {
+                      if (state is DeleteReviewDone) {
+                        context.pop(true);
+                        context.successNotification(message: "Review deleted successfully.");
+                      }
+                    },
+                    builder: (blockContext, state) {
+                      if (state is DeleteReviewLoading) {
+                        return ListTile(
+                          leading: Icon(Icons.circle, size: 24, color: theme.backgroundSecondary),
+                          title: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 112,
+                              height: 12,
+                              decoration: BoxDecoration(
+                                color: theme.backgroundSecondary,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return ListTile(
+                        onTap: () async {
+                          final confirm = await showDialog<bool>(
+                            context: blockContext,
+                            builder: (_) => DeleteConfirmationWidget(affirm: "Confirm"),
+                          );
+                          if (!blockContext.mounted) return;
+                          if (confirm ?? false) {
+                            blockContext.read<DeleteReviewBloc>().add(DeleteReview(review: review.identity));
+                          }
+                        },
+                        leading: Icon(Icons.delete_outlined, color: theme.negative),
+                        title: Text(
+                          "Delete",
+                          style: context.text.bodyLarge?.copyWith(
+                            color: theme.negative,
+                            fontWeight: FontWeight.bold,
+                            inherit: true,
+                          ),
+                        ),
+                        subtitle: state is DeleteReviewError
+                            ? Text(
+                                state.failure.message,
+                                style: context.text.bodySmall?.copyWith(
+                                  color: theme.negative,
+                                  inherit: true,
+                                ),
+                              )
+                            : null,
+                      );
+                    },
+                  ),
+                ),
+              ],
               if (!review.myReview(me: context.auth.identity?.guid ?? "")) ...[
                 BlocProvider(
                   create: (context) => sl<FlagBloc>(),
@@ -87,14 +178,13 @@ class ReviewMenuAlert extends StatelessWidget {
                                 builder: (_) => const FlagReasonFilter(selection: null),
                               );
                               if (!flagContext.mounted) return;
-                              flagContext
-                                  .read<FlagBloc>()
-                                  .add(FlagAbuse(review: review.identity, reason: reason?.text ?? ""));
+                              flagContext.read<FlagBloc>().add(FlagAbuse(review: review.identity, reason: reason?.text ?? ""));
                             }
                           }
                         },
                         leading: Icon(Icons.flag_outlined, color: theme.textSecondary),
-                        title: Text("Flag as Inappropriate", style: TextStyles.subTitle(context: context, color: theme.textSecondary)),
+                        title: Text("Flag as Inappropriate",
+                            style: TextStyles.subTitle(context: context, color: theme.textSecondary)),
                         subtitle: state is FlagError
                             ? Text(state.failure.message, style: TextStyles.caption(context: context, color: theme.negative))
                             : null,
