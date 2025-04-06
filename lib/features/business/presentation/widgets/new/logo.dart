@@ -39,22 +39,34 @@ class _NewListingLogoWidgetState extends State<NewListingLogoWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Do you have a logo",
-                    style: TextStyles.title(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
-                    baseline: TextBaseline.alphabetic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
+                    child: Text(
+                      "Do you have a logo",
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Icon(Icons.emergency_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Text(
               "A logo also adds a professional touch to your listing, making it more trustworthy and appealing.",
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelSmall?.copyWith(
+                color: theme.textSecondary.withAlpha(200),
+                fontWeight: FontWeight.normal,
+                height: 1.15,
+              ),
             ),
             SizedBox(height: Dimension.padding.vertical.ultraProMax),
             SizedBox(height: Dimension.padding.vertical.ultraProMax),
@@ -109,8 +121,11 @@ class _NewListingLogoWidgetState extends State<NewListingLogoWidget> {
                       }
                     },
               child: Text(
-                'Next',
-                style: TextStyles.button(context: context),
+                'Next'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: logo == null ? theme.textSecondary : theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],

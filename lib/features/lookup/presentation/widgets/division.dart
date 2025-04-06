@@ -36,6 +36,7 @@ class _DivisionFieldState extends State<DivisionField> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
 
         return BlocBuilder<DivisionsBloc, DivisionsState>(
           builder: (context, state) {
@@ -50,9 +51,13 @@ class _DivisionFieldState extends State<DivisionField> {
                     controller: controller,
                     focusNode: focusNode,
                     autofocus: true,
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   );
                 },
+                hideOnEmpty: true,
                 onSelected: (suggestion) {
                   setState(() {
                     division = suggestion;
@@ -76,7 +81,10 @@ class _DivisionFieldState extends State<DivisionField> {
                       children: [
                         Text(
                           suggestion.text,
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -86,9 +94,16 @@ class _DivisionFieldState extends State<DivisionField> {
                   return Material(
                     elevation: 16,
                     type: MaterialType.card,
-                    color: theme.backgroundPrimary,
+                    color: dark ? theme.backgroundSecondary : theme.backgroundPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: theme.textPrimary,
+                        width: .15,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                    ),
                     shadowColor: theme.backgroundPrimary,
-                    borderRadius: BorderRadius.circular(16),
                     child: child,
                   );
                 },
@@ -106,7 +121,10 @@ class _DivisionFieldState extends State<DivisionField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
-                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                  hintStyle: context.text.bodyMedium?.copyWith(
+                    color: theme.textSecondary.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
                   isDense: true,
                 ),
               );
@@ -116,7 +134,10 @@ class _DivisionFieldState extends State<DivisionField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select one.",
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
                 isDense: true,
               ),
             );

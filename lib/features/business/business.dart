@@ -42,11 +42,9 @@ export 'presentation/widgets/verified.dart';
 export 'presentation/widgets/featured.dart';
 export 'presentation/widgets/featured_item.dart';
 export 'presentation/widgets/about.dart';
-export 'presentation/widgets/name.dart';
 export 'presentation/widgets/logo.dart';
 export 'presentation/widgets/share.dart';
 export 'presentation/widgets/shimmer.dart';
-export 'presentation/widgets/new/about.dart';
 export 'presentation/widgets/new/logo.dart';
 export 'presentation/widgets/new/location.dart';
 export 'presentation/widgets/new/contact.dart';
@@ -54,4 +52,3 @@ export 'presentation/widgets/new/category.dart';
 export 'presentation/widgets/new/name.dart';
 export 'presentation/widgets/new/type.dart';
 export 'presentation/widgets/new/preview.dart';
-

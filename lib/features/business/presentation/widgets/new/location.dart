@@ -62,41 +62,64 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Enter Location",
-                    style: TextStyles.title(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Enter Location",
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Text(
               "Providing an accurate location helps pinpoint where the listing is based, ensuring it’s easily discoverable and accessible to the right audience.",
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelSmall?.copyWith(
+                color: theme.textSecondary.withAlpha(200),
+                fontWeight: FontWeight.normal,
+                height: 1.15,
+              ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: Dimension.padding.vertical.ultraMax),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Address",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Address",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -108,11 +131,17 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
               autofocus: true,
               autocorrect: false,
               focusNode: addressFocusNode,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.bodyMedium?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 hintText: 'House No, Road No, etc',
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onEditingComplete: () {
                 divisionFocusNode.requestFocus();
@@ -122,17 +151,26 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Division",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Division",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -155,17 +193,26 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "District",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "District",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -187,17 +234,26 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Thana",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Thana",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -222,8 +278,11 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
                 }
               },
               child: Text(
-                'Skip',
-                style: TextStyles.button(context: context).copyWith(color: theme.textPrimary),
+                'SKIP'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             SizedBox(height: Dimension.padding.vertical.ultraMax),
@@ -236,8 +295,11 @@ class _NewListingLocationWidgetState extends State<NewListingLocationWidget> {
                 }
               },
               child: Text(
-                'Next',
-                style: TextStyles.button(context: context),
+                'Next'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],

@@ -26,7 +26,11 @@ class BlockReasonFilter extends StatelessWidget {
               children: [
                 Text(
                   "Please choose a reason",
-                  style: TextStyles.title(context: context, color: theme.textPrimary),
+                  style: context.text.headlineSmall?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                    inherit: true,
+                  ),
                 ),
                 IconButton(
                   visualDensity: VisualDensity.compact,
@@ -62,7 +66,11 @@ class BlockReasonFilter extends StatelessWidget {
                             ),
                             title: Text(
                               reason.text,
-                              style: TextStyles.title(context: context, color: selected ? theme.positive : theme.textSecondary),
+                              style: context.text.bodyLarge?.copyWith(
+                                color: selected ? theme.positive : theme.textSecondary,
+                                fontWeight: FontWeight.bold,
+                                inherit: true,
+                              ),
                             ),
                           );
                         },

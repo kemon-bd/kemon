@@ -37,7 +37,10 @@ class ProfileCheckAlert extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Incomplete profile',
-                  style: TextStyles.title(context: context, color: theme.primary),
+                  style: context.text.headlineMedium?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -47,7 +50,10 @@ class ProfileCheckAlert extends StatelessWidget {
                 Divider(height: 42, thickness: .25, color: theme.backgroundTertiary),
                 Text(
                   'Here is the missing information about your profile:',
-                  style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                  style: context.text.labelMedium?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Container(
                   constraints: BoxConstraints(

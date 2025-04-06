@@ -33,9 +33,9 @@ class _ForgotPasswordPickUsernameWidgetState extends State<ForgotPasswordPickUse
                     children: [
                       Text(
                         'Forgot Password',
-                        style: TextStyles.subTitle(context: context, color: theme.textPrimary).copyWith(
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 2,
+                        style: context.text.headlineMedium?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: Dimension.padding.vertical.small),

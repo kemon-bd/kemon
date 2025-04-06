@@ -13,8 +13,10 @@ class ChooseUploadMethodWidget extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           title: Text(
             "Choose a method",
-            style:
-                TextStyles.subTitle(context: context, color: theme.textPrimary),
+            style: context.text.headlineMedium?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -22,12 +24,10 @@ class ChooseUploadMethodWidget extends StatelessWidget {
               const SizedBox(height: 16),
               Divider(color: theme.backgroundTertiary, height: .25),
               ListTile(
-                leading: Icon(Icons.linked_camera_outlined,
-                    color: theme.textPrimary),
+                leading: Icon(Icons.linked_camera_outlined, color: theme.textPrimary),
                 title: Text(
                   "Camera",
-                  style: TextStyles.body(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.body(context: context, color: theme.textPrimary),
                 ),
                 onTap: () {
                   context.pop(ImageSource.camera);
@@ -35,12 +35,10 @@ class ChooseUploadMethodWidget extends StatelessWidget {
               ),
               Divider(color: theme.backgroundTertiary, height: .25),
               ListTile(
-                leading: Icon(Icons.photo_size_select_actual_outlined,
-                    color: theme.textPrimary),
+                leading: Icon(Icons.photo_size_select_actual_outlined, color: theme.textPrimary),
                 title: Text(
                   "Gallery",
-                  style: TextStyles.body(
-                      context: context, color: theme.textPrimary),
+                  style: TextStyles.body(context: context, color: theme.textPrimary),
                 ),
                 onTap: () {
                   context.pop(ImageSource.gallery);

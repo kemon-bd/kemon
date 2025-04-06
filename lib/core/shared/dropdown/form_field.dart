@@ -30,23 +30,20 @@ class DropdownFormWidget<T> extends DropdownWidget<T> {
           final labelWidget = Text(
             label,
             style: labelStyle ??
-                TextStyles.subTitle(
-                    context: context, color: theme.textSecondary),
+                context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary,
+                  fontWeight: FontWeight.normal,
+                ),
           );
           final textWidget = Text(
             text,
-            style: textStyle?.copyWith(
-                    color: valid ? theme.textPrimary : theme.negative) ??
-                TextStyles.overline(
-                    context: context,
-                    color: valid ? theme.textPrimary : theme.negative),
+            style: textStyle?.copyWith(color: valid ? theme.textPrimary : theme.negative) ??
+                TextStyles.overline(context: context, color: valid ? theme.textPrimary : theme.negative),
             maxLines: 1,
             textAlign: TextAlign.end,
             overflow: TextOverflow.ellipsis,
           );
-          final iconWidget = icon ??
-              Icon(Icons.arrow_drop_down_rounded,
-                  size: 20, color: theme.textPrimary);
+          final iconWidget = icon ?? Icon(Icons.arrow_drop_down_rounded, size: 20, color: theme.textPrimary);
           return InkWell(
             onTap: () async {
               final selection = await showModalBottomSheet<T?>(
@@ -54,8 +51,7 @@ class DropdownFormWidget<T> extends DropdownWidget<T> {
                 isDismissible: false,
                 isScrollControlled: true,
                 barrierColor: context.barrierColor,
-                constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * .85),
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .85),
                 builder: (_) => popup!,
               );
 
@@ -81,11 +77,9 @@ class DropdownFormWidget<T> extends DropdownWidget<T> {
                         if (valid) iconWidget,
                         if (!valid) const SizedBox(width: 4),
                         if (!valid)
-                          Icon(Icons.error_rounded,
-                                  size: 20, color: theme.negative)
+                          Icon(Icons.error_rounded, size: 20, color: theme.negative)
                               .animate(
-                                onComplete: (controller) =>
-                                    controller.repeat(reverse: true),
+                                onComplete: (controller) => controller.repeat(reverse: true),
                               )
                               .fade(duration: const Duration(seconds: 1)),
                       ],

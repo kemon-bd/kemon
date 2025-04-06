@@ -44,6 +44,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final darkMode = state.mode == ThemeMode.dark;
         return KeyboardDismissOnTap(
           child: Scaffold(
             backgroundColor: theme.backgroundPrimary,
@@ -265,7 +266,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: theme.backgroundPrimary,
+                                color: darkMode ? theme.backgroundSecondary : theme.backgroundPrimary,
                                 border: Border.all(
                                   color: theme.backgroundTertiary,
                                   width: .5,
@@ -318,7 +319,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: theme.backgroundPrimary,
+                                color: darkMode ? theme.backgroundSecondary : theme.backgroundPrimary,
                                 border: Border.all(
                                   color: theme.backgroundTertiary,
                                   width: .5,
@@ -371,7 +372,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: theme.backgroundPrimary,
+                                color: darkMode ? theme.backgroundSecondary : theme.backgroundPrimary,
                                 border: Border.all(
                                   color: theme.backgroundTertiary,
                                   width: .5,
@@ -415,7 +416,7 @@ class _CheckProfilePageState extends State<CheckProfilePage> {
                                     icon: Icon(
                                       FontAwesomeIcons.apple,
                                       size: Dimension.radius.eighteen,
-                                      color: Colors.grey.shade800,
+                                      color: darkMode ? theme.semiWhite : Colors.grey.shade900,
                                     ),
                                   );
                                 },

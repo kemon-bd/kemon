@@ -17,37 +17,45 @@ class DeleteConfirmationWidget extends StatelessWidget {
           backgroundColor: theme.negative,
           title: Text(
             "Confirmation",
-            style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+            style: context.text.headlineSmall?.copyWith(
+              color: theme.white,
+              fontWeight: FontWeight.bold,
+              inherit: true,
+            ),
           ),
           content: Text(
             "Are you sure ?",
-            style: TextStyles.body(context: context, color: theme.backgroundPrimary),
+            style: context.text.bodyMedium?.copyWith(
+              color: theme.white,
+              fontWeight: FontWeight.bold,
+              inherit: true,
+            ),
           ),
           actions: [
             TextButton(
-              onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(HomePage.name);
+                }
+              },
               style: TextButton.styleFrom(
                 backgroundColor: theme.negative,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 side: BorderSide(
-                  color: theme.backgroundPrimary,
+                  color: theme.white,
                   width: 1,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.medium),
               ),
               child: Text(
                 "Cancel",
-                style: TextStyles.button(context: context).copyWith(
-                  color: theme.backgroundPrimary,
-                  fontWeight: FontWeight.bold,
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -55,7 +63,7 @@ class DeleteConfirmationWidget extends StatelessWidget {
             TextButton(
               onPressed: () => context.pop(true),
               style: TextButton.styleFrom(
-                backgroundColor: theme.backgroundPrimary,
+                backgroundColor: theme.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -67,9 +75,9 @@ class DeleteConfirmationWidget extends StatelessWidget {
               ),
               child: Text(
                 affirm ?? "Yes, Delete",
-                style: TextStyles.button(context: context).copyWith(
+                style: context.text.titleMedium?.copyWith(
                   color: theme.negative,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

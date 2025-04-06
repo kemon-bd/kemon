@@ -18,7 +18,10 @@ class _AcknowledgementAlertState extends State<AcknowledgementAlert> {
           backgroundColor: theme.backgroundPrimary,
           title: Text(
             "Disclaimer",
-            style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+            style: context.text.headlineSmall?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           contentPadding: EdgeInsets.symmetric(vertical: 12),
           content: CheckboxListTile(
@@ -80,7 +83,10 @@ class _AcknowledgementAlertState extends State<AcknowledgementAlert> {
               ),
               child: Text(
                 "Continue",
-                style: TextStyles.button(context: context),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],

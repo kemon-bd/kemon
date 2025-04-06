@@ -79,6 +79,7 @@ class _NewListingPageState extends State<NewListingPage> with TickerProviderStat
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
         return KeyboardDismissOnTap(
           child: Scaffold(
             backgroundColor: theme.backgroundPrimary,
@@ -157,7 +158,11 @@ class _NewListingPageState extends State<NewListingPage> with TickerProviderStat
                 if (index < (type == ListingType.product ? 4 : 6)) ...[
                   Text(
                     'Step ${index + 1} of ${type == ListingType.product ? 4 : 6}',
-                    style: TextStyles.caption(context: context, color: theme.textSecondary),
+                    style: context.text.labelSmall?.copyWith(
+                      color: dark ? theme.primary : theme.textSecondary,
+                      fontWeight: FontWeight.bold,
+                      height: 1.0,
+                    ),
                   ),
                   const SizedBox(width: 16),
                 ],
@@ -217,8 +222,11 @@ class _NewListingPageState extends State<NewListingPage> with TickerProviderStat
                           side: BorderSide(color: theme.link, width: 1.0),
                         ),
                         label: Text(
-                          "Publish",
-                          style: TextStyles.button(context: context),
+                          "Publish".toUpperCase(),
+                          style: context.text.titleMedium?.copyWith(
+                            color: theme.backgroundPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       );
                     },

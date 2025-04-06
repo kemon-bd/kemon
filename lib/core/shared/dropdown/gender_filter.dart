@@ -31,7 +31,10 @@ class GenderFilterWidget extends StatelessWidget {
                   children: [
                     Text(
                       "Gender",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                      style: context.text.headlineMedium?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {

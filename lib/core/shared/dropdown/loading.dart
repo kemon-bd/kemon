@@ -20,7 +20,10 @@ class DropdownLoadingWidget extends StatelessWidget {
         final labelWidget = Text(
           label,
           style: labelStyle ??
-              TextStyles.subTitle(context: context, color: theme.textSecondary),
+              context.text.bodyMedium?.copyWith(
+                color: theme.textSecondary,
+                fontWeight: FontWeight.normal,
+              ),
         );
         const textWidget = ShimmerLabel(width: 72, height: 12, radius: 8);
         return Padding(

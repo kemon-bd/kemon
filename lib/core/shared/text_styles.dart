@@ -1,7 +1,6 @@
 import 'shared.dart';
 
 class TextStyles {
-
   static TextStyle overline({
     required BuildContext context,
     required Color color,

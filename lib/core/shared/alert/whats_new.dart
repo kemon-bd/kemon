@@ -47,7 +47,10 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               const SizedBox(height: 8),
               Text(
                 'Whats\' New',
-                style: TextStyles.title(context: context, color: theme.positive),
+                style: context.text.headlineMedium?.copyWith(
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Divider(height: 16, thickness: .25, color: theme.backgroundTertiary),
               Container(
@@ -67,7 +70,10 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
                       ),
                       title: Text(
                         update.title,
-                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                        style: context.text.bodyLarge?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       subtitle: update.description != null
                           ? Text(
@@ -88,13 +94,13 @@ class _WhatsNewAlertState extends State<WhatsNewAlert> {
               SizedBox(
                 width: context.width,
                 child: ElevatedButton(
-                  onPressed: (){
-                        if(context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.goNamed(HomePage.name);
-                        }
-                      },
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      context.goNamed(HomePage.name);
+                    }
+                  },
                   child: Text(
                     'Continue',
                     style: TextStyles.button(context: context),

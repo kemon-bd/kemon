@@ -85,11 +85,15 @@ class NewListingPreviewWidget extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "kemon.com.bd/review/",
-                          style: TextStyles.body(context: context, color: theme.textSecondary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textSecondary,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                         TextSpan(
                           text: urlSlug.text,
-                          style: TextStyles.body(context: context, color: theme.textPrimary).copyWith(
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textPrimary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -135,22 +139,31 @@ class NewListingPreviewWidget extends StatelessWidget {
                               ),
                       ),
                       Positioned(
-                        top: -8,
-                        right: -8,
+                        top: -12,
+                        right: -12,
                         child: Container(
                           decoration: BoxDecoration(
                             color: theme.link,
                             borderRadius: BorderRadius.circular(Dimension.radius.eight),
+                            border: Border.all(
+                              width: 3,
+                              color: theme.backgroundSecondary,
+                              strokeAlign: BorderSide.strokeAlignInside,
+                            ),
                           ),
                           child: IconButton(
                             onPressed: onLogoEdit,
                             padding: EdgeInsets.all(0),
+                            constraints: BoxConstraints(
+                              maxHeight: Dimension.radius.sixteen,
+                              maxWidth: Dimension.radius.sixteen,
+                            ),
                             visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                            iconSize: Dimension.radius.twenty,
+                            iconSize: Dimension.radius.twelve,
                             icon: Icon(
-                              Icons.drive_file_rename_outline_rounded,
-                              color: theme.white,
-                              size: Dimension.radius.twenty,
+                              Icons.camera_enhance_rounded,
+                              color: theme.backgroundPrimary,
+                              size: Dimension.radius.sixteen,
                             ),
                           ),
                         ),

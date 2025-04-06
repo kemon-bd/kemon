@@ -36,6 +36,7 @@ class _CategoryFieldState extends State<CategoryField> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
 
         return BlocConsumer<FindCategoriesByIndustryBloc, FindCategoriesByIndustryState>(
           listener: (context, state) {
@@ -57,9 +58,13 @@ class _CategoryFieldState extends State<CategoryField> {
                     controller: controller,
                     focusNode: focusNode,
                     autofocus: true,
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   );
                 },
+                hideOnEmpty: true,
                 onSelected: (suggestion) {
                   setState(() {
                     category = suggestion;
@@ -85,7 +90,10 @@ class _CategoryFieldState extends State<CategoryField> {
                       children: [
                         Text(
                           suggestion.name.full,
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -95,9 +103,16 @@ class _CategoryFieldState extends State<CategoryField> {
                   return Material(
                     elevation: 16,
                     type: MaterialType.card,
-                    color: theme.backgroundPrimary,
+                    color: dark ? theme.backgroundSecondary : theme.backgroundPrimary,
                     shadowColor: theme.backgroundPrimary,
-                    borderRadius: BorderRadius.circular(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: theme.textPrimary,
+                        width: .15,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                    ),
                     child: child,
                   );
                 },
@@ -115,7 +130,10 @@ class _CategoryFieldState extends State<CategoryField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
-                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                  hintStyle: context.text.bodyMedium?.copyWith(
+                    color: theme.textSecondary.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
                   isDense: true,
                 ),
               );
@@ -125,7 +143,10 @@ class _CategoryFieldState extends State<CategoryField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select an industry first.",
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
                 isDense: true,
               ),
             );

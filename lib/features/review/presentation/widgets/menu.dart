@@ -182,11 +182,23 @@ class ReviewMenuAlert extends StatelessWidget {
                             }
                           }
                         },
-                        leading: Icon(Icons.flag_outlined, color: theme.textSecondary),
-                        title: Text("Flag as Inappropriate",
-                            style: TextStyles.subTitle(context: context, color: theme.textSecondary)),
+                        leading: Icon(Icons.flag_outlined, color: theme.textPrimary),
+                        title: Text(
+                          "Flag as Inappropriate",
+                          style: context.text.bodyLarge?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                            inherit: true,
+                          ),
+                        ),
                         subtitle: state is FlagError
-                            ? Text(state.failure.message, style: TextStyles.caption(context: context, color: theme.negative))
+                            ? Text(
+                                state.failure.message,
+                                style: context.text.bodySmall?.copyWith(
+                                  color: theme.negative,
+                                  inherit: true,
+                                ),
+                              )
                             : null,
                       );
                     },
@@ -254,12 +266,22 @@ class ReviewMenuAlert extends StatelessWidget {
                         leading: const Icon(Icons.block_rounded, color: Colors.purple),
                         title: Text(
                           "Block '${review.reviewer.name.full}'",
-                          style: TextStyles.subTitle(context: context, color: Colors.purple),
+                          style: context.text.bodyLarge?.copyWith(
+                            color: Colors.purple,
+                            fontWeight: FontWeight.bold,
+                            inherit: true,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: state is BlockError
-                            ? Text(state.failure.message, style: TextStyles.caption(context: context, color: theme.negative))
+                            ? Text(
+                                state.failure.message,
+                                style: context.text.bodySmall?.copyWith(
+                                  color: theme.negative,
+                                  inherit: true,
+                                ),
+                              )
                             : null,
                       );
                     },

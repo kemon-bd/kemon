@@ -63,44 +63,77 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "How would you categorize ",
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "How would you categorize ",
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: widget.name.text,
-                      style: TextStyles.title(context: context, color: theme.primary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        widget.name.text,
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: " as",
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        " as ",
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const WidgetSpan(child: SizedBox(width: 8)),
-                    const WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
-                      child: Icon(Icons.emergency_rounded, size: 18, color: Colors.red),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Icon(Icons.emergency_rounded, size: 18, color: theme.negative),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: Dimension.padding.vertical.medium),
               Text(
                 "Please select the appropriate industry, category, and sub-category for your listing.  This will help us to better understand your listing and to ensure that it is displayed correctly to potential customers.",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.labelSmall?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.normal,
+                  height: 1.15,
+                ),
               ),
               SizedBox(height: Dimension.padding.vertical.ultraMax),
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "Industry",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                    ),
-                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
-                      child: Icon(Icons.emergency_rounded, size: Dimension.radius.sixteen, color: theme.negative),
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "Industry",
+                        style: context.text.bodyLarge?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Icon(Icons.emergency_rounded, size: Dimension.radius.twelve, color: theme.negative),
                     ),
                   ],
                 ),
@@ -124,17 +157,26 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "Category",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                    ),
-                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "Category",
+                        style: context.text.bodyLarge?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
                       child: Text(
                         "optional",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary.withAlpha(200),
+                        ),
                       ),
                     ),
                   ],
@@ -156,17 +198,26 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "Sub-Category",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                    ),
-                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "Sub-Category",
+                        style: context.text.bodyLarge?.copyWith(
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
                       child: Text(
                         "optional",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary.withAlpha(200),
+                        ),
                       ),
                     ),
                   ],
@@ -196,8 +247,11 @@ class _NewListingLocationWidgetState extends State<NewListingCategoryWidget> {
                   }
                 },
                 child: Text(
-                  'Next',
-                  style: TextStyles.button(context: context),
+                  'Next'.toUpperCase(),
+                  style: context.text.titleMedium?.copyWith(
+                    color: theme.white,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               )
             ],

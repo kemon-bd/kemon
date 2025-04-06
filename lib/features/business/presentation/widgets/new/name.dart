@@ -55,29 +55,45 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "Enter listing name",
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "Enter listing name",
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.textPrimary,
+                          height: 1.0,
+                        ),
+                      ),
                     ),
                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
                       child: Icon(Icons.emergency_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: Dimension.padding.vertical.medium),
               Text(
                 "The name you provide will help others recognize this listing and make it easier to search for and engage with.",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.labelSmall?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.normal,
+                  height: 1.15,
+                ),
               ),
-              SizedBox(height: Dimension.padding.vertical.medium),
+              SizedBox(height: Dimension.padding.vertical.large),
               TextFormField(
                 controller: name,
                 autofocus: true,
                 autocorrect: false,
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: context.text.bodyMedium?.copyWith(
+                  height: 1.0,
+                  color: theme.textPrimary,
+                  fontWeight: FontWeight.normal,
+                ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) => (value ?? '').isNotEmpty ? null : 'required',
                 textInputAction: TextInputAction.next,
@@ -96,41 +112,57 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                 },
                 decoration: InputDecoration(
                   hintText: 'required',
-                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                  hintStyle: context.text.bodyMedium?.copyWith(
+                    height: 1.0,
+                    color: theme.textSecondary.withAlpha(200),
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 onEditingComplete: () {
                   urlSlugFocusNode.requestFocus();
                 },
               ),
-              SizedBox(height: Dimension.padding.vertical.ultraMax),
+              SizedBox(height: 2 * Dimension.padding.vertical.ultraMax),
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: name.text,
-                      style: TextStyles.subTitle(context: context, color: theme.primary),
-                    ),
-                    TextSpan(
-                      text: " can be found as",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "URL",
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.textPrimary,
+                          height: 1.0,
+                        ),
+                      ),
                     ),
                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
                       child: Text(
                         "optional",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary.withAlpha(200),
+                          fontWeight: FontWeight.normal,
+                          height: 1.15,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: Dimension.padding.vertical.medium),
               Text(
                 "Leave it as is if you do not have any idea about a how url-slug works.",
-                style: TextStyles.body(context: context, color: theme.textSecondary),
+                style: context.text.labelSmall?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.normal,
+                  height: 1.15,
+                ),
               ),
-              SizedBox(height: Dimension.padding.vertical.medium),
+              SizedBox(height: Dimension.padding.vertical.large),
               Container(
                 clipBehavior: Clip.antiAlias,
                 alignment: Alignment.center,
@@ -145,14 +177,22 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                     SizedBox(width: Dimension.padding.horizontal.large),
                     Text(
                       "/",
-                      style: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                     Expanded(
                       child: TextField(
                         controller: urlSlug,
                         autofocus: true,
                         autocorrect: false,
-                        style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                        style: context.text.bodyMedium?.copyWith(
+                          height: 1.0,
+                          color: theme.textPrimary,
+                          fontWeight: FontWeight.normal,
+                        ),
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
                         onEditingComplete: () {
@@ -160,11 +200,9 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                         },
                         onChanged: (value) {
                           if (value.isNotEmpty) {
-                            if (value.match(like: "--")) {
-                              setState(() {
-                                urlSlug.text = value.urlSlug;
-                              });
-                            }
+                            setState(() {
+                              urlSlug.text = value.urlSlug;
+                            });
                             context.read<ValidateUrlSlugBloc>().add(ValidateUrlSlug(urlSlug: urlSlug.text));
                           }
                         },
@@ -175,11 +213,15 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                         if (state is ValidateUrlSlugLoading) {
                           return NetworkingIndicator(dimension: 20, color: theme.primary);
                         } else if (state is ValidateUrlSlugDone) {
-                          return Icon(Icons.check_circle_rounded, size: Dimension.radius.twentyFour, color: theme.positive);
+                          return Icon(Icons.check_circle_rounded, size: Dimension.radius.twentyFour, color: theme.primary);
                         } else if (state is ValidateUrlSlugError && state.failure is InvalidUrlSlugFailure) {
                           return Text(
                             "Already taken.",
-                            style: TextStyles.caption(context: context, color: theme.negative),
+                            style: context.text.labelSmall?.copyWith(
+                              color: theme.negative,
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                            ),
                           );
                         }
                         return Container();
@@ -193,17 +235,28 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: "About",
-                      style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
+                      child: Text(
+                        "About",
+                        style: context.text.headlineSmall?.copyWith(
+                          color: theme.textPrimary,
+                          height: 1.0,
+                        ),
+                      ),
                     ),
                     WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                     WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.aboveBaseline,
+                      alignment: PlaceholderAlignment.middle,
+                      baseline: TextBaseline.ideographic,
                       child: Text(
                         "optional",
-                        style: TextStyles.body(context: context, color: theme.textSecondary),
+                        style: context.text.bodyMedium?.copyWith(
+                          color: theme.textSecondary.withAlpha(200),
+                          fontWeight: FontWeight.normal,
+                          height: 1.15,
+                        ),
                       ),
                     ),
                   ],
@@ -215,14 +268,22 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                 autofocus: true,
                 autocorrect: false,
                 focusNode: aboutFocusNode,
-                style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                style: context.text.bodyMedium?.copyWith(
+                  height: 1.0,
+                  color: theme.textPrimary,
+                  fontWeight: FontWeight.normal,
+                ),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.multiline,
                 minLines: 4,
                 maxLines: 8,
                 decoration: InputDecoration(
                   hintText: 'short description about your listing',
-                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                  hintStyle: context.text.bodyMedium?.copyWith(
+                    height: 1.0,
+                    color: theme.textSecondary.withAlpha(200),
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 onEditingComplete: () {
                   context.dismissKeyboard();
@@ -248,8 +309,11 @@ class _NewListingNameWidgetState extends State<NewListingNameWidget> {
                   }
                 },
                 child: Text(
-                  "Next",
-                  style: TextStyles.button(context: context),
+                  'Next'.toUpperCase(),
+                  style: context.text.titleMedium?.copyWith(
+                    color: theme.white,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
             ],

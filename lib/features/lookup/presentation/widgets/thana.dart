@@ -36,6 +36,7 @@ class _ThanaFieldState extends State<ThanaField> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
 
         return BlocConsumer<ThanasBloc, ThanasState>(
           listener: (context, state) {
@@ -57,9 +58,13 @@ class _ThanaFieldState extends State<ThanaField> {
                     controller: controller,
                     focusNode: focusNode,
                     autofocus: true,
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   );
                 },
+                hideOnEmpty: true,
                 onSelected: (suggestion) {
                   setState(() {
                     thana = suggestion;
@@ -83,7 +88,10 @@ class _ThanaFieldState extends State<ThanaField> {
                       children: [
                         Text(
                           suggestion.text,
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -93,9 +101,16 @@ class _ThanaFieldState extends State<ThanaField> {
                   return Material(
                     elevation: 16,
                     type: MaterialType.card,
-                    color: theme.backgroundPrimary,
+                    color: dark ? theme.backgroundSecondary : theme.backgroundPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: theme.textPrimary,
+                        width: .15,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                    ),
                     shadowColor: theme.backgroundPrimary,
-                    borderRadius: BorderRadius.circular(16),
                     child: child,
                   );
                 },
@@ -113,7 +128,10 @@ class _ThanaFieldState extends State<ThanaField> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintText: "Loading...",
-                  hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                  hintStyle: context.text.bodyMedium?.copyWith(
+                    color: theme.textSecondary.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
                   isDense: true,
                 ),
               );
@@ -123,7 +141,10 @@ class _ThanaFieldState extends State<ThanaField> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: "Select a district first.",
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
                 isDense: true,
               ),
             );

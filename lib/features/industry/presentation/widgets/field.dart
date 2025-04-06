@@ -35,6 +35,7 @@ class _IndustryFieldState extends State<IndustryField> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
 
         return BlocBuilder<FindIndustriesBloc, FindIndustriesState>(
           builder: (context, state) {
@@ -49,11 +50,15 @@ class _IndustryFieldState extends State<IndustryField> {
                     controller: controller,
                     focusNode: focusNode,
                     autofocus: true,
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                    style: context.text.bodyMedium?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                     validator: (value) => industry != null ? null : '',
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   );
                 },
+                hideOnEmpty: true,
                 onSelected: (suggestion) {
                   setState(() {
                     industry = suggestion;
@@ -79,7 +84,10 @@ class _IndustryFieldState extends State<IndustryField> {
                       children: [
                         Text(
                           suggestion.name.full,
-                          style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+                          style: context.text.bodyMedium?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -89,9 +97,16 @@ class _IndustryFieldState extends State<IndustryField> {
                   return Material(
                     elevation: 16,
                     type: MaterialType.card,
-                    color: theme.backgroundPrimary,
+                    color: dark ? theme.backgroundSecondary : theme.backgroundPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: theme.textPrimary,
+                        width: .15,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                    ),
                     shadowColor: theme.backgroundPrimary,
-                    borderRadius: BorderRadius.circular(16),
                     child: child,
                   );
                 },

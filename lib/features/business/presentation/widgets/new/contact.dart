@@ -62,47 +62,72 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
                 children: [
                   TextSpan(
                     text: "How can others contact with ",
-                    style: TextStyles.title(context: context, color: theme.textPrimary),
+                    style: context.text.headlineSmall?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   TextSpan(
                     text: widget.name.text,
-                    style: TextStyles.title(context: context, color: theme.primary),
+                    style: context.text.headlineSmall?.copyWith(
+                      color: theme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   TextSpan(
                     text: " ?",
-                    style: TextStyles.title(context: context, color: theme.textPrimary),
+                    style: context.text.headlineSmall?.copyWith(
+                      color: theme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: Dimension.padding.vertical.medium),
             Text(
               "Providing a phone number, email address, website, or social network link ensures others can easily reach out to this listing when needed.",
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelSmall?.copyWith(
+                color: theme.textSecondary.withAlpha(200),
+                fontWeight: FontWeight.normal,
+                height: 1.15,
+              ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: Dimension.padding.vertical.ultraMax),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Phone",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Phone",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -114,12 +139,18 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
               autofocus: true,
               autocorrect: false,
               focusNode: phoneFocusNode,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.bodyMedium?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 hintText: '01XXXXXXXXX',
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onEditingComplete: () {
                 emailFocusNode.requestFocus();
@@ -129,17 +160,26 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Email",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Email",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -151,12 +191,18 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
               autofocus: true,
               autocorrect: false,
               focusNode: emailFocusNode,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.bodyMedium?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'example@gmail.com',
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onEditingComplete: () {
                 websiteFocusNode.requestFocus();
@@ -166,17 +212,26 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Website",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Website",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -188,12 +243,18 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
               autofocus: true,
               autocorrect: false,
               focusNode: websiteFocusNode,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.bodyMedium?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.url,
               decoration: InputDecoration(
                 hintText: 'domain.com',
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onEditingComplete: () {
                 socialFocusNode.requestFocus();
@@ -203,17 +264,26 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: "Social Network",
-                    style: TextStyles.subTitle(context: context, color: theme.textPrimary),
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
                   WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
                     baseline: TextBaseline.ideographic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    child: Text(
+                      "Social Network",
+                      style: context.text.bodyLarge?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Text(
                       "optional",
-                      style: TextStyles.body(context: context, color: theme.textSecondary),
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.textSecondary.withAlpha(200),
+                      ),
                     ),
                   ),
                 ],
@@ -225,12 +295,18 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
               autofocus: true,
               autocorrect: false,
               focusNode: socialFocusNode,
-              style: TextStyles.subTitle(context: context, color: theme.textPrimary),
+              style: context.text.bodyMedium?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.url,
               decoration: InputDecoration(
                 hintText: 'e.g. instagram.com/username',
-                hintStyle: TextStyles.subTitle(context: context, color: theme.textSecondary),
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: theme.textSecondary.withAlpha(200),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onEditingComplete: () {
                 if (widget.edit) {
@@ -251,8 +327,11 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
                 }
               },
               child: Text(
-                'Skip',
-                style: TextStyles.button(context: context).copyWith(color: theme.textPrimary),
+                'Skip'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             SizedBox(height: Dimension.padding.vertical.ultraMax),
@@ -265,8 +344,11 @@ class _NewListingContactWidgetState extends State<NewListingContactWidget> {
                 }
               },
               child: Text(
-                'Next',
-                style: TextStyles.button(context: context),
+                'Next'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],

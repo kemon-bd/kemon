@@ -41,19 +41,33 @@ class _NewListingTypeWidgetState extends State<NewListingTypeWidget> {
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                    text: widget.name.text,
-                    style: TextStyles.title(context: context, color: theme.primary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
-                  TextSpan(
-                    text: "is best known as",
-                    style: TextStyles.title(context: context, color: theme.textPrimary),
-                  ),
-                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.large)),
                   WidgetSpan(
-                    baseline: TextBaseline.alphabetic,
-                    alignment: PlaceholderAlignment.aboveBaseline,
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
+                    child: Text(
+                      widget.name.text,
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
+                    child: Text(
+                      "is best known as",
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.medium)),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    baseline: TextBaseline.ideographic,
                     child: Icon(Icons.emergency_rounded, size: Dimension.radius.sixteen, color: theme.negative),
                   ),
                 ],
@@ -61,11 +75,13 @@ class _NewListingTypeWidgetState extends State<NewListingTypeWidget> {
             ),
             Text(
               "How would you describe your listing as, we currently accept the following types",
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelSmall?.copyWith(
+                color: theme.textSecondary.withAlpha(200),
+                fontWeight: FontWeight.normal,
+                height: 1.15,
+              ),
             ),
-            SizedBox(height: Dimension.padding.vertical.ultraProMax),
-            SizedBox(height: Dimension.padding.vertical.ultraProMax),
-            SizedBox(height: Dimension.padding.vertical.ultraProMax),
+            SizedBox(height: 2 * Dimension.padding.vertical.ultraProMax),
             Row(
               spacing: Dimension.padding.horizontal.ultraMax,
               children: [
@@ -95,9 +111,10 @@ class _NewListingTypeWidgetState extends State<NewListingTypeWidget> {
                               SizedBox(width: Dimension.padding.horizontal.large),
                               Text(
                                 "Product",
-                                style: TextStyles.subTitle(
-                                  context: context,
+                                style: context.text.titleLarge?.copyWith(
                                   color: type == ListingType.product ? theme.backgroundPrimary : theme.primary,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.0,
                                 ),
                               ),
                             ],
@@ -133,9 +150,10 @@ class _NewListingTypeWidgetState extends State<NewListingTypeWidget> {
                               SizedBox(width: Dimension.padding.horizontal.large),
                               Text(
                                 "Business",
-                                style: TextStyles.subTitle(
-                                  context: context,
+                                style: context.text.titleLarge?.copyWith(
                                   color: type == ListingType.business ? theme.backgroundPrimary : theme.primary,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.0,
                                 ),
                               ),
                             ],
@@ -163,8 +181,11 @@ class _NewListingTypeWidgetState extends State<NewListingTypeWidget> {
                     }
                   : null,
               child: Text(
-                "Next",
-                style: TextStyles.button(context: context),
+                'Next'.toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],
