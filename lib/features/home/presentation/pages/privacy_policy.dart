@@ -29,7 +29,10 @@ class PrivacyPolicyPage extends StatelessWidget {
             ),
             title: Text(
               'Privacy Policy'.titleCase,
-              style: TextStyles.title(context: context, color: theme.textPrimary),
+              style: context.text.headlineSmall?.copyWith(
+                color: theme.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             centerTitle: false,
           ),

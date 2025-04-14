@@ -53,7 +53,10 @@ class _ThanaFilterState extends State<ThanaFilter> {
                       children: [
                         Text(
                           "Thana",
-                          style: TextStyles.title(context: themeContext, color: theme.textPrimary),
+                          style: context.text.headlineSmall?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         IconButton(
                           onPressed: () {
@@ -85,12 +88,20 @@ class _ThanaFilterState extends State<ThanaFilter> {
                           setState(() {});
                         }
                       },
-                      style: TextStyles.body(context: themeContext, color: theme.textPrimary),
+                      style: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.normal,
+                      ),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: theme.backgroundSecondary,
                         hintText: "Search thana ...",
-                        hintStyle: TextStyles.body(context: themeContext, color: theme.textSecondary),
+                        hintStyle: context.text.bodyMedium?.copyWith(
+                          height: 1.0,
+                          color: theme.textSecondary,
+                          fontWeight: FontWeight.normal,
+                        ),
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.clear();
@@ -114,12 +125,12 @@ class _ThanaFilterState extends State<ThanaFilter> {
                               child: ListView.separated(
                                 separatorBuilder: (context, index) => Divider(height: .25, color: theme.backgroundTertiary),
                                 itemBuilder: (context, index) {
-                                  final place = thanas[index];
-                                  final bool selected = place.name.full.same(as: selection?.name.full);
+                                  final item = thanas[index];
+                                  final bool selected = item.name.full.same(as: selection?.name.full);
 
                                   return InkWell(
                                     onTap: () {
-                                      context.pop(place);
+                                      context.pop(item);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(16.0),
@@ -127,7 +138,7 @@ class _ThanaFilterState extends State<ThanaFilter> {
                                         children: [
                                           Icon(
                                             selected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                                            color: selected ? theme.positive : theme.textPrimary,
+                                            color: selected ? theme.primary : theme.textPrimary,
                                             size: 24,
                                             grade: 200,
                                             weight: 700,
@@ -139,25 +150,27 @@ class _ThanaFilterState extends State<ThanaFilter> {
                                                 text: '',
                                                 children: [
                                                   WidgetSpan(
-                                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                                    alignment: PlaceholderAlignment.middle,
                                                     baseline: TextBaseline.ideographic,
                                                     child: Text(
-                                                      place.name.full,
-                                                      style: TextStyles.body(
-                                                        context: context,
-                                                        color: selected ? theme.positive : theme.textPrimary,
+                                                      item.name.full,
+                                                      style: context.text.bodyLarge?.copyWith(
+                                                        height: 1.0,
+                                                        color: selected ? theme.primary : theme.textPrimary,
+                                                        fontWeight: selected ? FontWeight.bold : FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
                                                   WidgetSpan(child: SizedBox(width: Dimension.padding.horizontal.small)),
                                                   WidgetSpan(
-                                                    alignment: PlaceholderAlignment.aboveBaseline,
+                                                    alignment: PlaceholderAlignment.middle,
                                                     baseline: TextBaseline.ideographic,
                                                     child: Text(
-                                                      "(${place.count})",
-                                                      style: TextStyles.body(
-                                                        context: context,
-                                                        color: selected ? theme.positive : theme.textPrimary,
+                                                      "(${item.count})",
+                                                      style: context.text.bodySmall?.copyWith(
+                                                        height: 1.0,
+                                                        color: selected ? theme.primary : theme.textPrimary,
+                                                        fontWeight: selected ? FontWeight.bold : FontWeight.normal,
                                                       ),
                                                     ),
                                                   ),
@@ -179,8 +192,12 @@ class _ThanaFilterState extends State<ThanaFilter> {
                           : Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                "No category found",
-                                style: TextStyles.subTitle(context: themeContext, color: theme.textPrimary),
+                                "No thana found",
+                                style: context.text.bodyMedium?.copyWith(
+                                  height: 1.0,
+                                  color: theme.textSecondary,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ),

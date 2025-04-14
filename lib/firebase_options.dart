@@ -59,10 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAQx6OKI3psO1VfhdFiRWwilka35W5ff8s',
-    appId: '1:974762887289:ios:c2834f178af2e1a114eca8',
+    appId: '1:974762887289:ios:c72ae106dd8c27a714eca8',
     messagingSenderId: '974762887289',
     projectId: 'kemon-public',
     storageBucket: 'kemon-public.firebasestorage.app',
-    iosBundleId: 'bd.com.kemon',
+    androidClientId: '974762887289-qj66pq1vscknvo7ol76dbtqtp1hum9c4.apps.googleusercontent.com',
+    iosClientId: '974762887289-5scbsso7cgee6uohdrt34cegq5uss5q0.apps.googleusercontent.com',
+    iosBundleId: 'com.kemon.public',
   );
+
 }

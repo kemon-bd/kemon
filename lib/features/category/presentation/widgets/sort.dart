@@ -27,7 +27,10 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
               children: [
                 Text(
                   "Sort By",
-                  style: TextStyles.title(context: context, color: theme.textPrimary),
+                  style: context.text.headlineSmall?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   onPressed: () {
@@ -79,9 +82,9 @@ class SortBusinessesByCategoryWidget extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   item.text,
-                                  style: TextStyles.subTitle(
-                                    context: context,
+                                  style: context.text.bodyMedium?.copyWith(
                                     color: selected ? theme.primary : theme.textPrimary,
+                                    fontWeight: selected ? FontWeight.w900 : FontWeight.normal,
                                   ),
                                 ),
                               ),

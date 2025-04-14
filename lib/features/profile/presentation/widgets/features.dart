@@ -224,6 +224,19 @@ class ProfileFeatureOptionsWidget extends StatelessWidget {
                                     if (!(confirmed ?? false)) return;
                                     if (!blockContext.mounted) return;
 
+                                    final ProfileModel? authorization = await blockContext.pushNamed<ProfileModel>(
+                                      CheckProfilePage.name,
+                                      queryParameters: {'authorize': 'true'},
+                                    );
+                                    if (!blockContext.mounted) return;
+
+                                    if (authorization == null) {
+                                      return;
+                                    } else if (authorization.identity.guid.same(as: identity.guid)) {
+                                      context.read<FindProfileBloc>().add(FindProfile(identity: identity));
+                                      return;
+                                    }
+
                                     final reason = await showDialog<LookupEntity>(
                                       context: blockContext,
                                       builder: (_) => const BlockReasonFilter(selection: null),

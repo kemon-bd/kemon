@@ -1,7 +1,7 @@
 class RemoteEndpoints {
   static const String domain = 'https://kemon.com.bd';
-  static const String _baseUrl = 'http://localhost:5041';
-  // static const String _baseUrl = 'https://api.kemon.com.bd';
+  // static const String _baseUrl = 'http://localhost:5041';
+  static const String _baseUrl = 'https://api.kemon.com.bd';
 
   //! performant
   static Uri get overview => Uri.parse('$_baseUrl/overview');
@@ -15,6 +15,7 @@ class RemoteEndpoints {
   static Uri get categoriesByIndustry => Uri.parse('$_baseUrl/categories-by-industry');
   static Uri get allCategories => Uri.parse('$_baseUrl/all-categories');
   static Uri get subCategoriesByCategory => Uri.parse('$_baseUrl/sub-categories-by-category');
+  static Uri get subCategory => Uri.parse('$_baseUrl/find-sub-category');
   static Uri get allLocations => Uri.parse('$_baseUrl/all-locations');
   static Uri get searchSuggestions => Uri.parse('$_baseUrl/optimized-search-suggestions');
   static Uri get leaderboardStanding => Uri.parse('$_baseUrl/leaderboard-standings');
@@ -26,6 +27,8 @@ class RemoteEndpoints {
   static Uri get editReview => Uri.parse('$_baseUrl/edit-review');
   static Uri get delteReview => Uri.parse('$_baseUrl/delete-review');
   static Uri get newListing => Uri.parse('$_baseUrl/new-listing');
+  static Uri get categoryDeeplink => Uri.parse('$_baseUrl/deeplink-category');
+  static Uri get locationDeeplink => Uri.parse('$_baseUrl/deeplink-location');
 
   //! business
   static Uri get listingsByCategory => Uri.parse('$_baseUrl/listing-by-category');
@@ -47,7 +50,6 @@ class RemoteEndpoints {
   //! location
   static Uri get featuredLocations => Uri.parse('$_baseUrl/featured-locations');
   static Uri get listingsByLocation => Uri.parse('$_baseUrl/listing-by-location');
-  static Uri get findLocation => Uri.parse('$_baseUrl/find-category');
 
   //! login
   static Uri get login => Uri.parse('$_baseUrl/token');

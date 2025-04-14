@@ -3,7 +3,7 @@ import '../../../category/category.dart';
 import '../../../search/search.dart';
 import '../../industry.dart';
 
-class IndustryModel extends IndustryEntity {
+class IndustryModel extends IndustryEntity implements CategoryEntity, CategoryModel {
   const IndustryModel({
     required super.identity,
     required super.name,

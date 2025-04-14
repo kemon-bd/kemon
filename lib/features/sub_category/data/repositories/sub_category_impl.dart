@@ -42,6 +42,15 @@ class SubCategoryRepositoryImpl extends SubCategoryRepository {
       final subCategory = await local.find(urlSlug: urlSlug);
 
       return Right(subCategory);
+    } on SubCategoryNotFoundInLocalCacheFailure {
+      if (await network.online) {
+        final subCategory = await remote.find(urlSlug: urlSlug);
+
+        await local.add(subCategory: subCategory);
+        return Right(subCategory);
+      } else {
+        return Left(NoInternetFailure());
+      }
     } on Failure catch (failure) {
       return Left(failure);
     }

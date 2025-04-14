@@ -13,15 +13,23 @@ class VerificationConfirmationWidget extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final theme = state.scheme;
+        final dark = state.mode == ThemeMode.dark;
         return AlertDialog(
           backgroundColor: theme.positive,
           title: Text(
             "Confirmation",
-            style: TextStyles.title(context: context, color: theme.backgroundPrimary),
+            style: context.text.headlineSmall?.copyWith(
+              color: theme.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           content: Text(
             "Are you sure ?",
-            style: TextStyles.body(context: context, color: theme.backgroundPrimary),
+            style: context.text.bodyMedium?.copyWith(
+              color: theme.white,
+              fontWeight: FontWeight.normal,
+              height: 1.15,
+            ),
           ),
           actions: [
             TextButton(
@@ -33,43 +41,40 @@ class VerificationConfirmationWidget extends StatelessWidget {
                 }
               },
               style: TextButton.styleFrom(
-                backgroundColor: theme.positive,
+                backgroundColor: dark ? theme.backgroundPrimary : theme.backgroundSecondary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
-                ),
-                side: BorderSide(
-                  color: theme.backgroundPrimary,
-                  width: 1,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.medium),
-              ),
-              child: Text(
-                "Cancel",
-                style: TextStyles.button(context: context).copyWith(
-                  color: theme.backgroundPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 4),
-            TextButton(
-              onPressed: () => context.pop(true),
-              style: TextButton.styleFrom(
-                backgroundColor: theme.backgroundPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                side: BorderSide(
-                  color: theme.backgroundPrimary,
-                  width: 1,
+                  side: BorderSide(
+                    color: theme.textPrimary,
+                    width: .25,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
               ),
               child: Text(
-                affirm ?? "Yes, Delete",
-                style: TextStyles.button(context: context).copyWith(
-                  color: theme.positive,
-                  fontWeight: FontWeight.bold,
+                "Cancel".toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            const SizedBox(width: 4),
+            ElevatedButton(
+              onPressed: () => context.pop(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.negative,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              child: Text(
+                affirm ?? "Yes, Delete".toUpperCase(),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

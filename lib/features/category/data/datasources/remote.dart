@@ -13,6 +13,10 @@ abstract class CategoryRemoteDataSource {
     required Identity identity,
   });
 
+  FutureOr<CategoryModel> deeplink({
+    required String urlSlug,
+  });
+
   FutureOr<List<IndustryWithListingCountModel>> all({
     required String? query,
   });

@@ -29,7 +29,10 @@ class TermsAndConditionsPage extends StatelessWidget {
             ),
             title: Text(
               'Terms and Conditions'.titleCase,
-              style: TextStyles.title(context: context, color: theme.textPrimary),
+              style: context.text.headlineSmall?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
             ),
             centerTitle: false,
           ),

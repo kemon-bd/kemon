@@ -135,7 +135,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                         fontWeight: FontWeight.normal,
                       ),
                       minLines: 4,
-                      maxLines: 20,
+                      maxLines: 12,
                       validator: (value) => value?.isNotEmpty ?? false ? null : '',
                       decoration: InputDecoration(
                         hintText: "share your experience...",

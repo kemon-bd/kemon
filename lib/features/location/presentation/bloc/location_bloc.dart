@@ -20,7 +20,7 @@ class FindLocationsByCategoryBloc extends Bloc<FindLocationsByCategoryEvent, Fin
       );
       result.fold(
         (failure) => emit(FindLocationsByCategoryError(failure: failure)),
-        (industries) => emit(FindLocationsByCategoryDone(divisions: industries)),
+        (divisions) => emit(FindLocationsByCategoryDone(divisions: divisions)),
       );
     });
     on<SearchLocationsByCategory>((event, emit) async {
@@ -34,7 +34,7 @@ class FindLocationsByCategoryBloc extends Bloc<FindLocationsByCategoryEvent, Fin
       );
       result.fold(
         (failure) => emit(FindLocationsByCategoryError(failure: failure)),
-        (industries) => emit(FindLocationsByCategoryDone(divisions: industries)),
+        (divisions) => emit(FindLocationsByCategoryDone(divisions: divisions)),
       );
     });
   }

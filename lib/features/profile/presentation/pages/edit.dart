@@ -414,7 +414,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   children: [
                                     DropdownWidget<Gender>(
                                       label: 'Gender',
-                                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                                      labelStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                                       onSelect: (selection) {
                                         setState(() {
                                           gender = selection;

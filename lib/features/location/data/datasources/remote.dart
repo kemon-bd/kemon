@@ -4,10 +4,6 @@ import '../../location.dart';
 abstract class LocationRemoteDataSource {
   FutureOr<List<LocationModel>> featured();
 
-  FutureOr<LocationModel> find({
-    required String urlSlug,
-  });
-  
   FutureOr<List<DivisionWithListingCountModel>> all({
     required String? query,
   });
@@ -16,5 +12,9 @@ abstract class LocationRemoteDataSource {
     required Identity industry,
     required Identity? category,
     required Identity? subCategory,
+  });
+
+  FutureOr<LocationModel> deeplink({
+    required String urlSlug,
   });
 }

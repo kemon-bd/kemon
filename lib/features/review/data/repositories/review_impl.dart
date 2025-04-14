@@ -103,6 +103,10 @@ class ReviewRepositoryImpl extends ReviewRepository {
       } else {
         return Left(NoInternetFailure());
       }
+    } on UnAuthorizedFailure catch (failure) {
+      auth.add(AuthenticationLogout());
+      await Future.delayed(100.milliseconds);
+      return Left(failure);
     } on Failure catch (failure) {
       return Left(failure);
     }

@@ -139,7 +139,7 @@ class _EditReviewPageState extends State<EditReviewPage> {
                         fontWeight: FontWeight.normal,
                       ),
                       minLines: 4,
-                      maxLines: 20,
+                      maxLines: 12,
                       validator: (value) => value?.isNotEmpty ?? false ? null : '',
                       decoration: InputDecoration(
                         hintText: "share your experience...",
@@ -515,6 +515,9 @@ class _EditReviewPageState extends State<EditReviewPage> {
                               ),
                             ),
                           );
+                          if (state.failure is UnAuthorizedFailure) {
+                            context.goNamed(HomePage.name);
+                          }
                         }
                       },
                       builder: (context, state) {

@@ -21,6 +21,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }) async {
     final request = MultipartRequest('POST', RemoteEndpoints.newReview);
     request.headers.addAll({
+      HttpHeaders.authorizationHeader: token,
       'user': user.guid,
       'listing': listing.guid,
       'star': rating.round().toString(),
@@ -48,6 +49,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
     required Identity review,
   }) async {
     final Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: token,
       'user': user.guid,
       'review': review.id.toString(),
     };
@@ -99,6 +101,7 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }) async {
     final request = MultipartRequest('POST', RemoteEndpoints.editReview);
     request.headers.addAll({
+      HttpHeaders.authorizationHeader: token,
       'id': review.identity.id.toString(),
       'user': user.guid,
       'star': review.star.round().toString(),
@@ -107,16 +110,20 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       'experience': review.experiencedAt.toIso8601String(),
       'photos': photos.join(','),
     });
-    for (XFile file in attachments) {
-      request.files.add(await MultipartFile.fromPath('files', file.path));
+    if (attachments.isNotEmpty) {
+      for (XFile file in attachments) {
+        request.files.add(await MultipartFile.fromPath('files', file.path));
+      }
     }
     final StreamedResponse streamedResponse = await request.send();
     final response = await Response.fromStream(streamedResponse);
 
     if (response.statusCode == HttpStatus.noContent) {
       return;
+    } else if (response.statusCode == HttpStatus.unauthorized) {
+      throw UnAuthorizedFailure(message: response.body);
     } else {
-      throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to add review');
+      throw RemoteFailure(message: response.body);
     }
   }
 

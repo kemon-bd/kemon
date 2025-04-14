@@ -57,23 +57,20 @@ class AppConfig {
 
     // Firebase Messaging
     await setupFirebaseMessaging();
-    final analytics = sl<FirebaseAnalytics>();
-    await analytics.setAnalyticsCollectionEnabled(true);
 
-    final remoteConfig = sl<FirebaseRemoteConfig>();
-    await remoteConfig.ensureInitialized();
+    await FirebaseRemoteConfig.instance.ensureInitialized();
 
-    await remoteConfig.setConfigSettings(
+    await FirebaseRemoteConfig.instance.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
+        minimumFetchInterval: const Duration(minutes: 1),
       ),
     );
-    try {
-      await remoteConfig.fetchAndActivate();
-    } on FirebaseException catch (e) {
-      debugPrint(e.message);
-    }
+
+    await FirebaseRemoteConfig.instance.activate();
+
+    final analytics = sl<FirebaseAnalytics>();
+    await analytics.setAnalyticsCollectionEnabled(true);
 
     FlutterError.onError = (errorDetails) {
       if (kReleaseMode) {
@@ -199,7 +196,7 @@ class AppConfig {
         surfaceTintColor: theme.backgroundPrimary,
         foregroundColor: theme.backgroundPrimary,
         elevation: 0,
-        systemOverlayStyle: (mode == ThemeMode.dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
+        systemOverlayStyle: (mode == ThemeMode.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark).copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
         ),

@@ -61,7 +61,10 @@ class _IndustryFilterState extends State<IndustryFilter> {
                       children: [
                         Text(
                           "Industry",
-                          style: TextStyles.title(context: themeContext, color: theme.textPrimary),
+                          style: context.text.headlineSmall?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Spacer(),
                         IconButton(

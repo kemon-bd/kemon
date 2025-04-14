@@ -58,7 +58,10 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
               children: [
                 Text(
                   "Filter",
-                  style: TextStyles.title(context: context, color: theme.textPrimary),
+                  style: context.text.headlineSmall?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   onPressed: () {
@@ -86,9 +89,15 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                 children: [
                   DropdownWidget<DivisionWithListingCountEntity>(
                     label: 'Division',
-                    labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                    labelStyle: context.text.bodyMedium?.copyWith(
+                      height: 1.0,
+                      color: theme.textSecondary,
+                      fontWeight: FontWeight.normal,
+                    ),
                     text: division?.name.full ?? 'Select one',
-                    textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                    textStyle: context.text.bodyMedium?.copyWith(
+                      height: 1.0,
+                      color: theme.link,
                       fontWeight: FontWeight.bold,
                     ),
                     iconColor: theme.link,
@@ -109,9 +118,15 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                   if (division != null && division!.districts.isNotEmpty)
                     DropdownWidget<DistrictWithListingCountEntity>(
                       label: 'District',
-                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                      labelStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                       text: district?.name.full ?? 'Select one',
-                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                      textStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.link,
                         fontWeight: FontWeight.bold,
                       ),
                       iconColor: theme.link,
@@ -129,9 +144,15 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                   if (district != null && district!.thanas.isNotEmpty)
                     DropdownWidget<ThanaWithListingCountEntity>(
                       label: 'Thana',
-                      labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                      labelStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                       text: thana?.name.full ?? 'Select one',
-                      textStyle: TextStyles.body(context: context, color: theme.link).copyWith(
+                      textStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.link,
                         fontWeight: FontWeight.bold,
                       ),
                       iconColor: theme.link,
@@ -151,18 +172,23 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
             const SizedBox(height: 24),
             Text(
               'Rating',
-              style: TextStyles.body(context: context, color: theme.textSecondary),
+              style: context.text.labelMedium?.copyWith(
+                height: 1.0,
+                color: theme.textSecondary,
+                fontWeight: FontWeight.normal,
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             CupertinoSlidingSegmentedControl<RatingRange>(
               groupValue: rating,
               children: {
                 RatingRange.all: Text(
                   'All',
-                  style: TextStyles.body(
-                    context: context,
+                  style: context.text.bodyMedium?.copyWith(
+                    height: 1.0,
                     color: rating == RatingRange.all ? theme.white : theme.textSecondary,
-                  ).copyWith(fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 RatingRange.poor: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -175,10 +201,11 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                     const SizedBox(width: 2),
                     Text(
                       'Poor',
-                      style: TextStyles.body(
-                        context: context,
+                      style: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
                         color: rating == RatingRange.poor ? theme.white : theme.textSecondary,
-                      ).copyWith(fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -193,10 +220,11 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                     const SizedBox(width: 2),
                     Text(
                       'Average',
-                      style: TextStyles.body(
-                        context: context,
+                      style: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
                         color: rating == RatingRange.average ? theme.white : theme.textSecondary,
-                      ).copyWith(fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -211,10 +239,11 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
                     const SizedBox(width: 2),
                     Text(
                       'Best',
-                      style: TextStyles.body(
-                        context: context,
+                      style: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
                         color: rating == RatingRange.best ? theme.white : theme.textSecondary,
-                      ).copyWith(fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -235,7 +264,10 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
               },
               child: Text(
                 'Reset'.toUpperCase(),
-                style: TextStyles.button(context: context).copyWith(color: theme.textPrimary),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -245,7 +277,10 @@ class _CategoryBasedListingsFilterState extends State<CategoryBasedListingsFilte
               },
               child: Text(
                 'Apply'.toUpperCase(),
-                style: TextStyles.button(context: context),
+                style: context.text.titleMedium?.copyWith(
+                  color: theme.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],

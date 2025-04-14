@@ -68,7 +68,7 @@ class DeleteConfirmationWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 side: BorderSide(
-                  color: theme.backgroundPrimary,
+                  color: theme.white,
                   width: 1,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -474,13 +474,17 @@ class _CategoriesWidget extends StatelessWidget {
                                                                     ),
                                                                     onPressed: () {
                                                                       FocusScope.of(context).requestFocus(FocusNode());
-                                                                      context.pushNamed(SubCategoryPage.name, pathParameters: {
-                                                                        'urlSlug': subCategory.urlSlug,
-                                                                      }, queryParameters: {
-                                                                        'industry': subCategory.industry.guid,
-                                                                        'category': subCategory.category.guid,
-                                                                        'subCategory': subCategory.identity.guid,
-                                                                      });
+                                                                      context.pushNamed(
+                                                                        SubCategoryPage.name,
+                                                                        pathParameters: {
+                                                                          'urlSlug': subCategory.urlSlug,
+                                                                        },
+                                                                        queryParameters: {
+                                                                          'industry': subCategory.industry.guid,
+                                                                          'category': subCategory.category.guid,
+                                                                          'subCategory': subCategory.identity.guid,
+                                                                        },
+                                                                      );
                                                                     },
                                                                     icon: Icon(Icons.open_in_new_rounded,
                                                                         size: Dimension.radius.sixteen),
@@ -540,7 +544,11 @@ class _CategoriesWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: context.height * .25),
                     child: Text(
                       "No category found :(",
-                      style: TextStyles.overline(context: context, color: theme.backgroundTertiary),
+                      style: context.text.labelSmall?.copyWith(
+                        color: theme.textSecondary.withAlpha(100),
+                        fontWeight: FontWeight.normal,
+                        height: 1.0,
+                      ),
                     ),
                   ),
                 );

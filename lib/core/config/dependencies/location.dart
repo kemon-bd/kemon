@@ -8,12 +8,14 @@ Future<void> get locationDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindAllLocationsBloc(
+    () => LocationDeeplinkBloc(
       useCase: sl(),
     ),
   );
   sl.registerFactory(
-    () => FindLocationBloc(find: sl(), refresh: sl()),
+    () => FindAllLocationsBloc(
+      useCase: sl(),
+    ),
   );
   sl.registerFactory(
     () => LocationListingsFilterBloc(analytics: sl()),
@@ -31,12 +33,7 @@ Future<void> get locationDependencies async {
     ),
   );
   sl.registerFactory(
-    () => FindLocationUseCase(
-      repository: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => RefreshLocationUseCase(
+    () => FindLocationDeeplinkUseCase(
       repository: sl(),
     ),
   );

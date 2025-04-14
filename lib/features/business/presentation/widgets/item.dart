@@ -148,9 +148,9 @@ class BusinessItemWidget extends StatelessWidget {
                             business.reviews > 0
                                 ? "${business.reviews} review${business.reviews > 1 ? 's' : ''}"
                                 : 'No review yet',
-                            style: TextStyles.caption(
-                              context: context,
+                            style: context.text.labelSmall?.copyWith(
                               color: business.reviews > 0 ? theme.primary : theme.textSecondary.withAlpha(100),
+                              fontWeight: business.reviews > 0 ? FontWeight.bold : FontWeight.normal,
                             ),
                           ),
                         ],
@@ -158,7 +158,10 @@ class BusinessItemWidget extends StatelessWidget {
                       if (business.thana != null || business.district != null)
                         Text(
                           "${business.thana ?? ''}${business.thana != null && business.district != null ? ', ' : ''}${business.district ?? ''}",
-                          style: TextStyles.overline(context: context, color: theme.textSecondary.withAlpha(100)),
+                          style: context.text.labelSmall?.copyWith(
+                            color: theme.textSecondary.withAlpha(150),
+                            fontWeight: FontWeight.normal,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

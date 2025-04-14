@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "974762887289-qj66pq1vscknvo7ol76dbtqtp1hum9c4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bd.com.kemon",
+            "certificate_hash": "b787972ec7322a64ff0f010af16371687d4c8c98"
+          }
+        },
+        {
           "client_id": "974762887289-too0a82l9eukr8c6nobbului0p3m3u0t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -29,7 +37,15 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974762887289-5scbsso7cgee6uohdrt34cegq5uss5q0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kemon.public"
+              }
+            }
+          ]
         }
       },
       "admob_app_id": "ca-app-pub-7128703901241959~5428520335"

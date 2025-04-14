@@ -138,12 +138,19 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                                 const Spacer(),
                                 Text(
                                   'Verify OTP',
-                                  style: TextStyles.title(context: context, color: theme.white),
+                                  style: context.text.headlineSmall?.copyWith(
+                                    color: theme.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'A ${widget.otp.length} digit verification code has been sent to your phone / email address',
-                                  style: TextStyles.body(context: context, color: theme.semiWhite),
+                                  style: context.text.bodyMedium?.copyWith(
+                                    color: theme.semiWhite,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.15,
+                                  ),
                                 ),
                               ],
                             ),

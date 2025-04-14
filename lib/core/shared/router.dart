@@ -383,6 +383,31 @@ final router = GoRouter(
           ),
         );
       },
+      redirect: (context, state) {
+        return state.uri.queryParameters.containsKey('industry') && state.uri.queryParameters.containsKey('category')
+            ? null
+            : "/deeplink/category/${state.pathParameters['urlSlug']}";
+      },
+    ),
+    GoRoute(
+      path: CategoryDeepLinkPage.path,
+      name: CategoryDeepLinkPage.name,
+      builder: (context, state) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<CategoryDeeplinkBloc>()
+                ..add(
+                  CategoryDeeplink(urlSlug: state.pathParameters['urlSlug']!),
+                ),
+            ),
+          ],
+          child: CategoryDeepLinkPage(urlSlug: state.pathParameters['urlSlug']!),
+        );
+      },
+      redirect: (context, state) {
+        return state.pathParameters.containsKey('urlSlug') ? null : HomePage.path;
+      },
     ),
     GoRoute(
       path: DivisionPage.path,
@@ -465,12 +490,44 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: LocationDeepLinkPage.path,
+      name: LocationDeepLinkPage.name,
+      builder: (context, state) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<LocationDeeplinkBloc>()
+                ..add(
+                  LocationDeeplink(urlSlug: state.pathParameters['urlSlug']!),
+                ),
+            ),
+          ],
+          child: LocationDeepLinkPage(urlSlug: state.pathParameters['urlSlug']!),
+        );
+      },
+      redirect: (context, state) {
+        return state.pathParameters.containsKey('urlSlug') ? null : HomePage.path;
+      },
+    ),
+    GoRoute(
+      path: LocationPage.path,
+      name: LocationPage.name,
+      redirect: (context, state) {
+        return state.pathParameters.containsKey('urlSlug')
+            ? "/deeplink/location/${state.pathParameters['urlSlug']}"
+            : HomePage.path;
+      },
+    ),
+    GoRoute(
       path: LocationsPage.path,
       name: LocationsPage.name,
       builder: (context, state) => BlocProvider(
         create: (context) => sl<FindAllLocationsBloc>()..add(FindAllLocations()),
         child: LocationsPage(),
       ),
+      redirect: (context, state) {
+        return !state.pathParameters.containsKey('urlSlug') ? null : "/deeplink/location/${state.pathParameters['urlSlug']}";
+      },
     ),
     GoRoute(
       path: SubCategoryPage.path,

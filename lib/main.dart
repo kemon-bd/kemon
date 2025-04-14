@@ -6,8 +6,6 @@ import 'features/version/version.dart';
 import 'features/whats_new/whats_new.dart';
 
 FutureOr<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   await AppConfig.init();
 
   runApp(

@@ -526,3 +526,8 @@ class _DistrictItem extends StatelessWidget {
     );
   }
 }
+
+class LocationPage {
+  static const String path = '/location/:urlSlug';
+  static const String name = 'LocationPage';
+}

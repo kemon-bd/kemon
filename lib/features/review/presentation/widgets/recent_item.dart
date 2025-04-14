@@ -276,7 +276,7 @@ class RecentReviewItemWidget extends StatelessWidget {
                       review.content,
                       style: context.text.bodySmall?.copyWith(
                         color: theme.textSecondary,
-                        height: 1,
+                        height: 1.15,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: review.summary.isNotEmpty ? 1 : 2,
@@ -319,7 +319,7 @@ class RecentReviewItemWidget extends StatelessWidget {
                       Text(
                         review.dislikes.toString(),
                         style: context.text.labelMedium?.copyWith(
-                          color: review.disliked ? theme.positive : theme.textSecondary.withAlpha(150),
+                          color: review.disliked ? theme.negative : theme.textSecondary.withAlpha(150),
                           fontWeight: review.disliked ? FontWeight.bold : FontWeight.normal,
                           height: 1,
                         ),

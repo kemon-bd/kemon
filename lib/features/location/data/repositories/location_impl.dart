@@ -30,35 +30,6 @@ class LocationRepositoryImpl extends LocationRepository {
     }
   }
 
-  @override
-  FutureOr<Either<Failure, LocationEntity>> find({
-    required String urlSlug,
-  }) async {
-    try {
-      final result = local.find(urlSlug: urlSlug);
-      return Right(result);
-    } on CategoryNotFoundInLocalCacheFailure {
-      final result = await remote.find(urlSlug: urlSlug);
-      local.add(location: result, urlSlug: urlSlug);
-      return Right(result);
-    } on Failure catch (failure) {
-      return Left(failure);
-    }
-  }
-
-  @override
-  FutureOr<Either<Failure, LocationEntity>> refresh({
-    required String urlSlug,
-  }) async {
-    try {
-      local.removeAll();
-      final result = await remote.find(urlSlug: urlSlug);
-      local.add(location: result, urlSlug: urlSlug);
-      return Right(result);
-    } on Failure catch (failure) {
-      return Left(failure);
-    }
-  }
 
   @override
   FutureOr<Either<Failure, List<DivisionWithListingCountEntity>>> all({
@@ -92,7 +63,15 @@ class LocationRepositoryImpl extends LocationRepository {
         category: category,
         subCategory: subCategory,
       );
-      return Right(result);
+      return Right(
+        (query ?? '').isEmpty
+            ? result
+            : result
+                .where(
+                  (d) => d.name.full.match(like: query!),
+                )
+                .toList(),
+      );
     } on LocationNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.category(
@@ -106,12 +85,32 @@ class LocationRepositoryImpl extends LocationRepository {
           subCategory: subCategory,
           divisions: result,
         );
-        return Right(result);
+        return Right(
+          (query ?? '').isEmpty
+              ? result
+              : result
+                  .where(
+                    (d) => d.name.full.match(like: query!),
+                  )
+                  .toList(),
+        );
       } else {
         return Left(NoInternetFailure());
       }
     } on Failure catch (e) {
       return Left(e);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, LocationEntity>> deeplink({
+    required String urlSlug,
+  }) async {
+    try {
+      final result = await remote.deeplink(urlSlug: urlSlug);
+      return Right(result);
+    } on Failure catch (failure) {
+      return Left(failure);
     }
   }
 }

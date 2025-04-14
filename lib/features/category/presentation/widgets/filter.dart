@@ -59,7 +59,10 @@ class _CategoryFilterState extends State<CategoryFilter> {
                       children: [
                         Text(
                           "Category",
-                          style: TextStyles.title(context: themeContext, color: theme.textPrimary),
+                          style: context.text.headlineSmall?.copyWith(
+                            color: theme.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         IconButton(
                           onPressed: () {

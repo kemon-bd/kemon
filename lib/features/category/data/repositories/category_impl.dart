@@ -115,4 +115,16 @@ class CategoryRepositoryImpl extends CategoryRepository {
       return Left(failure);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, CategoryEntity>> deeplink({
+    required String urlSlug,
+  }) async {
+    try {
+      final result = await remote.deeplink(urlSlug: urlSlug);
+      return Right(result);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
 }

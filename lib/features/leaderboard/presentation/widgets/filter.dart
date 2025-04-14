@@ -48,7 +48,10 @@ class _LeaderboardFilterWidgetState extends State<LeaderboardFilterWidget> {
                   children: [
                     Text(
                       "Filter",
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {
@@ -78,7 +81,11 @@ class _LeaderboardFilterWidgetState extends State<LeaderboardFilterWidget> {
                     children: [
                       DropdownWidget<DateRangeOption>(
                         label: 'Date range',
-                        labelStyle: TextStyles.body(context: context, color: theme.textSecondary),
+                        labelStyle: context.text.bodyMedium?.copyWith(
+                        height: 1.0,
+                        color: theme.textSecondary,
+                        fontWeight: FontWeight.normal,
+                      ),
                         text: option.name,
                         textStyle: TextStyles.body(context: context, color: theme.link).copyWith(fontWeight: FontWeight.bold),
                         iconColor: theme.link,
@@ -226,8 +233,9 @@ class _LeaderboardFilterWidgetState extends State<LeaderboardFilterWidget> {
                   },
                   child: Text(
                     'reset'.toUpperCase(),
-                    style: TextStyles.button(context: context).copyWith(
+                    style: context.text.titleMedium?.copyWith(
                       color: theme.textPrimary,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
@@ -245,7 +253,10 @@ class _LeaderboardFilterWidgetState extends State<LeaderboardFilterWidget> {
                   },
                   child: Text(
                     'Apply'.toUpperCase(),
-                    style: TextStyles.button(context: context),
+                    style: context.text.titleMedium?.copyWith(
+                      color: theme.white,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
               ],

@@ -50,8 +50,6 @@
 	<array>
 		<string>fbapi</string>
 	</array>
-	<key>FirebaseCrashlyticsCollectionEnabled</key>
-	<true/>
 	<key>FlutterDeepLinkingEnabled</key>
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -80,9 +78,9 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIStatusBarHidden</key>
-	<true/>
+	<false/>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>

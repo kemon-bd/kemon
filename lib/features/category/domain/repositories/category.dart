@@ -18,5 +18,10 @@ abstract class CategoryRepository {
   FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> all({
     required String? query,
   });
+
   FutureOr<Either<Failure, List<IndustryWithListingCountEntity>>> refreshAll();
+
+  FutureOr<Either<Failure, CategoryEntity>> deeplink({
+    required String urlSlug,
+  });
 }

@@ -54,7 +54,10 @@ class _SubCategoryFilterState extends State<SubCategoryFilter> {
                         children: [
                           Text(
                             "Sub Category",
-                            style: TextStyles.title(context: themeContext, color: theme.textPrimary),
+                            style: context.text.headlineSmall?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
                           ),
                           IconButton(
                             onPressed: () {
@@ -238,7 +241,10 @@ class _LocationBasedSubCategoryFilterState extends State<LocationBasedSubCategor
                       children: [
                         Text(
                           "Sub Category",
-                          style: TextStyles.title(context: themeContext, color: theme.textPrimary),
+                          style: context.text.headlineSmall?.copyWith(
+              color: theme.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
                         ),
                         IconButton(
                           onPressed: () {

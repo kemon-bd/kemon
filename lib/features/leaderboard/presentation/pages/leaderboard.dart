@@ -501,11 +501,11 @@ class _FilterButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.white),
+            Icon(Icons.filter_alt_outlined, size: Dimension.radius.twenty, color: theme.backgroundPrimary),
             Text(
               'Filter',
               style: context.text.labelMedium?.copyWith(
-                color: theme.white,
+                color: theme.backgroundPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),

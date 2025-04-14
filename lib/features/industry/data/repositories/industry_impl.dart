@@ -62,12 +62,28 @@ class IndustryRepositoryImpl extends IndustryRepository {
   }) async {
     try {
       final result = local.findByLocation(division: division, district: district, thana: thana);
-      return Right(result);
+      return Right(
+        (query ?? '').isEmpty
+            ? result
+            : result
+                .where(
+                  (i) => i.name.full.match(like: query!),
+                )
+                .toList(),
+      );
     } on IndustryNotFoundInLocalCacheFailure catch (_) {
       if (await network.online) {
         final result = await remote.location(division: division, district: district, thana: thana);
         local.addByLocation(industries: result, division: division, district: district, thana: thana);
-        return Right(result);
+        return Right(
+          (query ?? '').isEmpty
+              ? result
+              : result
+                  .where(
+                    (i) => i.name.full.match(like: query!),
+                  )
+                  .toList(),
+        );
       } else {
         return Left(NoInternetFailure());
       }

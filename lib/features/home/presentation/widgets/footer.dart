@@ -32,29 +32,38 @@ class HomeFooterWidget extends StatelessWidget {
               ),
               SizedBox(height: Dimension.padding.vertical.max),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: Dimension.padding.horizontal.max),
                   Image.asset(
                     'images/logo/full.png',
-                    width: Dimension.radius.twentyFour,
-                    height: Dimension.radius.twentyFour,
+                    width: context.text.headlineSmall?.fontSize,
+                    height: context.text.headlineSmall?.fontSize,
                     fit: BoxFit.contain,
                     color: theme.primary,
                   ),
                   SizedBox(width: Dimension.size.horizontal.eight),
                   Text(
                     'KEMON',
-                    style: TextStyles.title(context: context, color: theme.primary),
+                    style: context.text.headlineSmall?.copyWith(
+                      color: theme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Spacer(),
                   FutureBuilder(
-                      future: PackageInfo.fromPlatform(),
-                      builder: (context, snapshot) {
-                        return Text(
-                          "v${snapshot.data?.version ?? ""}",
-                          style: TextStyles.caption(context: context, color: theme.textPrimary),
-                        );
-                      }),
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      return Text(
+                        "v${snapshot.data?.version ?? ""}",
+                        style: context.text.labelSmall?.copyWith(
+                          color: theme.textSecondary.withAlpha(200),
+                          fontWeight: FontWeight.normal,
+                          height: 1.0,
+                        ),
+                      );
+                    },
+                  ),
                   SizedBox(width: Dimension.padding.horizontal.max),
                 ],
               ),
@@ -62,8 +71,10 @@ class HomeFooterWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
                 child: Text(
                   'Kemon is a comprehensive platform dedicated to providing honest, community-driven reviews and ratings for a wide range of products and services. Whether accessed through our website or via our mobile apps on iOS and Android.',
-                  style: TextStyles.caption(context: context, color: theme.textSecondary).copyWith(
+                  style: context.text.bodySmall?.copyWith(
+                    color: theme.textSecondary.withAlpha(200),
                     fontWeight: FontWeight.w100,
+                    height: 1.25,
                   ),
                 ),
               ),
@@ -83,7 +94,8 @@ class HomeFooterWidget extends StatelessWidget {
                     },
                     child: Text(
                       'Terms & Conditions',
-                      style: TextStyles.body(context: context, color: theme.link).copyWith(
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.link,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -99,7 +111,8 @@ class HomeFooterWidget extends StatelessWidget {
                     },
                     child: Text(
                       'Privacy Policy',
-                      style: TextStyles.body(context: context, color: theme.link).copyWith(
+                      style: context.text.bodyMedium?.copyWith(
+                        color: theme.link,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -111,7 +124,11 @@ class HomeFooterWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: Dimension.padding.horizontal.max),
                 child: Text(
                   '© Copyright ${DateTime.now().year} Kemon . All Right Reserved.',
-                  style: TextStyles.overline(context: context, color: theme.primary),
+                  style: context.text.labelSmall?.copyWith(
+                    color: theme.textPrimary,
+                    fontWeight: FontWeight.normal,
+                    height: 1.0,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

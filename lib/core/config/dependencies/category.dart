@@ -8,6 +8,11 @@ Future<void> get categoryDependencies async {
     ),
   );
   sl.registerFactory(
+    () => CategoryDeeplinkBloc(
+      useCase: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => FindCategoriesByIndustryBloc(
       useCase: sl(),
     ),
@@ -37,6 +42,11 @@ Future<void> get categoryDependencies async {
   //! ----------------- UseCase -----------------
   sl.registerFactory(
     () => FindCategoryUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindCategoryDeeplinkUseCase(
       repository: sl(),
     ),
   );

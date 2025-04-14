@@ -32,4 +32,29 @@ class SubCategoryRemoteDataSourceImpl extends SubCategoryRemoteDataSource {
       throw RemoteFailure(message: response.body);
     }
   }
+
+  @override
+  FutureOr<SubCategoryModel> find({
+    required String urlSlug,
+  }) async {
+    final Map<String, String> headers = {
+      'urlSlug': urlSlug,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
+
+    final Response response = await client.get(
+      RemoteEndpoints.subCategory,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(response.body));
+
+      return SubCategoryModel.parse(map: map);
+    } else {
+      throw RemoteFailure(message: response.body);
+    }
+  }
 }

@@ -99,12 +99,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   const Spacer(),
                                   Text(
                                     'Create Account',
-                                    style: TextStyles.title(context: context, color: theme.white),
+                                    style: context.text.headlineSmall?.copyWith(
+                                      color: theme.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     'Fill up your password to finish setup of your account',
-                                    style: TextStyles.body(context: context, color: theme.semiWhite),
+                                    style: context.text.bodyMedium?.copyWith(
+                                      color: theme.semiWhite,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.15,
+                                    ),
                                   ),
                                 ],
                               ),

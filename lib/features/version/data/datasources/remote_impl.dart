@@ -12,7 +12,8 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
   @override
   FutureOr<VersionUpdate> find() async {
     try {
-      await config.fetchAndActivate();
+       await config.fetch();
+
 
       final String version = config.getString('version');
       final String whatsNew = config.getString('whats_new');

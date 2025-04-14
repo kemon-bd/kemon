@@ -3,7 +3,7 @@ import '../../../category/category.dart';
 import '../../../search/search.dart';
 import '../../sub_category.dart';
 
-class SubCategoryModel extends SubCategoryEntity implements CategoryEntity {
+class SubCategoryModel extends SubCategoryEntity implements CategoryEntity, CategoryModel {
   const SubCategoryModel({
     required super.identity,
     required super.industry,

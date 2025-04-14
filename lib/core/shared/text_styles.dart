@@ -1,20 +1,6 @@
 import 'shared.dart';
 
 class TextStyles {
-  static TextStyle overline({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: color,
-            fontWeight: FontWeight.w500,
-            fontSize: 10,
-            letterSpacing: 0.15,
-          ),
-    );
-  }
-
   static TextStyle caption({
     required BuildContext context,
     required Color color,
@@ -68,20 +54,6 @@ class TextStyles {
             fontWeight: FontWeight.normal,
             fontSize: 20,
             letterSpacing: 0,
-          ),
-    );
-  }
-
-  static TextStyle title({
-    required BuildContext context,
-    required Color color,
-  }) {
-    return GoogleFonts.solway(
-      textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: color,
-            fontWeight: FontWeight.normal,
-            fontSize: 28,
-            letterSpacing: -1.5,
           ),
     );
   }

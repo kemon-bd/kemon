@@ -1,5 +1,6 @@
 import '../../../../core/shared/shared.dart';
 import '../../../industry/industry.dart';
+import '../../../sub_category/sub_category.dart';
 import '../../category.dart';
 
 class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
@@ -111,6 +112,36 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
       }
     } else {
       throw RemoteFailure(message: response.reasonPhrase ?? 'Failed to load categories');
+    }
+  }
+
+  @override
+  FutureOr<CategoryModel> deeplink({
+    required String urlSlug,
+  }) async {
+    final Map<String, String> headers = {
+      'urlSlug': urlSlug,
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
+    final Response response = await client.get(
+      RemoteEndpoints.categoryDeeplink,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final Map<String, dynamic> payload = Map<String, dynamic>.from(json.decode(response.body));
+
+      if (payload.containsKey('category')) {
+        return SubCategoryModel.parse(map: payload);
+      } else if (payload['guid'] == payload['industry']) {
+        return IndustryModel.parse(map: payload);
+      } else {
+        return CategoryModel.parse(map: payload);
+      }
+    } else {
+      throw RemoteFailure(message: response.body);
     }
   }
 }

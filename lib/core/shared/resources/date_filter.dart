@@ -31,7 +31,10 @@ class DateRangeFilterWidget extends StatelessWidget {
                   children: [
                     Text(
                       "Date range",
-                      style: TextStyles.title(context: context, color: theme.textPrimary),
+                      style: context.text.headlineSmall?.copyWith(
+                        color: theme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {

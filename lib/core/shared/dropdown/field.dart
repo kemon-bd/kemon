@@ -45,9 +45,9 @@ class DropdownWidget<T> extends StatelessWidget {
         final textWidget = Text(
           text,
           style: textStyle ??
-              TextStyles.title(
-                context: context,
+              context.text.bodyMedium?.copyWith(
                 color: onSelect != null ? theme.textPrimary : theme.textSecondary,
+                fontWeight: FontWeight.normal,
               ),
           maxLines: 2,
           textAlign: TextAlign.end,
