@@ -292,6 +292,25 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
+      path: ReviewDetailsPage.path,
+      name: ReviewDetailsPage.name,
+      builder: (context, state) {
+        final id = Identity.id(id: int.parse(state.pathParameters['id']!));
+        final businessBloc = (state.extra as FindBusinessBloc?) ?? sl<FindBusinessBloc>();
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<FindReviewDetailsBloc>()..add(FindReviewDetails(review: id)),
+            ),
+            BlocProvider.value(value: businessBloc),
+          ],
+          child: ReviewDetailsPage(identity: id),
+        );
+      },
+      redirect: (context, state) =>
+          state.pathParameters.containsKey('id') && (int.tryParse(state.pathParameters['id']!) ?? -1) > 0 ? null : "/",
+    ),
+    GoRoute(
       path: EditReviewPage.path,
       name: EditReviewPage.name,
       builder: (context, state) => MultiBlocProvider(

@@ -94,6 +94,56 @@ class RecentReviewModel extends RecentReviewEntity implements ReviewCoreEntity {
   }
 }
 
+class ReviewDetailsModel extends ReviewDetailsEntity implements ReviewCoreEntity {
+  const ReviewDetailsModel({
+    required super.identity,
+    required super.reviewer,
+    required super.listing,
+    required super.star,
+    required super.summary,
+    required super.content,
+    required super.experiencedAt,
+    required super.reviewedAt,
+    required super.photos,
+    required super.likes,
+    required super.dislikes,
+    required super.liked,
+    required super.disliked,
+    required super.localGuide,
+  });
+
+  factory ReviewDetailsModel.parse({
+    required Map<String, dynamic> map,
+  }) {
+    try {
+      final core = ReviewCoreModel.parse(map: map);
+      final listing = map['listing'] ?? {};
+      final reviewer = map['reviewer'] ?? {};
+      return ReviewDetailsModel(
+        identity: core.identity,
+        star: core.star,
+        summary: core.summary,
+        content: core.content,
+        experiencedAt: core.experiencedAt,
+        reviewedAt: core.reviewedAt,
+        likes: core.likes,
+        dislikes: core.dislikes,
+        liked: core.liked,
+        disliked: core.disliked,
+        localGuide: core.localGuide,
+        photos: List<String>.from(map['photos'] ?? []),
+        reviewer: UserPreviewModel.parse(map: reviewer),
+        listing: BusinessPreviewModel.parse(map: listing),
+      );
+    } catch (e, stackTrace) {
+      throw ReviewModelParseFailure(
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
+    }
+  }
+}
+
 class ListingReviewModel extends ListingReviewEntity implements ReviewCoreEntity {
   const ListingReviewModel({
     required super.identity,

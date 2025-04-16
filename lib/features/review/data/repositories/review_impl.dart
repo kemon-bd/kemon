@@ -164,4 +164,48 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Left(e);
     }
   }
+
+  @override
+  FutureOr<Either<Failure, ReviewDetailsEntity>> details({
+    required Identity review,
+  }) async {
+    return refreshDetails(review: review);
+  }
+
+  @override
+  FutureOr<Either<Failure, ReviewDetailsEntity>> refreshDetails({
+    required Identity review,
+  }) async {
+    try {
+      if (!await network.online) {
+        return Left(NoInternetFailure());
+      }
+
+      final details = await remote.details(
+        review: review,
+        user: auth.identity,
+      );
+
+      return Right(details);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
+
+  @override
+  FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
+    required Identity review,
+  }) async {
+    try {
+      if (!await network.online) {
+        return Left(NoInternetFailure());
+      }
+
+      final details = await remote.reactions(review: review);
+
+      return Right(details);
+    } on Failure catch (failure) {
+      return Left(failure);
+    }
+  }
 }

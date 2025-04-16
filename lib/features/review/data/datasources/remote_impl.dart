@@ -92,6 +92,33 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
   }
 
   @override
+  FutureOr<ReviewDetailsModel> details({
+    required Identity review,
+    required Identity? user,
+  }) async {
+    final Map<String, String> headers = {
+      'id': review.id.toString(),
+      'user': user?.guid ?? '',
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: 'utf-8',
+    };
+
+    final Response response = await client.get(
+      RemoteEndpoints.reviewDeeplink,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final Map<String, dynamic> payload = Map<String, dynamic>.from(json.decode(response.body));
+
+      return ReviewDetailsModel.parse(map: payload);
+    } else {
+      throw RemoteFailure(message: response.body);
+    }
+  }
+
+  @override
   FutureOr<void> update({
     required String token,
     required Identity user,
@@ -182,6 +209,27 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
 
     if (response.statusCode == HttpStatus.noContent) {
       return;
+    } else {
+      throw RemoteFailure(message: response.body);
+    }
+  }
+
+  @override
+  FutureOr<List<ReactionModel>> reactions({
+    required Identity review,
+  }) async {
+    final Map<String, String> headers = {
+      'review': review.guid,
+    };
+
+    final Response response = await client.get(
+      RemoteEndpoints.reviewReactions,
+      headers: headers,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final List<Map<String, dynamic>> payload = List<Map<String, dynamic>>.from(json.decode(response.body));
+      return payload.map((e) => ReactionModel.parse(map: e)).toList();
     } else {
       throw RemoteFailure(message: response.body);
     }

@@ -7,6 +7,7 @@ class RemoteEndpoints {
   static Uri get overview => Uri.parse('$_baseUrl/overview');
   static Uri get listing => Uri.parse('$_baseUrl/listing-details');
   static Uri get specificUserReviews => Uri.parse('$_baseUrl/specific-user-reviews');
+  static Uri get reviewDeeplink => Uri.parse('$_baseUrl/deeplink-review');
   static Uri get categoryBasedListings => Uri.parse('$_baseUrl/category-based-listings');
   static Uri get locationBasedListings => Uri.parse('$_baseUrl/location-based-listings');
   static Uri get locationBasedIndustriesFilter => Uri.parse('$_baseUrl/filter-industries-by-location');
@@ -23,9 +24,10 @@ class RemoteEndpoints {
   static Uri get unblock => Uri.parse('$_baseUrl/unblock');
   static Uri get blockList => Uri.parse('$_baseUrl/block-list');
   static Uri get flagReview => Uri.parse('$_baseUrl/flag-review');
+  static Uri get reviewReactions => Uri.parse('$_baseUrl/find-review-reactions');
   static Uri get newReview => Uri.parse('$_baseUrl/new-review');
   static Uri get editReview => Uri.parse('$_baseUrl/edit-review');
-  static Uri get delteReview => Uri.parse('$_baseUrl/delete-review');
+  static Uri get deleteReview => Uri.parse('$_baseUrl/delete-review');
   static Uri get newListing => Uri.parse('$_baseUrl/new-listing');
   static Uri get categoryDeeplink => Uri.parse('$_baseUrl/deeplink-category');
   static Uri get locationDeeplink => Uri.parse('$_baseUrl/deeplink-location');
@@ -68,11 +70,11 @@ class RemoteEndpoints {
 
   //! review
   static Uri get addReview => Uri.parse('$_baseUrl/save-review');
-  static Uri get deleteReview => Uri.parse('$_baseUrl/delete-review');
+  // static Uri get deleteReview => Uri.parse('$_baseUrl/delete-review');
   static Uri get reviewDetails => Uri.parse('$_baseUrl/review-details');
   static Uri get userReviews => Uri.parse('$_baseUrl/user-reviews');
   static Uri get recentReviews => Uri.parse('$_baseUrl/recent-reviews');
-  static Uri get reviewReactions => Uri.parse('$_baseUrl/review-reaction');
+  // static Uri get reviewReactions => Uri.parse('$_baseUrl/review-reaction');
   static Uri get reactOnReview => Uri.parse('$_baseUrl/react');
 
   //! search

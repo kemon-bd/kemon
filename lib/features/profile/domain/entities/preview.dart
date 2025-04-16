@@ -11,5 +11,5 @@ class UserPreviewEntity extends Equatable {
     required this.profilePicture,
   });
   @override
-  List<Object> get props => [identity, name, profilePicture];
+  List<Object?> get props => [identity, name, profilePicture];
 }

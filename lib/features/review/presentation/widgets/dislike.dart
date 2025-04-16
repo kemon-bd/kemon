@@ -6,20 +6,29 @@ import '../../review.dart';
 
 class ReviewDislikeButton extends StatelessWidget {
   final ReviewCoreEntity review;
-  const ReviewDislikeButton({super.key, required this.review});
+  final bool details;
+  const ReviewDislikeButton({
+    super.key,
+    required this.review,
+    this.details = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme.scheme;
     final mode = context.theme.mode;
     final disliked = review.disliked;
-    final dislikes = review.dislikes;
     return BlocProvider(
       create: (_) => sl<ReactOnReviewBloc>(),
       child: BlocConsumer<ReactOnReviewBloc, ReactOnReviewState>(
         listener: (context, state) {
           if (state is ReactOnReviewDone) {
             context.read<FindBusinessBloc>().add(RefreshBusiness(urlSlug: context.business.urlSlug));
+            if (details) {
+              context.read<FindReviewDetailsBloc>().add(
+                    RefreshReviewDetails(review: review.identity),
+                  );
+            }
           } else if (state is ReactOnReviewError) {
             context.errorNotification(message: state.failure.message);
           }
@@ -63,7 +72,7 @@ class ReviewDislikeButton extends StatelessWidget {
               color: disliked ? theme.white : theme.textSecondary.withAlpha(150),
             ),
             label: Text(
-              '${dislikes > 0 ? "$dislikes " : ''}Dislike',
+              'Dislike',
               style: context.text.labelLarge?.copyWith(
                 color: disliked ? theme.white : theme.textSecondary.withAlpha(150),
                 fontWeight: disliked ? FontWeight.bold : FontWeight.normal,

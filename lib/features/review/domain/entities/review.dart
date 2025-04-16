@@ -84,6 +84,45 @@ class RecentReviewEntity extends ReviewCoreEntity {
       ];
 }
 
+class ReviewDetailsEntity extends ReviewCoreEntity {
+  final List<String> photos;
+  final BusinessPreviewEntity listing;
+  final UserPreviewEntity reviewer;
+  const ReviewDetailsEntity({
+    required super.identity,
+    required super.star,
+    required super.summary,
+    required super.content,
+    required super.experiencedAt,
+    required super.reviewedAt,
+    required super.likes,
+    required super.dislikes,
+    required super.liked,
+    required super.disliked,
+    required super.localGuide,
+    required this.listing,
+    required this.reviewer,
+    required this.photos,
+  });
+
+  @override
+  List<Object?> get props => [
+        listing,
+        identity,
+        reviewer,
+        star,
+        summary,
+        content,
+        experiencedAt,
+        reviewedAt,
+        photos,
+        likes,
+        dislikes,
+        liked,
+        disliked,
+      ];
+}
+
 class ListingReviewEntity extends ReviewCoreEntity {
   final List<String> photos;
   final UserPreviewEntity reviewer;

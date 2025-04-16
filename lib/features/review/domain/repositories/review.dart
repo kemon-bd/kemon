@@ -36,4 +36,16 @@ abstract class ReviewRepository {
     required Identity review,
     required String? reason,
   });
+
+  FutureOr<Either<Failure, ReviewDetailsEntity>> details({
+    required Identity review,
+  });
+
+  FutureOr<Either<Failure, ReviewDetailsEntity>> refreshDetails({
+    required Identity review,
+  });
+
+  FutureOr<Either<Failure, List<ReactionEntity>>> reactions({
+    required Identity review,
+  });
 }

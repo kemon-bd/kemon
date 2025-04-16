@@ -38,10 +38,20 @@ abstract class ReviewRemoteDataSource {
     required Identity user,
     required Reaction reaction,
   });
+  
   FutureOr<void> flag({
     required String token,
     required Identity review,
     required Identity user,
     required String? reason,
+  });
+
+  FutureOr<ReviewDetailsModel> details({
+    required Identity review,
+    required Identity? user,
+  });
+
+  FutureOr<List<ReactionModel>> reactions({
+    required Identity review,
   });
 }

@@ -2,8 +2,10 @@ export 'data/repositories/review_impl.dart';
 export 'data/datasources/remote.dart';
 export 'data/datasources/remote_impl.dart';
 export 'data/models/review.dart';
+export 'data/models/reaction.dart';
 
 export 'domain/entities/review.dart';
+export 'domain/entities/reaction.dart';
 export 'domain/repositories/review.dart';
 export 'domain/usecases/create.dart';
 export 'domain/usecases/delete.dart';
@@ -11,6 +13,9 @@ export 'domain/usecases/find.dart';
 export 'domain/usecases/update.dart';
 export 'domain/usecases/react.dart';
 export 'domain/usecases/flag.dart';
+export 'domain/usecases/details.dart';
+export 'domain/usecases/reactions.dart';
+export 'domain/usecases/refresh_details.dart';
 
 export 'presentation/bloc/create_bloc.dart';
 export 'presentation/bloc/delete_bloc.dart';
@@ -18,7 +23,10 @@ export 'presentation/bloc/find_bloc.dart';
 export 'presentation/bloc/update_bloc.dart';
 export 'presentation/bloc/react_bloc.dart';
 export 'presentation/bloc/flag_bloc.dart';
+export 'presentation/bloc/reactions_bloc.dart';
+export 'presentation/bloc/details_bloc.dart';
 
+export 'presentation/pages/details.dart';
 export 'presentation/pages/new.dart';
 export 'presentation/pages/edit.dart';
 export 'presentation/pages/user.dart';
@@ -35,3 +43,4 @@ export 'presentation/widgets/like.dart';
 export 'presentation/widgets/dislike.dart';
 export 'presentation/widgets/share.dart';
 export 'presentation/widgets/menu.dart';
+export 'presentation/widgets/reactions.dart';

@@ -18,6 +18,17 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
+    () => FindReviewReactionsBloc(
+      find: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindReviewDetailsBloc(
+      find: sl(),
+      refresh: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => UpdateReviewBloc(
       useCase: sl(),
     ),
@@ -40,6 +51,11 @@ Future<void> get reviewDependencies async {
     ),
   );
   sl.registerFactory(
+    () => FindReviewReactionsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => FlagAReviewUseCase(
       repository: sl(),
     ),
@@ -56,6 +72,16 @@ Future<void> get reviewDependencies async {
   );
   sl.registerFactory(
     () => FindUserReviewsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FindReviewDetailsUseCase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RefreshReviewDetailsUseCase(
       repository: sl(),
     ),
   );

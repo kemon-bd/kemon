@@ -25,6 +25,8 @@ extension ReviewCoreEntityExtension on ReviewCoreEntity {
         dislikes: dislikes,
         localGuide: localGuide,
       );
+
+  int get reactions => likes + dislikes;
 }
 
 extension ReviewListExtension on List<ListingReviewEntity> {
@@ -96,6 +98,26 @@ extension UserReviewEntityExtension on UserReviewEntity {
         name: profile.name,
         profilePicture: profile.profilePicture ?? '',
       ),
+      localGuide: localGuide,
+      photos: photos,
+      experiencedAt: experiencedAt,
+    );
+  }
+}
+
+extension ReviewDetailsEntityExtension on ReviewDetailsEntity {
+  ListingReviewEntity get convertToListingBasedReview {
+    return ListingReviewEntity(
+      identity: identity,
+      star: star,
+      summary: summary,
+      content: content,
+      reviewedAt: reviewedAt,
+      liked: liked,
+      disliked: disliked,
+      likes: likes,
+      dislikes: dislikes,
+      reviewer: reviewer,
       localGuide: localGuide,
       photos: photos,
       experiencedAt: experiencedAt,
