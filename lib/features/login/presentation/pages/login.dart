@@ -247,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               Switch(
-                                activeColor: theme.backgroundSecondary,
+                                activeThumbColor: theme.backgroundSecondary,
                                 activeTrackColor: theme.primary,
                                 inactiveThumbColor: theme.primary,
                                 inactiveTrackColor: theme.backgroundSecondary,

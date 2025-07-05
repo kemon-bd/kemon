@@ -99,7 +99,7 @@ class AppConfig {
       scaffoldBackgroundColor: theme.backgroundPrimary,
       splashFactory: InkRipple.splashFactory,
       primaryColor: theme.primary,
-      indicatorColor: theme.primary,
+      tabBarTheme: TabBarThemeData(indicatorColor: theme.primary),
       inputDecorationTheme: InputDecorationTheme(
         isDense: true,
         filled: true,
